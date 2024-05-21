@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerMoveAbility : MonoBehaviour
+public class PlayerMoveAbility : PlayerAbility
 {
     public float MoveSpeed = 5f;
     private CharacterController _characterController;
@@ -14,6 +14,11 @@ public class PlayerMoveAbility : MonoBehaviour
     }
     private void Update()
     {
+        if (!_owner.PhotonView.IsMine)
+        {
+            return;
+        }
+
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 

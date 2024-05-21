@@ -16,6 +16,7 @@ public class UI_Lobby : MonoBehaviour
     public GameObject Metaverse2;
 
     private string selectedGender;
+    private const int MaxPlayers = 15;  // 최대 플레이어 수
 
     void Start()
     {
@@ -55,13 +56,20 @@ public class UI_Lobby : MonoBehaviour
 
     private void SaveSelectionAndLoadScene()
     {
-        // 선택한 성별 정보를 저장 (예: 포톤 커스텀 속성으로 저장)
-        Hashtable customProperties = new Hashtable();
-        customProperties.Add("Gender", selectedGender);
-        PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
+        if (PhotonNetwork.CurrentRoom.PlayerCount <= MaxPlayers)
+        {
+            // 선택한 성별 정보를 저장 (예: 포톤 커스텀 속성으로 저장)
+            Hashtable customProperties = new Hashtable();
+            customProperties.Add("Gender", selectedGender);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
 
-        // 로딩 씬으로 이동
-        SceneManager.LoadScene("LoadingScene");
-        //씬 빌드 필요
+            // 로딩 씬으로 이동
+            SceneManager.LoadScene("LoadingScene");
+        }
+        else
+        {
+            Debug.Log("The room is full. Cannot join more players.");
+            // 추가적으로 UI를 통해 사용자에게 방이 가득 찼음을 알리는 방법을 구현할 수 있습니다.
+        }
     }
 }

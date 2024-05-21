@@ -7,7 +7,7 @@ public class PlayerRotateAbility : PlayerAbility
     public PhotonView PhotonView { get; private set; }
 
     public Transform CameraRoot;
-    public float RotationSpeed = 10;
+    public float RotationSpeed = 200;
 
     private float _mx;
     private float _my;

@@ -10,6 +10,8 @@ public class UI_Loading : MonoBehaviour
     public float maxY = 72f; // 최대 Y 위치
     public float speed = 1f; // 움직임 속도
     public float LoadingTime = 7f;// 로딩시간 
+    public GameObject CharacterSpin;
+    public float rotationSpeed = 100f; // 회전 속도
 
     void Update()
     {
@@ -21,7 +23,10 @@ public class UI_Loading : MonoBehaviour
         Vector3 newPosition = new Vector3(LoadingImage.transform.position.x, newY, LoadingImage.transform.position.z);
         LoadingImage.transform.position = newPosition;
 
-        if(LoadingTime <= 0)
+        CharacterSpin.transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
+
+        
+        if (LoadingTime <= 0)
         {
             SceneManager.LoadScene("VillageScene");
         }

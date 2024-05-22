@@ -37,6 +37,6 @@ public class PlayerRotateAbility : PlayerAbility
         _my = Mathf.Clamp(_my, -90f, 90f);
 
         transform.eulerAngles = new Vector3(0, _mx, 0);
-        CameraRoot.localEulerAngles = new Vector3(_my, 0, 0);
+        CameraRoot.localEulerAngles = new Vector3(-_my, 0, 0);
     }
 }

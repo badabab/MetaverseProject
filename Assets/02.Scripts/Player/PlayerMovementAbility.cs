@@ -25,7 +25,7 @@ public class PlayerMovementAbility : MonoBehaviour
     {
 
        HandleMovement();
-        HandleGrab();
+       HandleGrab();
 
     }
     void HandleMovement()
@@ -57,12 +57,12 @@ public class PlayerMovementAbility : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 버튼 클릭으로 잡기
         {
             TryGrab();
-            Animator.SetTrigger("Grab");
+            Animator.SetLayerWeight(1, 1);   
         }
         else if (Input.GetMouseButtonUp(0) && _grabbedObject != null) // 마우스 왼쪽 버튼 떼기
         {
             ReleaseGrab();
-            Animator.SetTrigger("Release");
+            Animator.SetLayerWeight(1, 0);
         }
     }
     void TryGrab()

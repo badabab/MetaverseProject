@@ -2111,6 +2111,7 @@ GameObject:
   - component: {fileID: 8171539650239019205}
   - component: {fileID: 7148065999915793290}
   - component: {fileID: 7784590748883821406}
+  - component: {fileID: 2720985974631033899}
   - component: {fileID: 6776358234049273545}
   - component: {fileID: 7821488759960917386}
   - component: {fileID: 6703264293214351524}
@@ -2153,7 +2154,7 @@ Animator:
   m_GameObject: {fileID: 9029329124467589125}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 47fa0e3c8c2010f449ab1e2889f8922a, type: 3}
-  m_Controller: {fileID: 9100000, guid: e8d69f927ddffff41b598b586e839af4, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3a43de6ccfc755040be8b0d2ce0bd27d, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2202,6 +2203,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642a24dd88dc54b429ee49b736c04606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2720985974631033899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9029329124467589125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29f4ac00201e2ad4ebef13d0406a027e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hand: {fileID: 3048790080952294702}
+  Animator: {fileID: 8171539650239019205}
+  GrabDistance: 2
 --- !u!114 &6776358234049273545
 MonoBehaviour:
   m_ObjectHideFlags: 0

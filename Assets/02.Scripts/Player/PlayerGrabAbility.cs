@@ -4,85 +4,76 @@ using UnityEngine;
 
 public class PlayerGrabAbility : MonoBehaviour
 {
-    public Transform hand; // 캐릭터 손 위치
-    private GameObject grabbedObject;
-    private FixedJoint fixedJoint;
+
+    public Transform Hand; // 캐릭터 손 위치
+    private GameObject _grabbedObject;
+    private CharacterController _characterController;
     public Animator Animator;
-    private ConfigurableJoint configurableJoint;
-    private float grabDistance = 2.0f;
+    public float GrabDistance = 2.0f;
+
+
+    void Start()
+    {
+        _characterController = GetComponent<CharacterController>();
+
+    }
+    // Update is called once per frame
     void Update()
+    {
+        HandleGrab();
+    }
+
+
+    void HandleGrab()
     {
         if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 버튼 클릭으로 잡기
         {
             TryGrab();
             Animator.SetTrigger("Grab");
         }
-        else if (Input.GetMouseButtonUp(0) && grabbedObject != null) // 마우스 왼쪽 버튼 떼기
+        else if (Input.GetMouseButtonUp(0) && _grabbedObject != null) // 마우스 왼쪽 버튼 떼기
         {
             ReleaseGrab();
-            Animator.SetTrigger("Release");
-        }
-        if (Input.GetMouseButton(1)) 
-        {
-            Animator.SetTrigger("Combo");
+            Animator.SetLayerWeight(1, 0);
         }
     }
-
     void TryGrab()
     {
-        Ray ray = new Ray(hand.position, hand.forward);
+        Ray ray = new Ray(Hand.position, Hand.forward);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, grabDistance)) // 특정 거리 내에 있는 오브젝트 감지
+        if (Physics.Raycast(ray, out hit, GrabDistance)) // 특정 거리 내에 있는 오브젝트 감지
         {
             if (hit.collider.CompareTag("Grabbable")) // Grabbable 태그가 붙은 오브젝트만 잡기
             {
-                grabbedObject = hit.collider.gameObject;
+                _grabbedObject = hit.collider.gameObject;
+                _grabbedObject.transform.SetParent(Hand);
+                _grabbedObject.transform.localPosition = Vector3.zero;
 
-                configurableJoint = grabbedObject.AddComponent<ConfigurableJoint>();
-                configurableJoint.connectedBody = null;
-
-                // ConfigurableJoint 설정
-                configurableJoint.xMotion = ConfigurableJointMotion.Locked;
-                configurableJoint.yMotion = ConfigurableJointMotion.Locked;
-                configurableJoint.zMotion = ConfigurableJointMotion.Locked;
-                configurableJoint.angularXMotion = ConfigurableJointMotion.Free;
-                configurableJoint.angularYMotion = ConfigurableJointMotion.Free;
-                configurableJoint.angularZMotion = ConfigurableJointMotion.Free;
-
-                // Anchor와 연결점 설정
-                configurableJoint.anchor = Vector3.zero;
-                configurableJoint.autoConfigureConnectedAnchor = false;
-                configurableJoint.connectedAnchor = hand.position;
-
-                // Break force와 torque 설정
-                configurableJoint.breakForce = 2000f;
-                configurableJoint.breakTorque = 2000f;
-
-                // 객체의 중력을 끄고 손 위치로 이동시키기
-                Rigidbody grabbedRb = grabbedObject.GetComponent<Rigidbody>();
-                grabbedRb.useGravity = false;
-                StartCoroutine(MoveObjectToHand(grabbedRb));
+                // 잡힌 객체의 Rigidbody를 비활성화
+                Rigidbody grabbedRb = _grabbedObject.GetComponent<Rigidbody>();
+                if (grabbedRb != null)
+                {
+                    grabbedRb.isKinematic = true;
+                }
             }
         }
     }
+
     void ReleaseGrab()
     {
-        if (configurableJoint != null)
+        if (_grabbedObject != null)
         {
-            Rigidbody grabbedRb = grabbedObject.GetComponent<Rigidbody>();
-            grabbedRb.useGravity = true;
-            Destroy(configurableJoint);
-        }
-        grabbedObject = null;
-    }
-    IEnumerator MoveObjectToHand(Rigidbody grabbedRb)
-    {
-        while (grabbedObject != null)
-        {
-            Vector3 direction = (hand.position - grabbedObject.transform.position).normalized;
-            grabbedRb.velocity = direction * 10f; // 객체를 손으로 이동시키는 속도
-            yield return null;
+            // 잡힌 객체의 Rigidbody를 다시 활성화
+            Rigidbody grabbedRb = _grabbedObject.GetComponent<Rigidbody>();
+            if (grabbedRb != null)
+            {
+                grabbedRb.isKinematic = false;
+            }
+
+            _grabbedObject.transform.SetParent(null);
+            _grabbedObject = null;
         }
     }
+
 }

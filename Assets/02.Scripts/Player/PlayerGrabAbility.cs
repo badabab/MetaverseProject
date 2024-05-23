@@ -34,7 +34,6 @@ public class PlayerGrabAbility : MonoBehaviour
         else if (Input.GetMouseButtonUp(0) && _grabbedObject != null) // 마우스 왼쪽 버튼 떼기
         {
             ReleaseGrab();
-            Animator.SetLayerWeight(1, 0);
         }
     }
     void TryGrab()

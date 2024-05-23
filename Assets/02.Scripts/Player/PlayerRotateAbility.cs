@@ -18,6 +18,7 @@ public class PlayerRotateAbility : PlayerAbility
         if (_owner.PhotonView.IsMine)
         {
             GameObject.FindWithTag("FollowCamera").GetComponent<CinemachineVirtualCamera>().Follow = CameraRoot;
+            GameObject.FindWithTag("FollowCamera").GetComponent<CinemachineVirtualCamera>().LookAt = CameraRoot;
         }
     }
 

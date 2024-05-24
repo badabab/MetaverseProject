@@ -28,7 +28,6 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
         if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 버튼 클릭으로 잡기
         {
             TryGrab();
-            Animator.SetTrigger("Grab");
         }
         else if (Input.GetMouseButtonUp(0) && _grabbedObject != null) // 마우스 왼쪽 버튼 떼기
         {
@@ -37,6 +36,10 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
         if (Input.GetMouseButton(1))
         {
             Animator.SetTrigger("Combo");
+            if (_grabbedObject != null)
+            {
+                photonView.RPC("RPC_ApplyObject", RpcTarget.AllBuffered, _grabbedObject.GetComponentInParent<PhotonView>().ViewID);
+            }
         }
     }
 
@@ -57,7 +60,6 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
                     PhotonView objectPhotonView = _grabbedObject.GetComponentInParent<PhotonView>();
                     if (_grabbedObject == null)
                     {
-                        
                         Debug.LogError("Grabbed object is null.");
                     }
                     else if (objectPhotonView == null)
@@ -95,7 +97,7 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
         grabbedObj.transform.localPosition = Vector3.zero;
 
         // 잡힌 객체의 Rigidbody를 비활성화
-        Rigidbody grabbedRb = grabbedObj.GetComponent<Rigidbody>();
+        Rigidbody grabbedRb = grabbedObj.GetComponentInChildren<Rigidbody>();
         if (grabbedRb != null)
         {
             grabbedRb.isKinematic = true;
@@ -108,7 +110,7 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
     {
         if (_grabbedObject != null)
         {
-            photonView.RPC("RPC_ReleaseGrab", RpcTarget.AllBuffered, _grabbedObject.GetComponent<PhotonView>().ViewID);
+            photonView.RPC("RPC_ReleaseGrab", RpcTarget.AllBuffered, _grabbedObject.GetComponentInParent<PhotonView>().ViewID);
             _grabbedObject = null;
         }
     }
@@ -119,12 +121,26 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
         GameObject grabbedObj = PhotonView.Find(viewID).gameObject;
 
         // 잡힌 객체의 Rigidbody를 다시 활성화
-        Rigidbody grabbedRb = grabbedObj.GetComponent<Rigidbody>();
+        Rigidbody grabbedRb = grabbedObj.GetComponentInChildren<Rigidbody>();
         if (grabbedRb != null)
         {
             grabbedRb.isKinematic = false;
         }
 
         grabbedObj.transform.SetParent(null);
+    }
+    [PunRPC]
+    void RPC_ApplyObject(int viewID)
+    {
+        GameObject grabbedObj = PhotonView.Find(viewID).gameObject;
+        Rigidbody grabbedRb = grabbedObj.GetComponentInChildren<Rigidbody>();
+        if (grabbedRb != null)
+        {
+            Vector3 forceDirection = grabbedObj.transform.forward * -1; // 뒤로 밀기 위한 방향
+            float forceMagnitude = 10.0f; // 적용할 힘의 크기
+            grabbedRb.isKinematic = false; // 물리적 영향을 받을 수 있도록 설정
+            grabbedRb.AddForce(forceDirection * forceMagnitude, ForceMode.Impulse);
+            Debug.Log("Applied force to grabbed object: " + grabbedObj.name);
+        }
     }
 }

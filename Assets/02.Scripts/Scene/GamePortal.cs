@@ -3,23 +3,25 @@ using UnityEngine.SceneManagement;
 
 public class GamePortal : MonoBehaviour
 {
-    public Collider BattleTilePotal;
-    public Collider FallGuysPotal;
-    public Collider TowerClimbPotal;
-    
+    private Collider _collider;
+    private void Start()
+    {
+        _collider = GetComponent<Collider>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            if (this.gameObject.CompareTag("BattlePortal"))
+            if (gameObject.CompareTag("BattleTilePortal"))
             {
                 SceneManager.LoadScene("BattleTileScene");
             }
-            else if (this.gameObject.CompareTag("FallGuysPortal"))
+            else if (gameObject.CompareTag("FallGuysPortal"))
             {
                 SceneManager.LoadScene($"FallGuysScene{Random.Range(1,4)}");
             }
-            else if (this.gameObject.CompareTag("TowerClimbPortal"))
+            else if (gameObject.CompareTag("TowerClimbPortal"))
             {
                 SceneManager.LoadScene("TowerClimbScene");
             }

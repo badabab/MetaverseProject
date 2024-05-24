@@ -35,10 +35,8 @@ public class VillageScene : MonoBehaviourPunCallbacks
         _init = true;
         Vector3 spawnPoint = GetRandomSpawnPoint();
         Debug.Log($"스폰 위치: {spawnPoint}");
-        if (PhotonNetwork.IsConnected && PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.Instantiate("Player", spawnPoint, Quaternion.identity);
-        }
+        PhotonNetwork.Instantiate("Player", spawnPoint, Quaternion.identity);
+        
     }
     public Vector3 GetRandomSpawnPoint()
     {

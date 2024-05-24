@@ -50,7 +50,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Debug.Log($"RoomPlayerCount: {PhotonNetwork.CurrentRoom.PlayerCount}");
         //Debug.Log($"RoomMaxPlayers: {PhotonNetwork.CurrentRoom.MaxPlayers}");
 
-        PhotonNetwork.LoadLevel("VillageScene");
+        PhotonNetwork.LoadLevel("LoadingScene");
+        //PhotonNetwork.LoadLevel("VillageScene");
         //PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
     }
 

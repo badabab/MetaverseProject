@@ -45,7 +45,6 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
 
     void TryGrab()
     {
-        if (photonView.IsMine) return; // 내 소유라면 실행하지 않음
         Debug.Log("Hand position: " + Hand.position);
         Collider[] hitColliders = Physics.OverlapSphere(Hand.position, GrabDistance, GrabbableLayer);
         Debug.Log("Number of colliders found: " + hitColliders.Length);
@@ -110,7 +109,6 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
 
     void ReleaseGrab()
     {
-        if (photonView.IsMine) return; // 내 소유라면 실행하지 않음
         if (_grabbedObject != null)
         {
             photonView.RPC("RPC_ReleaseGrab", RpcTarget.AllBuffered, _grabbedObject.GetComponentInParent<PhotonView>().ViewID);

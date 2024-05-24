@@ -22,6 +22,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom()
     {
+        Debug.Log("방에 입장했습니다.");
         if (!_init)
         {
             Init();
@@ -30,10 +31,12 @@ public class VillageScene : MonoBehaviourPunCallbacks
 
     private void Init()
     {
+        Debug.Log("플레이어 초기화");
         _init = true;
-        PhotonNetwork.Instantiate("Player", GetRandomSpawnPoint(), Quaternion.identity);
+        Vector3 spawnPoint = GetRandomSpawnPoint();
+        Debug.Log($"스폰 위치: {spawnPoint}");
+        PhotonNetwork.Instantiate("Player", spawnPoint, Quaternion.identity);
     }
-
     public Vector3 GetRandomSpawnPoint()
     {
         int randomIndex = Random.Range(0, SpawnPoints.Count);

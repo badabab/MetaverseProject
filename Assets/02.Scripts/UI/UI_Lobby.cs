@@ -1,10 +1,13 @@
 using Photon.Pun;
 using Photon.Realtime;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
+
+public enum PlayerType
+{
+    Player1,
+    Player2,
+}
 
 public class UI_Lobby : MonoBehaviour
 {
@@ -15,14 +18,15 @@ public class UI_Lobby : MonoBehaviour
     public GameObject Metaverse1;
     public GameObject Metaverse2;
 
-    private string selectedGender;
-    private const int MaxPlayers = 15;  // 최대 플레이어 수
+    public string RoomID = "testRoom";
+    public static PlayerType SelectedType = PlayerType.Player1;
+    public GameObject Player1;
+    public GameObject Player2;
 
-    void Start()
+    private void Start()
     {
-        NextButtonUI.onClick.AddListener(OnClickNextButton);
-        FemaleButtonUI.onClick.AddListener(OnClickFemaleButton);
-        MaleButtonUI.onClick.AddListener(OnClickMaleButton);
+        Player1.SetActive(false);
+        Player2.SetActive(false);
     }
 
     public void OnClickNextButton()
@@ -42,34 +46,48 @@ public class UI_Lobby : MonoBehaviour
         Metaverse2.SetActive(true);
     }
 
-    public void OnClickMaleButton()
+    public void OnClickStartButton()
     {
-        selectedGender = "Male";
-        SaveSelectionAndLoadScene();
+        string nickname = NicknameInputFieldUI.text;
+        if (string.IsNullOrEmpty(nickname))
+        {
+            Debug.Log("Please enter a nickname");
+            return;
+        }
+        PhotonNetwork.NickName = nickname;
+
+        // [ 룸 옵션 설정 ]
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = 20;             // 입장 가능한 최대 플레이어 수
+        roomOptions.IsVisible = true;            // 로비에서 방 목록에 노출할 것인가?
+        roomOptions.IsOpen = true;               // 방이 열려있는 상태인가?
+        roomOptions.EmptyRoomTtl = 1000 * 20;    // 비어있는 방 살아있는 시간(TimeToLive)
+
+        roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable()  // 룸 커스텀 프로퍼티 (플레이어 커스텀 프로퍼티)
+        {
+            {"MasterNickname", nickname}
+        };
+        roomOptions.CustomRoomPropertiesForLobby = new string[] { "MasterNickname" };
+
+        //SceneManager.LoadScene("LoadingScene");
+        PhotonNetwork.JoinOrCreateRoom(RoomID, roomOptions, TypedLobby.Default);   // 방이 있다면 입장하고 없다면 만드는 것
+    }
+    public void OnClickPlayer1Button() => OnClickPlayerTypeButton(PlayerType.Player1);
+    public void OnClickPlayer2Button() => OnClickPlayerTypeButton(PlayerType.Player2);
+
+    private void OnClickPlayerTypeButton(PlayerType Ptype)
+    {
+        SelectedType = Ptype;
+        Player1.SetActive(SelectedType == PlayerType.Player1);
+        Player2.SetActive(SelectedType == PlayerType.Player2);
     }
 
-    public void OnClickFemaleButton()
+    public void OnNicknameValueChanged(string newValue)
     {
-        selectedGender = "Female";
-        SaveSelectionAndLoadScene();
-    }
-
-    private void SaveSelectionAndLoadScene()
-    {
-        if (PhotonNetwork.CurrentRoom.PlayerCount <= MaxPlayers)
+        if (string.IsNullOrEmpty(newValue))
         {
-            // 선택한 성별 정보를 저장 (예: 포톤 커스텀 속성으로 저장)
-            Hashtable customProperties = new Hashtable();
-            customProperties.Add("Gender", selectedGender);
-            PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
-
-            // 로딩 씬으로 이동
-            SceneManager.LoadScene("LoadingScene");
+            return;
         }
-        else
-        {
-            Debug.Log("The room is full. Cannot join more players.");
-            // 추가적으로 UI를 통해 사용자에게 방이 가득 찼음을 알리는 방법을 구현할 수 있습니다.
-        }
+        PhotonNetwork.NickName = newValue;
     }
 }

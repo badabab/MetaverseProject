@@ -1,3 +1,5 @@
+using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,8 +26,6 @@ public class UI_Loading : MonoBehaviour
         LoadingImage.transform.position = newPosition;
 
         CharacterSpin.transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
-
-        
         if (LoadingTime <= 0)
         {
             SceneManager.LoadScene("VillageScene");

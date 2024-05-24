@@ -686,18 +686,12 @@ namespace Photon.Voice.Unity
                 return;
             }
             this.Logger.Log(LogLevel.Info, "Starting recording");
-
             if (this.inputSource != null)
             {
                 this.inputSource.Dispose();
                 this.inputSource = null;
             }
             this.voice.RemoveSelf();
-            if (Microphone.devices.Length == 0)
-            {
-                this.Logger.Log(LogLevel.Warning, "No microphones found. Voice chat will be disabled.");
-                return;
-            }
             this.voice = this.CreateLocalVoiceAudioAndSource();
             if (this.voice == LocalVoiceAudioDummy.Dummy)
             {

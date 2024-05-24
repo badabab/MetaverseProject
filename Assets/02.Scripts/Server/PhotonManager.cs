@@ -32,7 +32,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Debug.Log("로비 입장");
         //Debug.Log($"InLobby?: {PhotonNetwork.InLobby}");
 
-        PhotonNetwork.JoinRandomOrCreateRoom();
+        //PhotonNetwork.JoinRandomOrCreateRoom();
     }
 
     public override void OnCreatedRoom()
@@ -48,6 +48,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         //Debug.Log($"RoomPlayerCount: {PhotonNetwork.CurrentRoom.PlayerCount}");
         //Debug.Log($"RoomMaxPlayers: {PhotonNetwork.CurrentRoom.MaxPlayers}");
 
+        PhotonNetwork.LoadLevel("VillageScene");
         //PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
     }
 

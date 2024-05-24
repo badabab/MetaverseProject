@@ -17,7 +17,7 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (!photonView.IsMine)
+        if (photonView.IsMine)
         {
             HandleGrab();
         }
@@ -67,12 +67,13 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
                     {
                         Debug.LogError("Grabbed object does not have a PhotonView component.");
                     }
-                    else
+                    else if (!objectPhotonView.IsMine) // 다른 플레이어가 소유한 객체인지 확인
                     {
+                        _grabbedObject = hitCollider.gameObject;
                         photonView.RPC("RPC_TryGrab", RpcTarget.AllBuffered, objectPhotonView.ViewID);
                         Animator.SetTrigger("Grab");
+                        break;
                     }
-                    break;
                 }
             }
         }

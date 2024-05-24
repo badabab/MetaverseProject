@@ -35,8 +35,15 @@ public class VillageScene : MonoBehaviourPunCallbacks
         _init = true;
         Vector3 spawnPoint = GetRandomSpawnPoint();
         Debug.Log($"스폰 위치: {spawnPoint}");
-        PhotonNetwork.Instantiate("Player", spawnPoint, Quaternion.identity);
-        
+        if (UI_Lobby.SelectedType == PlayerType.Player1)
+        {
+            PhotonNetwork.Instantiate("Player", spawnPoint, Quaternion.identity);
+            //PhotonNetwork.Instantiate($"m_{Random.Range(1,14)}", spawnPoint, Quaternion.identity);
+        }
+        if (UI_Lobby.SelectedType == PlayerType.Player2)
+        {
+            PhotonNetwork.Instantiate($"f_{Random.Range(1, 13)}", spawnPoint, Quaternion.identity);
+        }
     }
     public Vector3 GetRandomSpawnPoint()
     {

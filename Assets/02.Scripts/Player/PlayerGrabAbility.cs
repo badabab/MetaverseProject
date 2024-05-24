@@ -42,26 +42,54 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
 
     void TryGrab()
     {
+        Debug.Log("Hand position: " + Hand.position);
         Collider[] hitColliders = Physics.OverlapSphere(Hand.position, GrabDistance, GrabbableLayer);
+        Debug.Log("Number of colliders found: " + hitColliders.Length);
+
         if (hitColliders.Length > 0)
         {
             foreach (var hitCollider in hitColliders)
             {
+                Debug.Log("Hit collider: " + hitCollider.name);
                 if (hitCollider.CompareTag("Grabbable")) // Grabbable 태그가 붙은 오브젝트만 잡기
                 {
                     _grabbedObject = hitCollider.gameObject;
-                    photonView.RPC("RPC_TryGrab", RpcTarget.AllBuffered, _grabbedObject.GetComponent<PhotonView>().ViewID);
-                    Animator.SetTrigger("Grab");
+                    PhotonView objectPhotonView = _grabbedObject.GetComponent<PhotonView>();
+                    if (_grabbedObject == null)
+                    {
+                        Debug.LogError("Grabbed object is null.");
+                    }
+                    else if (objectPhotonView == null)
+                    {
+                        Debug.LogError("Grabbed object does not have a PhotonView component.");
+                    }
+                    else
+                    {
+                        photonView.RPC("RPC_TryGrab", RpcTarget.AllBuffered, objectPhotonView.ViewID);
+                        Animator.SetTrigger("Grab");
+                    }
                     break;
                 }
             }
         }
+        else
+        {
+            Debug.Log("No grabbable objects found within range.");
+        }
     }
+
 
     [PunRPC]
     void RPC_TryGrab(int viewID)
     {
-        GameObject grabbedObj = PhotonView.Find(viewID).gameObject;
+        PhotonView grabbedPhotonView = PhotonView.Find(viewID);
+        if (grabbedPhotonView == null)
+        {
+            Debug.LogError("PhotonView with viewID " + viewID + " not found.");
+            return;
+        }
+
+        GameObject grabbedObj = grabbedPhotonView.gameObject;
         grabbedObj.transform.SetParent(Hand);
         grabbedObj.transform.localPosition = Vector3.zero;
 

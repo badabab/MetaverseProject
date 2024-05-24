@@ -11,7 +11,8 @@ public enum PlayerType
 
 public class UI_Lobby : MonoBehaviour
 {
-    public InputField NicknameInputFieldUI;
+    public TMPro.TMP_InputField TMP_InputField;
+    // public InputField NicknameInputFieldUI;
     public Button NextButtonUI;
     public Button FemaleButtonUI;
     public Button MaleButtonUI;
@@ -31,7 +32,7 @@ public class UI_Lobby : MonoBehaviour
 
     public void OnClickNextButton()
     {
-        string nickname = NicknameInputFieldUI.text;
+        string nickname = TMP_InputField.text;
 
         if (string.IsNullOrEmpty(nickname))
         {
@@ -48,7 +49,7 @@ public class UI_Lobby : MonoBehaviour
 
     public void OnClickStartButton()
     {
-        string nickname = NicknameInputFieldUI.text;
+        string nickname = TMP_InputField.text;
         if (string.IsNullOrEmpty(nickname))
         {
             Debug.Log("Please enter a nickname");

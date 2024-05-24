@@ -581,21 +581,27 @@ namespace Photon.Voice.Unity
             }
         }
 
-        public bool AndroidMicrophoneAGC {
-			get {
-				return this.androidMicrophoneSettings.EnableAGC;
-			}
-		}
-        public bool AndroidMicrophoneAEC {
-			get {
-				return this.androidMicrophoneSettings.EnableAEC;
-			}
-		}
-        public bool AndroidMicrophoneNS  {
-			get {
-				return this.androidMicrophoneSettings.EnableNS;
-			}
-		}
+        public bool AndroidMicrophoneAGC
+        {
+            get
+            {
+                return this.androidMicrophoneSettings.EnableAGC;
+            }
+        }
+        public bool AndroidMicrophoneAEC
+        {
+            get
+            {
+                return this.androidMicrophoneSettings.EnableAEC;
+            }
+        }
+        public bool AndroidMicrophoneNS
+        {
+            get
+            {
+                return this.androidMicrophoneSettings.EnableNS;
+            }
+        }
 
         #endregion
 
@@ -680,12 +686,18 @@ namespace Photon.Voice.Unity
                 return;
             }
             this.Logger.Log(LogLevel.Info, "Starting recording");
+
             if (this.inputSource != null)
             {
                 this.inputSource.Dispose();
                 this.inputSource = null;
             }
             this.voice.RemoveSelf();
+            if (Microphone.devices.Length == 0)
+            {
+                this.Logger.Log(LogLevel.Warning, "No microphones found. Voice chat will be disabled.");
+                return;
+            }
             this.voice = this.CreateLocalVoiceAudioAndSource();
             if (this.voice == LocalVoiceAudioDummy.Dummy)
             {
@@ -1124,7 +1136,7 @@ namespace Photon.Voice.Unity
             }
         }
 
-#endregion
+        #endregion
 
         public enum InputSourceType
         {

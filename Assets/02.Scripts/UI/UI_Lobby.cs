@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public enum PlayerType
 {
-    Player1,
-    Player2,
+    Male,
+    Female,
 }
 
 public class UI_Lobby : MonoBehaviour
@@ -20,14 +20,14 @@ public class UI_Lobby : MonoBehaviour
     public GameObject Metaverse2;
 
     public string RoomID = "testRoom";
-    public static PlayerType SelectedType = PlayerType.Player1;
-    public GameObject Player1;
-    public GameObject Player2;
+    public static PlayerType SelectedType = PlayerType.Male;
+    public GameObject Male;
+    public GameObject Female;
 
     private void Start()
     {
-        Player1.SetActive(false);
-        Player2.SetActive(false);
+        Male.SetActive(false);
+        Female.SetActive(false);
     }
 
     public void OnClickNextButton()
@@ -73,14 +73,14 @@ public class UI_Lobby : MonoBehaviour
         //SceneManager.LoadScene("LoadingScene");
         PhotonNetwork.JoinOrCreateRoom(RoomID, roomOptions, TypedLobby.Default);   // 방이 있다면 입장하고 없다면 만드는 것
     }
-    public void OnClickPlayer1Button() => OnClickPlayerTypeButton(PlayerType.Player1);
-    public void OnClickPlayer2Button() => OnClickPlayerTypeButton(PlayerType.Player2);
+    public void OnClickMaleButton() => OnClickPlayerTypeButton(PlayerType.Male);
+    public void OnClickFemaleButton() => OnClickPlayerTypeButton(PlayerType.Female);
 
     private void OnClickPlayerTypeButton(PlayerType Ptype)
     {
         SelectedType = Ptype;
-        Player1.SetActive(SelectedType == PlayerType.Player1);
-        Player2.SetActive(SelectedType == PlayerType.Player2);
+        Male.SetActive(SelectedType == PlayerType.Male);
+        Female.SetActive(SelectedType == PlayerType.Female);
     }
 
     public void OnNicknameValueChanged(string newValue)

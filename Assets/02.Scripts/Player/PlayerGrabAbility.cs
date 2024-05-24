@@ -1,31 +1,27 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerGrabAbility : PlayerAbility
+public class PlayerGrabAbility : MonoBehaviourPunCallbacks
 {
-
     public Transform Hand; // 캐릭터 손 위치
     private GameObject _grabbedObject;
     private CharacterController _characterController;
     public Animator Animator;
     public float GrabDistance = 2.0f;
-
+    public LayerMask GrabbableLayer; // Grabbable 오브젝트가 속한 레이어
 
     void Start()
     {
         _characterController = GetComponent<CharacterController>();
-
-
     }
-    // Update is called once per frame
+
     void Update()
     {
-        if (_owner.PhotonView.IsMine)
+        if (photonView.IsMine)
         {
             HandleGrab();
         }
     }
-
 
     void HandleGrab()
     {
@@ -38,25 +34,30 @@ public class PlayerGrabAbility : PlayerAbility
         {
             ReleaseGrab();
         }
-        if (Input.GetMouseButton(1)) 
+        if (Input.GetMouseButton(1))
         {
             Animator.SetTrigger("Combo");
         }
     }
+
     void TryGrab()
     {
-        Ray ray = new Ray(Hand.position, Hand.forward);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, GrabDistance)) // 특정 거리 내에 있는 오브젝트 감지
+        Collider[] hitColliders = Physics.OverlapSphere(Hand.position, GrabDistance, GrabbableLayer);
+        if (hitColliders.Length > 0)
         {
-            if (hit.collider.CompareTag("Grabbable")) // Grabbable 태그가 붙은 오브젝트만 잡기
+            foreach (var hitCollider in hitColliders)
             {
-                _grabbedObject = hit.collider.gameObject;
-                _owner.PhotonView.RPC("RPC_TryGrab", RpcTarget.AllBuffered, _grabbedObject.GetComponent<PhotonView>().ViewID);
+                if (hitCollider.CompareTag("Grabbable")) // Grabbable 태그가 붙은 오브젝트만 잡기
+                {
+                    _grabbedObject = hitCollider.gameObject;
+                    photonView.RPC("RPC_TryGrab", RpcTarget.AllBuffered, _grabbedObject.GetComponent<PhotonView>().ViewID);
+                    Animator.SetTrigger("Grab");
+                    break;
+                }
             }
         }
     }
+
     [PunRPC]
     void RPC_TryGrab(int viewID)
     {
@@ -78,10 +79,11 @@ public class PlayerGrabAbility : PlayerAbility
     {
         if (_grabbedObject != null)
         {
-            _owner.PhotonView.RPC("RPC_ReleaseGrab", RpcTarget.AllBuffered, _grabbedObject.GetComponent<PhotonView>().ViewID);
+            photonView.RPC("RPC_ReleaseGrab", RpcTarget.AllBuffered, _grabbedObject.GetComponent<PhotonView>().ViewID);
             _grabbedObject = null;
         }
     }
+
     [PunRPC]
     void RPC_ReleaseGrab(int viewID)
     {

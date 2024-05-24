@@ -54,9 +54,10 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
                 if (hitCollider.CompareTag("Grabbable")) // Grabbable 태그가 붙은 오브젝트만 잡기
                 {
                     _grabbedObject = hitCollider.gameObject;
-                    PhotonView objectPhotonView = _grabbedObject.GetComponent<PhotonView>();
+                    PhotonView objectPhotonView = _grabbedObject.GetComponentInParent<PhotonView>();
                     if (_grabbedObject == null)
                     {
+                        
                         Debug.LogError("Grabbed object is null.");
                     }
                     else if (objectPhotonView == null)

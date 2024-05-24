@@ -9,8 +9,10 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.GameVersion = "0.0.1";
         PhotonNetwork.NickName = $"Player_{UnityEngine.Random.Range(0, 100)}";
 
-        PhotonNetwork.AutomaticallySyncScene = true;
+        //PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.SendRate = 50;
+        PhotonNetwork.SerializationRate = 30;
     }
 
     public override void OnConnected()
@@ -45,7 +47,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("방 입장 성공!");
         //Debug.Log($"RoomName: {PhotonNetwork.CurrentRoom.Name}");
-        //Debug.Log($"RoomPlayerCount: {PhotonNetwork.CurrentRoom.PlayerCount}");
+        Debug.Log($"RoomPlayerCount: {PhotonNetwork.CurrentRoom.PlayerCount}");
         //Debug.Log($"RoomMaxPlayers: {PhotonNetwork.CurrentRoom.MaxPlayers}");
 
         PhotonNetwork.LoadLevel("VillageScene");

@@ -1,9 +1,5 @@
-using Photon.Voice;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR;
-using static UnityEditor.FilePathAttribute;
+
 
 public class PlayerMovementAbility : MonoBehaviour
 {

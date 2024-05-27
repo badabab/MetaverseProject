@@ -2,6 +2,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum PlayerType
@@ -25,13 +26,10 @@ public class UI_Lobby : MonoBehaviour
 
     public string RoomID = "testRoom";
     public static PlayerType SelectedType = PlayerType.Male;
-    public GameObject Male;
-    public GameObject Female;
+
 
     private void Start()
     {
-        AutoLogin();
-
         string loggedInUser = PlayerPrefs.GetString("LoggedInId", null);
         string loggedInPassword = PlayerPrefs.GetString("LoggedInPassword", null);
         if (!string.IsNullOrEmpty(loggedInUser))
@@ -42,6 +40,7 @@ public class UI_Lobby : MonoBehaviour
         {
             TMP_InputFieldPw.text = $"{loggedInPassword}";
         }
+        AutoLogin();
     }
 
     public void OnClickNextButton()
@@ -63,7 +62,8 @@ public class UI_Lobby : MonoBehaviour
         {
             if (!PersonalManager.Instance.CheckUser(nickname, password))
             {
-                PersonalManager.Instance.JoinList(nickname, password);
+                int index = PlayerSelection.Instance.SelectedCharacterIndex;
+                PersonalManager.Instance.JoinList(nickname, password, index);
                 Debug.Log("New user registered.");
             }
 
@@ -74,6 +74,7 @@ public class UI_Lobby : MonoBehaviour
                 PlayerPrefs.SetString("LoggedInPassword", password);
                 Debug.Log("Login successful, user remembered.");
                 PhotonNetwork.NickName = nickname;
+                PlayerSelection.Instance.SelectedCharacterIndex = user.CharacterIndex;
             }
         }
 
@@ -84,7 +85,6 @@ public class UI_Lobby : MonoBehaviour
             {
                 Debug.Log("Login successful.");
                 PhotonNetwork.NickName = nickname;
-
             }
             else
             {
@@ -103,7 +103,7 @@ public class UI_Lobby : MonoBehaviour
         string loggedInUser = PlayerPrefs.GetString("LoggedInId", null);
         string loggedInPassword = PlayerPrefs.GetString("LoggedInPassword", null);
 
-        if (!string.IsNullOrEmpty(loggedInUser) || !string.IsNullOrEmpty(loggedInPassword))
+        if (!string.IsNullOrEmpty(loggedInUser) && !string.IsNullOrEmpty(loggedInPassword))
         {
             TMP_InputFieldId.text = loggedInUser;
             TMP_InputFieldPw.text = loggedInPassword;
@@ -111,8 +111,34 @@ public class UI_Lobby : MonoBehaviour
             if (user != null)
             {
                 PhotonNetwork.NickName = loggedInUser;
+
+                if (user.CharacterIndex == 0)
+                {
+                    Metaverse1.SetActive(false);
+                    Metaverse2.SetActive(true);
+                    PlayerSelection.Instance.SelectedCharacterIndex = user.CharacterIndex;
+                }
+                else
+                {
+                    GoToLoadingScene();
+                }
+            }
+            else
+            {
+                // 로그인 실패 시 ID/PW 입력 창 표시
+                Metaverse1.SetActive(true);
             }
         }
+        else
+        {
+            // 로컬에 저장된 ID/PW가 없는 경우 ID/PW 입력 창 표시
+            Metaverse1.SetActive(true);
+        }
+    }
+
+    public void GoToLoadingScene()
+    {
+        SceneManager.LoadScene("LoadingScene");
     }
 
     public void OnClickStartButton()
@@ -140,8 +166,6 @@ public class UI_Lobby : MonoBehaviour
     private void OnClickPlayerTypeButton(PlayerType Ptype)
     {
         SelectedType = Ptype;
-/*        Male.SetActive(Ptype == PlayerType.Male);
-        Female.SetActive(Ptype == PlayerType.Female);*/
         PlayerSelection.Instance.CharacterSelection(Ptype);
     }
 

@@ -8,7 +8,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public PhotonView PhotonView {  get; private set; }
-    public int CharacterIndex;
+    
     private void Awake()
     {
         PhotonView = GetComponent<PhotonView>();

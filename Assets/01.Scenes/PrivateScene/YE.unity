@@ -5488,6 +5488,7 @@ GameObject:
   - component: {fileID: 1286364811163630828}
   - component: {fileID: 6458351307282331742}
   - component: {fileID: 220287861980541286}
+  - component: {fileID: 9211597970373628126}
   m_Layer: 0
   m_Name: Player_ragdoll3
   m_TagString: Untagged
@@ -7139,6 +7140,7 @@ GameObject:
   - component: {fileID: 3788449016276719272}
   - component: {fileID: 9001006804399575578}
   - component: {fileID: 2758398768302545698}
+  - component: {fileID: 9001006804399575579}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -7490,6 +7492,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &9001006804399575579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8780773724623217749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29f4ac00201e2ad4ebef13d0406a027e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hand: {fileID: 0}
+  Animator: {fileID: 0}
+  GrabDistance: 2
+  GrabbableLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!4 &9007576930572396552
 Transform:
   m_ObjectHideFlags: 0
@@ -7566,6 +7586,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 5
   JumpPower: 2.5
+--- !u!114 &9211597970373628126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6670605765904059921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29f4ac00201e2ad4ebef13d0406a027e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hand: {fileID: 0}
+  Animator: {fileID: 0}
+  GrabDistance: 2
+  GrabbableLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &9221953336448129080
 GameObject:
   m_ObjectHideFlags: 0

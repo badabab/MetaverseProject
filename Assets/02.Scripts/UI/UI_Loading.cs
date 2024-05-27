@@ -11,7 +11,7 @@ public class UI_Loading : MonoBehaviour
     public float minY = 66f; // 최소 Y 위치
     public float maxY = 72f; // 최대 Y 위치
     public float speed = 1f; // 움직임 속도
-    public float LoadingTime = 7f;// 로딩시간 
+    public float LoadingTime = 3f;// 로딩시간 
     public GameObject CharacterSpin;
     public float rotationSpeed = 100f; // 회전 속도
 

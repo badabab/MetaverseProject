@@ -12,5 +12,9 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         PhotonView = GetComponent<PhotonView>();
+        if (PhotonView.IsMine)
+        {
+            UI_Minimap.Instance.MyPlayer = this;
+        }
     }
 }

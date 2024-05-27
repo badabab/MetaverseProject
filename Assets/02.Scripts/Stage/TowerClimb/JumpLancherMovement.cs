@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpLancher : MonoBehaviour
+public class JumpLancherMovement : MonoBehaviour
 {
     public float jumpForce = 10f; // 플레이어를 점프시킬 힘의 크기
 

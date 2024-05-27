@@ -33,14 +33,15 @@ public class PersonalManager : MonoBehaviour
         _personalCollection = db.GetCollection<Personal>("Log");
     }
 
-    public void JoinList(string name, string password)
+    public void JoinList(string name, string password, int characterIndex)
     {
-            Personal personal = new Personal()
-            {
-                Name = name,
-                Password = password,
-            };
-            _personalCollection.InsertOne(personal);
+        Personal personal = new Personal()
+        {
+            Name = name,
+            Password = password,
+            CharacterIndex = characterIndex
+        };
+        _personalCollection.InsertOne(personal);
     }
     public Personal Login(string name, string password)
     {
@@ -51,5 +52,11 @@ public class PersonalManager : MonoBehaviour
     {
         var filter = Builders<Personal>.Filter.Eq("Name", name) & Builders<Personal>.Filter.Eq("Password", password);
         return _personalCollection.Find(filter).Any();
+    }
+    public void UpdateCharacterIndex(string name, int characterIndex)
+    {
+        var filter = Builders<Personal>.Filter.Eq("Name", name);
+        var update = Builders<Personal>.Update.Set("CharacterIndex", characterIndex);
+        _personalCollection.UpdateOne(filter, update);
     }
 }

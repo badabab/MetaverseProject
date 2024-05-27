@@ -26,7 +26,8 @@ public class UI_Personal : MonoBehaviour
         {
             if (!PersonalManager.Instance.CheckUser(name, password)) 
             {
-                PersonalManager.Instance.JoinList(name, password);
+                int index = PlayerSelection.Instance.SelectedCharacterIndex;
+                PersonalManager.Instance.JoinList(name, password, index);
             }
             var user = PersonalManager.Instance.Login(name, password);
             if (user != null)

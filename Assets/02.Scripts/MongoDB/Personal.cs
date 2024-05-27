@@ -19,6 +19,7 @@ public class Personal
     public string Name;
     public string Password;
     public int Coins;
+    public int CharacterIndex;
 }
 [Serializable]
 public class PersonalData

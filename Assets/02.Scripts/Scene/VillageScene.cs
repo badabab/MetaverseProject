@@ -35,13 +35,16 @@ public class VillageScene : MonoBehaviourPunCallbacks
         _init = true;
         Vector3 spawnPoint = GetRandomSpawnPoint();
         Debug.Log($"스폰 위치: {spawnPoint}");
+
+
+
         if (UI_Lobby.SelectedType == PlayerType.Female)
         {
-            PhotonNetwork.Instantiate($"Player {Random.Range(1, 13)}", spawnPoint, Quaternion.identity);
+            PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
         }
         if (UI_Lobby.SelectedType == PlayerType.Male)
         {
-            PhotonNetwork.Instantiate($"Player {Random.Range(13, 26)}", spawnPoint, Quaternion.identity);
+            PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
         }       
     }
     public Vector3 GetRandomSpawnPoint()

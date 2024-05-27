@@ -2,17 +2,11 @@ using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VillageScene : MonoBehaviourPunCallbacks
+public class PlayerSpawn : MonoBehaviourPunCallbacks
 {
-    public static VillageScene Instance { get; private set; }
     public List<Transform> SpawnPoints;
-
     private bool _init = false;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
     private void Start()
     {
         if (!_init)
@@ -45,7 +39,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
         if (UI_Lobby.SelectedType == PlayerType.Male)
         {
             PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
-        }       
+        }
     }
     public Vector3 GetRandomSpawnPoint()
     {

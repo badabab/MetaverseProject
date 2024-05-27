@@ -41,6 +41,7 @@ public class PersonalManager : MonoBehaviour
                 Password = password,
             };
             _personalCollection.InsertOne(personal);
+        PlayerCanvasAbility.Instance.SetNickname(name);
     }
     public Personal Login(string name, string password)
     {

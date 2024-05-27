@@ -1,5 +1,5 @@
+using Photon.Pun;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GamePortal : MonoBehaviour
 {
@@ -15,15 +15,16 @@ public class GamePortal : MonoBehaviour
         {
             if (gameObject.CompareTag("BattleTilePortal"))
             {
-                SceneManager.LoadScene("BattleTileScene");
+                PhotonNetwork.LoadLevel("BattleTileScene");
+                //SceneManager.LoadScene("BattleTileScene");
             }
             else if (gameObject.CompareTag("FallGuysPortal"))
             {
-                SceneManager.LoadScene($"FallGuysScene{Random.Range(1,4)}");
+                PhotonNetwork.LoadLevel($"FallGuysScene{Random.Range(1,4)}");
             }
             else if (gameObject.CompareTag("TowerClimbPortal"))
             {
-                SceneManager.LoadScene("TowerClimbScene");
+                PhotonNetwork.LoadLevel("TowerClimbScene");
             }
         }
     }

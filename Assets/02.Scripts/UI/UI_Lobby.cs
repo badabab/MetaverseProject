@@ -34,13 +34,13 @@ public class UI_Lobby : MonoBehaviour
         Female.SetActive(false);
         AutoLogin();
 
-        string loggedInUser = PlayerPrefs.GetString("LoggedInUser", null);
+        string loggedInUser = PlayerPrefs.GetString("LoggedInId", null);
         string loggedInPassword = PlayerPrefs.GetString("LoggedInPassword", null);
         if (!string.IsNullOrEmpty(loggedInUser))
         {
             TMP_InputFieldId.text = $"{loggedInUser}";
         }
-        else if (!string.IsNullOrEmpty(loggedInPassword)) 
+        else if (!string.IsNullOrEmpty(loggedInPassword))
         {
             TMP_InputFieldPw.text = $"{loggedInPassword}";
         }
@@ -72,7 +72,7 @@ public class UI_Lobby : MonoBehaviour
             var user = PersonalManager.Instance.Login(nickname, password);
             if (user != null)
             {
-                PlayerPrefs.SetString("LoggedInUser", nickname);
+                PlayerPrefs.SetString("LoggedInId", nickname);
                 PlayerPrefs.SetString("LoggedInPassword", password);
                 Debug.Log("Login successful, user remembered.");
                 PhotonNetwork.NickName = nickname;
@@ -86,7 +86,7 @@ public class UI_Lobby : MonoBehaviour
             {
                 Debug.Log("Login successful.");
                 PhotonNetwork.NickName = nickname;
- 
+
             }
             else
             {
@@ -102,15 +102,15 @@ public class UI_Lobby : MonoBehaviour
     }
     private void AutoLogin()
     {
-        string loggedInUser = PlayerPrefs.GetString("LoggedInUser", null);
+        string loggedInUser = PlayerPrefs.GetString("LoggedInId", null);
         string loggedInPassword = PlayerPrefs.GetString("LoggedInPassword", null);
 
         if (!string.IsNullOrEmpty(loggedInUser) || !string.IsNullOrEmpty(loggedInPassword))
         {
-            TMP_InputFieldId.text = loggedInUser; 
+            TMP_InputFieldId.text = loggedInUser;
             TMP_InputFieldPw.text = loggedInPassword;
             var user = PersonalManager.Instance.Login(loggedInUser, loggedInPassword);
-            if (user != null) 
+            if (user != null)
             {
                 PhotonNetwork.NickName = loggedInUser;
             }

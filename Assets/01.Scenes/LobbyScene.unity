@@ -1836,6 +1836,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a33c3f2069fdd7e459c600410fcc7a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TMP_InputFieldId: {fileID: 1494441435}
+  TMP_InputFieldPw: {fileID: 1642677571}
+  RememberToggle: {fileID: 483372508}
   TMP_InputField: {fileID: 1494441435}
   NextButtonUI: {fileID: 2058043042}
   FemaleButtonUI: {fileID: 1073632068}
@@ -2444,6 +2447,50 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1194351131
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1194351133}
+  - component: {fileID: 1194351132}
+  m_Layer: 0
+  m_Name: PersonalManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1194351132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194351131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45aa5ed3a0027514b969d7c2ff234c07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1194351133
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194351131}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 802.4387, y: 540.09973, z: 154.13712}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1207328206
 GameObject:
   m_ObjectHideFlags: 0
@@ -14990,4 +15037,5 @@ SceneRoots:
   - {fileID: 2101756571}
   - {fileID: 1532220081}
   - {fileID: 1012336521}
+  - {fileID: 1194351133}
   - {fileID: 849224729}

@@ -1,5 +1,6 @@
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,9 @@ public enum PlayerType
 
 public class UI_Lobby : MonoBehaviour
 {
+    public TMP_InputField TMP_InputFieldId;
+    public TMP_InputField TMP_InputFieldPw;
+    public Toggle RememberToggle;
     public TMPro.TMP_InputField TMP_InputField;
     // public InputField NicknameInputFieldUI;
     public Button NextButtonUI;
@@ -28,16 +32,58 @@ public class UI_Lobby : MonoBehaviour
     {
         Male.SetActive(false);
         Female.SetActive(false);
+        AutoLogin();
     }
 
     public void OnClickNextButton()
     {
         string nickname = TMP_InputField.text;
+        string password = TMP_InputFieldPw.text;
 
-        if (string.IsNullOrEmpty(nickname))
+        if (string.IsNullOrEmpty(nickname) || string.IsNullOrEmpty(password))
         {
-            Debug.Log("Please enter a nickname");
+            Debug.Log("아이디, 비밀번호 둘 다 입력해주세요");
             return;
+        }
+
+
+        RememberID rememberID = RememberToggle.isOn ? RememberID.Remember : RememberID.Nope;
+
+
+        if (rememberID == RememberID.Remember)
+        {
+            if (!PersonalManager.Instance.CheckUser(nickname, password))
+            {
+                PersonalManager.Instance.JoinList(nickname, password);
+                Debug.Log("New user registered.");
+            }
+
+            var user = PersonalManager.Instance.Login(nickname, password);
+            if (user != null)
+            {
+                PlayerPrefs.SetString("LoggedInUser", nickname);
+                Debug.Log("Login successful, user remembered.");
+                PhotonNetwork.NickName = nickname;
+            }
+            else
+            {
+                Debug.LogError("Login failed after registration. Please check your database.");
+            }
+        }
+
+        else if (rememberID == RememberID.Nope)
+        {
+            var user = PersonalManager.Instance.Login(nickname, password);
+            if (user != null)
+            {
+                Debug.Log("Login successful.");
+                PhotonNetwork.NickName = nickname;
+ 
+            }
+            else
+            {
+                Debug.Log("Login failed.");
+            }
         }
 
         PhotonNetwork.NickName = nickname;
@@ -46,32 +92,35 @@ public class UI_Lobby : MonoBehaviour
         Metaverse1.SetActive(false);
         Metaverse2.SetActive(true);
     }
+    private void AutoLogin()
+    {
+        string loggedInUser = PlayerPrefs.GetString("LoggedInUser", null);
+        if (!string.IsNullOrEmpty(loggedInUser))
+        {
+            // Assuming the password is not stored and user must re-enter it
+            Debug.Log($"Welcome back, {loggedInUser}!");
+            // Load the lobby screen here
+        }
+    }
 
     public void OnClickStartButton()
     {
-        string nickname = TMP_InputField.text;
-        if (string.IsNullOrEmpty(nickname))
-        {
-            Debug.Log("Please enter a nickname");
-            return;
-        }
-        PhotonNetwork.NickName = nickname;
+        // Metaverse1 비활성화, Metaverse2 활성화
+        Metaverse1.SetActive(false);
+        Metaverse2.SetActive(true);
 
-        // [ 룸 옵션 설정 ]
-        RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 20;             // 입장 가능한 최대 플레이어 수
-        roomOptions.IsVisible = true;            // 로비에서 방 목록에 노출할 것인가?
-        roomOptions.IsOpen = true;               // 방이 열려있는 상태인가?
-        roomOptions.EmptyRoomTtl = 1000 * 20;    // 비어있는 방 살아있는 시간(TimeToLive)
-
-        roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable()  // 룸 커스텀 프로퍼티 (플레이어 커스텀 프로퍼티)
+        // Photon 룸에 입장
+        RoomOptions roomOptions = new RoomOptions
         {
-            {"MasterNickname", nickname}
+            MaxPlayers = 20,
+            IsVisible = true,
+            IsOpen = true,
+            EmptyRoomTtl = 1000 * 20,
+            CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "MasterNickname", PhotonNetwork.NickName } },
+            CustomRoomPropertiesForLobby = new string[] { "MasterNickname" }
         };
-        roomOptions.CustomRoomPropertiesForLobby = new string[] { "MasterNickname" };
 
-        //SceneManager.LoadScene("LoadingScene");
-        PhotonNetwork.JoinOrCreateRoom(RoomID, roomOptions, TypedLobby.Default);   // 방이 있다면 입장하고 없다면 만드는 것
+        PhotonNetwork.JoinOrCreateRoom(RoomID, roomOptions, TypedLobby.Default);
     }
     public void OnClickMaleButton() => OnClickPlayerTypeButton(PlayerType.Male);
     public void OnClickFemaleButton() => OnClickPlayerTypeButton(PlayerType.Female);

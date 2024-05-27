@@ -51,7 +51,7 @@ public class UI_Personal : MonoBehaviour
             }
         }
     }
-    private void Start()
+        private void Start()
     {
         AutoLogin();
     }

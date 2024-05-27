@@ -12,8 +12,16 @@ public class PersonalManager : MonoBehaviour
     public static PersonalManager Instance { get; private set; }
     private void Awake()
     {
-        Instance = this;
-        Init();
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            Init();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void Init()
@@ -27,13 +35,12 @@ public class PersonalManager : MonoBehaviour
 
     public void JoinList(string name, string password)
     {
-        Personal personal = new Personal()
-        {
-
-            Name = name,
-            Password = password,
-        };
-        _personalCollection.InsertOne(personal);
+            Personal personal = new Personal()
+            {
+                Name = name,
+                Password = password,
+            };
+            _personalCollection.InsertOne(personal);
     }
     public Personal Login(string name, string password)
     {

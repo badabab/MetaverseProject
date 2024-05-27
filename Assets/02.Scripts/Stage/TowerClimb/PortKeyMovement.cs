@@ -21,13 +21,9 @@ public class PortKeyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PortKeyMovement();
-    }
-
-    public void PortKeyMovement()
-    {
 
     }
+
     public void OnPortKeyPassword()
     {
         int Password;

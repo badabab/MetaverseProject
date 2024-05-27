@@ -30,8 +30,6 @@ public class UI_Lobby : MonoBehaviour
 
     private void Start()
     {
-        Male.SetActive(false);
-        Female.SetActive(false);
         AutoLogin();
 
         string loggedInUser = PlayerPrefs.GetString("LoggedInId", null);
@@ -142,8 +140,9 @@ public class UI_Lobby : MonoBehaviour
     private void OnClickPlayerTypeButton(PlayerType Ptype)
     {
         SelectedType = Ptype;
-        Male.SetActive(SelectedType == PlayerType.Male);
-        Female.SetActive(SelectedType == PlayerType.Female);
+/*        Male.SetActive(Ptype == PlayerType.Male);
+        Female.SetActive(Ptype == PlayerType.Female);*/
+        PlayerSelection.Instance.CharacterSelection(Ptype);
     }
 
     public void OnNicknameValueChanged(string newValue)

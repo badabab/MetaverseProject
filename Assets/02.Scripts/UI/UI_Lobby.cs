@@ -33,6 +33,17 @@ public class UI_Lobby : MonoBehaviour
         Male.SetActive(false);
         Female.SetActive(false);
         AutoLogin();
+
+        string loggedInUser = PlayerPrefs.GetString("LoggedInUser", null);
+        string loggedInPassword = PlayerPrefs.GetString("LoggedInPassword", null);
+        if (!string.IsNullOrEmpty(loggedInUser))
+        {
+            TMP_InputFieldId.text = $"{loggedInUser}";
+        }
+        else if (!string.IsNullOrEmpty(loggedInPassword)) 
+        {
+            TMP_InputFieldPw.text = $"{loggedInPassword}";
+        }
     }
 
     public void OnClickNextButton()
@@ -62,12 +73,9 @@ public class UI_Lobby : MonoBehaviour
             if (user != null)
             {
                 PlayerPrefs.SetString("LoggedInUser", nickname);
+                PlayerPrefs.SetString("LoggedInPassword", password);
                 Debug.Log("Login successful, user remembered.");
                 PhotonNetwork.NickName = nickname;
-            }
-            else
-            {
-                Debug.LogError("Login failed after registration. Please check your database.");
             }
         }
 
@@ -95,11 +103,17 @@ public class UI_Lobby : MonoBehaviour
     private void AutoLogin()
     {
         string loggedInUser = PlayerPrefs.GetString("LoggedInUser", null);
-        if (!string.IsNullOrEmpty(loggedInUser))
+        string loggedInPassword = PlayerPrefs.GetString("LoggedInPassword", null);
+
+        if (!string.IsNullOrEmpty(loggedInUser) || !string.IsNullOrEmpty(loggedInPassword))
         {
-            // Assuming the password is not stored and user must re-enter it
-            Debug.Log($"Welcome back, {loggedInUser}!");
-            // Load the lobby screen here
+            TMP_InputFieldId.text = loggedInUser; 
+            TMP_InputFieldPw.text = loggedInPassword;
+            var user = PersonalManager.Instance.Login(loggedInUser, loggedInPassword);
+            if (user != null) 
+            {
+                PhotonNetwork.NickName = loggedInUser;
+            }
         }
     }
 

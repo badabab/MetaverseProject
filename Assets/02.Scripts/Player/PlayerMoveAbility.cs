@@ -65,7 +65,12 @@ public class PlayerMoveAbility : PlayerAbility
         if (Input.GetKey(KeyCode.LeftShift))
         {
             _currentSpeed = RunSpeed;
-            _animator.SetTrigger("Run");
+            _animator.SetBool("Run", true);
+        }
+        else
+        {
+            _currentSpeed = MoveSpeed;
+            _animator.SetBool("Run", false);
         }
 
         _yVelocity += _gravity * Time.deltaTime;

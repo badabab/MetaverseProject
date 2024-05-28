@@ -20,25 +20,9 @@ public class UI_NoticeList : MonoBehaviour
     private void Awake()
     {
         PersonalManager.Instance.Init();
-        UpdateNoticeTexts();
-    }
-    private void UpdateNoticeTexts()
-    {
-        List<Notice> notices = PersonalManager.Instance.GetAllNotices();
 
-        for (int i = 0; i < NoticeText.Count; i++)
-        {
-            if (i < notices.Count)
-            {
-                NoticeText[i].text = $"{notices[i].Title}\n{notices[i].Content}";
-                NoticeText[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                NoticeText[i].gameObject.SetActive(false);
-            }
-        }
     }
+
 
     public void Show()
     {

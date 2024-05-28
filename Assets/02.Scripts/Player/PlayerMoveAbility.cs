@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class PlayerMoveAbility : PlayerAbility
 {
+    private float _currentSpeed;
     public float MoveSpeed = 5f;
+    public float RunSpeed = 15;
     private CharacterController _characterController;
     private Animator _animator;
 
@@ -60,9 +62,16 @@ public class PlayerMoveAbility : PlayerAbility
             _animator.SetTrigger("Punching");
         }
 
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            _currentSpeed = RunSpeed;
+            _animator.SetTrigger("Run");
+        }
+
         _yVelocity += _gravity * Time.deltaTime;
         dir.y = _yVelocity;
-        _characterController.Move(dir * MoveSpeed * Time.deltaTime);
+        _currentSpeed = MoveSpeed;
+        _characterController.Move(dir * _currentSpeed * Time.deltaTime);
         _animator.SetFloat("Move", unNormalizedDir.magnitude);
     }
 

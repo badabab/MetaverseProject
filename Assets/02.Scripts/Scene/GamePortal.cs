@@ -20,7 +20,8 @@ public class GamePortal : MonoBehaviour
             }
             else if (gameObject.CompareTag("FallGuysPortal"))
             {
-                PhotonNetwork.LoadLevel($"FallGuysScene{Random.Range(1,4)}");
+                PhotonNetwork.LoadLevel("FallGuysScene1");
+                //PhotonNetwork.LoadLevel($"FallGuysScene{Random.Range(1,4)}");
             }
             else if (gameObject.CompareTag("TowerClimbPortal"))
             {

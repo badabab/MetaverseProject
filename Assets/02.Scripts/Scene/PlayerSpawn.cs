@@ -25,11 +25,38 @@ public class PlayerSpawn : MonoBehaviourPunCallbacks
 
     private void Init()
     {
+        Debug.Log("플레이어 초기화");
         _init = true;
         Vector3 spawnPoint = GetRandomSpawnPoint();
-        //Debug.Log($"스폰 위치: {spawnPoint}");
+        Debug.Log($"스폰 위치: {spawnPoint}");
 
-        PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
+
+        int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
+
+        if (characterIndex <= 0)
+        {
+            if (UI_Lobby.SelectedType == PlayerType.Female)
+            {
+                PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
+                string nickname = PlayerPrefs.GetString("LoggedInId");
+                Debug.Log($"{nickname}");
+                PlayerCanvasAbility.Instance.SetNickname(nickname);
+            }
+            if (UI_Lobby.SelectedType == PlayerType.Male)
+            {
+                PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
+                string nickname = PlayerPrefs.GetString("LoggedInId");
+                Debug.Log($"{nickname}");
+                PlayerCanvasAbility.Instance.SetNickname(nickname);
+            }
+        }
+        else
+        {
+            PhotonNetwork.Instantiate($"Player {characterIndex}", spawnPoint, Quaternion.identity);
+            string nickname = PlayerPrefs.GetString("LoggedInId");
+            PlayerCanvasAbility.Instance.NicknameTextUI.text = nickname;
+            Debug.Log($"{nickname}");
+        }
     }
     public Vector3 GetRandomSpawnPoint()
     {

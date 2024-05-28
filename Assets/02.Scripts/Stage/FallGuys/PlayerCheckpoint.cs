@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerCheckpoint : MonoBehaviourPunCallbacks
 {
-    private Vector3 currentCheckpoint;
+    private Vector3 _currentCheckpoint;
 
     private void Start()
     {
@@ -14,13 +14,14 @@ public class PlayerCheckpoint : MonoBehaviourPunCallbacks
             return;
         }
 
-        currentCheckpoint = new Vector3(0, 5.5f, 110); // 초기 체크포인트 설정
+        _currentCheckpoint = new Vector3(0, 5.5f, 110); // 초기 체크포인트 설정
+        transform.position = _currentCheckpoint;
     }
 
     [PunRPC]
     public void UpdateCheckpoint(Vector3 checkpoint)
     {
-        currentCheckpoint = checkpoint;
+        _currentCheckpoint = checkpoint;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -34,12 +35,12 @@ public class PlayerCheckpoint : MonoBehaviourPunCallbacks
                 photonView.RPC("UpdateCheckpoint", RpcTarget.All, newCheckpoint);
             }
         }
-        else if (other.CompareTag("Respawn"))
+        else if (other.gameObject.name == "Respawn")
         {
             PhotonView photonView = GetComponent<PhotonView>();
             if (photonView != null && photonView.IsMine)
             {
-                transform.position = currentCheckpoint;
+                transform.position = _currentCheckpoint;
             }
         }
     }

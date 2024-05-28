@@ -137,6 +137,7 @@ public class UI_Lobby : MonoBehaviour
 
     public void GoToLoadingScene()
     {
+        PlayerSelection.Instance.ReloadCharacter();
         SceneManager.LoadScene("LoadingScene");
         RoomOptions roomOptions = new RoomOptions
         {

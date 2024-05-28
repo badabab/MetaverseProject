@@ -72,4 +72,26 @@ public class PersonalManager : MonoBehaviour
         Debug.Log("Matched Count: " + result.MatchedCount);
         Debug.Log("Modified Count: " + result.ModifiedCount);
     }
+    public int CheckCharacterIndex()
+    {
+        string name = PlayerPrefs.GetString("LoggedInId");
+
+        if (string.IsNullOrEmpty(name))
+        {
+            Debug.LogError("사용자 이름을 찾을 수 없습니다.");
+            return -1;
+        }
+
+        var filter = Builders<Personal>.Filter.Eq(p => p.Name, name);
+        var user = _personalCollection.Find(filter).FirstOrDefault();
+
+        if (user != null)
+        {
+            Debug.Log("CharacterIndex: " + user.CharacterIndex);
+            return user.CharacterIndex;
+        }
+        else
+        { return -1; }
+
+    }
 }

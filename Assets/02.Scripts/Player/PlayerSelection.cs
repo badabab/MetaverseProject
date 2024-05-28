@@ -1,4 +1,8 @@
+using MongoDB.Driver;
+using System.Collections.ObjectModel;
+using TMPro;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class PlayerSelection : MonoBehaviour
 {
@@ -6,7 +10,6 @@ public class PlayerSelection : MonoBehaviour
     public PlayerType SelectedType;
     public int SelectedCharacterIndex;
     private GameObject currentCharacter;
-    public Personal personal;
     private void Awake()
     {
         if (Instance == null)
@@ -31,14 +34,16 @@ public class PlayerSelection : MonoBehaviour
             int indexMale = Random.Range(13, 26);
             currentCharacter = Instantiate(Resources.Load<GameObject>($"Player {indexMale}"), Vector3.zero, Quaternion.identity);
             SelectedCharacterIndex = indexMale;
-            PersonalManager.Instance.UpdateCharacterIndex(personal.Name, SelectedCharacterIndex);
+            Debug.Log($"{SelectedCharacterIndex}");
+            PersonalManager.Instance.UpdateCharacterIndex(SelectedCharacterIndex);
         }
         else
         {
             int indexFemale = Random.Range(1, 13);
             currentCharacter = Instantiate(Resources.Load<GameObject>($"Player {indexFemale}"), Vector3.zero, Quaternion.identity);
             SelectedCharacterIndex = indexFemale;
-            PersonalManager.Instance.UpdateCharacterIndex(personal.Name, SelectedCharacterIndex);
+            Debug.Log($"{SelectedCharacterIndex}");
+            PersonalManager.Instance.UpdateCharacterIndex(SelectedCharacterIndex);
         }
         SelectedType = type;
     }

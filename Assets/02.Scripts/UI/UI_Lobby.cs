@@ -32,14 +32,15 @@ public class UI_Lobby : MonoBehaviour
     {
         string loggedInUser = PlayerPrefs.GetString("LoggedInId", null);
         string loggedInPassword = PlayerPrefs.GetString("LoggedInPassword", null);
-        if (!string.IsNullOrEmpty(loggedInUser))
+        if (PlayerPrefs.HasKey(loggedInUser))
         {
             TMP_InputFieldId.text = $"{loggedInUser}";
         }
-        else if (!string.IsNullOrEmpty(loggedInPassword))
+        else if (PlayerPrefs.HasKey(loggedInPassword))
         {
             TMP_InputFieldPw.text = $"{loggedInPassword}";
         }
+
         AutoLogin();
     }
 
@@ -74,7 +75,6 @@ public class UI_Lobby : MonoBehaviour
                 PlayerPrefs.SetString("LoggedInPassword", password);
                 Debug.Log("Login successful, user remembered.");
                 PhotonNetwork.NickName = nickname;
-                PlayerSelection.Instance.SelectedCharacterIndex = user.CharacterIndex;
             }
         }
 
@@ -116,7 +116,6 @@ public class UI_Lobby : MonoBehaviour
                 {
                     Metaverse1.SetActive(false);
                     Metaverse2.SetActive(true);
-                    PlayerSelection.Instance.SelectedCharacterIndex = user.CharacterIndex;
                 }
                 else
                 {
@@ -139,6 +138,17 @@ public class UI_Lobby : MonoBehaviour
     public void GoToLoadingScene()
     {
         SceneManager.LoadScene("LoadingScene");
+        RoomOptions roomOptions = new RoomOptions
+        {
+            MaxPlayers = 20,
+            IsVisible = true,
+            IsOpen = true,
+            EmptyRoomTtl = 1000 * 20,
+            CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "MasterNickname", PhotonNetwork.NickName } },
+            CustomRoomPropertiesForLobby = new string[] { "MasterNickname" }
+        };
+
+        PhotonNetwork.JoinOrCreateRoom(RoomID, roomOptions, TypedLobby.Default);
     }
 
     public void OnClickStartButton()

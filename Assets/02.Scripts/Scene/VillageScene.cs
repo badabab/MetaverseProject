@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom()
     {
-        Debug.Log("방에 입장했습니다.");
+        Debug.Log("빌리지 방에 입장했습니다.");
         if (!_init)
         {
             Init();
@@ -37,15 +38,32 @@ public class VillageScene : MonoBehaviourPunCallbacks
         Debug.Log($"스폰 위치: {spawnPoint}");
 
 
+        int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
 
-        if (UI_Lobby.SelectedType == PlayerType.Female)
+        if (characterIndex <= 0)
         {
-            PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
+            if (UI_Lobby.SelectedType == PlayerType.Female)
+            {
+                PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
+                string nickname = PlayerPrefs.GetString("LoggedInId");
+                Debug.Log($"{nickname}");
+                PlayerCanvasAbility.Instance.SetNickname(nickname);
+            }
+            if (UI_Lobby.SelectedType == PlayerType.Male)
+            {
+                PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
+                string nickname = PlayerPrefs.GetString("LoggedInId");
+                Debug.Log($"{nickname}");
+                PlayerCanvasAbility.Instance.SetNickname(nickname);
+            }
         }
-        if (UI_Lobby.SelectedType == PlayerType.Male)
+        else
         {
-            PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
-        }       
+            PhotonNetwork.Instantiate($"Player {characterIndex}", spawnPoint, Quaternion.identity);
+            string nickname = PlayerPrefs.GetString("LoggedInId");
+            PlayerCanvasAbility.Instance.NicknameTextUI.text = nickname;
+            Debug.Log($"{nickname}");
+        }
     }
     public Vector3 GetRandomSpawnPoint()
     {

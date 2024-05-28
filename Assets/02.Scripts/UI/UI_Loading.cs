@@ -16,7 +16,6 @@ public class UI_Loading : MonoBehaviour
 
     public float rotationSpeed = 100f; // 회전 속도
 
-
     private GameObject _character;
     public GameObject[] SelectedCharacter;
 
@@ -48,9 +47,20 @@ public class UI_Loading : MonoBehaviour
         // LoadingImage의 위치를 새로운 Y 값으로 설정
         Vector3 newPosition = new Vector3(LoadingImage.transform.position.x, newY, LoadingImage.transform.position.z);
         LoadingImage.transform.position = newPosition;
-       // _character = Instantiate(SelectedCharacter[PlayerSelection.Instance.SelectedCharacterIndex - 1], newPosition, Quaternion.identity);
-       _character = SelectedCharacter[PlayerSelection.Instance.SelectedCharacterIndex - 1].gameObject;
-        _character.gameObject.SetActive(true);
-    }
+        // _character = Instantiate(SelectedCharacter[PlayerSelection.Instance.SelectedCharacterIndex - 1], newPosition, Quaternion.identity);
 
+
+
+        int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
+        if (characterIndex != 0)
+        {
+            _character = SelectedCharacter[characterIndex - 1];
+        }
+        else 
+        {
+            _character = SelectedCharacter[PlayerSelection.Instance.SelectedCharacterIndex - 1].gameObject;
+        }
+
+       _character.gameObject.SetActive(true);
+    }
 }

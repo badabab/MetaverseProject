@@ -10,8 +10,16 @@ public class PlayerCanvasAbility : PlayerAbility
 
     private void Start()
     {
-        Instance = this;
-        //NicknameTextUI.text = _owner.PhotonView.Controller.NickName;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        string nickname = PlayerPrefs.GetString("LoggedInId");
+        NicknameTextUI.text = nickname;
     }
     private void Update()
     {
@@ -20,9 +28,7 @@ public class PlayerCanvasAbility : PlayerAbility
 
     public void SetNickname(string nickname)
     {
-        if (NicknameTextUI != null)
-        {
-            NicknameTextUI.text = nickname;
-        }
+        NicknameTextUI.text = nickname;
+        Debug.Log($"{nickname}");
     }
 }

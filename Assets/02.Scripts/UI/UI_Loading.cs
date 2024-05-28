@@ -48,6 +48,9 @@ public class UI_Loading : MonoBehaviour
         Vector3 newPosition = new Vector3(LoadingImage.transform.position.x, newY, LoadingImage.transform.position.z);
         LoadingImage.transform.position = newPosition;
         // _character = Instantiate(SelectedCharacter[PlayerSelection.Instance.SelectedCharacterIndex - 1], newPosition, Quaternion.identity);
+
+
+
         int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
         if (characterIndex != 0)
         {
@@ -57,6 +60,7 @@ public class UI_Loading : MonoBehaviour
         {
             _character = SelectedCharacter[PlayerSelection.Instance.SelectedCharacterIndex - 1].gameObject;
         }
+
        _character.gameObject.SetActive(true);
     }
 }

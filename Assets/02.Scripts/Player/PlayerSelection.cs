@@ -63,6 +63,7 @@ public class PlayerSelection : MonoBehaviour
         else
         {
             Debug.LogError("캐릭터 인덱스를 가져오지 못했습니다.");
+            return;
         }
     }
 }

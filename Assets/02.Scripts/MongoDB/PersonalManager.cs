@@ -43,7 +43,6 @@ public class PersonalManager : MonoBehaviour
             CharacterIndex = characterIndex
         };
         _personalCollection.InsertOne(personal);
-        PlayerCanvasAbility.Instance.SetNickname(name);
     }
     public Personal Login(string name, string password)
     {

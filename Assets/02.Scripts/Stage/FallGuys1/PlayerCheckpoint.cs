@@ -1,49 +1,46 @@
 using Photon.Pun;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerCheckpoint : MonoBehaviourPunCallbacks
 {
-    public Vector3 CurrentCheckpoint { get; private set; }
-    public float FallPoint = -10;
-    private string[] _allowedScenes = { "FallGuysScene1", "FallGuysScene2", "FallGuysScene3" };
+    private Vector3 currentCheckpoint;
 
     private void Start()
     {
-        CurrentCheckpoint = new Vector3(0, 5.5f, 110);
-    }
-    private void Update()
-    {
-        if (_allowedScenes.Contains(SceneManager.GetActiveScene().name))
+        if (SceneManager.GetActiveScene().name != "FallGuysScene")
         {
-            CheckFall();
+            this.enabled = false; // 씬이 "FallGuysScene"이 아니면 스크립트를 비활성화
+            return;
         }
-    }
 
-    private void CheckFall()
-    {
-        if (transform.position.y < FallPoint)
-        {
-            transform.position = CurrentCheckpoint;
-        }
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Checkpoint"))
-        {
-            Checkpoint checkpoint = other.GetComponent<Checkpoint>();
-            if (checkpoint != null)
-            {
-                Vector3 newCheckpoint = checkpoint.transform.position;
-                photonView.RPC("UpdateCheckpoint", RpcTarget.All, newCheckpoint);
-            }
-        }
+        currentCheckpoint = new Vector3(0, 5.5f, 110); // 초기 체크포인트 설정
     }
 
     [PunRPC]
     public void UpdateCheckpoint(Vector3 checkpoint)
     {
-        CurrentCheckpoint = checkpoint;
+        currentCheckpoint = checkpoint;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Checkpoint"))
+        {
+            PhotonView photonView = GetComponent<PhotonView>();
+            if (photonView != null && photonView.IsMine)
+            {
+                Vector3 newCheckpoint = other.transform.position;
+                photonView.RPC("UpdateCheckpoint", RpcTarget.All, newCheckpoint);
+            }
+        }
+        else if (other.CompareTag("Respawn"))
+        {
+            PhotonView photonView = GetComponent<PhotonView>();
+            if (photonView != null && photonView.IsMine)
+            {
+                transform.position = currentCheckpoint;
+            }
+        }
     }
 }

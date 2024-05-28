@@ -4,6 +4,7 @@ using UnityEngine;
 using static UnityEngine.ParticleSystem;
 using UnityEngine.UI;
 using System;
+using MongoDB.Bson;
 
 public class UI_Notice : MonoBehaviour
 {

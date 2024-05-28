@@ -1,3 +1,4 @@
+using Simplex;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,16 +8,36 @@ public class UI_NoticeList : MonoBehaviour
 {
     public List<Text> NoticeText;
     public List<Button> NoticeButton;
+
     public Button OutButton;
     public Button YesButton;
     public Button NoButton;
+
     public GameObject NoticeBackground;
 
     public static UI_Notice Instance { get; private set; }
 
     private void Awake()
     {
-        Instance = this;
+        PersonalManager.Instance.Init();
+        UpdateNoticeTexts();
+    }
+    private void UpdateNoticeTexts()
+    {
+        List<Notice> notices = PersonalManager.Instance.GetAllNotices();
+
+        for (int i = 0; i < NoticeText.Count; i++)
+        {
+            if (i < notices.Count)
+            {
+                NoticeText[i].text = $"{notices[i].Title}\n{notices[i].Content}";
+                NoticeText[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                NoticeText[i].gameObject.SetActive(false);
+            }
+        }
     }
 
     public void Show()

@@ -35,7 +35,6 @@ public class PersonalManager : MonoBehaviour
 
     public void JoinList(string name, string password, int characterIndex)
     {
-<<<<<<< HEAD
         Personal personal = new Personal()
         {
             Name = name,
@@ -43,15 +42,7 @@ public class PersonalManager : MonoBehaviour
             CharacterIndex = characterIndex
         };
         _personalCollection.InsertOne(personal);
-=======
-            Personal personal = new Personal()
-            {
-                Name = name,
-                Password = password,
-            };
-            _personalCollection.InsertOne(personal);
         PlayerCanvasAbility.Instance.SetNickname(name);
->>>>>>> 7ecaa3ce7e7a3cbe49fee68fa783cf66758e7592
     }
     public Personal Login(string name, string password)
     {

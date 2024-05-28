@@ -13,17 +13,17 @@ public class GamePortal : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (gameObject.CompareTag("BattleTilePortal"))
+            if (gameObject.name == ("BattleTilePortal"))
             {
                 PhotonNetwork.LoadLevel("BattleTileScene");
                 //SceneManager.LoadScene("BattleTileScene");
             }
-            else if (gameObject.CompareTag("FallGuysPortal"))
+            else if (gameObject.name == ("FallGuysPortal"))
             {
-                PhotonNetwork.LoadLevel("FallGuysScene1");
+                PhotonNetwork.LoadLevel("FallGuysScene");
                 //PhotonNetwork.LoadLevel($"FallGuysScene{Random.Range(1,4)}");
             }
-            else if (gameObject.CompareTag("TowerClimbPortal"))
+            else if (gameObject.name == ("TowerClimbPortal"))
             {
                 PhotonNetwork.LoadLevel("TowerClimbScene");
             }

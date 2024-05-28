@@ -8,6 +8,8 @@ public class PlayerCheckpoint : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        if (!photonView.IsMine) return;
+
         if (SceneManager.GetActiveScene().name != "FallGuysScene")
         {
             this.enabled = false; // 씬이 "FallGuysScene"이 아니면 스크립트를 비활성화
@@ -23,25 +25,24 @@ public class PlayerCheckpoint : MonoBehaviourPunCallbacks
     {
         _currentCheckpoint = checkpoint;
     }
+    [PunRPC]
+    public void MovePlayer(Vector3 newPosition)
+    {
+        transform.position = newPosition;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!photonView.IsMine) return;
+
         if (other.CompareTag("Checkpoint"))
         {
-            PhotonView photonView = GetComponent<PhotonView>();
-            if (photonView != null && photonView.IsMine)
-            {
-                Vector3 newCheckpoint = other.transform.position;
-                photonView.RPC("UpdateCheckpoint", RpcTarget.All, newCheckpoint);
-            }
+            Vector3 newCheckpoint = other.transform.position;
+            photonView.RPC("UpdateCheckpoint", RpcTarget.All, newCheckpoint);
         }
         else if (other.gameObject.name == "Respawn")
         {
-            PhotonView photonView = GetComponent<PhotonView>();
-            if (photonView != null && photonView.IsMine)
-            {
-                transform.position = _currentCheckpoint;
-            }
+            transform.position = _currentCheckpoint;
         }
     }
 }

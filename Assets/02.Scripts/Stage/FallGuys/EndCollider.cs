@@ -1,4 +1,5 @@
 using UnityEngine;
+using Photon.Pun;
 
 public class EndCollider : MonoBehaviour
 {
@@ -8,17 +9,21 @@ public class EndCollider : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (gameObject.name == "End1")
+            PhotonView photonView = other.GetComponent<PhotonView>();
+            if (photonView != null && photonView.IsMine)
             {
-                other.transform.position = Start2.position;
-            }
-            else if (gameObject.name == "End2")
-            {
-                other.transform.position = Start3.position;
-            }
-            else if (gameObject.name == "End3")
-            {
-                Debug.Log("게임 끝~");
+                if (gameObject.name == "End1")
+                {
+                    photonView.RPC("MovePlayer", RpcTarget.All, Start2.position);
+                }
+                else if (gameObject.name == "End2")
+                {
+                    photonView.RPC("MovePlayer", RpcTarget.All, Start3.position);
+                }
+                else if (gameObject.name == "End3")
+                {
+                    Debug.Log("게임 끝~");
+                }
             }
         }
     }

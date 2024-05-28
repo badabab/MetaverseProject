@@ -16,8 +16,6 @@ public class UI_Loading : MonoBehaviour
 
     public float rotationSpeed = 100f; // 회전 속도
 
-    public Personal personal;
-
     private GameObject _character;
     public GameObject[] SelectedCharacter;
 
@@ -51,14 +49,18 @@ public class UI_Loading : MonoBehaviour
         LoadingImage.transform.position = newPosition;
         // _character = Instantiate(SelectedCharacter[PlayerSelection.Instance.SelectedCharacterIndex - 1], newPosition, Quaternion.identity);
 
-        if (personal.CharacterIndex != 0)
+
+
+        int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
+        if (characterIndex != 0)
         {
-            _character = SelectedCharacter[personal.CharacterIndex];
+            _character = SelectedCharacter[characterIndex - 1];
         }
         else 
         {
             _character = SelectedCharacter[PlayerSelection.Instance.SelectedCharacterIndex - 1].gameObject;
         }
+
        _character.gameObject.SetActive(true);
     }
 }

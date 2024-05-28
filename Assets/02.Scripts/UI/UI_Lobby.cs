@@ -119,7 +119,8 @@ public class UI_Lobby : MonoBehaviour
                 }
                 else
                 {
-                    GoToLoadingScene();
+                    OnClickStartButton();
+                   // GoToLoadingScene();
                 }
             }
             else
@@ -137,7 +138,6 @@ public class UI_Lobby : MonoBehaviour
 
     public void GoToLoadingScene()
     {
-        SceneManager.LoadScene("LoadingScene");
         RoomOptions roomOptions = new RoomOptions
         {
             MaxPlayers = 20,
@@ -149,6 +149,8 @@ public class UI_Lobby : MonoBehaviour
         };
 
         PhotonNetwork.JoinOrCreateRoom(RoomID, roomOptions, TypedLobby.Default);
+        PlayerSelection.Instance.ReloadCharacter();
+        SceneManager.LoadScene("LoadingScene");
     }
 
     public void OnClickStartButton()
@@ -169,6 +171,7 @@ public class UI_Lobby : MonoBehaviour
         };
 
         PhotonNetwork.JoinOrCreateRoom(RoomID, roomOptions, TypedLobby.Default);
+        PlayerSelection.Instance.ReloadCharacter();
     }
     public void OnClickMaleButton() => OnClickPlayerTypeButton(PlayerType.Male);
     public void OnClickFemaleButton() => OnClickPlayerTypeButton(PlayerType.Female);

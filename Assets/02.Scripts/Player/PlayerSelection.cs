@@ -47,4 +47,23 @@ public class PlayerSelection : MonoBehaviour
         }
         SelectedType = type;
     }
+    public void ReloadCharacter()
+    {
+        int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
+
+        if (characterIndex != -1)
+        {
+            if (currentCharacter != null)
+            {
+                Destroy(currentCharacter);
+            }
+
+            currentCharacter = Instantiate(Resources.Load<GameObject>($"Player {characterIndex}"), Vector3.zero, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogError("캐릭터 인덱스를 가져오지 못했습니다.");
+            return;
+        }
+    }
 }

@@ -72,6 +72,11 @@ public class PlayerMoveAbility : PlayerAbility
             {
                 _animator.SetBool("RunJump", true);
             }
+            else if (_IsRunning == false)
+            {
+                _animator.SetTrigger("Jump");
+            }
+
             
         }
 

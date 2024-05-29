@@ -59,11 +59,7 @@ public class ArticleManager : MonoBehaviour
         _articles = _articleCollection.Find(data => (int)data.ArticleType == (int)ArticleType.Notice).ToList();
     }
 
-<<<<<<< HEAD
     public void Write(ArticleType articleType, string name, string content)
-=======
-    public void Write(ArticleType articleType,string name, string content)
->>>>>>> bb50a12c6a656fe9d8a6bbc30f07d001afd674c9
     {
         Article article = new Article()
         {

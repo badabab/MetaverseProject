@@ -24,6 +24,10 @@ public class EndCollider : MonoBehaviour
                 other.transform.position = Start3.position;
                 _characterController.enabled = true;
             }
+            else if (gameObject.name == "End3")
+            {
+                Debug.Log("게임 끝");
+            }
         }
     }
 }

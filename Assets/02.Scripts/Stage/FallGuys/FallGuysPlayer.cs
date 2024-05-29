@@ -1,9 +1,11 @@
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class PlayerCheckpoint : MonoBehaviourPunCallbacks
+public class FallGuysPlayer : MonoBehaviourPunCallbacks
 {
+    private bool _isReady = false;
     private Vector3 _currentCheckpoint;
     private CharacterController _characterController;
 
@@ -19,6 +21,22 @@ public class PlayerCheckpoint : MonoBehaviourPunCallbacks
 
         _currentCheckpoint = new Vector3(500, 2, 80); // Start1 위치
         Teleport(_currentCheckpoint);
+    }
+
+    private void Update()
+    {
+        if (photonView.IsMine && Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log($"{photonView.name}: ready {_isReady}");
+            SetReady(!_isReady);
+        }
+    }
+
+    public void SetReady(bool ready)
+    {
+        _isReady = ready;
+        Hashtable props = new Hashtable { { "IsReady", _isReady} };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
     }
 
     [PunRPC]

@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEngine.ParticleSystem;
 
 public class UI_ArticeList : MonoBehaviour
 {
@@ -53,9 +55,10 @@ public class UI_ArticeList : MonoBehaviour
                 UIArticles[i].Init(articles[i]);
         }
     }
+
     public void OnClickOutButton()
     {
-        UI_ArticleMenu.Instanse.gameObject.SetActive(true);
+        // UI_ArticleMenu.Instanse.gameObject.SetActive(true);
         gameObject.SetActive(false);
     }
 

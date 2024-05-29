@@ -1,33 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UI_ArticleMenu : MonoBehaviour
 {
-    public UI_ArticeList ArticleListUI;
+    private Article _article;
 
+    public static UI_ArticleMenu Instance;
 
-    public UI_ArticleGetOut ArticleGetOut;
-
-    public GameObject BulletinBackground;
-
-    public static UI_ArticleMenu Instanse { get; private set; }
-    public void OnClickArticleListButton()
+    private void Awake()
     {
-        ArticleListUI.gameObject.SetActive(true);
+        Instance = this;
+    }
+    private void Start()
+    {
+        this.gameObject.SetActive(false);
+    }
+    public void Show(in Article article)
+    {
+        _article = article;
+        gameObject.SetActive(true);
+    }
+    public void OnClickModifyButton()
+    {
+        UI_ArticleModify.Instance.Show(_article);
         gameObject.SetActive(false);
     }
-
-    public void OnClickReTrunButton()
+    public void OnClickDeleteButton()
     {
-        BulletinBackground.SetActive(false);
+        ArticleManager.Instance.Delete(_article.Id);
+        ArticleManager.Instance.FindAll();
+        this.gameObject.SetActive(false);
+        UI_ArticeList.Instance.Refresh();
     }
-
-    public void OnClickGetOutButton()
+    public void OnClickBackground()
     {
-        ArticleGetOut.gameObject.SetActive(true);
         gameObject.SetActive(false);
     }
 }

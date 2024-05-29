@@ -10,9 +10,9 @@ public class UI_ArticleGetOut : MonoBehaviour
     {
         // 게임종료
     }
-    public void OnClickNoButton()
+/*    public void OnClickNoButton()
     {
         UI_ArticleMenu.Instanse.gameObject.SetActive(true);
         gameObject.SetActive(false);
-    }
+    }*/
 }

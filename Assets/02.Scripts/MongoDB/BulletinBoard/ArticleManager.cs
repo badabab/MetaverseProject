@@ -58,12 +58,12 @@ public class ArticleManager : MonoBehaviour
         _articles = _articleCollection.Find(data => (int)data.ArticleType == (int)ArticleType.Notice).ToList();
     }
 
-    public void Write(ArticleType articleType, string content)
+    public void Write(ArticleType articleType,string name, string content)
     {
         Article article = new Article()
         {
             ArticleType = articleType,
-            Name = "공지수",
+            Name = name,
             Content = content,
         };
 

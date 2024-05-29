@@ -5,11 +5,12 @@ using UnityEngine.SceneManagement;
 public class PlayerCheckpoint : MonoBehaviourPunCallbacks
 {
     private Vector3 _currentCheckpoint;
+    private CharacterController _characterController;
 
     private void Start()
     {
         if (!photonView.IsMine) return;
-
+        _characterController = GetComponent<CharacterController>();
         if (SceneManager.GetActiveScene().name != "FallGuysScene")
         {
             this.enabled = false; // 씬이 "FallGuysScene"이 아니면 스크립트를 비활성화
@@ -17,7 +18,7 @@ public class PlayerCheckpoint : MonoBehaviourPunCallbacks
         }
 
         _currentCheckpoint = new Vector3(0, 5.5f, 110); // 초기 체크포인트 설정
-        transform.position = _currentCheckpoint;
+        Teleport(_currentCheckpoint);
     }
 
     [PunRPC]
@@ -28,7 +29,7 @@ public class PlayerCheckpoint : MonoBehaviourPunCallbacks
     [PunRPC]
     public void MovePlayer(Vector3 newPosition)
     {
-        transform.position = newPosition;
+        Teleport(newPosition);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -42,7 +43,14 @@ public class PlayerCheckpoint : MonoBehaviourPunCallbacks
         }
         else if (other.gameObject.name == "Respawn")
         {
-            transform.position = _currentCheckpoint;
+            Teleport(_currentCheckpoint);
         }
+    }
+
+    public void Teleport(Vector3 position)
+    {
+        _characterController.enabled = false;
+        transform.position = position;
+        _characterController.enabled = true;
     }
 }

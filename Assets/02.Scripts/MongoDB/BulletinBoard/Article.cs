@@ -18,10 +18,6 @@ public class Article
     [BsonElement("Name")]
     public string Name;             // 글쓴이
     public string Content;          // 글 내용
-    public int Like;                // 좋아요 개수
-    public DateTime WriteTime;      // 글 쓴 날짜/시간
-    [BsonDefaultValue("http://192.168.200.96:6846/emtpy.png")]
-    public string Profile;          // 프로필 이미지 주소
 }
 
 [Serializable]
@@ -33,5 +29,5 @@ public class ArticleData
     {
         Data = data;
     }
-}
+} 
 

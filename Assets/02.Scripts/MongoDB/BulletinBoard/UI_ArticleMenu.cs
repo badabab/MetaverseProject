@@ -8,11 +8,12 @@ public class UI_ArticleMenu : MonoBehaviour
 {
     public UI_ArticeList ArticleListUI;
 
-    public UI_ArticleMenu ArticleMenu;
 
     public UI_ArticleGetOut ArticleGetOut;
 
     public GameObject BulletinBackground;
+
+    public static UI_ArticleMenu Instanse { get; private set; }
     public void OnClickArticleListButton()
     {
         ArticleListUI.gameObject.SetActive(true);

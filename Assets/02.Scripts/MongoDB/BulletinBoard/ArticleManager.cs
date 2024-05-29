@@ -21,7 +21,15 @@ public class ArticleManager : MonoBehaviour
     public static ArticleManager Instance { get; private set; }
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+        }
         Init();
         FindAll();
     }
@@ -46,28 +54,28 @@ public class ArticleManager : MonoBehaviour
         // Sort 메서드를 이용해서 도큐먼트를 정렬할 수 있다.
         // 매개변수로는 어떤 Key로 정렬할 것인지 알려주는 BsonDocument를 전달해주면 된다.
         var sort = new BsonDocument();
-        sort["name"] = -1;
-        // sort["WriteTime"] = -1;
+        sort["WriteTime"] = 1;
         // +1 -> 오름차순 정렬 -> 낮은 값에서 높은 값으로 정렬한다.
         // -1 -> 내림차순 정렬 -> 높은 값에서 낮은 값으로 정렬한다.
         _articles = _articleCollection.Find(new BsonDocument()).Sort(sort).ToList();
     }
 
-    public void FindNotice()
+/*    public void FindNotice()
     {
         // 4. 공지 문서 읽어오기
         _articles = _articleCollection.Find(data => (int)data.ArticleType == (int)ArticleType.Notice).ToList();
-    }
+    }*/
 
-    public void Write(ArticleType articleType, string name, string content)
+    public void Write(string name, string content)
     {
         Article article = new Article()
         {
-            ArticleType = articleType,
             Name = name,
             Content = content,
+            WriteTime = DateTime.Now,
         };
         _articleCollection.InsertOne(article);
+        FindAll();
     }
 
     public void Delete(ObjectId id) 

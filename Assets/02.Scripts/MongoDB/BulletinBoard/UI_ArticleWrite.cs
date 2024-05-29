@@ -6,26 +6,30 @@ using UnityEngine.UI;
 
 public class UI_ArticleWrite : MonoBehaviour
 {
-    public Toggle NoticeToggle;
-    public UI_ArticeList ArticleListUI;
     public InputField ContentInputFieldUI;
-
     public static UI_ArticleWrite Instance { get; private set; }
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else if (Instance != this)
         {
             Destroy(gameObject);
         }
+    }
+    private void Start()
+    {
         this.gameObject.SetActive(false);
+    }
+    public void Show()
+    {
+        this.gameObject.SetActive(true);
     }
     public void OnClickYesButton()
     {
-        ArticleType articleType = NoticeToggle.isOn ? ArticleType.Notice : ArticleType.Normal;
         string name = PlayerPrefs.GetString("LoggedInId");
         if (string.IsNullOrEmpty(name))
         {
@@ -37,13 +41,15 @@ public class UI_ArticleWrite : MonoBehaviour
         {
             return;
         }
-        ArticleManager.Instance.Write(articleType, name, content);
-        ArticleListUI.gameObject.SetActive(false);
-        gameObject.SetActive(true);
+        ArticleManager.Instance.Write(name, content);
+        Debug.Log("새로운 아티클이 추가되었습니다.");
+        ArticleManager.Instance.FindAll();
+        UI_ArticeList.Instance.Show();
+        gameObject.SetActive(false);
     }
     public void OnClickNoButton()
     {
-        ArticleListUI.gameObject.SetActive(true);
+        UI_ArticeList.Instance.Show();
         gameObject.SetActive(false);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UI_ArticleGetOut : MonoBehaviour
 {
-    public UI_ArticleMenu ArticleMenu;
+
 
     public void OnClickYesButton()
     {
@@ -12,7 +12,7 @@ public class UI_ArticleGetOut : MonoBehaviour
     }
     public void OnClickNoButton()
     {
-        ArticleMenu.gameObject.SetActive(true);
+        UI_ArticleMenu.Instanse.gameObject.SetActive(true);
         gameObject.SetActive(false);
     }
 }

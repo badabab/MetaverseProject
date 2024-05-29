@@ -56,6 +56,8 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
 
             currentAvatar = PhotonNetwork.Instantiate(Avatars[randomIndex].name, spawnPosition, spawnRotation, 0);
             currentAvatar.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
+            PersonalManager.Instance.UpdateCharacterIndex(randomIndex);
+            
 
             // 기존 플레이어 오브젝트를 제거
             PhotonNetwork.Destroy(player);

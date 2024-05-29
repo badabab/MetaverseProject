@@ -17,7 +17,7 @@ public class PlayerCheckpoint : MonoBehaviourPunCallbacks
             return;
         }
 
-        _currentCheckpoint = new Vector3(0, 5.5f, 110); // 초기 체크포인트 설정
+        _currentCheckpoint = new Vector3(500, 2, 80); // Start1 위치
         Teleport(_currentCheckpoint);
     }
 

@@ -34,9 +34,9 @@ public class ArticleManager : MonoBehaviour
         string connnectionString = "mongodb+srv://MetaversePro:MetaversePro@cluster0.ed1au27.mongodb.net/";
         MongoClient mongoClient = new MongoClient(connnectionString);
         // 2. 특정 데이터베이스 연결
-        IMongoDatabase db = mongoClient.GetDatabase("ArticleList");
+        IMongoDatabase db = mongoClient.GetDatabase("MemoList");
         // 3. 특정 콜렉션 연결
-        _articleCollection = db.GetCollection<Article>("Articles");
+        _articleCollection = db.GetCollection<Article>("Memo");
     }
 
     public void FindAll()
@@ -46,7 +46,8 @@ public class ArticleManager : MonoBehaviour
         // Sort 메서드를 이용해서 도큐먼트를 정렬할 수 있다.
         // 매개변수로는 어떤 Key로 정렬할 것인지 알려주는 BsonDocument를 전달해주면 된다.
         var sort = new BsonDocument();
-        sort["WriteTime"] = -1;
+        sort["name"] = -1;
+        // sort["WriteTime"] = -1;
         // +1 -> 오름차순 정렬 -> 낮은 값에서 높은 값으로 정렬한다.
         // -1 -> 내림차순 정렬 -> 높은 값에서 낮은 값으로 정렬한다.
         _articles = _articleCollection.Find(new BsonDocument()).Sort(sort).ToList();
@@ -58,21 +59,18 @@ public class ArticleManager : MonoBehaviour
         _articles = _articleCollection.Find(data => (int)data.ArticleType == (int)ArticleType.Notice).ToList();
     }
 
-    public void Write(ArticleType articleType, string content)
+    public void Write(ArticleType articleType, string name, string content)
     {
         Article article = new Article()
         {
             ArticleType = articleType,
-            Name = "공지수",
+            Name = name,
             Content = content,
         };
-
-
         _articleCollection.InsertOne(article);
     }
 
-
-    public void Delete(ObjectId id)
+    public void Delete(ObjectId id) 
     {
         //var filter = Builders<Article>.Filter.Eq("_id", id);
         //_articleCollection.DeleteOne(filter);

@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement; // 씬 관리를 위해 필요
 
 public class PlayerMoveAbility : PlayerAbility
 {
@@ -15,11 +16,17 @@ public class PlayerMoveAbility : PlayerAbility
     public float JumpPower = 2.5f;
     private bool _isJumping = false;
 
+    private bool isFallGuysScene = false; // FallGuysScene 여부 확인
+
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
         _animator = GetComponentInChildren<Animator>();
+
+        // 현재 씬이 FallGuysScene인지 확인
+        isFallGuysScene = SceneManager.GetActiveScene().name == "FallGuysScene";
     }
+
     private void Update()
     {
         if (!_owner.PhotonView.IsMine)
@@ -29,6 +36,7 @@ public class PlayerMoveAbility : PlayerAbility
         HandleMovement();
         OnAnimatorMove();
     }
+
     private void HandleMovement()
     {
         float h = Input.GetAxisRaw("Horizontal");
@@ -62,15 +70,22 @@ public class PlayerMoveAbility : PlayerAbility
             _animator.SetTrigger("Punching");
         }
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (isFallGuysScene)
         {
-            _currentSpeed = RunSpeed;
             _animator.SetBool("Run", true);
         }
         else
         {
-            _currentSpeed = MoveSpeed;
-            _animator.SetBool("Run", false);
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                _currentSpeed = RunSpeed;
+                _animator.SetBool("Run", true);
+            }
+            else
+            {
+                _currentSpeed = MoveSpeed;
+                _animator.SetBool("Run", false);
+            }
         }
 
         _yVelocity += _gravity * Time.deltaTime;

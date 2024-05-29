@@ -35,7 +35,7 @@ public class PlayerRotateAbility : PlayerAbility
         _mx += mouseX * RotationSpeed * Time.deltaTime;
         _my += mouseY * RotationSpeed * Time.deltaTime;
 
-        _my = Mathf.Clamp(_my, -90f, 90f);
+        _my = Mathf.Clamp(_my, -135f, 135f);
 
         transform.eulerAngles = new Vector3(0, _mx, 0);
         CameraRoot.localEulerAngles = new Vector3(-_my, 0, 0);

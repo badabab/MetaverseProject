@@ -7,6 +7,9 @@ public class PlayerMoveAbility : PlayerAbility
     private float _currentSpeed;
     public float MoveSpeed = 5f;
     public float RunSpeed = 15;
+
+    public bool _IsRunning;
+
     private CharacterController _characterController;
     private Animator _animator;
 
@@ -51,11 +54,13 @@ public class PlayerMoveAbility : PlayerAbility
         {
             _isJumping = false;
             _yVelocity = 0;
+            
         }
 
         if (!_characterController.isGrounded && !_isJumping)
         {
             _isJumping = false;
+            _animator.SetBool("RunJump", false);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -63,6 +68,11 @@ public class PlayerMoveAbility : PlayerAbility
             _isJumping = true;
             _yVelocity = JumpPower;
             dir.y = _yVelocity;
+            if (_IsRunning == true)
+            {
+                _animator.SetBool("RunJump", true);
+            }
+            
         }
 
         if (Input.GetKeyDown(KeyCode.T))
@@ -72,17 +82,20 @@ public class PlayerMoveAbility : PlayerAbility
 
         if (isFallGuysScene)
         {
+            _IsRunning = true;
             _animator.SetBool("Run", true);
         }
         else
         {
             if (Input.GetKey(KeyCode.LeftShift))
             {
+                _IsRunning = true;
                 _currentSpeed = RunSpeed;
                 _animator.SetBool("Run", true);
             }
             else
             {
+                _IsRunning= false;
                 _currentSpeed = MoveSpeed;
                 _animator.SetBool("Run", false);
             }

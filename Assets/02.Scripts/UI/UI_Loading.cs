@@ -42,25 +42,28 @@ public class UI_Loading : MonoBehaviour
 
     void ShowCharacter()
     {
-        // PingPong 함수 사용하여 부드러운 Y 위치 변경
-        float newY = Mathf.PingPong(Time.time * speed, maxY - minY) + minY;
-        // LoadingImage의 위치를 새로운 Y 값으로 설정
-        Vector3 newPosition = new Vector3(LoadingImage.transform.position.x, newY, LoadingImage.transform.position.z);
-        LoadingImage.transform.position = newPosition;
-        // _character = Instantiate(SelectedCharacter[PlayerSelection.Instance.SelectedCharacterIndex - 1], newPosition, Quaternion.identity);
+        PhotonView photonView = GetComponentInParent<PhotonView>();
+
+            // PingPong 함수 사용하여 부드러운 Y 위치 변경
+            float newY = Mathf.PingPong(Time.time * speed, maxY - minY) + minY;
+            // LoadingImage의 위치를 새로운 Y 값으로 설정
+            Vector3 newPosition = new Vector3(LoadingImage.transform.position.x, newY, LoadingImage.transform.position.z);
+            LoadingImage.transform.position = newPosition;
+            // _character = Instantiate(SelectedCharacter[PlayerSelection.Instance.SelectedCharacterIndex - 1], newPosition, Quaternion.identity);
 
 
 
-        int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
-        if (characterIndex != 0)
-        {
-            _character = SelectedCharacter[characterIndex - 1];
-        }
-        else 
-        {
-            _character = SelectedCharacter[PlayerSelection.Instance.SelectedCharacterIndex - 1].gameObject;
-        }
+            int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
+            if (characterIndex != 0)
+            {
+                _character = SelectedCharacter[characterIndex - 1];
+            }
+            else
+            {
+                _character = SelectedCharacter[PlayerSelection.Instance.SelectedCharacterIndex - 1].gameObject;
+            }
 
-       _character.gameObject.SetActive(true);
+            _character.gameObject.SetActive(true);
+        
     }
 }

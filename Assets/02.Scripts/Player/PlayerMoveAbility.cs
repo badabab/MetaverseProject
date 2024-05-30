@@ -1,7 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements; // 씬 관리를 위해 필요
 
 public class PlayerMoveAbility : PlayerAbility
 {
@@ -21,7 +20,6 @@ public class PlayerMoveAbility : PlayerAbility
     private bool _isJumping = false;
 
     private bool isFallGuysScene = false; // FallGuysScene 여부 확인
-
 
     private void Start()
     {
@@ -61,7 +59,6 @@ public class PlayerMoveAbility : PlayerAbility
         {
             _isJumping = false;
             _yVelocity = 0;
-            
         }
 
         if (!_characterController.isGrounded)
@@ -70,19 +67,17 @@ public class PlayerMoveAbility : PlayerAbility
             _animator.SetBool("RunJump", false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && _characterController.isGrounded)
         {
-            
-            if (_IsRunning == true)
+            Jump();
+            if (_IsRunning)
             {
                 _animator.SetBool("RunJump", true);
             }
-            else if (_IsRunning == false)
+            else
             {
                 _animator.SetTrigger("Jump");
             }
-            dir.y = _yVelocity;
-
         }
 
         if (Input.GetKeyDown(KeyCode.T))
@@ -92,7 +87,7 @@ public class PlayerMoveAbility : PlayerAbility
 
         if (isFallGuysScene)
         {
-            if(_animator.GetFloat("Move") >= 1)
+            if (_animator.GetFloat("Move") >= 1)
             {
                 _IsRunning = true;
                 _animator.SetBool("Run", true);
@@ -102,7 +97,6 @@ public class PlayerMoveAbility : PlayerAbility
                 _IsRunning = false;
                 _animator.SetBool("Run", false);
             }
-            
         }
         else
         {
@@ -114,7 +108,7 @@ public class PlayerMoveAbility : PlayerAbility
             }
             else
             {
-                _IsRunning= false;
+                _IsRunning = false;
                 _currentSpeed = MoveSpeed;
                 _animator.SetBool("Run", false);
             }
@@ -122,7 +116,6 @@ public class PlayerMoveAbility : PlayerAbility
 
         _yVelocity += _gravity * Time.deltaTime;
         dir.y = _yVelocity;
-        _currentSpeed = MoveSpeed;
         _characterController.Move(dir * _currentSpeed * Time.deltaTime);
         _animator.SetFloat("Move", unNormalizedDir.magnitude);
     }
@@ -140,6 +133,5 @@ public class PlayerMoveAbility : PlayerAbility
     {
         _isJumping = true;
         _yVelocity = JumpPower;
-        
     }
 }

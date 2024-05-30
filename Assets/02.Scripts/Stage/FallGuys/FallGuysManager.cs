@@ -59,6 +59,8 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
                 if (!isGameOver)
                 {
                     isGameOver = true;
+                    PlayerPrefs.GetString("WinnerId", firstPlayerId);
+                    StartCoroutine(ShowVictoryAndLoadScene(firstPlayerId));
                 }
                 break;
         }
@@ -153,33 +155,6 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
         SceneManager.LoadScene("VillageScene");
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (_currentGameState == GameState.Go && !isFirstPlayerDetected)
-        {
-            if (other.CompareTag("Player"))
-            {
-                PhotonView playerPhotonView = other.GetComponentInParent<PhotonView>();
-                if (playerPhotonView != null)
-                {
-                    isFirstPlayerDetected = true;
-                    firstPlayerId = playerPhotonView.Owner.UserId;
-                    SetGameState(GameState.Over);
-                    Debug.Log($"{playerPhotonView.Owner.NickName} reached the end first!");
-                    photonView.RPC("AnnounceWinner", RpcTarget.All, playerPhotonView.Owner.NickName, playerPhotonView.Owner.UserId);
-                }
-            }
-        }
-    }
-
-    [PunRPC]
-    void AnnounceWinner(string winnerName, string winnerId)
-    {
-        Debug.Log($"{winnerName} is the winner!");
-        PlayerPrefs.SetString("WinnerId", winnerId);
-        StartCoroutine(ShowVictoryAndLoadScene(winnerId));
-    }
-
     private System.Collections.IEnumerator ShowVictoryAndLoadScene(string winnerId)
     {
         GameObject winner = PhotonNetwork.PlayerList.FirstOrDefault(p => p.UserId == winnerId).TagObject as GameObject;
@@ -196,10 +171,6 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
         SceneManager.LoadScene("VillageScene");
     }
 
-    // 모든 플레이어가 준비되면 랜덤 시작위치 4군데로 랜덤이동
-    // -> 시작위치(4군데) 설정 아직 안함
-    // 카운트다운 후 게임 시작
-    // 플레이어가 End3에 도착하면 GameState.Over
 
     // 플레이어 하나라도 도착하면 게임 끝낼건지?
     // 모든 플레이어 들어올때까지 관전모드(?) 같은 거 할 지 정해야 됨

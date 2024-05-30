@@ -7,13 +7,9 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
     public static BattleTileManager Instance { get; private set; }
 
     private int _countDown = 3;
+    private int _gameDuration = 120; // 2분 = 120초
 
     public GameState _currentGameState = GameState.Ready;
-
-    public Collider[] ColliderList;
-    public Transform[] spawnPoints;
-
-    public Transform EndPosition;
 
     private void Awake()
     {
@@ -25,7 +21,6 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
         switch (_currentGameState)
         {
             case GameState.Ready:
-                ReadyPlayer();
                 if (AreAllPlayersReady())
                 {
                     SetGameState(GameState.Loading);
@@ -34,11 +29,6 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
 
             case GameState.Loading:
                 StartCoroutine(StartCountDown());
-                for (int i = 0; ColliderList.Length < i; i++)
-                {
-                    Collider col = ColliderList[i];
-                    col.gameObject.SetActive(false);
-                }
                 break;
 
             case GameState.Go:
@@ -50,23 +40,18 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
                 break;
         }
     }
+
     void SetGameState(GameState newState)
     {
         _currentGameState = newState;
         Debug.Log($"Game state changed to: {_currentGameState}");
-    }
-    void ReadyPlayer()
-    {
-        if (photonView.IsMine && Input.GetKeyDown(KeyCode.Escape))
+
+        if (_currentGameState == GameState.Go)
         {
-            ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
-            {
-                { "IsReady", true }
-            };
-            Debug.Log("레디 버튼 누름");
-            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+            StartCoroutine(GameTimer());
         }
     }
+
     bool AreAllPlayersReady()
     {
         Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray(); // PlayerList를 배열로 복제
@@ -86,29 +71,6 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
         return true; // 모든 플레이어가 준비됨
     }
 
-    void PlayerReadySpawner()
-    {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray();
-            for (int i = 0; i < players.Length; i++)
-            {
-                Vector3 spawnPosition = spawnPoints[i % spawnPoints.Length].position;
-                photonView.RPC("MovePlayerToSpawn", players[i], spawnPosition);
-                Debug.Log("플레이어 스폰 위치로 이동");
-            }
-        }
-    }
-
-    [PunRPC]
-    void MovePlayerToSpawn(Vector3 position)
-    {
-        if (photonView.IsMine)
-        {
-            transform.position = position;
-        }
-    }
-
     private System.Collections.IEnumerator StartCountDown()
     {
         while (_countDown > 0)
@@ -118,5 +80,17 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
             _countDown--;
         }
         SetGameState(GameState.Go);
+    }
+
+    private System.Collections.IEnumerator GameTimer()
+    {
+        int timeRemaining = _gameDuration;
+        while (timeRemaining > 0)
+        {
+            //Debug.Log($"Game Time Remaining: {timeRemaining} seconds");
+            yield return new WaitForSeconds(1);
+            timeRemaining--;
+        }
+        SetGameState(GameState.Over);
     }
 }

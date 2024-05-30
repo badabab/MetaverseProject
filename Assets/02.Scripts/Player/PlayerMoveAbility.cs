@@ -92,8 +92,17 @@ public class PlayerMoveAbility : PlayerAbility
 
         if (isFallGuysScene)
         {
-            _IsRunning = true;
-            _animator.SetBool("Run", true);
+            if(_animator.GetFloat("Move") >= 1)
+            {
+                _IsRunning = true;
+                _animator.SetBool("Run", true);
+            }
+            else
+            {
+                _IsRunning = false;
+                _animator.SetBool("Run", false);
+            }
+            
         }
         else
         {

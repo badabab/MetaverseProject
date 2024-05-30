@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 // <copyright file="VoiceLogger.cs" company="Exit Games GmbH">
 //   Photon Voice for Unity - Copyright (C) 2018 Exit Games GmbH
 // </copyright>

@@ -59,16 +59,15 @@ public class PlayerMoveAbility : PlayerAbility
 
         if (!_characterController.isGrounded)
         {
-            _isJumping = true; _yVelocity = -9.81f;
-            dir.y = _yVelocity;
+            _isJumping = true;
             _animator.SetBool("RunJump", false);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _isJumping = true;
-            
-            
+            _yVelocity = JumpPower;
+            dir.y = _yVelocity;
             if (_IsRunning == true)
             {
                 _animator.SetBool("RunJump", true);

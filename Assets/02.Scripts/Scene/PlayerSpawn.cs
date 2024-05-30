@@ -41,6 +41,7 @@ public class PlayerSpawn : MonoBehaviourPunCallbacks
                 string nickname = PlayerPrefs.GetString("LoggedInId");
                 Debug.Log($"{nickname}");
                 PlayerCanvasAbility.Instance.SetNickname(nickname);
+                PlayerCanvasAbility.Instance.ShowMyNickname();
             }
             if (UI_Lobby.SelectedType == PlayerType.Male)
             {
@@ -48,6 +49,7 @@ public class PlayerSpawn : MonoBehaviourPunCallbacks
                 string nickname = PlayerPrefs.GetString("LoggedInId");
                 Debug.Log($"{nickname}");
                 PlayerCanvasAbility.Instance.SetNickname(nickname);
+                PlayerCanvasAbility.Instance.ShowMyNickname();
             }
         }
         else

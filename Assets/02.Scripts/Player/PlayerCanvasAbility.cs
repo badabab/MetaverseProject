@@ -25,15 +25,20 @@ public class PlayerCanvasAbility : PlayerAbility
     }
     private void Start()
     {
+        ShowMyNickname();
+    }
+    private void Update()
+    {
+        transform.forward = Camera.main.transform.forward;
+    }
+
+    public void ShowMyNickname()
+    {
         if (photonView.IsMine)
         {
             string nickname = PlayerPrefs.GetString("LoggedInId");
             photonView.RPC("SetNickname", RpcTarget.AllBuffered, nickname);
         }
-    }
-    private void Update()
-    {
-        transform.forward = Camera.main.transform.forward;
     }
 
     [PunRPC]

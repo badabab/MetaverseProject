@@ -1,6 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
-using UnityEngine.SceneManagement; // 씬 관리를 위해 필요
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements; // 씬 관리를 위해 필요
 
 public class PlayerMoveAbility : PlayerAbility
 {
@@ -20,6 +21,7 @@ public class PlayerMoveAbility : PlayerAbility
     private bool _isJumping = false;
 
     private bool isFallGuysScene = false; // FallGuysScene 여부 확인
+
 
     private void Start()
     {
@@ -42,6 +44,11 @@ public class PlayerMoveAbility : PlayerAbility
 
     private void HandleMovement()
     {
+        if (isFallGuysScene && FallGuysManager.Instance._currentGameState == GameState.Loading)
+        {
+            return; // 로딩 중일 때 입력을 무시합니다.
+        }
+
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
@@ -65,9 +72,7 @@ public class PlayerMoveAbility : PlayerAbility
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            _isJumping = true;
-            _yVelocity = JumpPower;
-            dir.y = _yVelocity;
+            
             if (_IsRunning == true)
             {
                 _animator.SetBool("RunJump", true);
@@ -76,8 +81,8 @@ public class PlayerMoveAbility : PlayerAbility
             {
                 _animator.SetTrigger("Jump");
             }
+            dir.y = _yVelocity;
 
-            
         }
 
         if (Input.GetKeyDown(KeyCode.T))
@@ -120,5 +125,12 @@ public class PlayerMoveAbility : PlayerAbility
             _characterController.Move(_animator.deltaPosition);
             transform.rotation = _animator.rootRotation;
         }
+    }
+
+    public void Jump()
+    {
+        _isJumping = true;
+        _yVelocity = JumpPower;
+        
     }
 }

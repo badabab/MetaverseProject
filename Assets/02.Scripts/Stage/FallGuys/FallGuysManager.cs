@@ -16,6 +16,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
     public static FallGuysManager Instance { get; private set; }
 
     private int _countDown = 3;
+    private int _countEnd = 10;
     private bool isCountingDown = false;
     private bool isGameOver = false;
     private bool isFirstPlayerDetected = false;
@@ -167,7 +168,12 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
                 animator.SetTrigger("Winning");
             }
         }
-        yield return new WaitForSeconds(10);
+        while (_countEnd > 0)
+        {
+            Debug.Log($"CountDown: {_countEnd}");
+            yield return new WaitForSeconds(10);
+            _countEnd--;
+        }
         SceneManager.LoadScene("VillageScene");
     }
 

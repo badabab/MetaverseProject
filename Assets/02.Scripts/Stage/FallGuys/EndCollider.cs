@@ -38,6 +38,8 @@ public class EndCollider : MonoBehaviourPunCallbacks
                     firstPlayerId = playerPhotonView.Owner.UserId;
                     Debug.Log($"{playerPhotonView.Owner.NickName} reached the end first!");
                     photonView.RPC("AnnounceWinner", RpcTarget.All, playerPhotonView.Owner.NickName, playerPhotonView.Owner.UserId);
+                    Debug.Log(playerPhotonView.Owner.NickName);
+                    Debug.Log(playerPhotonView.Owner.UserId);
                 }
                 Debug.Log("게임 끝");
             }

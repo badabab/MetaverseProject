@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
-    string _nickname = PlayerPrefs.GetString("LoggedInId");
+    string _nickname;
+
     private void Start()
     {
+        _nickname = PlayerPrefs.GetString("LoggedInId","Player");
+
         PhotonNetwork.GameVersion = "0.0.1";
         PhotonNetwork.NickName = _nickname;
 

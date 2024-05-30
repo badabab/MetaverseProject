@@ -27,6 +27,9 @@ public class UI_Lobby : MonoBehaviour
     public string RoomID = "testRoom";
     public static PlayerType SelectedType = PlayerType.Male;
 
+    private GameObject _character;
+    public GameObject[] SelectedCharacter;
+
 
     private void Start()
     {

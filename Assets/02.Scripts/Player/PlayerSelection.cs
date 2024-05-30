@@ -10,6 +10,9 @@ public class PlayerSelection : MonoBehaviour
     public PlayerType SelectedType;
     public int SelectedCharacterIndex;
     private GameObject currentCharacter;
+
+    public GameObject[] SelectedCharacter;
+
     private void Awake()
     {
         if (Instance == null)
@@ -20,6 +23,10 @@ public class PlayerSelection : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+        for (int i = 0; i < SelectedCharacter.Length; i++)
+        {
+            SelectedCharacter[i].gameObject.SetActive(false);
         }
     }
 
@@ -32,7 +39,7 @@ public class PlayerSelection : MonoBehaviour
         if (type == PlayerType.Male)
         {
             int indexMale = Random.Range(13, 26);
-            currentCharacter = Instantiate(Resources.Load<GameObject>($"Player {indexMale}"), Vector3.zero, Quaternion.identity);
+            currentCharacter = Instantiate(SelectedCharacter[indexMale - 1], Vector3.zero, Quaternion.identity);
             SelectedCharacterIndex = indexMale;
             Debug.Log($"{SelectedCharacterIndex}");
             PersonalManager.Instance.UpdateCharacterIndex(SelectedCharacterIndex);
@@ -40,12 +47,13 @@ public class PlayerSelection : MonoBehaviour
         else
         {
             int indexFemale = Random.Range(1, 13);
-            currentCharacter = Instantiate(Resources.Load<GameObject>($"Player {indexFemale}"), Vector3.zero, Quaternion.identity);
+            currentCharacter = Instantiate(SelectedCharacter[indexFemale - 1], Vector3.zero, Quaternion.identity);
             SelectedCharacterIndex = indexFemale;
             Debug.Log($"{SelectedCharacterIndex}");
             PersonalManager.Instance.UpdateCharacterIndex(SelectedCharacterIndex);
         }
         SelectedType = type;
+        currentCharacter.gameObject.SetActive(true);
     }
     public void ReloadCharacter()
     {
@@ -58,7 +66,8 @@ public class PlayerSelection : MonoBehaviour
                 Destroy(currentCharacter);
             }
 
-            currentCharacter = Instantiate(Resources.Load<GameObject>($"Player {characterIndex}"), Vector3.zero, Quaternion.identity);
+            currentCharacter = Instantiate(SelectedCharacter[characterIndex - 1], Vector3.zero, Quaternion.identity);
+            currentCharacter.gameObject.SetActive(true);
         }
         else
         {

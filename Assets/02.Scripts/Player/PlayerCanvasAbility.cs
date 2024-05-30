@@ -34,11 +34,12 @@ public class PlayerCanvasAbility : PlayerAbility
 
     public void ShowMyNickname()
     {
-        if (photonView.IsMine)
+        NicknameTextUI.text = PhotonNetwork.NickName;
+/*        if (photonView.IsMine)
         {
             string nickname = PlayerPrefs.GetString("LoggedInId");
             photonView.RPC("SetNickname", RpcTarget.AllBuffered, nickname);
-        }
+        }*/
     }
 
     [PunRPC]

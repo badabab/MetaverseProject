@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
+    string _nickname = PlayerPrefs.GetString("LoggedInId");
     private void Start()
     {
         PhotonNetwork.GameVersion = "0.0.1";
-        PhotonNetwork.NickName = $"Player_{UnityEngine.Random.Range(0, 100)}";
+        PhotonNetwork.NickName = _nickname;
 
         //PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();

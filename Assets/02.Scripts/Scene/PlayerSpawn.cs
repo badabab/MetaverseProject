@@ -40,7 +40,7 @@ public class PlayerSpawn : MonoBehaviourPunCallbacks
                 PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
                 string nickname = PlayerPrefs.GetString("LoggedInId");
                 Debug.Log($"{nickname}");
-                PlayerCanvasAbility.Instance.SetNickname(nickname);
+                PlayerCanvasAbility.Instance.SetNickname();
                 PlayerCanvasAbility.Instance.ShowMyNickname();
             }
             if (UI_Lobby.SelectedType == PlayerType.Male)
@@ -48,7 +48,7 @@ public class PlayerSpawn : MonoBehaviourPunCallbacks
                 PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
                 string nickname = PlayerPrefs.GetString("LoggedInId");
                 Debug.Log($"{nickname}");
-                PlayerCanvasAbility.Instance.SetNickname(nickname);
+                PlayerCanvasAbility.Instance.SetNickname();
                 PlayerCanvasAbility.Instance.ShowMyNickname();
             }
         }

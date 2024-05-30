@@ -136,7 +136,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
     private System.Collections.IEnumerator EndGame()
     {
         yield return new WaitForSeconds(10);
-        SceneManager.LoadScene("FallGuysWinScene");
+        // SceneManager.LoadScene("FallGuysWinScene");
     }
 
     private void OnTriggerEnter(Collider other)

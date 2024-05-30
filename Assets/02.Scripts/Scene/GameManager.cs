@@ -1,9 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    public event Action<string, int> OnCoinsAdded;// 임시코드(이윤석)
 
     private Dictionary<string, Personal> playerData = new Dictionary<string, Personal>();
 
@@ -42,6 +45,8 @@ public class GameManager : MonoBehaviour
         {
             playerData[winnerId].Coins += coinsToAdd;
             Debug.Log($"Added {coinsToAdd} coins to {playerData[winnerId].Name}. Total Coins: {playerData[winnerId].Coins}");
+
+            OnCoinsAdded?.Invoke(winnerId, playerData[winnerId].Coins);// 임시코드(이윤석)
         }
         else
         {

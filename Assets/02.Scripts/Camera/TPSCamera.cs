@@ -1,4 +1,4 @@
-using Photon.Pun; // Photon 관련 네임스페이스 추가
+using Photon.Pun;
 using UnityEngine;
 
 public class TPSCamera : MonoBehaviour
@@ -13,7 +13,7 @@ public class TPSCamera : MonoBehaviour
 
     private Vector3 offset; // 초기 위치
 
-    public Transform target; // 카메라가 따라다닐 대상 캐릭터의 Transform
+    private Transform target; // 카메라가 따라다닐 대상 캐릭터의 Transform
 
     void Start()
     {
@@ -52,7 +52,15 @@ public class TPSCamera : MonoBehaviour
             // 자신의 캐릭터인지 확인
             if (photonView != null && photonView.IsMine)
             {
-                target = player.transform;
+                Transform cameraRoot = player.transform.Find("CameraRoot");
+                if (cameraRoot != null)
+                {
+                    target = cameraRoot;
+                }
+                else
+                {
+                    Debug.LogError("CameraRoot not found on player: " + player.name);
+                }
                 break;
             }
         }

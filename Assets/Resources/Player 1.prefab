@@ -2674,7 +2674,7 @@ MonoBehaviour:
   GrabDistance: 2.06
   GrabbableLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
 --- !u!114 &6776358234049273545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2691,6 +2691,8 @@ MonoBehaviour:
   RunSpeed: 15
   _IsRunning: 0
   JumpPower: 2.5
+  CameraRoot: {fileID: 0}
+  RotationSpeed: 200
 --- !u!114 &7821488759960917386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2772,11 +2774,31 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 1
     Name: Move
+  - Type: 4
+    SynchronizeType: 0
+    Name: Run
+  - Type: 4
+    SynchronizeType: 0
+    Name: RunJump
+  - Type: 9
+    SynchronizeType: 0
+    Name: Jump
+  - Type: 9
+    SynchronizeType: 0
+    Name: Winning
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
   - SynchronizeType: 1
     LayerIndex: 1
+  - SynchronizeType: 0
+    LayerIndex: 2
+  - SynchronizeType: 0
+    LayerIndex: 3
+  - SynchronizeType: 0
+    LayerIndex: 4
+  - SynchronizeType: 0
+    LayerIndex: 5
 --- !u!114 &3460536510797902584
 MonoBehaviour:
   m_ObjectHideFlags: 0

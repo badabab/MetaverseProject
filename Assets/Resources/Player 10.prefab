@@ -2590,7 +2590,7 @@ MonoBehaviour:
   GrabDistance: 2.06
   GrabbableLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
 --- !u!114 &6776358234049273545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2607,6 +2607,8 @@ MonoBehaviour:
   RunSpeed: 15
   _IsRunning: 0
   JumpPower: 2.5
+  CameraRoot: {fileID: 0}
+  RotationSpeed: 200
 --- !u!114 &7821488759960917386
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -52,6 +52,7 @@ GameObject:
   - component: {fileID: -2976853651826162246}
   - component: {fileID: 7681407020633741999}
   - component: {fileID: -4180318063941699457}
+  - component: {fileID: 2593414562778067802}
   m_Layer: 0
   m_Name: Player_demo
   m_TagString: Untagged
@@ -187,6 +188,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 5
+  RunSpeed: 15
+  _IsRunning: 0
+  JumpPower: 2.5
+  CameraRoot: {fileID: 0}
+  RotationSpeed: 200
 --- !u!114 &1722086160777887365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,3 +384,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2593414562778067802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7347368013750646038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29f4ac00201e2ad4ebef13d0406a027e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hand: {fileID: 0}
+  Animator: {fileID: 0}
+  GrabDistance: 2
+  GrabbableLayer:
+    serializedVersion: 2
+    m_Bits: 0

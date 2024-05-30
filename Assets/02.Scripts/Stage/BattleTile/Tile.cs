@@ -21,8 +21,8 @@ public class Tile : MonoBehaviourPun
             _player = other.GetComponent<BattleTilePlayer>();
             if (_renderer.material != Materials[_player.MyNum])
             {
-                _renderer.material = Materials[_player.MyNum];      // 테스트용
-                //photonView.RPC("ChangeMaterial", RpcTarget.AllBuffered, _player.MyNum);   // 포톤
+                //_renderer.material = Materials[_player.MyNum];      // 테스트용
+                photonView.RPC("ChangeMaterial", RpcTarget.AllBuffered, _player.MyNum);   // 포톤
             }
         }
     }

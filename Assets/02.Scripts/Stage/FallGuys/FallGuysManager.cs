@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -15,7 +16,9 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
     public static FallGuysManager Instance { get; private set; }
 
     private int _countDown = 3;
-
+    private bool isCountingDown = false;
+    private bool isGameOver = false;
+    private bool isFirstPlayerDetected = false;
     public GameState _currentGameState = GameState.Ready;
 
     public Collider[] ColliderList;
@@ -54,7 +57,10 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
                 break;
 
             case GameState.Over:
-                // 게임 오버 상태일 때의 로직을 추가하세요.
+                if (!isGameOver)
+                {
+                    isGameOver = true;
+                }
                 break;
         }
     }
@@ -65,7 +71,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
     }
     void ReadyPlayer()
     {
-        if (photonView.IsMine && Input.GetKeyDown(KeyCode.Escape))
+        if (photonView.IsMine && Input.GetKeyDown(KeyCode.R))
         {
             ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
             {
@@ -127,9 +133,29 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
         }
         SetGameState(GameState.Go);
     }
+    private System.Collections.IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(10);
+        SceneManager.LoadScene("FallGuysWinScene");
+    }
 
-    
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if (_currentGameState == GameState.Go && !isFirstPlayerDetected)
+        {
+            if (other.CompareTag("Player"))
+            {
+                PhotonView playerPhotonView = other.GetComponentInParent<PhotonView>();
+                if (playerPhotonView != null)
+                {
+                    isFirstPlayerDetected = true;
+                    SetGameState(GameState.Over);
+                    Debug.Log($"{playerPhotonView.Owner.NickName} reached the end first!");
+                    StartCoroutine(EndGame());
+                }
+            }
+        }
+    }
 
     // 모든 플레이어가 준비되면 랜덤 시작위치 4군데로 랜덤이동
     // -> 시작위치(4군데) 설정 아직 안함

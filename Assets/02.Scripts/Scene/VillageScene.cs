@@ -45,14 +45,12 @@ public class VillageScene : MonoBehaviourPunCallbacks
             {
                 PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
                 string nickname = PlayerPrefs.GetString("LoggedInId");
-                PlayerCanvasAbility.Instance.SetNickname();
                 PlayerCanvasAbility.Instance.ShowMyNickname();
             }
             if (UI_Lobby.SelectedType == PlayerType.Male)
             {
                 PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
                 string nickname = PlayerPrefs.GetString("LoggedInId");
-                PlayerCanvasAbility.Instance.SetNickname();
                 PlayerCanvasAbility.Instance.ShowMyNickname();
             }
         }
@@ -61,7 +59,6 @@ public class VillageScene : MonoBehaviourPunCallbacks
             PhotonNetwork.Instantiate($"Player {characterIndex}", spawnPoint, Quaternion.identity);
             string nickname = PlayerPrefs.GetString("LoggedInId");
             PlayerCanvasAbility.Instance.NicknameTextUI.text = nickname;
-            PlayerCanvasAbility.Instance.SetNickname();
             PlayerCanvasAbility.Instance.ShowMyNickname();
         }
     }

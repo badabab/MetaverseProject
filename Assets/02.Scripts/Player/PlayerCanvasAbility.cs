@@ -39,6 +39,7 @@ public class PlayerCanvasAbility : PlayerAbility
         {
             string nickname = PlayerPrefs.GetString("LoggedInId");
             photonView.RPC("SetNickname", RpcTarget.AllBuffered, nickname);
+            Debug.Log(nickname);
         }
     }
 
@@ -46,5 +47,6 @@ public class PlayerCanvasAbility : PlayerAbility
     public void SetNickname()
     {
         NicknameTextUI.text = PhotonNetwork.NickName;
+        Debug.Log($"{PhotonNetwork.NickName}");
     }
 }

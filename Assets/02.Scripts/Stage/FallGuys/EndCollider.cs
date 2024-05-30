@@ -1,7 +1,9 @@
 using Photon.Pun;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class EndCollider : MonoBehaviourPunCallbacks
 {
@@ -9,6 +11,10 @@ public class EndCollider : MonoBehaviourPunCallbacks
     private CharacterController _characterController;
     private bool isFirstPlayerDetected = false;
     private string firstPlayerId;
+
+    private Dictionary<string, int> _player = new Dictionary<string, int>();
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -37,18 +43,20 @@ public class EndCollider : MonoBehaviourPunCallbacks
                     isFirstPlayerDetected = true;
                     firstPlayerId = playerPhotonView.Owner.UserId;
                     Debug.Log($"{playerPhotonView.Owner.NickName} reached the end first!");
-                    photonView.RPC("AnnounceWinner", RpcTarget.All, playerPhotonView.Owner.NickName, playerPhotonView.Owner.UserId);
-                    Debug.Log(playerPhotonView.Owner.NickName);
-                    Debug.Log(playerPhotonView.Owner.UserId);
+                    Debug.Log("게임 끝");
+                    PersonalManager.Instance.CoinUpdate(playerPhotonView.Owner.NickName);
+/*                    if (playerPhotonView.Owner.IsLocal) 
+                    {
+                        InitScore();
+                    }*/
                 }
-                Debug.Log("게임 끝");
             }
         }
     }
-    [PunRPC]
-    void AnnounceWinner(string winnerName, string winnerId)
+    public void InitScore()
     {
-        Debug.Log($"{winnerName} is the winner!");
-        PlayerPrefs.SetString("WinnerId", winnerId);
+        Hashtable hashtable = new Hashtable();
+        hashtable.Add("CharacterIndex", 100);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
     }
 }

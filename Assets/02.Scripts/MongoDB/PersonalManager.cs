@@ -1,3 +1,4 @@
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using UnityEngine;
@@ -90,5 +91,12 @@ public class PersonalManager : MonoBehaviour
         }
         else
         { return -1; }
+    }
+
+    public void CoinUpdate(string name)
+    {
+        var filter = Builders<Personal>.Filter.Eq(p => p.Name, name);
+        var update = Builders<Personal>.Update.Set(p => p.Coins, 100);
+        var result = _personalCollection.UpdateOne(filter, update);
     }
 }

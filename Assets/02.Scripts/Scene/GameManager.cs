@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
             };
         }
     }
+
+
     // 승리 시 코인 추가
     public void AddCoinsToWinner(string winnerId, int coinsToAdd)
     {

@@ -2,7 +2,7 @@ using Photon.Pun;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 public enum GameState
 {
     Ready,
@@ -60,8 +60,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
                 if (!isGameOver)
                 {
                     isGameOver = true;
-                    PlayerPrefs.GetString("WinnerId", firstPlayerId);
-                    StartCoroutine(ShowVictoryAndLoadScene(firstPlayerId));
+                    StartCoroutine(ShowVictoryAndLoadScene(PhotonNetwork.LocalPlayer.NickName));
                 }
                 break;
         }
@@ -158,20 +157,22 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
 
     private System.Collections.IEnumerator ShowVictoryAndLoadScene(string winnerId)
     {
-        GameObject winner = PhotonNetwork.PlayerList.FirstOrDefault(p => p.UserId == winnerId).TagObject as GameObject;
-        if (winner != null)
-        {
-            GameManager.Instance.AddCoinsToWinner(winnerId, 100);
-            Animator animator = winner.GetComponent<Animator>();
-            if (animator != null)
+
+/*            GameObject winner = PhotonNetwork.PlayerList.FirstOrDefault(p => p.UserId == winnerId).TagObject as GameObject;
+            if (winner != null)
             {
-                animator.SetTrigger("Winning");
+                GameManager.Instance.AddCoinsToWinner(winnerId, 100);
+                Animator animator = winner.GetComponent<Animator>();
+                if (animator != null)
+                {
+                    animator.SetTrigger("Winning");
+                }
             }
-        }
+        */
         while (_countEnd > 0)
         {
             Debug.Log($"CountDown: {_countEnd}");
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(5);
             _countEnd--;
         }
         SceneManager.LoadScene("VillageScene");

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class BattleTilePlayer : MonoBehaviourPunCallbacks
 {
     private CharacterController _characterController;
-
+    public int MyNum;
     private void Start()
     {
         if (!photonView.IsMine) return;
@@ -16,9 +16,9 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
             return;
         }
 
-        int uniqueNumber = GetUniqueRandomNumber();
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "PlayerNumber", uniqueNumber } });
-        GameObject startpoint = GameObject.Find($"Start{uniqueNumber}");
+        MyNum = GetUniqueRandomNumber();
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "PlayerNumber", MyNum } });
+        GameObject startpoint = GameObject.Find($"Start{MyNum}");
         Teleport(startpoint.transform);
     }
 

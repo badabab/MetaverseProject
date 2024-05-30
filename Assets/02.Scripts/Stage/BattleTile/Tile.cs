@@ -6,8 +6,7 @@ public class Tile : MonoBehaviourPun
     public Material[] Materials;
     private Renderer _renderer;
 
-    // 임시
-    public int PlayerNum = 1;
+    private BattleTilePlayer _player;
 
     private void Start()
     {
@@ -19,11 +18,11 @@ public class Tile : MonoBehaviourPun
     {
         if (other.CompareTag("Player"))
         {
-            if (_renderer.material != Materials[PlayerNum])
+            _player = other.GetComponent<BattleTilePlayer>();
+            if (_renderer.material != Materials[_player.MyNum])
             {
-                // 위에 꺼는 테스트, 포톤으로 바꾸면 아래 코드
-                _renderer.material = Materials[PlayerNum];
-                //photonView.RPC("ChangeMaterial", RpcTarget.AllBuffered, PlayerNum);
+                _renderer.material = Materials[_player.MyNum];      // 테스트용
+                //photonView.RPC("ChangeMaterial", RpcTarget.AllBuffered, _player.MyNum);   // 포톤
             }
         }
     }

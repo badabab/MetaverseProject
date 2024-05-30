@@ -32,7 +32,7 @@ public class UI_Loading : MonoBehaviour
         LoadingTime -= Time.deltaTime;
 
 
-        _character.transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
+        _character.transform.Rotate(0, -rotationSpeed * Time.deltaTime, 0);
 
         if (LoadingTime <= 0)
         {

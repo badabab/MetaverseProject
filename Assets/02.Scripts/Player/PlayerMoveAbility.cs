@@ -42,10 +42,10 @@ public class PlayerMoveAbility : PlayerAbility
 
     private void HandleMovement()
     {
-        if (isFallGuysScene && FallGuysManager.Instance._currentGameState == GameState.Loading)
+/*        if (isFallGuysScene && FallGuysManager.Instance._currentGameState == GameState.Loading)
         {
             return; // 로딩 중일 때 입력을 무시합니다.
-        }
+        }*/
 
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
@@ -87,6 +87,7 @@ public class PlayerMoveAbility : PlayerAbility
 
         if (isFallGuysScene)
         {
+            _currentSpeed = RunSpeed;
             if (_animator.GetFloat("Move") >= 1)
             {
                 _IsRunning = true;

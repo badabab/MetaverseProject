@@ -46,6 +46,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
 
 
             case GameState.Loading:
+                // PlayerReadySpawner();
                 StartCoroutine(StartCountDown());
                 ColliderState();
                 break;

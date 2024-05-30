@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class SpinObject : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Transform platformTransform;
+
+    private void Start()
     {
-        
+        platformTransform = GetComponent<Transform>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionEnter(Collision other)
     {
-        
+        if (other.gameObject.CompareTag("Player"))
+        {
+            other.transform.SetParent(platformTransform);
+        }
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            other.transform.SetParent(null);
+        }
     }
 }

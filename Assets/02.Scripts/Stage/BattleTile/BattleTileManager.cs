@@ -1,25 +1,12 @@
 using Photon.Pun;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public enum GameState
+public class BattleTileManager : MonoBehaviourPunCallbacks
 {
-    Ready,
-    Loading,
-    Go,
-    Over,
-}
-
-public class FallGuysManager : MonoBehaviourPunCallbacks
-{
-    public static FallGuysManager Instance { get; private set; }
+    public static BattleTileManager Instance { get; private set; }
 
     private int _countDown = 3;
-    private bool isCountingDown = false;
-    private bool isGameOver = false;
-    private bool isFirstPlayerDetected = false;
-    private string firstPlayerId;
 
     public GameState _currentGameState = GameState.Ready;
 
@@ -59,10 +46,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
                 break;
 
             case GameState.Over:
-                if (!isGameOver)
-                {
-                    isGameOver = true;
-                }
+                // 게임 오버 상태일 때의 로직을 추가하세요.
                 break;
         }
     }
@@ -73,7 +57,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
     }
     void ReadyPlayer()
     {
-        if (photonView.IsMine && Input.GetKeyDown(KeyCode.R))
+        if (photonView.IsMine && Input.GetKeyDown(KeyCode.Escape))
         {
             ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
             {
@@ -135,65 +119,4 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
         }
         SetGameState(GameState.Go);
     }
-    private System.Collections.IEnumerator EndGame()
-    {
-        yield return new WaitForSeconds(10);
-        photonView.RPC("LoadVillageScene", RpcTarget.All);
-    }
-
-    [PunRPC]
-    void LoadVillageScene()
-    {
-        SceneManager.LoadScene("VillageScene");
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (_currentGameState == GameState.Go && !isFirstPlayerDetected)
-        {
-            if (other.CompareTag("Player"))
-            {
-                PhotonView playerPhotonView = other.GetComponentInParent<PhotonView>();
-                if (playerPhotonView != null)
-                {
-                    isFirstPlayerDetected = true;
-                    firstPlayerId = playerPhotonView.Owner.UserId;
-                    SetGameState(GameState.Over);
-                    Debug.Log($"{playerPhotonView.Owner.NickName} reached the end first!");
-                    photonView.RPC("AnnounceWinner", RpcTarget.All, playerPhotonView.Owner.NickName, playerPhotonView.Owner.UserId);
-                }
-            }
-        }
-    }
-
-    [PunRPC]
-    void AnnounceWinner(string winnerName, string winnerId)
-    {
-        Debug.Log($"{winnerName} is the winner!");
-        PlayerPrefs.SetString("WinnerId", winnerId);
-        StartCoroutine(ShowVictoryAndLoadScene(winnerId));
-    }
-
-    private System.Collections.IEnumerator ShowVictoryAndLoadScene(string winnerId)
-    {
-        GameObject winner = PhotonNetwork.PlayerList.FirstOrDefault(p => p.UserId == winnerId).TagObject as GameObject;
-        if (winner != null)
-        {
-            Animator animator = winner.GetComponent<Animator>();
-            if (animator != null)
-            {
-                animator.SetTrigger("Winning");
-            }
-        }
-        yield return new WaitForSeconds(10);
-        SceneManager.LoadScene("VillageScene");
-    }
-
-    // 모든 플레이어가 준비되면 랜덤 시작위치 4군데로 랜덤이동
-    // -> 시작위치(4군데) 설정 아직 안함
-    // 카운트다운 후 게임 시작
-    // 플레이어가 End3에 도착하면 GameState.Over
-
-    // 플레이어 하나라도 도착하면 게임 끝낼건지?
-    // 모든 플레이어 들어올때까지 관전모드(?) 같은 거 할 지 정해야 됨
 }

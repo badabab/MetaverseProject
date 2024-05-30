@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TileCounter : MonoBehaviour
+public class TileScore : MonoBehaviour
 {
     public Material Tile_Blue;
     public Material Tile_Green;
@@ -27,6 +27,11 @@ public class TileCounter : MonoBehaviour
 
     void CountTileObjectsUsingMaterials()
     {
+        Player1score = 0;
+        Player2score = 0;
+        Player3score = 0;
+        Player4score = 0;
+
         GameObject[] allObjects = FindObjectsOfType<GameObject>();
 
         foreach (GameObject obj in allObjects)

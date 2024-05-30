@@ -1,11 +1,13 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Information : MonoBehaviour
+public class UI_Information : MonoBehaviourPunCallbacks
 {
-    public Text Nickname;
+    public TMP_Text Nickname;
     public Image X;
     public Image Y;
 
@@ -29,12 +31,10 @@ public class UI_Information : MonoBehaviour
         }
     }
 
-    private void SetNickname()
+    [PunRPC]
+    public void SetNickname()
     {
-        string loggedInUsername = PlayerPrefs.GetString("LoggedInUser", "");
-        if (!string.IsNullOrEmpty(loggedInUsername))
-        {
-            Nickname.text = loggedInUsername;
-        }
+        Nickname.text = PhotonNetwork.NickName;
+        Debug.Log($"{PhotonNetwork.NickName}");
     }
 }

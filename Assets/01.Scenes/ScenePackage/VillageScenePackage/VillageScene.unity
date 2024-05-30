@@ -710,17 +710,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 42692313}
   m_CullTransparentMesh: 0
---- !u!114 &76374452 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7326534170120165422, guid: 2b9b9184b8fdaf94cac6ff6746ebd0fd, type: 3}
-  m_PrefabInstance: {fileID: 2898919175270881108}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &100343878
 GameObject:
   m_ObjectHideFlags: 0
@@ -3031,7 +3020,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ce933967090af943a92654877b86a5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Nickname: {fileID: 76374452}
 --- !u!114 &353023890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3044,7 +3032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7efacbf549ad84f488997998493d339b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Nickname: {fileID: 76374452}
+  Nickname: {fileID: 1303652119}
   X: {fileID: 2898919175270881109}
   Y: {fileID: 2898919175270881110}
 --- !u!1 &358166421
@@ -14530,6 +14518,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1302638873}
   m_CullTransparentMesh: 1
+--- !u!114 &1303652119 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7554593393579682662, guid: 2b9b9184b8fdaf94cac6ff6746ebd0fd, type: 3}
+  m_PrefabInstance: {fileID: 2898919175270881108}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1310957151
 PrefabInstance:
   m_ObjectHideFlags: 0

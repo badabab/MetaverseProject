@@ -19,6 +19,8 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
     private bool isCountingDown = false;
     private bool isGameOver = false;
     private bool isFirstPlayerDetected = false;
+    private string firstPlayerId;
+
     public GameState _currentGameState = GameState.Ready;
 
     public Collider[] ColliderList;
@@ -136,7 +138,13 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
     private System.Collections.IEnumerator EndGame()
     {
         yield return new WaitForSeconds(10);
-        // SceneManager.LoadScene("FallGuysWinScene");
+        photonView.RPC("LoadVillageScene", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void LoadVillageScene()
+    {
+        SceneManager.LoadScene("VillageScene");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -149,12 +157,36 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
                 if (playerPhotonView != null)
                 {
                     isFirstPlayerDetected = true;
+                    firstPlayerId = playerPhotonView.Owner.UserId;
                     SetGameState(GameState.Over);
                     Debug.Log($"{playerPhotonView.Owner.NickName} reached the end first!");
-                    StartCoroutine(EndGame());
+                    photonView.RPC("AnnounceWinner", RpcTarget.All, playerPhotonView.Owner.NickName, playerPhotonView.Owner.UserId);
                 }
             }
         }
+    }
+
+    [PunRPC]
+    void AnnounceWinner(string winnerName, string winnerId)
+    {
+        Debug.Log($"{winnerName} is the winner!");
+        PlayerPrefs.SetString("WinnerId", winnerId);
+        StartCoroutine(ShowVictoryAndLoadScene(winnerId));
+    }
+
+    private System.Collections.IEnumerator ShowVictoryAndLoadScene(string winnerId)
+    {
+        GameObject winner = PhotonNetwork.PlayerList.FirstOrDefault(p => p.UserId == winnerId).TagObject as GameObject;
+        if (winner != null)
+        {
+            Animator animator = winner.GetComponent<Animator>();
+            if (animator != null)
+            {
+                animator.SetTrigger("Winning");
+            }
+        }
+        yield return new WaitForSeconds(10);
+        SceneManager.LoadScene("VillageScene");
     }
 
     // 모든 플레이어가 준비되면 랜덤 시작위치 4군데로 랜덤이동

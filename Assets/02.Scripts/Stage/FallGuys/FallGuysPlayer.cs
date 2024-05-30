@@ -25,18 +25,24 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (photonView.IsMine && Input.GetKeyDown(KeyCode.R))
-        {
-            Debug.Log($"{photonView.name}: ready {_isReady}");
-            SetReady(!_isReady);
-        }
+        ReadyPlayer();
     }
 
-    public void SetReady(bool ready)
+    void ReadyPlayer()
     {
-        _isReady = ready;
-        Hashtable props = new Hashtable { { "IsReady", _isReady} };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        if (photonView.IsMine && Input.GetKeyDown(KeyCode.R))
+        {
+            _isReady = !_isReady; // 레디 상태 토글
+            Hashtable props = new Hashtable { { "IsReady", _isReady } };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+            Debug.Log("레디 버튼 누름: " + _isReady);
+
+            // 상태 업데이트를 위해 AreAllPlayersReady를 호출합니다.
+            if (PhotonNetwork.PlayerList.Length == 1 || FallGuysManager.Instance.AreAllPlayersReady())
+            {
+                FallGuysManager.Instance.SetGameState(GameState.Loading);
+            }
+        }
     }
 
     [PunRPC]

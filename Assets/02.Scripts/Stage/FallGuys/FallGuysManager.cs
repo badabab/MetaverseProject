@@ -38,20 +38,16 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
         switch (_currentGameState)
         {
             case GameState.Ready:
-                ReadyPlayer();
-                if (AreAllPlayersReady())
+                if (PhotonNetwork.PlayerList.Length == 1 || AreAllPlayersReady()) // 플레이어가 한 명이거나 모든 플레이어가 레디인 경우
                 {
                     SetGameState(GameState.Loading);
                 }
                 break;
 
+
             case GameState.Loading:
                 StartCoroutine(StartCountDown());
-                for (int i = 0; ColliderList.Length < i; i++)
-                {
-                    Collider col = ColliderList[i];
-                    col.gameObject.SetActive(false);
-                }
+                ColliderState();
                 break;
 
             case GameState.Go:
@@ -66,27 +62,30 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
                 break;
         }
     }
-    void SetGameState(GameState newState)
+    public void SetGameState(GameState newState)
     {
         _currentGameState = newState;
         Debug.Log($"Game state changed to: {_currentGameState}");
     }
-    void ReadyPlayer()
+    void ColliderState()
     {
-        if (photonView.IsMine && Input.GetKeyDown(KeyCode.R))
+        if (_currentGameState == GameState.Ready)
         {
-            ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
+            return;
+        }
+        else
+        {
+            foreach (Collider col in ColliderList) 
             {
-                { "IsReady", true }
-            };
-            Debug.Log("레디 버튼 누름");
-            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+                col.isTrigger = true;
+                col.gameObject.SetActive(false);
+            }
         }
     }
-    bool AreAllPlayersReady()
+    public bool AreAllPlayersReady()
     {
-        Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray(); // PlayerList를 배열로 복제
-
+        Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray();
+        Debug.Log("Player count: " + players.Length);
         foreach (Photon.Realtime.Player player in players)
         {
             object isReadyObj;
@@ -94,8 +93,14 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
             {
                 if (!(bool)isReadyObj)
                 {
+                    Debug.Log("플레이어가 준비되지 않았습니다: " + player.NickName);
                     return false; // 준비되지 않은 플레이어가 있음
                 }
+            }
+            else
+            {
+                Debug.Log("플레이어 준비 상태가 없습니다: " + player.NickName);
+                return false; // 준비 상태 정보가 없음
             }
         }
         Debug.Log("플레이어 모두 레디");

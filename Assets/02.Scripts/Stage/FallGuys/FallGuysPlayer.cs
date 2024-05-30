@@ -65,7 +65,7 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
         }
     }
 
-    public void Teleport(Vector3 position)
+    private void Teleport(Vector3 position)
     {
         _characterController.enabled = false;
         transform.position = position;

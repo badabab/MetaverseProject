@@ -69,9 +69,7 @@ public class PlayerMoveAbility : PlayerAbility
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            _isJumping = true;
-            _yVelocity = JumpPower;
-            dir.y = _yVelocity;
+            
             if (_IsRunning == true)
             {
                 _animator.SetBool("RunJump", true);
@@ -80,8 +78,8 @@ public class PlayerMoveAbility : PlayerAbility
             {
                 _animator.SetTrigger("Jump");
             }
+            dir.y = _yVelocity;
 
-            
         }
 
         if (Input.GetKeyDown(KeyCode.T))
@@ -124,5 +122,12 @@ public class PlayerMoveAbility : PlayerAbility
             _characterController.Move(_animator.deltaPosition);
             transform.rotation = _animator.rootRotation;
         }
+    }
+
+    public void Jump()
+    {
+        _isJumping = true;
+        _yVelocity = JumpPower;
+        
     }
 }

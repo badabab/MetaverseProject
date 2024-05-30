@@ -18,7 +18,6 @@ public class PlayerMoveAbility : PlayerAbility
 
     public float JumpPower = 2.5f;
     private bool _isJumping = false;
-    private bool _jumpTriggered = false; // 점프 애니메이션이 트리거되었는지 확인
 
     private bool isFallGuysScene = false; // FallGuysScene 여부 확인
 
@@ -59,7 +58,6 @@ public class PlayerMoveAbility : PlayerAbility
         if (_characterController.isGrounded)
         {
             _isJumping = false;
-            _jumpTriggered = false;
             _yVelocity = 0;
         }
 
@@ -71,8 +69,15 @@ public class PlayerMoveAbility : PlayerAbility
 
         if (Input.GetKeyDown(KeyCode.Space) && _characterController.isGrounded)
         {
-            _animator.SetTrigger("Jump");
-            _jumpTriggered = true;
+            Jump();
+            if (_IsRunning)
+            {
+                _animator.SetBool("RunJump", true);
+            }
+            else
+            {
+                _animator.SetTrigger("Jump");
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.T))
@@ -124,12 +129,9 @@ public class PlayerMoveAbility : PlayerAbility
         }
     }
 
-    public void PerformJump()
+    public void Jump()
     {
-        if (_jumpTriggered)
-        {
-            _isJumping = true;
-            _yVelocity = JumpPower;
-        }
+        _isJumping = true;
+        _yVelocity = JumpPower;
     }
 }

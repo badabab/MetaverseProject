@@ -42,10 +42,10 @@ public class PlayerMoveAbility : PlayerAbility
 
     private void HandleMovement()
     {
-        if (FallGuysManager.Instance._currentGameState == GameState.Loading)
+/*        if (FallGuysManager.Instance._currentGameState == GameState.Loading)
         {
             return; // 로딩 중일 때 입력을 무시합니다.
-        }
+        }*/
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 

@@ -128,6 +128,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
         SetGameState(GameState.Go);
     }
 
+    
 
 
     // 모든 플레이어가 준비되면 랜덤 시작위치 4군데로 랜덤이동

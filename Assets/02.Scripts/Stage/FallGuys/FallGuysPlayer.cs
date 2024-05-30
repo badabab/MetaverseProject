@@ -38,10 +38,10 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
             Debug.Log("레디 버튼 누름: " + _isReady);
 
             // 상태 업데이트를 위해 AreAllPlayersReady를 호출합니다.
-            if (PhotonNetwork.PlayerList.Length == 1 || FallGuysManager.Instance.AreAllPlayersReady())
+/*            if (PhotonNetwork.PlayerList.Length == 1 || FallGuysManager.Instance.AreAllPlayersReady())
             {
                 FallGuysManager.Instance.SetGameState(GameState.Loading);
-            }
+            }*/
         }
     }
 

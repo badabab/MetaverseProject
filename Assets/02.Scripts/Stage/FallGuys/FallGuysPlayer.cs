@@ -9,6 +9,12 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
     private Vector3 _currentCheckpoint;
     private CharacterController _characterController;
 
+    private GameObject _testPosition;
+
+    private void Awake()
+    {
+        _testPosition = GameObject.Find("End3");
+    }
     private void Start()
     {
         if (!photonView.IsMine) return;
@@ -19,7 +25,8 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
             return;
         }
 
-        _currentCheckpoint = new Vector3(500, 2, 80); // Start1 위치
+        _currentCheckpoint = _testPosition.transform.position;
+        // _currentCheckpoint = new Vector3(500, 2, 80); // Start1 위치
         Teleport(_currentCheckpoint);
     }
 

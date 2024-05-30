@@ -7,7 +7,8 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
     public static BattleTileManager Instance { get; private set; }
 
     private int _countDown = 3;
-    private int _gameDuration = 120; // 2분 = 120초
+    private float _gameDuration = 120f; // 2분 = 120초
+    public float TimeRemaining;
 
     public GameState _currentGameState = GameState.Ready;
 
@@ -28,11 +29,11 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
                 break;
 
             case GameState.Loading:
-                StartCoroutine(StartCountDown());
+                StartCountDown();
                 break;
 
             case GameState.Go:
-                // 게임이 진행 중일 때의 로직을 추가하세요.
+                UpdateGameTimer();
                 break;
 
             case GameState.Over:
@@ -48,7 +49,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
 
         if (_currentGameState == GameState.Go)
         {
-            StartCoroutine(GameTimer());
+            TimeRemaining = (int)_gameDuration; // 게임 시작 시 타이머 초기화
         }
     }
 
@@ -71,26 +72,32 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
         return true; // 모든 플레이어가 준비됨
     }
 
-    private System.Collections.IEnumerator StartCountDown()
+    void StartCountDown()
     {
-        while (_countDown > 0)
+        _countDown--;
+        Debug.Log($"CountDown: {_countDown}");
+        if (_countDown <= 0)
         {
-            Debug.Log($"CountDown: {_countDown}");
-            yield return new WaitForSeconds(1);
-            _countDown--;
+            SetGameState(GameState.Go);
         }
-        SetGameState(GameState.Go);
+        else
+        {
+            Invoke("StartCountDown", 1f);
+        }
     }
 
-    private System.Collections.IEnumerator GameTimer()
+    void UpdateGameTimer()
     {
-        int timeRemaining = _gameDuration;
-        while (timeRemaining > 0)
+        if (TimeRemaining > 0)
         {
-            //Debug.Log($"Game Time Remaining: {timeRemaining} seconds");
-            yield return new WaitForSeconds(1);
-            timeRemaining--;
+            TimeRemaining -= Time.deltaTime;
+            //Debug.Log($"Game Time Remaining: {TimeRemaining} seconds");
+
+            if (TimeRemaining <= 0)
+            {
+                TimeRemaining = 0;
+                SetGameState(GameState.Over);
+            }
         }
-        SetGameState(GameState.Over);
     }
 }

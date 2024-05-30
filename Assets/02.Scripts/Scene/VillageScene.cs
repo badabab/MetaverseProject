@@ -44,24 +44,24 @@ public class VillageScene : MonoBehaviourPunCallbacks
             if (UI_Lobby.SelectedType == PlayerType.Female)
             {
                 PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
-/*                string nickname = PlayerPrefs.GetString("LoggedInId");
-                PlayerCanvasAbility.Instance.SetNickname(nickname);*/
+                string nickname = PlayerPrefs.GetString("LoggedInId");
+                PlayerCanvasAbility.Instance.SetNickname();
                 PlayerCanvasAbility.Instance.ShowMyNickname();
             }
             if (UI_Lobby.SelectedType == PlayerType.Male)
             {
                 PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
-/*                string nickname = PlayerPrefs.GetString("LoggedInId");
-                PlayerCanvasAbility.Instance.SetNickname(nickname);*/
+                string nickname = PlayerPrefs.GetString("LoggedInId");
+                PlayerCanvasAbility.Instance.SetNickname();
                 PlayerCanvasAbility.Instance.ShowMyNickname();
             }
         }
         else
         {
             PhotonNetwork.Instantiate($"Player {characterIndex}", spawnPoint, Quaternion.identity);
-/*            string nickname = PlayerPrefs.GetString("LoggedInId");
+            string nickname = PlayerPrefs.GetString("LoggedInId");
             PlayerCanvasAbility.Instance.NicknameTextUI.text = nickname;
-            PlayerCanvasAbility.Instance.SetNickname(nickname);*/
+            PlayerCanvasAbility.Instance.SetNickname();
             PlayerCanvasAbility.Instance.ShowMyNickname();
         }
     }

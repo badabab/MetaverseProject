@@ -1,36 +1,39 @@
+using TMPro;
 using UnityEngine;
 
 public class TileScore : MonoBehaviour
 {
     public Material Tile_Blue;
     public Material Tile_Green;
-    public Material Tile_Red;
-    public Material Tile_Yellow;
+    public Material Tile_Pink;
+    public Material Tile_Violet;
 
-    public int Player1score;
-    public int Player2score;
-    public int Player3score;
-    public int Player4score;
+    public TextMeshProUGUI P1_Score;
+    public TextMeshProUGUI P2_Score;
+    public TextMeshProUGUI P3_Score;
+    public TextMeshProUGUI P4_Score;
+
+    private int _player1score;
+    private int _player2score;
+    private int _player3score;
+    private int _player4score;
 
     void Update()
     {
         CountTileObjectsUsingMaterials();
-        
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Debug.Log($"P1_B: {Player1score}");
-            Debug.Log($"P2_G: {Player2score}");
-            Debug.Log($"P3_R: {Player3score}");
-            Debug.Log($"P4_Y: {Player4score}");
-        }
+
+        P1_Score.text = $"{_player1score}";
+        P2_Score.text = $"{_player2score}";
+        P3_Score.text = $"{_player3score}";
+        P4_Score.text = $"{_player4score}";
     }
 
     void CountTileObjectsUsingMaterials()
     {
-        Player1score = 0;
-        Player2score = 0;
-        Player3score = 0;
-        Player4score = 0;
+        _player1score = 0;
+        _player2score = 0;
+        _player3score = 0;
+        _player4score = 0;
 
         GameObject[] allObjects = FindObjectsOfType<GameObject>();
 
@@ -45,22 +48,22 @@ public class TileScore : MonoBehaviour
                     {
                         if (mat == Tile_Blue)
                         {
-                            Player1score++;
+                            _player1score++;
                             break;
                         }
                         else if (mat == Tile_Green)
                         {
-                            Player2score++;
+                            _player2score++;
                             break;
                         }
-                        else if (mat == Tile_Red)
+                        else if (mat == Tile_Pink)
                         {
-                            Player3score++;
+                            _player3score++;
                             break;
                         }
-                        else if (mat == Tile_Yellow)
+                        else if (mat == Tile_Violet)
                         {
-                            Player4score++;
+                            _player4score++;
                             break;
                         }
                     }

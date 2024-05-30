@@ -10,6 +10,8 @@ public class InformationManager : MonoBehaviour
 
     private bool isInformationAtInitialPosition = true;
     private bool isMapAtInitialPosition = true;
+    private bool isInformationMoving = false;
+    private bool isMapMoving = false;
     private Vector3 informationInitialPosition;
     private Vector3 informationTargetPosition;
     private Vector3 mapInitialPosition;
@@ -28,21 +30,19 @@ public class InformationManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1) && !isInformationMoving)
         {
-            StopAllCoroutines();
-            StartCoroutine(MoveUI(Information.GetComponent<RectTransform>(), isInformationAtInitialPosition ? informationTargetPosition : informationInitialPosition));
+            StartCoroutine(MoveUI(Information.GetComponent<RectTransform>(), isInformationAtInitialPosition ? informationTargetPosition : informationInitialPosition, () => isInformationMoving = false));
             isInformationAtInitialPosition = !isInformationAtInitialPosition;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha2) && !isMapMoving)
         {
-            StopAllCoroutines();
-            StartCoroutine(MoveUI(Map.GetComponent<RectTransform>(), isMapAtInitialPosition ? mapTargetPosition : mapInitialPosition));
+            StartCoroutine(MoveUI(Map.GetComponent<RectTransform>(), isMapAtInitialPosition ? mapTargetPosition : mapInitialPosition, () => isMapMoving = false));
             isMapAtInitialPosition = !isMapAtInitialPosition;
         }
     }
 
-    IEnumerator MoveUI(RectTransform rectTransform, Vector3 targetPosition)
+    IEnumerator MoveUI(RectTransform rectTransform, Vector3 targetPosition, System.Action onComplete)
     {
         float elapsedTime = 0;
         float duration = 0.5f;
@@ -56,5 +56,6 @@ public class InformationManager : MonoBehaviour
         }
 
         rectTransform.localPosition = targetPosition;
+        onComplete();
     }
 }

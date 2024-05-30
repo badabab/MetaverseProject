@@ -43,8 +43,7 @@ public class UI_Loading : MonoBehaviour
     void ShowCharacter()
     {
         PhotonView photonView = GetComponentInParent<PhotonView>();
-        if (photonView.IsMine)
-        {
+
             // PingPong 함수 사용하여 부드러운 Y 위치 변경
             float newY = Mathf.PingPong(Time.time * speed, maxY - minY) + minY;
             // LoadingImage의 위치를 새로운 Y 값으로 설정
@@ -65,6 +64,6 @@ public class UI_Loading : MonoBehaviour
             }
 
             _character.gameObject.SetActive(true);
-        }
+        
     }
 }

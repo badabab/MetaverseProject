@@ -184,6 +184,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
         GameObject winner = PhotonNetwork.PlayerList.FirstOrDefault(p => p.UserId == winnerId).TagObject as GameObject;
         if (winner != null)
         {
+            GameManager.Instance.AddCoinsToWinner(winnerId, 100);
             Animator animator = winner.GetComponent<Animator>();
             if (animator != null)
             {

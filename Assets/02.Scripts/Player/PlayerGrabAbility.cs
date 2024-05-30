@@ -45,7 +45,7 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
 
     void TryGrab()
     {
-        Debug.Log("Hand position: " + Hand.position);
+       // Debug.Log("Hand position: " + Hand.position);
         Collider[] hitColliders = Physics.OverlapSphere(Hand.position, GrabDistance, GrabbableLayer);
         Debug.Log("Number of colliders found: " + hitColliders.Length);
 

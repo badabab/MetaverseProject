@@ -6,7 +6,7 @@ public class PlayerMoveAbility : PlayerAbility
 {
     private float _currentSpeed;
     public float MoveSpeed = 5f;
-    public float RunSpeed = 15;
+    public float RunSpeed = 15f;
 
     public bool _IsRunning;
 

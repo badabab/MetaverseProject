@@ -13,7 +13,7 @@ public class TPSCamera : MonoBehaviour
 
     private Vector3 offset; // 초기 위치
 
-    private Transform target; // 카메라가 따라다닐 대상 캐릭터의 Transform
+    public Transform target; // 카메라가 따라다닐 대상 캐릭터의 Transform
 
     void Start()
     {

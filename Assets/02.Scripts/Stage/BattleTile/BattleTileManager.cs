@@ -1,103 +1,67 @@
 using Photon.Pun;
-using System.Linq;
+using System.Collections;
 using UnityEngine;
 
 public class BattleTileManager : MonoBehaviourPunCallbacks
 {
-    public static BattleTileManager Instance { get; private set; }
+    public static BattleTileManager Instance {  get; private set; }
 
-    private int _countDown = 3;
-    private float _gameDuration = 120f; // 2분 = 120초
-    public float TimeRemaining;
+    public enum GameState { Ready, Go, Over }
+    public GameState CurrentState = GameState.Ready;
 
-    public GameState _currentGameState = GameState.Ready;
+    private int readyPlayers = 0;
+
+    public int PlayerNumber;
 
     private void Awake()
     {
         Instance = this;
     }
 
-    void Update()
+    void Start()
     {
-        switch (_currentGameState)
+        AssignPlayerNumber();
+    }
+
+    void AssignPlayerNumber()
+    {
+        PlayerNumber = PhotonNetwork.CurrentRoom.PlayerCount;
+        PhotonNetwork.LocalPlayer.CustomProperties["PlayerNumber"] = PlayerNumber;
+    }
+
+    public void PlayerReady()
+    {
+        photonView.RPC("PlayerReadyRPC", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    void PlayerReadyRPC()
+    {
+        readyPlayers++;
+        if (readyPlayers == PhotonNetwork.CurrentRoom.PlayerCount)
         {
-            case GameState.Ready:
-                if (AreAllPlayersReady())
-                {
-                    SetGameState(GameState.Loading);
-                }
-                break;
-
-            case GameState.Loading:
-                StartCountDown();
-                break;
-
-            case GameState.Go:
-                UpdateGameTimer();
-                break;
-
-            case GameState.Over:
-                // 게임 오버 상태일 때의 로직을 추가하세요.
-                break;
+            StartCoroutine(StartGameCountdown());
         }
     }
 
-    void SetGameState(GameState newState)
+    IEnumerator StartGameCountdown()
     {
-        _currentGameState = newState;
-        Debug.Log($"Game state changed to: {_currentGameState}");
-
-        if (_currentGameState == GameState.Go)
-        {
-            TimeRemaining = (int)_gameDuration; // 게임 시작 시 타이머 초기화
-        }
+        yield return new WaitForSeconds(3);
+        CurrentState = GameState.Go;
+        photonView.RPC("ChangeGameStateRPC", RpcTarget.AllBuffered, GameState.Go);
+        StartCoroutine(GameTimer());
     }
 
-    bool AreAllPlayersReady()
+    [PunRPC]
+    void ChangeGameStateRPC(GameState newState)
     {
-        Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray(); // PlayerList를 배열로 복제
-
-        foreach (Photon.Realtime.Player player in players)
-        {
-            object isReadyObj;
-            if (player.CustomProperties.TryGetValue("IsReady", out isReadyObj))
-            {
-                if (!(bool)isReadyObj)
-                {
-                    return false; // 준비되지 않은 플레이어가 있음
-                }
-            }
-        }
-        Debug.Log("플레이어 모두 레디");
-        return true; // 모든 플레이어가 준비됨
+        CurrentState = newState;
     }
 
-    void StartCountDown()
+    IEnumerator GameTimer()
     {
-        _countDown--;
-        Debug.Log($"CountDown: {_countDown}");
-        if (_countDown <= 0)
-        {
-            SetGameState(GameState.Go);
-        }
-        else
-        {
-            Invoke("StartCountDown", 1f);
-        }
-    }
-
-    void UpdateGameTimer()
-    {
-        if (TimeRemaining > 0)
-        {
-            TimeRemaining -= Time.deltaTime;
-            //Debug.Log($"Game Time Remaining: {TimeRemaining} seconds");
-
-            if (TimeRemaining <= 0)
-            {
-                TimeRemaining = 0;
-                SetGameState(GameState.Over);
-            }
-        }
+        yield return new WaitForSeconds(120);
+        CurrentState = GameState.Over;
+        photonView.RPC("ChangeGameStateRPC", RpcTarget.AllBuffered, GameState.Over);
     }
 }

@@ -96,7 +96,17 @@ public class PersonalManager : MonoBehaviour
     public void CoinUpdate(string name)
     {
         var filter = Builders<Personal>.Filter.Eq(p => p.Name, name);
-        var update = Builders<Personal>.Update.Set(p => p.Coins, 100);
-        var result = _personalCollection.UpdateOne(filter, update);
+        var user = _personalCollection.Find(filter).FirstOrDefault();
+
+        if (user != null)
+        {
+            int newCoins = user.Coins + 100; // Add 100 coins
+            var update = Builders<Personal>.Update.Set(p => p.Coins, newCoins);
+            var result = _personalCollection.UpdateOne(filter, update);
+
+            // Save updated coin count to PlayerPrefs
+            PlayerPrefs.SetInt($"{name}_Coins", newCoins);
+            PlayerPrefs.Save();
+        }
     }
 }

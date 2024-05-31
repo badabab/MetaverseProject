@@ -6,44 +6,67 @@ using UnityEngine.UI;
 public class PortKeyMovement : MonoBehaviour
 {
     [SerializeField]
-    public List<GameObject> PortKey;
+    public GameObject PortKey1;
+    public GameObject PortKey2;
+    public GameObject PortKeyPassword;
     public InputField PortKeyPassword_text;
-    public float PortKeySpeed;
-    public int PortKeyPassword = 4885;
-    private int incorrectPasswordAttempts = 0;
 
-    // Start is called before the first frame update
+    private bool isMoving = false; 
+
     void Start()
     {
-        
+        PortKeyPassword.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (isMoving && !Physics.CheckBox(PortKey1.transform.position, PortKey1.transform.localScale / 2, Quaternion.identity))
+        {
+            PortKeyPassword.SetActive(false);
+            isMoving = false; 
+        }
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            PortKeyPassword.SetActive(true);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            PortKeyPassword.SetActive(false);
+        }
     }
 
     public void OnPortKeyPassword()
     {
-        int Password;
-        bool isNumber = int.TryParse(PortKeyPassword_text.text, out Password);
+        if (PortKeyPassword_text.text == "PortKeyPassword")
         {
-            if (isNumber && Password != PortKeyPassword)
+            Collider[] colliders = Physics.OverlapBox(PortKey1.transform.position, PortKey1.transform.localScale / 2, Quaternion.identity);
+
+            foreach (var collider in colliders)
             {
-                incorrectPasswordAttempts++;
-                Debug.Log("패스워드가 틀렸습니다.");
-                if (incorrectPasswordAttempts == 3)
+                if (collider.CompareTag("Player"))
                 {
-                    Debug.Log("관계자가 아니시군요.");
+                    CharacterController characterController = collider.GetComponent<CharacterController>();
+                    if (characterController != null)
+                    {
+                        characterController.enabled = false;
+                        collider.transform.position = PortKey2.transform.position;
+                        characterController.enabled = true;
+                    }
+                    else
+                    {
+                        collider.transform.position = PortKey2.transform.position;
+                    }
                 }
-                else if (incorrectPasswordAttempts == 5)
-                {
-                    Debug.Log("잔꾀부리지 마세요.");
-                }
-                return;
             }
-            incorrectPasswordAttempts = 0;
+
+            isMoving = true; 
         }
     }
 }

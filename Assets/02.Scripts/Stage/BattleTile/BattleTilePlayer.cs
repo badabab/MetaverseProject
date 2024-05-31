@@ -16,31 +16,10 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
             return;
         }
 
-        MyNum = GetUniqueRandomNumber();
+        MyNum = BattleTileManager.Instance.PlayerNumber;
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "PlayerNumber", MyNum } });
         GameObject startpoint = GameObject.Find($"Start{MyNum}");
         Teleport(startpoint.transform);
-    }
-
-    private int GetUniqueRandomNumber()
-    {
-        int randomNum;
-        bool isUnique;
-        do
-        {
-            randomNum = Random.Range(1, 5);
-            isUnique = true;
-            foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
-            {
-                if (player.CustomProperties.ContainsKey("PlayerNumber") && (int)player.CustomProperties["PlayerNumber"] == randomNum)
-                {
-                    isUnique = false;
-                    break;
-                }
-            }
-        } while (!isUnique);
-        Debug.Log(randomNum);
-        return randomNum;
     }
 
     private void Teleport(Transform startpoint)

@@ -17,7 +17,6 @@ public class UI_BattleTile : MonoBehaviour
         P3_Score.text = $"{TileScore.Instance.Player3score}";
         P4_Score.text = $"{TileScore.Instance.Player4score}";
 
-        //Timer.text = $"{(int)BattleTileManager.Instance.TimeRemaining}";
-        Timer.text = "0";
+        Timer.text = $"{(int)BattleTileManager.Instance.TimeRemaining}";
     }
 }

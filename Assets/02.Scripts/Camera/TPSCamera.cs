@@ -1,10 +1,10 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class TPSCamera : MonoBehaviour
+public class TPSCamera : MonoBehaviourPunCallbacks
 {
-    public float distance = 2.0f; // 카메라와 캐릭터 간의 거리
-    public float height = 1.0f; // 카메라의 높이
+    public float distance = 3f; // 카메라와 캐릭터 간의 거리
+    public float height = 2f; // 카메라의 높이
     public float smoothSpeed = 0.125f; // 카메라 이동을 부드럽게 하기 위한 속도
     public float sensitivity = 2.0f; // 카메라 회전 감도
 
@@ -15,7 +15,7 @@ public class TPSCamera : MonoBehaviour
 
     public Transform target; // 카메라가 따라다닐 대상 캐릭터의 Transform
 
-    void Start()
+    private void Start()
     {
         offset = new Vector3(0, height, -distance); // 초기 위치 설정
         Cursor.lockState = CursorLockMode.Locked;
@@ -24,7 +24,19 @@ public class TPSCamera : MonoBehaviour
         FindLocalPlayer();
     }
 
-    void LateUpdate()
+    public override void OnJoinedRoom()
+    {
+        // 방에 들어왔을 때 자신의 캐릭터 다시 찾기
+        FindLocalPlayer();
+    }
+
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    {
+        // 다른 플레이어가 들어왔을 때 자신의 캐릭터 다시 찾기
+        FindLocalPlayer();
+    }
+
+    private void LateUpdate()
     {
         if (target == null) return; // 타겟이 없으면 리턴
 
@@ -39,7 +51,7 @@ public class TPSCamera : MonoBehaviour
         transform.LookAt(target.position); // 캐릭터를 바라보도록 설정
     }
 
-    void FindLocalPlayer()
+    private void FindLocalPlayer()
     {
         // 모든 플레이어 오브젝트를 찾음
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");

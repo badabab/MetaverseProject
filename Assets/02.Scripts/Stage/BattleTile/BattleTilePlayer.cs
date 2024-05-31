@@ -15,8 +15,11 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
             this.enabled = false;
             return;
         }
-
-        MyNum = BattleTileManager.Instance.PlayerNumber;
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("PlayerNumber", out object playerNumber))
+        {
+            MyNum = (int)playerNumber;
+            Debug.Log("My player number is: " + MyNum);
+        }
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "PlayerNumber", MyNum } });
         GameObject startpoint = GameObject.Find($"Start{MyNum}");
         Teleport(startpoint.transform);

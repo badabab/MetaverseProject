@@ -30,10 +30,6 @@ public class Tile : MonoBehaviourPun
     [PunRPC]
     private void ChangeMaterial(int playerNum)
     {
-        if (playerNum >= 0 && playerNum < Materials.Length)
-        {
-            _renderer.material = Materials[playerNum];
-            //Debug.Log("Material이 변경되었습니다: " + Materials[playerNum].name);
-        }
+        _renderer.material = Materials[playerNum];
     }
 }

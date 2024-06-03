@@ -1,9 +1,6 @@
 using Photon.Pun;
-using System.Collections.Generic;
-using System.Linq;
+using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class EndCollider : MonoBehaviourPunCallbacks
 {
@@ -12,9 +9,8 @@ public class EndCollider : MonoBehaviourPunCallbacks
     private bool isFirstPlayerDetected = false;
     private string firstPlayerId;
 
-    private Dictionary<string, int> _player = new Dictionary<string, int>();
 
-
+    public TextMeshProUGUI CountNumber;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -27,6 +23,7 @@ public class EndCollider : MonoBehaviourPunCallbacks
                 _characterController.enabled = false;
                 other.transform.position = Start2.position;
                 _characterController.enabled = true;
+                CountNumber.text = "2";
             }
             else if (gameObject.name == "End2")
             {
@@ -34,6 +31,7 @@ public class EndCollider : MonoBehaviourPunCallbacks
                 _characterController.enabled = false;
                 other.transform.position = Start3.position;
                 _characterController.enabled = true;
+                CountNumber.text = "3";
             }
             else if (gameObject.name == "End3")
             {
@@ -45,18 +43,8 @@ public class EndCollider : MonoBehaviourPunCallbacks
                     Debug.Log($"{playerPhotonView.Owner.NickName} reached the end first!");
                     Debug.Log("게임 끝");
                     PersonalManager.Instance.CoinUpdate(playerPhotonView.Owner.NickName);
-/*                    if (playerPhotonView.Owner.IsLocal) 
-                    {
-                        InitScore();
-                    }*/
                 }
             }
         }
-    }
-    public void InitScore()
-    {
-        Hashtable hashtable = new Hashtable();
-        hashtable.Add("CharacterIndex", 100);
-        PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
     }
 }

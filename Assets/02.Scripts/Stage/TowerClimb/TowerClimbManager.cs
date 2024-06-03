@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
-public enum GameState
+public enum TowerClimbGameState
 {
     Ready,
     Loading,
@@ -11,81 +11,84 @@ public enum GameState
     Over,
 }
 
-public class FallGuysManager : MonoBehaviourPunCallbacks
+public class TowerClimbManager : MonoBehaviour
 {
-    public static FallGuysManager Instance { get; private set; }
+    public static TowerClimbManager Instance { get; private set; }
 
-    private int _countDown = 5;
+    private int _countDown = 3;
     private int _countEnd = 10;
     private bool isCountingDown = false;
     private bool isGameOver = false;
-    private bool isFirstPlayerDetected = false;
-    private string firstPlayerId;
+    public bool isFirstPlayerDetected = false;  // Public으로 변경하여 FinshLine에서 접근 가능하게 함
+    public string firstPlayerId;
 
-    public GameState _currentGameState = GameState.Ready;
+    public TowerClimbGameState _currentGameState = TowerClimbGameState.Ready;
 
     public Collider[] ColliderList;
     public Transform[] spawnPoints;
 
     public Transform EndPosition;
 
+    private PhotonView photonView;
+
     private void Awake()
     {
         Instance = this;
+        photonView = GetComponent<PhotonView>();  // PhotonView 초기화
     }
 
     void Update()
     {
         switch (_currentGameState)
-    
         {
-            case GameState.Ready:
-                if (PhotonNetwork.PlayerList.Length == 1 || AreAllPlayersReady()) // 플레이어가 한 명이거나 모든 플레이어가 레디인 경우
+            case TowerClimbGameState.Ready:
+                if (PhotonNetwork.PlayerList.Length == 1 || AreAllPlayersReady())
                 {
-                    SetGameState(GameState.Loading);
+                    SetGameState(TowerClimbGameState.Loading);
                 }
                 break;
 
-
-            case GameState.Loading:
-                // PlayerReadySpawner();
+            case TowerClimbGameState.Loading:
                 StartCoroutine(StartCountDown());
                 ColliderState();
                 break;
 
-            case GameState.Go:
+            case TowerClimbGameState.Go:
                 // 게임이 진행 중일 때의 로직을 추가하세요.
                 break;
 
-            case GameState.Over:
+            case TowerClimbGameState.Over:
                 if (!isGameOver)
                 {
                     isGameOver = true;
-                    StartCoroutine(ShowVictoryAndLoadScene(PhotonNetwork.LocalPlayer.NickName));
+                    StartCoroutine(ShowVictoryAndLoadScene(firstPlayerId));
                 }
                 break;
         }
     }
-    public void SetGameState(GameState newState)
+
+    public void SetGameState(TowerClimbGameState newState)
     {
         _currentGameState = newState;
         Debug.Log($"Game state changed to: {_currentGameState}");
     }
+
     void ColliderState()
     {
-        if (_currentGameState == GameState.Ready)
+        if (_currentGameState == TowerClimbGameState.Ready)
         {
             return;
         }
         else
         {
-            foreach (Collider col in ColliderList) 
+            foreach (Collider col in ColliderList)
             {
                 col.isTrigger = true;
                 col.gameObject.SetActive(false);
             }
         }
     }
+
     public bool AreAllPlayersReady()
     {
         Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray();
@@ -98,17 +101,17 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
                 if (!(bool)isReadyObj)
                 {
                     Debug.Log("플레이어가 준비되지 않았습니다: " + player.NickName);
-                    return false; // 준비되지 않은 플레이어가 있음
+                    return false;
                 }
             }
             else
             {
                 Debug.Log("플레이어 준비 상태가 없습니다: " + player.NickName);
-                return false; // 준비 상태 정보가 없음
+                return false;
             }
         }
         Debug.Log("플레이어 모두 레디");
-        return true; // 모든 플레이어가 준비됨
+        return true;
     }
 
     void PlayerReadySpawner()
@@ -136,23 +139,18 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
 
     private System.Collections.IEnumerator StartCountDown()
     {
-        for (int i = 0; i < _countDown + 1; i++)
-        {
-            yield return new WaitForSeconds(1);
-            Debug.Log($"CountDown: {i}");
-        }
-
-        /*while (_countDown > 0)
+        while (_countDown > 0)
         {
             Debug.Log($"CountDown: {_countDown}");
             yield return new WaitForSeconds(1);
             _countDown--;
-        }*/
-        SetGameState(GameState.Go);
+        }
+        SetGameState(TowerClimbGameState.Go);
     }
+
     private System.Collections.IEnumerator EndGame()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(10);
         photonView.RPC("LoadVillageScene", RpcTarget.All);
     }
 
@@ -164,17 +162,17 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
 
     private System.Collections.IEnumerator ShowVictoryAndLoadScene(string winnerId)
     {
-
-/*            GameObject winner = PhotonNetwork.PlayerList.FirstOrDefault(p => p.UserId == winnerId).TagObject as GameObject;
-            if (winner != null)
+        /*
+        GameObject winner = PhotonNetwork.PlayerList.FirstOrDefault(p => p.UserId == winnerId).TagObject as GameObject;
+        if (winner != null)
+        {
+            GameManager.Instance.AddCoinsToWinner(winnerId, 100);
+            Animator animator = winner.GetComponent<Animator>();
+            if (animator != null)
             {
-                GameManager.Instance.AddCoinsToWinner(winnerId, 100);
-                Animator animator = winner.GetComponent<Animator>();
-                if (animator != null)
-                {
-                    animator.SetTrigger("Winning");
-                }
+                animator.SetTrigger("Winning");
             }
+        }
         */
         while (_countEnd > 0)
         {
@@ -184,8 +182,4 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
         }
         SceneManager.LoadScene("VillageScene");
     }
-
-
-    // 플레이어 하나라도 도착하면 게임 끝낼건지?
-    // 모든 플레이어 들어올때까지 관전모드(?) 같은 거 할 지 정해야 됨
 }

@@ -4,59 +4,51 @@ using UnityEngine;
 
 public class PumpkinMovement : MonoBehaviour
 {
-    public Transform object1;
-    public Transform object2;
-    public GameObject pumpkin1;
-    public GameObject pumpkin2;
-    public float targetYSelected = 800f;
-    public float targetYRemaining = 10f;
-    public float smoothSpeed = 0.1f;
+    public GameObject pumpkin; // 플레이어 태그를 갖고 있는 오브젝트
+    public float targetYSelected = 500f; // 선택된 오브젝트가 이동할 Y 좌표
+    public float smoothSpeed = 0.1f; // 이동할 때 사용할 부드러운 이동 속도
+    public float timer = 5f; // 이동 후 대기할 시간
 
-    private bool isMoving1 = false;
-    private bool isMoving2 = false;
+    private Vector3 velocity = Vector3.zero;
+    private bool isMoving = false;
 
     void Start()
     {
 
     }
 
-    IEnumerator MoveToY(Transform obj, float targetY, float smoothSpeed, bool isMoving)
+    IEnumerator MoveToY(GameObject obj, Vector3 targetPosition, float smoothSpeed)
     {
-        float currentY = obj.position.y;
-
-        while (Mathf.Abs(currentY - targetY) > 0.01f)
+        while (Vector3.Distance(obj.transform.position, targetPosition) > 0.01f)
         {
-            currentY = Mathf.Lerp(currentY, targetY, smoothSpeed * Time.deltaTime);
-            obj.position = new Vector3(obj.position.x, currentY, obj.position.z);
+            obj.transform.position = Vector3.SmoothDamp(obj.transform.position, targetPosition, ref velocity, smoothSpeed * Time.deltaTime);
             yield return null;
         }
+    }
 
-        if (isMoving)
-        {
-            yield return new WaitForSeconds(5f);
-            StartCoroutine(MoveToY(obj, obj == object1 ? targetYRemaining : targetYSelected, smoothSpeed, false));
-        }
+    IEnumerator DisableAndEnablePumpkin()
+    {
+        pumpkin.SetActive(false);
+        yield return new WaitForSeconds(timer);
+        pumpkin.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            if (other.gameObject == pumpkin1)
-            {
-                Transform selectedObject = Random.Range(0, 2) == 0 ? object1 : object2;
-                Transform remainingObject = (selectedObject == object1) ? object2 : object1;
+            Debug.Log("충돌");
 
-                StartCoroutine(MoveToY(selectedObject, targetYSelected, smoothSpeed, true));
-                StartCoroutine(MoveToY(remainingObject, targetYRemaining, smoothSpeed, false));
+            // 0 또는 1 중 랜덤하게 선택
+            int randomValue = Random.Range(0, 2);
+
+            if (randomValue == 0)
+            {
+                StartCoroutine(DisableAndEnablePumpkin());
             }
-            else if (other.gameObject == pumpkin2)
+            else
             {
-                Transform selectedObject = Random.Range(0, 2) == 0 ? object1 : object2;
-                Transform remainingObject = (selectedObject == object1) ? object2 : object1;
-
-                StartCoroutine(MoveToY(selectedObject, targetYSelected, smoothSpeed, false));
-                StartCoroutine(MoveToY(remainingObject, targetYRemaining, smoothSpeed, true));
+                StartCoroutine(MoveToY(pumpkin, new Vector3(pumpkin.transform.position.x, targetYSelected, pumpkin.transform.position.z), smoothSpeed));
             }
         }
     }

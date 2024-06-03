@@ -18,19 +18,9 @@ public class FinshLine : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && !TowerClimbManager.Instance.isFirstPlayerDetected)
+        if (other.CompareTag("Player"))
         {
-            TowerClimbManager.Instance.isFirstPlayerDetected = true;
-            PhotonView playerPhotonView = other.GetComponentInParent<PhotonView>();
 
-            if (playerPhotonView != null)
-            {
-                TowerClimbManager.Instance.SetGameState(TowerClimbGameState.Over);
-                TowerClimbManager.Instance.firstPlayerId = playerPhotonView.Owner.UserId;
-                Debug.Log($"{playerPhotonView.Owner.NickName} reached the end first!");
-                Debug.Log("게임 끝");
-                PersonalManager.Instance.CoinUpdate(playerPhotonView.Owner.NickName);
-            }
         }
     }
 }

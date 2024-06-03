@@ -15,7 +15,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
 {
     public static FallGuysManager Instance { get; private set; }
 
-    private int _countDown = 3;
+    private int _countDown = 5;
     private int _countEnd = 10;
     private bool isCountingDown = false;
     private bool isGameOver = false;
@@ -37,6 +37,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
     void Update()
     {
         switch (_currentGameState)
+    
         {
             case GameState.Ready:
                 if (PhotonNetwork.PlayerList.Length == 1 || AreAllPlayersReady()) // 플레이어가 한 명이거나 모든 플레이어가 레디인 경우
@@ -69,6 +70,10 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
     {
         _currentGameState = newState;
         Debug.Log($"Game state changed to: {_currentGameState}");
+    }
+    void CountDown()
+    {
+        
     }
     void ColliderState()
     {
@@ -145,7 +150,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
     }
     private System.Collections.IEnumerator EndGame()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(5);
         photonView.RPC("LoadVillageScene", RpcTarget.All);
     }
 

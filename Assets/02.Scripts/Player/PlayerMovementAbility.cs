@@ -1,103 +1,149 @@
 using UnityEngine;
+using Photon.Pun;
+using UnityEngine.SceneManagement;
 
-
-public class PlayerMovementAbility : MonoBehaviour
+public class PlayerMovementAbility : PlayerAbility
 {
-    public Transform Hand; // 캐릭터 손 위치
-    private GameObject _grabbedObject;
-    private CharacterController _characterController;
-    public Animator Animator;
-    public float GrabDistance = 2.0f;
-    public float MoveSpeed = 5.0f;
-    public float RotationSpeed = 720.0f; // 초당 회전 속도
+    private float _currentSpeed;
+    public float MoveSpeed = 5f;
+    public float RunSpeed = 15f;
 
-    void Start()
+    public bool _isRunning;
+
+    private CharacterController _characterController;
+    private Animator _animator;
+
+    private float _gravity = -9.8f;
+    private float _yVelocity = 0f;
+
+    public float JumpPower = 2.5f;
+    private bool _isJumping = false;
+
+    private bool _isFallGuysScene = false; // 폴가이즈 씬인지 확인
+
+    private void Start()
     {
         _characterController = GetComponent<CharacterController>();
+        _animator = GetComponent<Animator>();
 
+        _isFallGuysScene = SceneManager.GetActiveScene().name == "FallGuysScene";
     }
-    // Update is called once per frame
-    void Update()
+
+    private void Update()
     {
-
-       HandleMovement();
-       HandleGrab();
-
-    }
-    void HandleMovement()
-    {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
-        Vector3 direction = new Vector3(horizontal, 0, vertical);
-        direction = Vector3.ClampMagnitude(direction, 1);
-
-        if (direction.magnitude > 0)
+        if (!_owner.PhotonView.IsMine)
         {
-            Vector3 rotatedDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
-            _characterController.SimpleMove(rotatedDirection * MoveSpeed);
+            return;
+        }
 
-            Quaternion targetRotation = Quaternion.LookRotation(rotatedDirection);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
+        HandleMovement();
+        ApplyGravity();
+    }
 
-            Animator.SetBool("IsWalking", true);
+    private void HandleMovement()
+    {
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+        Vector3 direction = new Vector3(h, 0, v);
+        float movementMagnitude = direction.magnitude;
+
+        _animator.SetFloat("Move", Mathf.Clamp01(movementMagnitude));
+
+        if (movementMagnitude > 0.1f)
+        {
+            _animator.SetBool("Walk", true);
+
+            Vector3 forward = Camera.main.transform.forward;
+            forward.y = 0f;
+            direction = forward.normalized * v + Camera.main.transform.right * h;
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+            _characterController.Move(direction.normalized * _currentSpeed * Time.deltaTime);
         }
         else
         {
-            Animator.SetBool("IsWalking", false);
+            _animator.SetBool("Walk", false);
         }
-    }
 
-    void HandleGrab()
-    {
-        if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 버튼 클릭으로 잡기
+        if (_isFallGuysScene)
         {
-            TryGrab();
-            Animator.SetLayerWeight(1, 1);   
-        }
-        else if (Input.GetMouseButtonUp(0) && _grabbedObject != null) // 마우스 왼쪽 버튼 떼기
-        {
-            ReleaseGrab();
-            Animator.SetLayerWeight(1, 0);
-        }
-    }
-    void TryGrab()
-    {
-        Ray ray = new Ray(Hand.position, Hand.forward);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, GrabDistance)) // 특정 거리 내에 있는 오브젝트 감지
-        {
-            if (hit.collider.CompareTag("Grabbable")) // Grabbable 태그가 붙은 오브젝트만 잡기
+            _currentSpeed = RunSpeed;
+            if (_animator.GetBool("Walk"))
             {
-                _grabbedObject = hit.collider.gameObject;
-                _grabbedObject.transform.SetParent(Hand);
-                _grabbedObject.transform.localPosition = Vector3.zero;
-
-                // 잡힌 객체의 Rigidbody를 비활성화
-                Rigidbody grabbedRb = _grabbedObject.GetComponent<Rigidbody>();
-                if (grabbedRb != null)
-                {
-                    grabbedRb.isKinematic = true;
-                }
+                _isRunning = true;
+                _animator.SetBool("Run", true);
+            }
+            else
+            {
+                _isRunning = false;
+                _animator.SetBool("Run", false);
             }
         }
-    }
-
-    void ReleaseGrab()
-    {
-        if (_grabbedObject != null)
+        else
         {
-            // 잡힌 객체의 Rigidbody를 다시 활성화
-            Rigidbody grabbedRb = _grabbedObject.GetComponent<Rigidbody>();
-            if (grabbedRb != null)
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                grabbedRb.isKinematic = false;
+                _isRunning = true;
+                _currentSpeed = RunSpeed;
+                _animator.SetBool("Run", true);
             }
+            else
+            {
+                _isRunning = false;
+                _currentSpeed = MoveSpeed;
+                _animator.SetBool("Run", false);
+            }
+        }
 
-            _grabbedObject.transform.SetParent(null);
-            _grabbedObject = null;
+        if (_characterController.isGrounded)
+        {
+            _isJumping = false;
+            _yVelocity = -0.5f; // 살짝 아래로 향하게 함
+        }
+        else
+        {
+            _isJumping = true;
+            _animator.SetBool("RunJump", false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && _characterController.isGrounded)
+        {
+            Jump();
+            if (_isRunning)
+            {
+                _animator.SetBool("RunJump", true);
+            }
+            else
+            {
+                _animator.SetTrigger("Jump");
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            _animator.SetTrigger("Punching");
         }
     }
 
+    private void ApplyGravity()
+    {
+        _yVelocity += _gravity * Time.deltaTime;
+        Vector3 velocity = new Vector3(0, _yVelocity, 0);
+        _characterController.Move(velocity * Time.deltaTime);
+    }
+
+    private void OnAnimatorMove()
+    {
+        if (_owner.PhotonView.IsMine)
+        {
+            _characterController.Move(_animator.deltaPosition);
+            transform.rotation = _animator.rootRotation;
+        }
+    }
+
+    public void Jump()
+    {
+        _isJumping = true;
+        _yVelocity = JumpPower;
+    }
 }

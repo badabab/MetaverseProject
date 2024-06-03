@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class BattleTilePlayer : MonoBehaviourPunCallbacks
 {
+    public bool isReady = false;
     private CharacterController _characterController;
     public int MyNum;
     private void Start()
@@ -16,6 +17,10 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
             return;
         }
 
+        if (photonView.IsMine)
+        {
+            SetReadyStateOnInput();
+        }
         MyNum = GetUniqueRandomNumber();
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "PlayerNumber", MyNum } });
         GameObject startpoint = GameObject.Find($"Start{MyNum}");
@@ -48,5 +53,19 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
         _characterController.enabled = false;
         transform.position = startpoint.position;
         _characterController.enabled = true;
+    }
+
+    private void SetReadyStateOnInput()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            isReady = !isReady;
+            UpdateReadyState(isReady);
+        }
+    }
+
+    private void UpdateReadyState(bool readyState)
+    {
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "IsReady", readyState } });
     }
 }

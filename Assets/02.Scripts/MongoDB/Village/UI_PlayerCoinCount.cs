@@ -7,19 +7,27 @@ using UnityEngine.UI;
 public class UI_PlayerCoinCount : MonoBehaviour
 {
     public TMP_Text PlayerCoinCount;
-    private GameManager gameManager;
+
+    private string playerId;
 
     private void Start()
     {
-        gameManager = GameManager.Instance;
+        playerId = PlayerPrefs.GetString("LoggedInId", "");
 
-        gameManager.OnCoinsAdded += UpdateCoinCount;
+        UpdateCoinCount();
     }
 
-    // GameManager의 AddCoinsToWinner 이벤트에 연결된 UI 업데이트 함수
-    private void UpdateCoinCount(string playerId, int newCoinCount)
+    private void Update()
     {
-        // PlayerCoinCount에 새로운 코인 수를 표시
-        PlayerCoinCount.text = newCoinCount.ToString();
+        UpdateCoinCount();
+    }
+
+    private void UpdateCoinCount()
+    {
+        if (!string.IsNullOrEmpty(playerId))
+        {
+            int coinCount = PlayerPrefs.GetInt($"{playerId}_Coins", 0);
+            PlayerCoinCount.text = coinCount.ToString();
+        }
     }
 }

@@ -71,10 +71,6 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
         _currentGameState = newState;
         Debug.Log($"Game state changed to: {_currentGameState}");
     }
-    void CountDown()
-    {
-        
-    }
     void ColliderState()
     {
         if (_currentGameState == GameState.Ready)
@@ -140,12 +136,18 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
 
     private System.Collections.IEnumerator StartCountDown()
     {
-        while (_countDown > 0)
+        for (int i = 0; i < _countDown + 1; i++)
+        {
+            yield return new WaitForSeconds(1);
+            Debug.Log($"CountDown: {i}");
+        }
+
+        /*while (_countDown > 0)
         {
             Debug.Log($"CountDown: {_countDown}");
             yield return new WaitForSeconds(1);
             _countDown--;
-        }
+        }*/
         SetGameState(GameState.Go);
     }
     private System.Collections.IEnumerator EndGame()

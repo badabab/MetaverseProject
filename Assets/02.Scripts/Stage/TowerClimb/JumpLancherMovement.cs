@@ -6,11 +6,12 @@ public class JumpLancherMovement : MonoBehaviour
 {
     public float bounceForce;
     public float bounceDuration;
-    public float gravity = -9.81f;
+
+    private bool isBouncing = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !isBouncing)
         {
             CharacterController controller = other.GetComponent<CharacterController>();
             if (controller != null)
@@ -22,23 +23,14 @@ public class JumpLancherMovement : MonoBehaviour
 
     private IEnumerator BouncePlayer(CharacterController controller)
     {
+        isBouncing = true;
         float elapsedTime = 0f;
-        float verticalVelocity = bounceForce;
-
         while (elapsedTime < bounceDuration)
         {
-            controller.Move(Vector3.up * verticalVelocity * Time.deltaTime);
-            verticalVelocity += gravity * Time.deltaTime;
+            controller.Move(Vector3.up * bounceForce * Time.deltaTime);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
-        // Ensure the player lands smoothly
-        while (!controller.isGrounded)
-        {
-            verticalVelocity += gravity * Time.deltaTime;
-            controller.Move(Vector3.up * verticalVelocity * Time.deltaTime);
-            yield return null;
-        }
+        isBouncing = false;
     }
 }

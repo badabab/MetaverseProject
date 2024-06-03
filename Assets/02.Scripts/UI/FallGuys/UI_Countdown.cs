@@ -60,7 +60,7 @@ public class UI_Countdown : MonoBehaviour
         {
             Go.SetActive(true);
         }
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
         _isGo = false;
         Go.SetActive(false);
         yield break;

@@ -395,7 +395,7 @@ Transform:
   m_GameObject: {fileID: 1144307359529045090}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2558,9 +2558,8 @@ GameObject:
   - component: {fileID: 8171539650239019205}
   - component: {fileID: 7148065999915793290}
   - component: {fileID: 7784590748883821406}
+  - component: {fileID: 7966157462179279560}
   - component: {fileID: 2720985974631033899}
-  - component: {fileID: 6776358234049273545}
-  - component: {fileID: 7821488759960917386}
   - component: {fileID: 6703264293214351524}
   - component: {fileID: 5239447867643841674}
   - component: {fileID: -1634637962399818110}
@@ -2569,6 +2568,7 @@ GameObject:
   - component: {fileID: 2509279879560085362}
   - component: {fileID: -7248213756397912536}
   - component: {fileID: -8428627611693842540}
+  - component: {fileID: 6672897766201208095}
   m_Layer: 9
   m_Name: Player 8
   m_TagString: Player
@@ -2657,6 +2657,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642a24dd88dc54b429ee49b736c04606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7966157462179279560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9029329124467589125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47f13e3e945c8f9419a60b2bf3e5b45f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 5
+  RunSpeed: 15
+  _isRunning: 0
+  CameraRoot: {fileID: 6725541871435156712}
+  JumpPower: 2.5
 --- !u!114 &2720985974631033899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2675,38 +2692,6 @@ MonoBehaviour:
   GrabbableLayer:
     serializedVersion: 2
     m_Bits: 0
---- !u!114 &6776358234049273545
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9029329124467589125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9ee267c31ffadc42987a326ec486172, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 5
-  RunSpeed: 15
-  _IsRunning: 0
-  JumpPower: 2.5
-  CameraRoot: {fileID: 0}
-  RotationSpeed: 200
---- !u!114 &7821488759960917386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9029329124467589125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62553ac7a45b1c841a52fa4c085a0365, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CameraRoot: {fileID: 6725541871435156712}
-  RotationSpeed: 200
 --- !u!114 &6703264293214351524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2762,9 +2747,6 @@ MonoBehaviour:
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
   m_SynchronizeParameters:
-  - Type: 4
-    SynchronizeType: 1
-    Name: IsWalking
   - Type: 9
     SynchronizeType: 1
     Name: Grab
@@ -2774,11 +2756,34 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 1
     Name: Move
+  - Type: 4
+    SynchronizeType: 0
+    Name: Run
+  - Type: 4
+    SynchronizeType: 0
+    Name: RunJump
+  - Type: 9
+    SynchronizeType: 0
+    Name: Jump
+  - Type: 9
+    SynchronizeType: 0
+    Name: Winning
+  - Type: 4
+    SynchronizeType: 0
+    Name: Walk
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
   - SynchronizeType: 1
     LayerIndex: 1
+  - SynchronizeType: 0
+    LayerIndex: 2
+  - SynchronizeType: 0
+    LayerIndex: 3
+  - SynchronizeType: 0
+    LayerIndex: 4
+  - SynchronizeType: 0
+    LayerIndex: 5
 --- !u!114 &3460536510797902584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2930,6 +2935,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MyNum: 0
+--- !u!114 &6672897766201208095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9029329124467589125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47f13e3e945c8f9419a60b2bf3e5b45f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 5
+  RunSpeed: 15
+  _isRunning: 0
+  CameraRoot: {fileID: 0}
+  JumpPower: 2.5
 --- !u!1 &9074448728345242793
 GameObject:
   m_ObjectHideFlags: 0

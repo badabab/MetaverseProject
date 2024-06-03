@@ -109,4 +109,36 @@ public class PersonalManager : MonoBehaviour
             PlayerPrefs.Save();
         }
     }
+
+    public void SpendCoins(string name)
+    {
+        var filter = Builders<Personal>.Filter.Eq(p => p.Name, name);
+        var user = _personalCollection.Find(filter).FirstOrDefault();
+        if (user != null) 
+        {
+            int newCoins = user.Coins - 100; // Add 100 coins
+            var update = Builders<Personal>.Update.Set(p => p.Coins, newCoins);
+            var result = _personalCollection.UpdateOne(filter, update);
+        }
+    }
+    public int CheckCoins()
+    {
+        string name = PlayerPrefs.GetString("LoggedInId");
+
+        if (string.IsNullOrEmpty(name))
+        {
+            Debug.LogError("사용자 이름을 찾을 수 없습니다.");
+            return -1;
+        }
+
+        var filter = Builders<Personal>.Filter.Eq(p => p.Name, name);
+        var user = _personalCollection.Find(filter).FirstOrDefault();
+
+        if (user != null)
+        {
+            return user.Coins;
+        }
+        else
+        { return -1; }
+    }
 }

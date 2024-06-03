@@ -141,13 +141,6 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(1);
             Debug.Log($"CountDown: {i}");
         }
-
-        /*while (_countDown > 0)
-        {
-            Debug.Log($"CountDown: {_countDown}");
-            yield return new WaitForSeconds(1);
-            _countDown--;
-        }*/
         SetGameState(GameState.Go);
     }
     private System.Collections.IEnumerator EndGame()
@@ -184,8 +177,4 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
         }
         SceneManager.LoadScene("VillageScene");
     }
-
-
-    // 플레이어 하나라도 도착하면 게임 끝낼건지?
-    // 모든 플레이어 들어올때까지 관전모드(?) 같은 거 할 지 정해야 됨
 }

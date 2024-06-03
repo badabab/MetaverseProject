@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -183,6 +184,11 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
             _countEnd--;
         }
         SceneManager.LoadScene("VillageScene");
+    }
+
+    public static implicit operator FallGuysManager(TowerClimbManager v)
+    {
+        throw new NotImplementedException();
     }
 
 

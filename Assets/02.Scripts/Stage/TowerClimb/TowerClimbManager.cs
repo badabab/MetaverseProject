@@ -25,9 +25,8 @@ public class TowerClimbManager : MonoBehaviour
     public GameState _currentGameState = GameState.Ready;
 
     public Collider[] ColliderList;
-    public Transform[] spawnPoints;
 
-    public Transform EndPosition;
+    public GameObject EndPosition;
 
     private PhotonView photonView;
     private void Awake()
@@ -120,8 +119,7 @@ public class TowerClimbManager : MonoBehaviour
             Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray();
             for (int i = 0; i < players.Length; i++)
             {
-                Vector3 spawnPosition = spawnPoints[i % spawnPoints.Length].position;
-                photonView.RPC("MovePlayerToSpawn", players[i], spawnPosition);
+
                 Debug.Log("플레이어 스폰 위치로 이동");
             }
         }

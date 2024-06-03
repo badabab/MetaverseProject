@@ -16,7 +16,7 @@ public class UI_Countdown : MonoBehaviour
 
     private bool isCountdownActive = false;
     private bool _isGo = false;
-    private int _countdownCount = 5;
+    private int _countdownCount = 10;
     void Update()
     {
         if (FallGuysManager.Instance._currentGameState == GameState.Loading)

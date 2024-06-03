@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -10,50 +11,48 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
     private float _gameDuration = 120f; // 2분 = 120초
     public float TimeRemaining;
 
-    public GameState _currentGameState = GameState.Ready;
+    public GameState State { get; private set; } = GameState.Ready;
 
     private void Awake()
     {
         Instance = this;
+        StartCoroutine(Start_Coroutine());
     }
 
-    void Update()
+    public void Refresh()
     {
-        switch (_currentGameState)
+        switch (State)
         {
             case GameState.Ready:
                 if (AreAllPlayersReady())
                 {
-                    SetGameState(GameState.Loading);
+                    TimeRemaining = (int)_gameDuration; // 게임 시작 시 타이머 초기화
+                    State = GameState.Loading;
                 }
                 break;
 
             case GameState.Loading:
-                StartCountDown();
                 break;
 
             case GameState.Go:
-                UpdateGameTimer();
+                Debug.Log("게임 시작");
                 break;
 
             case GameState.Over:
-                // 게임 오버 상태일 때의 로직을 추가하세요.
+                Debug.Log("게임 종료");
                 break;
         }
     }
 
-    void SetGameState(GameState newState)
+    private void Update()
     {
-        _currentGameState = newState;
-        Debug.Log($"Game state changed to: {_currentGameState}");
-
-        if (_currentGameState == GameState.Go)
+        if (State == GameState.Go)
         {
-            TimeRemaining = (int)_gameDuration; // 게임 시작 시 타이머 초기화
+            UpdateGameTimer();
         }
     }
 
-    bool AreAllPlayersReady()
+    private bool AreAllPlayersReady()
     {
         Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray(); // PlayerList를 배열로 복제
 
@@ -71,32 +70,28 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
         Debug.Log("플레이어 모두 레디");
         return true; // 모든 플레이어가 준비됨
     }
-
-    void StartCountDown()
+    private IEnumerator Start_Coroutine()
     {
-        _countDown--;
-        Debug.Log($"CountDown: {_countDown}");
-        if (_countDown <= 0)
-        {
-            SetGameState(GameState.Go);
-        }
-        else
-        {
-            Invoke("StartCountDown", 1f);
-        }
+        State = GameState.Ready;
+        Refresh();
+
+        yield return new WaitForSeconds(2f);
+        State = GameState.Go;
+        Refresh();
     }
+
 
     void UpdateGameTimer()
     {
         if (TimeRemaining > 0)
         {
             TimeRemaining -= Time.deltaTime;
-            //Debug.Log($"Game Time Remaining: {TimeRemaining} seconds");
 
             if (TimeRemaining <= 0)
             {
                 TimeRemaining = 0;
-                SetGameState(GameState.Over);
+                State = GameState.Over;
+                Refresh();
             }
         }
     }

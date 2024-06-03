@@ -11,7 +11,7 @@ public class PortKeyMovement : MonoBehaviour
     public GameObject PortKeyPassword;
     public InputField PortKeyPassword_text;
 
-    private bool isMoving = false; 
+    private bool isMoving = false;
 
     void Start()
     {
@@ -23,7 +23,7 @@ public class PortKeyMovement : MonoBehaviour
         if (isMoving && !Physics.CheckBox(PortKey1.transform.position, PortKey1.transform.localScale / 2, Quaternion.identity))
         {
             PortKeyPassword.SetActive(false);
-            isMoving = false; 
+            isMoving = false;
         }
     }
 
@@ -34,6 +34,7 @@ public class PortKeyMovement : MonoBehaviour
             PortKeyPassword.SetActive(true);
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -66,7 +67,16 @@ public class PortKeyMovement : MonoBehaviour
                 }
             }
 
-            isMoving = true; 
+            isMoving = true;
+        }
+    }
+
+    // 엔터 키 입력 시 호출되는 함수
+    public void CheckForEnterKey()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            OnPortKeyPassword();
         }
     }
 }

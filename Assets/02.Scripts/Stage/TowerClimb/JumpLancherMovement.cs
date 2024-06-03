@@ -4,17 +4,29 @@ using UnityEngine;
 
 public class JumpLancherMovement : MonoBehaviour
 {
-    public float bounceForce = 10f;
+    public float bounceForce;
+    public float bounceDuration;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            Rigidbody playerRigidbody = other.GetComponent<Rigidbody>();
-            if (playerRigidbody != null)
+            CharacterController controller = other.GetComponent<CharacterController>();
+            if (controller != null)
             {
-                playerRigidbody.AddForce(Vector3.up * bounceForce, ForceMode.Impulse);
+                StartCoroutine(BouncePlayer(controller));
             }
+        }
+    }
+
+    private IEnumerator BouncePlayer(CharacterController controller)
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < bounceDuration)
+        {
+            controller.Move(Vector3.up * bounceForce * Time.deltaTime);
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
     }
 }

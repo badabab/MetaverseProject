@@ -1,4 +1,5 @@
 using Photon.Pun;
+using TMPro;
 using UnityEngine;
 
 public class EndCollider : MonoBehaviourPunCallbacks
@@ -9,6 +10,7 @@ public class EndCollider : MonoBehaviourPunCallbacks
     private string firstPlayerId;
 
 
+    public TextMeshProUGUI CountNumber;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -21,6 +23,7 @@ public class EndCollider : MonoBehaviourPunCallbacks
                 _characterController.enabled = false;
                 other.transform.position = Start2.position;
                 _characterController.enabled = true;
+                CountNumber.text = "2";
             }
             else if (gameObject.name == "End2")
             {
@@ -28,6 +31,7 @@ public class EndCollider : MonoBehaviourPunCallbacks
                 _characterController.enabled = false;
                 other.transform.position = Start3.position;
                 _characterController.enabled = true;
+                CountNumber.text = "3";
             }
             else if (gameObject.name == "End3")
             {

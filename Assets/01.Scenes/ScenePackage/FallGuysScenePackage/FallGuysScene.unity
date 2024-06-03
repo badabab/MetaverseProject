@@ -27082,6 +27082,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Start2: {fileID: 309767095}
   Start3: {fileID: 397972146}
+  CountNumber: {fileID: 1840746036}
 --- !u!1001 &657602107
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45526,6 +45527,7 @@ GameObject:
   - component: {fileID: 1108219828}
   - component: {fileID: 1108219830}
   - component: {fileID: 1108219829}
+  - component: {fileID: 1108219831}
   m_Layer: 5
   m_Name: 'PassUI '
   m_TagString: Untagged
@@ -45594,6 +45596,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1108219827}
   m_CullTransparentMesh: 1
+--- !u!114 &1108219831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108219827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47dd6b14e54095d41872830a781d5651, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TotalPeople: {fileID: 451372258}
+  ReadyPeople: {fileID: 1192282926}
 --- !u!1001 &1109441801
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -67068,6 +67084,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Start2: {fileID: 309767095}
   Start3: {fileID: 397972146}
+  CountNumber: {fileID: 1840746036}
 --- !u!1001 &1687829850
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75206,6 +75223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Start2: {fileID: 309767095}
   Start3: {fileID: 397972146}
+  CountNumber: {fileID: 1840746036}
 --- !u!1001 &1889906800
 PrefabInstance:
   m_ObjectHideFlags: 0

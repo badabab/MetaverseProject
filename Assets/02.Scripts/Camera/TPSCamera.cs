@@ -30,11 +30,7 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         FindLocalPlayer();
     }
 
-    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
-    {
-        // 다른 플레이어가 들어왔을 때 자신의 캐릭터 다시 찾기
-        FindLocalPlayer();
-    }
+
 
     private void LateUpdate()
     {

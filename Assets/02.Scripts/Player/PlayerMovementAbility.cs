@@ -1,6 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 
 public class PlayerMovementAbility : PlayerAbility
 {
@@ -12,6 +13,8 @@ public class PlayerMovementAbility : PlayerAbility
 
     private CharacterController _characterController;
     private Animator _animator;
+    private TPSCamera _tpsCamera;
+    public Transform CameraRoot;
 
     private float _gravity = -9.8f;
     private float _yVelocity = 0f;
@@ -25,6 +28,12 @@ public class PlayerMovementAbility : PlayerAbility
     {
         _characterController = GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
+        
+        if (_owner.PhotonView.IsMine)
+        {
+            GameObject.FindWithTag("MainCamera").GetComponent<TPSCamera>().target = CameraRoot;
+        }
+        
 
         _isFallGuysScene = SceneManager.GetActiveScene().name == "FallGuysScene";
     }

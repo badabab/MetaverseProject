@@ -2,10 +2,10 @@ using Photon.Pun;
 using UnityEngine;
 
 
-[RequireComponent(typeof(PlayerMoveAbility))]
-[RequireComponent(typeof(PlayerRotateAbility))]
+//[RequireComponent(typeof(PlayerMoveAbility))]
+//[RequireComponent(typeof(PlayerRotateAbility))]
 [RequireComponent(typeof(PlayerGrabAbility))]
-//[RequireComponent(typeof(PlayerMovementAbility))]
+[RequireComponent(typeof(PlayerMovementAbility))]
 public class Player : MonoBehaviour
 {
     public PhotonView PhotonView {  get; private set; }

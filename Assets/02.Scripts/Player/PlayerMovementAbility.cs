@@ -48,7 +48,7 @@ public class PlayerMovementAbility : PlayerAbility
 
         if (Input.GetKeyDown(KeyCode.Space) && _isGrounded && !_isJumping)
         {
-            Jump();
+            //Jump();
         }
 
         if (Input.GetKeyDown(KeyCode.T))
@@ -60,7 +60,7 @@ public class PlayerMovementAbility : PlayerAbility
     private void FixedUpdate()
     {
         HandleMovement();
-        ApplyGravity();
+       // ApplyGravity();
     }
 
     private void HandleMovement()
@@ -106,39 +106,7 @@ public class PlayerMovementAbility : PlayerAbility
         }
     }
 
-    public void Jump()
-    {
-        if (_isGrounded)
-        {
-            _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z); // 기존의 y 속도를 0으로 설정
-            _rigidbody.AddForce(Vector3.up * JumpPower, ForceMode.Impulse);
-            _animator.SetTrigger(IsRunning ? "RunJump" : "Jump");
-            _isGrounded = false;
-            _isJumping = true;
-        }
-    }
 
-    private void ApplyGravity()
-    {
-        if (!_isGrounded)
-        {
-            // 중력 적용
-            _rigidbody.AddForce(new Vector3(0, gravity, 0), ForceMode.Acceleration);
-        }
-    }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("");
-        // 충돌한 표면이 수평에 가까운지 확인
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            if (contact.normal.y > 0.5f)
-            {
-                _isGrounded = true;
-                _isJumping = false; // 점프 상태 초기화
-                break;
-            }
-        }
-    }
+
 }

@@ -18,7 +18,26 @@ public class UI_BattleTile : MonoBehaviour
 
     private void Start()
     {
-        //P1_name.text = PhotonView.Owner.NickName;
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            int playerNumber = (int)player.CustomProperties["PlayerNumber"];
+
+            switch (playerNumber)
+            {
+                case 1:
+                    player.NickName = P1_name.text;
+                    break;
+                case 2:
+                    player.NickName = P2_name.text;
+                    break;
+                case 3:
+                    player.NickName = P3_name.text;
+                    break;
+                case 4:
+                    player.NickName = P4_name.text;
+                    break;
+            }
+        }
     }
 
     private void Update()

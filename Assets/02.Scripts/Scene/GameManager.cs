@@ -73,10 +73,17 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void BackToVillage()
     {
-        if (_localPlayerController != null)
-        {
-            photonView.RPC("TeleportToVillage", RpcTarget.All, null);
-        }
+        SceneManager.LoadScene("VillageScene");
+        /*        if (_localPlayerController != null)
+                {
+                    photonView.RPC("TeleportToVillage", RpcTarget.All, null);
+                }*/
+    }
+
+    [PunRPC]
+    public void TeleportToVillage()
+    {
+       SceneManager.LoadScene("LobbyScene");
     }
 
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)

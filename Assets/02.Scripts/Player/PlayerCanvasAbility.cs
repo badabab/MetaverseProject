@@ -8,7 +8,7 @@ public class PlayerCanvasAbility : PlayerAbility
 
     public Canvas PlayerCanvas;
     public Text NicknameTextUI;
-    private PhotonView photonView;
+    private Player player;
 
 
     private void Awake()
@@ -21,7 +21,7 @@ public class PlayerCanvasAbility : PlayerAbility
         {
             Destroy(gameObject);
         }
-        photonView = GetComponent<PhotonView>();
+        player = GetComponent<Player>();
     }
     private void Start()
     {
@@ -35,12 +35,12 @@ public class PlayerCanvasAbility : PlayerAbility
     public void ShowMyNickname()
     {
         //NicknameTextUI.text = PhotonNetwork.NickName;
-        if (photonView.IsMine)
+        if (player.PhotonView.IsMine)
         {
             string nickname = PlayerPrefs.GetString("LoggedInId");
-            photonView.RPC("SetNickname", RpcTarget.AllBuffered, nickname);
+            player.PhotonView.RPC("SetNickname", RpcTarget.AllBuffered, nickname);
             Debug.Log(nickname);
-        }
+         }
     }
 
     [PunRPC]

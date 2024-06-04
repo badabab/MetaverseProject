@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,7 +13,7 @@ public class PlayerMoveAbility : PlayerAbility
     private float JumpPower;
 
     public bool isGrounded;		// 땅에 서있는지 체크하기 위한 bool값
-    public LayerMask Default;	// 레이어마스크 설정
+    public LayerMask LayerMask;	// 레이어마스크 설정
     public float groundDistance = 0.2f;		// Ray를 쏴서 검사하는 거리
 
     private bool _isRunning;
@@ -126,9 +127,11 @@ public class PlayerMoveAbility : PlayerAbility
     void GroundCheck()
     {
         RaycastHit hit;
+        // Default 레이어만 포함된 레이어 마스크 생성
+        int defaultLayerMask = LayerMask.GetMask("Default");
 
-        // 플레이어의 위치에서, 아래방향으로, groundDistance 만큼 ray를 쏴서, ground 레이어가 있는지 검사
-        if (Physics.Raycast(LayerPoint.position, Vector3.down, out hit, groundDistance, Default))
+        // 플레이어의 위치에서, 아래방향으로, groundDistance 만큼 ray를 쏴서, Default 레이어가 있는지 검사
+        if (Physics.Raycast(LayerPoint.position, Vector3.down, out hit, groundDistance, defaultLayerMask))
         {
             isGrounded = true;
         }
@@ -138,3 +141,4 @@ public class PlayerMoveAbility : PlayerAbility
         }
     }
 }
+

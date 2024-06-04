@@ -6,7 +6,10 @@ public class PlayerMoveAbility : PlayerAbility
 {
     public float Movespeed = 5f;
     public float RunSpeed = 15f;
-    public float JumpPower = 3f;
+
+    public float NormalJumpPower= 3;
+    public float RunningJumpPower= 5;
+    public float JumpPower;
 
     public bool isGrounded;		// 땅에 서있는지 체크하기 위한 bool값
     public LayerMask ground;	// 레이어마스크 설정
@@ -84,16 +87,18 @@ public class PlayerMoveAbility : PlayerAbility
         }
 
         // 달리기 여부에 따라 이동 속도 및 애니메이션 설정
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (_isFallGuysScene ||Input.GetKey(KeyCode.LeftShift))
         {
             rb.MovePosition(rb.position + direction * RunSpeed * Time.deltaTime);
             _isRunning = true;
+            JumpPower = RunningJumpPower;
             _animator.SetBool("Run", true);
         }
         else
         {
             rb.MovePosition(rb.position + direction * Movespeed * Time.deltaTime);
             _isRunning = false;
+            JumpPower = NormalJumpPower;
             _animator.SetBool("Run", false);
         }
     }

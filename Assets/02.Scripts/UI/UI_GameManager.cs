@@ -7,7 +7,6 @@ public class UI_GameManager : MonoBehaviour
 {
     public static UI_GameManager Instance;  
     public GameObject GM_UI;
-    private bool _isActive;
     void Awake()
     {
         if (Instance == null)

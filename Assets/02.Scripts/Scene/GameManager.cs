@@ -1,12 +1,15 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System;
+using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager Instance;
 
     private Dictionary<string, Personal> playerData = new Dictionary<string, Personal>();
+    private Player _localPlayerController;
 
     void Awake()
     {
@@ -21,33 +24,90 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // 플레이어 데이터를 초기화하거나 불러오기
-    public void InitializePlayerData(string playerId, string playerName)
+    void Start()
     {
-        if (!playerData.ContainsKey(playerId))
+        // 로컬 플레이어 찾기
+        FindLocalPlayer();
+    }
+
+    void FindLocalPlayer()
+    {
+        if (_localPlayerController == null)
         {
-            playerData[playerId] = new Personal
+            foreach (var player in FindObjectsOfType<Player>())
             {
-                Name = playerName,
-                Coins = 0, // 기본 코인
-                CharacterIndex = 0, // 기본 캐릭터
-            };
+                if (player.PhotonView.IsMine)
+                {
+                    _localPlayerController = player;
+                    Debug.Log($"Local player found: {player.name}");
+                    break;
+                }
+            }
+
+            if (_localPlayerController == null)
+            {
+                Debug.LogError("Local player not found!");
+            }
         }
     }
 
-
-    // 승리 시 코인 추가
-    public void AddCoinsToWinner(string winnerId, int coinsToAdd)
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
-        if (playerData.ContainsKey(winnerId))
-        {
-            playerData[winnerId].Coins += coinsToAdd;
-            Debug.Log($"Added {coinsToAdd} coins to {playerData[winnerId].Name}. Total Coins: {playerData[winnerId].Coins}");
+        Debug.Log($"{newPlayer.NickName}님이 입장하였습니다.");
+    }
 
-        }
-        else
+    public void Pause()
+    {
+        if (_localPlayerController != null && _localPlayerController.PhotonView.IsMine)
         {
-            Debug.LogError("Winner ID not found in player data.");
+            Debug.Log(_localPlayerController.name);
+            Time.timeScale = 0f;
+        }
+    }
+
+    public void Continue()
+    {
+        if (_localPlayerController != null && _localPlayerController.PhotonView.IsMine)
+        {
+            Debug.Log(_localPlayerController.name);
+            Time.timeScale = 1f;
+        }
+    }
+
+    public void BackToVillage()
+    {
+        if (_localPlayerController != null && _localPlayerController.PhotonView.IsMine && SceneManager.GetActiveScene().name != "VillageScene")
+        {
+            Debug.Log(_localPlayerController.name);
+            SceneManager.LoadScene("VillageScene");
+        }
+    }
+
+    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
+    {
+        Debug.LogFormat($"{otherPlayer.NickName}님이 방을 떠났습니다.");
+    }
+
+    public void GameOver()
+    {
+        if (_localPlayerController != null && _localPlayerController.PhotonView.IsMine)
+        {
+            // Photon Network에서 방 나가기
+            PhotonNetwork.LeaveRoom();
+        }
+    }
+
+    public override void OnLeftRoom()
+    {
+        // 방을 나간 후에 애플리케이션 종료
+        if (_localPlayerController != null && _localPlayerController.PhotonView.IsMine)
+        {
+            // 빌드 후 실행했을 경우 종료하는 방법
+            Application.Quit();
+#if UNITY_EDITOR
+            // 유니티 에디터에서 실행했을 경우 종료하는 방법
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
         }
     }
 }

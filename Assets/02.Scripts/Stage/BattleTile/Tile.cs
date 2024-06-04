@@ -1,7 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 
-public class Tile : MonoBehaviourPun
+public class Tile : MonoBehaviourPunCallbacks
 {
     public Material[] Materials;
     private Renderer _renderer;
@@ -16,14 +16,30 @@ public class Tile : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && other.GetComponent<PhotonView>().IsMine)
         {
             _player = other.GetComponent<BattleTilePlayer>();
             if (_renderer.material != Materials[_player.MyNum])
             {
-                //_renderer.material = Materials[_player.MyNum];      // 테스트용
-                photonView.RPC("ChangeMaterial", RpcTarget.AllBuffered, _player.MyNum);   // 포톤
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    ChangeMaterial(_player.MyNum);
+                    photonView.RPC("ChangeMaterial", RpcTarget.AllBuffered, _player.MyNum);
+                }
+                else
+                {
+                    photonView.RPC("RequestMaterialChange", RpcTarget.MasterClient, _player.MyNum);
+                }
             }
+        }
+    }
+
+    [PunRPC]
+    private void RequestMaterialChange(int playerNum)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("ChangeMaterial", RpcTarget.AllBuffered, playerNum);
         }
     }
 

@@ -111,20 +111,6 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
         return true; // 모든 플레이어가 준비됨
     }
 
-    void PlayerReadySpawner()
-    {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray();
-            for (int i = 0; i < players.Length; i++)
-            {
-                Vector3 spawnPosition = spawnPoints[i % spawnPoints.Length].position;
-                photonView.RPC("MovePlayerToSpawn", players[i], spawnPosition);
-                Debug.Log("플레이어 스폰 위치로 이동");
-            }
-        }
-    }
-
     [PunRPC]
     void MovePlayerToSpawn(Vector3 position)
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 public class EndCollider : MonoBehaviourPunCallbacks
 {
     public Transform Start2, Start3;
-    private CharacterController _characterController;
+    private Rigidbody _rb;
     private bool isFirstPlayerDetected = false;
     private string firstPlayerNickName;
 
@@ -15,22 +15,22 @@ public class EndCollider : MonoBehaviourPunCallbacks
     {
         if (other.CompareTag("Player"))
         {
-            _characterController = other.GetComponent<CharacterController>();
+            _rb = other.GetComponent<Rigidbody>();
             PhotonView playerPhotonView = other.GetComponentInParent<PhotonView>();
             if (gameObject.name == "End1")
             {
                 Debug.Log("End1 도착");
-                _characterController.enabled = false;
+                _rb.gameObject.SetActive(false);
                 other.transform.position = Start2.position;
-                _characterController.enabled = true;
+                _rb.gameObject.SetActive(true);
                 CountNumber.text = "2";
             }
             else if (gameObject.name == "End2")
             {
                 Debug.Log("End2 도착");
-                _characterController.enabled = false;
+                _rb.gameObject.SetActive(false);
                 other.transform.position = Start3.position;
-                _characterController.enabled = true;
+                _rb.gameObject.SetActive(true);
                 CountNumber.text = "3";
             }
             else if (gameObject.name == "End3")

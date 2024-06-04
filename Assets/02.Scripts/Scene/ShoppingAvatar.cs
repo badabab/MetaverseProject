@@ -13,6 +13,10 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
     public List<GameObject> Avatars; // 아바타 프리팹 리스트
     private GameObject currentAvatar;
     private GameObject player;
+    private int Coin100 = 100;
+    private int Coin150 = 150;
+    private int Coin200 = 200;
+
 
     private void Start()
     {
@@ -44,7 +48,7 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
     public void OnClickChanging()
     {
         int coins = PersonalManager.Instance.CheckCoins();
-        if (player != null && coins > 100)
+        if (player != null && coins > Coin100)
         {
             if (currentAvatar != null)
             {
@@ -58,7 +62,7 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
             currentAvatar = PhotonNetwork.Instantiate(Avatars[randomIndex].name, spawnPosition, spawnRotation, 0);
             currentAvatar.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.LocalPlayer);
             PersonalManager.Instance.UpdateCharacterIndex(randomIndex);
-            PersonalManager.Instance.SpendCoins(player.name);
+            PersonalManager.Instance.SpendCoins(Coin100);
 
             // 기존 플레이어 오브젝트를 제거
             PhotonNetwork.Destroy(player);

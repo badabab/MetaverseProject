@@ -2643,7 +2643,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 3a43de6ccfc755040be8b0d2ce0bd27d, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -2680,9 +2680,9 @@ MonoBehaviour:
   NormalJumpPower: 3
   RunningJumpPower: 5
   isGrounded: 0
-  ground:
+  LayerMask:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 1
   groundDistance: 0.2
   LayerPoint: {fileID: 1908624999346715167}
   CameraRoot: {fileID: 6725541871435156712}

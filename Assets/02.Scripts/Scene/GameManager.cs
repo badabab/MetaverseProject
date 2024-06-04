@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using Photon.Pun;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager Instance;
 
@@ -20,34 +21,21 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    
 
-    // 플레이어 데이터를 초기화하거나 불러오기
-    public void InitializePlayerData(string playerId, string playerName)
+
+    public void GameOver()
     {
-        if (!playerData.ContainsKey(playerId))
+        if ( photonView.IsMine)
         {
-            playerData[playerId] = new Personal
-            {
-                Name = playerName,
-                Coins = 0, // 기본 코인
-                CharacterIndex = 0, // 기본 캐릭터
-            };
+            // 빌드 후 실행 했을 경우 종료하는 방법
+            Application.Quit();
+#if UNITY_EDITOR
+            // 유니티 에디터에서 실행했을 경우 종료하는 방법
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
+
         }
     }
 
-
-    // 승리 시 코인 추가
-    public void AddCoinsToWinner(string winnerId, int coinsToAdd)
-    {
-        if (playerData.ContainsKey(winnerId))
-        {
-            playerData[winnerId].Coins += coinsToAdd;
-            Debug.Log($"Added {coinsToAdd} coins to {playerData[winnerId].Name}. Total Coins: {playerData[winnerId].Coins}");
-
-        }
-        else
-        {
-            Debug.LogError("Winner ID not found in player data.");
-        }
-    }
 }

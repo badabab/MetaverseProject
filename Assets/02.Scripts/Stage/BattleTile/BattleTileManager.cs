@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BattleTileManager : MonoBehaviourPunCallbacks
@@ -11,8 +12,11 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
     private float _gameDuration = 120f; // 2분 = 120초
     public float TimeRemaining;
 
-    public GameState State { get; private set; } = GameState.Ready;
+    private int _countDown = 5;
+    private int _countEnd = 10;
+    private bool _isGameOver = false;
 
+    public GameState _currentGameState = GameState.Ready;
     public Image Ready;
     public Image Go;
     public GameObject Gameover;
@@ -20,21 +24,55 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         Instance = this;
-        StartCoroutine(Start_Coroutine());
     }
 
     private void Update()
     {
-        if (State == GameState.Go)
+        if (_currentGameState == GameState.Go)
         {
             UpdateGameTimer();
         }
+
+        switch (_currentGameState)
+
+        {
+            case GameState.Ready:
+                if (PhotonNetwork.PlayerList.Length == 1 || AreAllPlayersReady()) // 플레이어가 한 명이거나 모든 플레이어가 레디인 경우
+                {
+                    SetGameState(GameState.Loading);
+                }
+                break;
+
+
+            case GameState.Loading:
+                // PlayerReadySpawner();
+                StartCoroutine(StartCountDown());
+                break;
+
+            case GameState.Go:
+                // 게임이 진행 중일 때의 로직을 추가하세요.
+                break;
+
+            case GameState.Over:
+                if (!_isGameOver)
+                {
+                    _isGameOver = true;
+                    StartCoroutine(ShowVictoryAndLoadScene(PhotonNetwork.LocalPlayer.NickName));
+                }
+                break;
+        }
     }
 
-    private bool AreAllPlayersReady()
+    public void SetGameState(GameState newState)
     {
-        Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray(); // PlayerList를 배열로 복제
+        _currentGameState = newState;
+        Debug.Log($"Game state changed to: {_currentGameState}");
+    }
 
+    public bool AreAllPlayersReady()
+    {
+        Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray();
+        Debug.Log("Player count: " + players.Length);
         foreach (Photon.Realtime.Player player in players)
         {
             object isReadyObj;
@@ -42,26 +80,40 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
             {
                 if (!(bool)isReadyObj)
                 {
+                    Debug.Log("플레이어가 준비되지 않았습니다: " + player.NickName);
                     return false; // 준비되지 않은 플레이어가 있음
                 }
+            }
+            else
+            {
+                Debug.Log("플레이어 준비 상태가 없습니다: " + player.NickName);
+                return false; // 준비 상태 정보가 없음
             }
         }
         Debug.Log("플레이어 모두 레디");
         return true; // 모든 플레이어가 준비됨
     }
-    private IEnumerator Start_Coroutine()
-    {
-        State = GameState.Ready;     
-        Ready.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2f);
 
-        Ready.gameObject.SetActive(false);
-        Go.gameObject.SetActive(true);
+    private IEnumerator StartCountDown()
+    {
+        for (int i = 0; i < _countDown + 1; i++)
+        {
+            yield return new WaitForSeconds(1);
+            Debug.Log($"CountDown: {i}");
+        }
         TimeRemaining = (int)_gameDuration; // 게임 시작 시 타이머 초기화
-        yield return new WaitForSeconds(0.5f);
-        
-        Go.gameObject.SetActive(false);        
-        State = GameState.Go;       
+        SetGameState(GameState.Go);     
+    }
+
+    private System.Collections.IEnumerator ShowVictoryAndLoadScene(string winnerId)
+    {
+        while (_countEnd > 0)
+        {
+            Debug.Log($"CountDown: {_countEnd}");
+            yield return new WaitForSeconds(5);
+            _countEnd--;
+        }
+        SceneManager.LoadScene("VillageScene");
     }
 
     void UpdateGameTimer()
@@ -73,7 +125,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
             if (TimeRemaining <= 0)
             {
                 TimeRemaining = 0;
-                State = GameState.Over;
+                _currentGameState = GameState.Over;
                 Gameover.gameObject.SetActive(true);
             }
         }

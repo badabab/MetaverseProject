@@ -13,7 +13,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
     public float TimeRemaining;
 
     private int _countDown = 5;
-    private int _countEnd = 10;
+    private int _countEnd = 5;
     private bool _isGameOver = false;
     private bool _isStartCoroutine = false;
 
@@ -61,7 +61,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
                 if (!_isGameOver)
                 {
                     _isGameOver = true;
-                    StartCoroutine(ShowVictoryAndLoadScene(PhotonNetwork.LocalPlayer.NickName));
+                    StartCoroutine(ShowVictoryAndLoadScene());
                 }
                 break;
         }
@@ -108,15 +108,15 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
         SetGameState(GameState.Go);     
     }
 
-    private System.Collections.IEnumerator ShowVictoryAndLoadScene(string winnerId)
+    private System.Collections.IEnumerator ShowVictoryAndLoadScene()
     {
+        TileScore.Instance.DetermineWinner();
         while (_countEnd > 0)
         {
             Debug.Log($"CountDown: {_countEnd}");
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(1);
             _countEnd--;
         }
-        PersonalManager.Instance.CoinUpdate(winnerId);
         SceneManager.LoadScene("VillageScene");
     }
 

@@ -13,7 +13,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.GameVersion = "0.0.1";
         PhotonNetwork.NickName = _nickname;
 
-        //PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.SendRate = 50;
         PhotonNetwork.SerializationRate = 30;

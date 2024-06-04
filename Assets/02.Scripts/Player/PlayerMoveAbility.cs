@@ -40,8 +40,13 @@ public class PlayerMoveAbility : PlayerAbility
             return;
         }
         GroundCheck();
-        InputAndDir();
+        
         Jump();
+    }
+
+    private void FixedUpdate()
+    {
+        InputAndDir();
     }
 
     // 키 입력과 그에 따른 이동방향을 계산하는 함수

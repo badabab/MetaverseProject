@@ -7,6 +7,8 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
     public bool isReady = false;
     private CharacterController _characterController;
     public int MyNum;
+    private TileScore _tileScore;
+
     private void Start()
     {
         if (!photonView.IsMine) return;
@@ -17,14 +19,18 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
             return;
         }
 
+        MyNum = GetUniqueRandomNumber();
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "PlayerNumber", MyNum }, { "PlayerTileNumber", MyNum } });
+        GameObject startpoint = GameObject.Find($"Start{MyNum}");
+        Teleport(startpoint.transform);
+    }
+
+    private void Update()
+    {
         if (photonView.IsMine)
         {
             SetReadyStateOnInput();
         }
-        MyNum = GetUniqueRandomNumber();
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "PlayerNumber", MyNum } });
-        GameObject startpoint = GameObject.Find($"Start{MyNum}");
-        Teleport(startpoint.transform);
     }
 
     private int GetUniqueRandomNumber()

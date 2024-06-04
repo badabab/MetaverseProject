@@ -1,4 +1,6 @@
-using TMPro;
+using Photon.Pun;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TileScore : MonoBehaviour
@@ -22,7 +24,7 @@ public class TileScore : MonoBehaviour
 
     void Update()
     {
-        CountTileObjectsUsingMaterials();       
+        CountTileObjectsUsingMaterials();
     }
 
     void CountTileObjectsUsingMaterials()
@@ -66,6 +68,40 @@ public class TileScore : MonoBehaviour
                     }
                 }
             }
-        }        
+        }
     }
+
+    public void DetermineWinner()
+    {
+        Dictionary<string, int> playerScores = new Dictionary<string, int>();
+
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            string playerName = player.NickName;
+            int playerNumber = (int)player.CustomProperties["PlayerNumber"];
+
+            switch (playerNumber)
+            {
+                case 1:
+                    playerScores[playerName] = Player1score;
+                    break;
+                case 2:
+                    playerScores[playerName] = Player2score;
+                    break;
+                case 3:
+                    playerScores[playerName] = Player3score;
+                    break;
+                case 4:
+                    playerScores[playerName] = Player4score;
+                    break;
+            }
+        }
+
+        string winner = playerScores.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+        int maxScore = playerScores[winner];
+
+        Debug.Log($"Winner is {winner} with {maxScore} tiles!");
+        PersonalManager.Instance.CoinUpdate(winner);
+    }
+
 }

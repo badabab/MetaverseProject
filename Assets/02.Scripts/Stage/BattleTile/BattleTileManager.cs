@@ -15,15 +15,15 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
     private int _countDown = 5;
     private int _countEnd = 10;
     private bool _isGameOver = false;
+    private bool _isStartCoroutine = false;
 
     public GameState _currentGameState = GameState.Ready;
-    public Image Ready;
-    public Image Go;
     public GameObject Gameover;
 
     private void Awake()
     {
         Instance = this;
+        TimeRemaining = (int)_gameDuration; // 게임 시작 시 타이머 초기화
     }
 
     private void Update()
@@ -46,7 +46,11 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
 
             case GameState.Loading:
                 // PlayerReadySpawner();
-                StartCoroutine(StartCountDown());
+                if (!_isStartCoroutine)
+                {
+                    StartCoroutine(StartCountDown());
+                    _isStartCoroutine = true;
+                }
                 break;
 
             case GameState.Go:
@@ -101,7 +105,6 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(1);
             Debug.Log($"CountDown: {i}");
         }
-        TimeRemaining = (int)_gameDuration; // 게임 시작 시 타이머 초기화
         SetGameState(GameState.Go);     
     }
 

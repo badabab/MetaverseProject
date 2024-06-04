@@ -61,7 +61,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
                 if (!isGameOver)
                 {
                     isGameOver = true;
-                    StartCoroutine(ShowVictoryAndLoadScene(PhotonNetwork.LocalPlayer.NickName));
+                    StartCoroutine(ShowVictoryAndLoadScene());
                 }
                 break;
         }
@@ -141,7 +141,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
         SceneManager.LoadScene("VillageScene");
     }
 
-    private System.Collections.IEnumerator ShowVictoryAndLoadScene(string winnerId)
+    private System.Collections.IEnumerator ShowVictoryAndLoadScene()
     {
 
 /*            GameObject winner = PhotonNetwork.PlayerList.FirstOrDefault(p => p.UserId == winnerId).TagObject as GameObject;

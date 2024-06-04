@@ -116,7 +116,13 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(5);
             _countEnd--;
         }
+        PersonalManager.Instance.CoinUpdate(winnerId);
         SceneManager.LoadScene("VillageScene");
+    }
+
+    void WhoisthehigherScore()
+    {
+
     }
 
     void UpdateGameTimer()

@@ -9,7 +9,7 @@ public class PlayerMoveAbility : PlayerAbility
 
     public float NormalJumpPower= 3;
     public float RunningJumpPower= 5;
-    public float JumpPower;
+    private float JumpPower;
 
     public bool isGrounded;		// 땅에 서있는지 체크하기 위한 bool값
     public LayerMask ground;	// 레이어마스크 설정
@@ -29,10 +29,12 @@ public class PlayerMoveAbility : PlayerAbility
     {
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
+
         if (_owner.PhotonView.IsMine)
         {
             GameObject.FindWithTag("MainCamera").GetComponent<TPSCamera>().target = CameraRoot;
         }
+        _isFallGuysScene = SceneManager.GetActiveScene().name == "FallGuysScene";
     }
 
     // 키 입력과 이동방향 계산
@@ -45,6 +47,11 @@ public class PlayerMoveAbility : PlayerAbility
         GroundCheck();
         
         Jump();
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            _animator.SetTrigger("Punching");
+        }
     }
 
     private void FixedUpdate()

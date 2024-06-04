@@ -339,7 +339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 166672395}
   m_Layer: 9
-  m_Name: GameObject
+  m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -576,7 +576,7 @@ GameObject:
   - component: {fileID: 712574540}
   - component: {fileID: 712574539}
   - component: {fileID: 712574538}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Plane
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -665,7 +665,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -2.48, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -807,7 +807,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6655400521265169786}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29f4ac00201e2ad4ebef13d0406a027e, type: 3}
   m_Name: 
@@ -2756,7 +2756,7 @@ GameObject:
   - component: {fileID: 8941019817714316765}
   - component: {fileID: 8941019817714316766}
   m_Layer: 9
-  m_Name: Player 20
+  m_Name: Test
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3572,11 +3572,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Movespeed: 5
   RunSpeed: 15
-  JumpPower: 3
+  NormalJumpPower: 3
+  RunningJumpPower: 5
   isGrounded: 1
-  ground:
+  LayerMask:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 1
   groundDistance: 0.2
   LayerPoint: {fileID: 166672395}
   CameraRoot: {fileID: 8955348271537555863}
@@ -3589,7 +3590,7 @@ Rigidbody:
   m_GameObject: {fileID: 6655400521265169786}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 3
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -3605,7 +3606,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!64 &8941019817714316766
 MeshCollider:

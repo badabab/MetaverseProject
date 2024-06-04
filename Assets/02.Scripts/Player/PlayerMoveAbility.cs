@@ -134,6 +134,7 @@ public class PlayerMoveAbility : PlayerAbility
         if (Physics.Raycast(LayerPoint.position, Vector3.down, out hit, groundDistance, defaultLayerMask))
         {
             isGrounded = true;
+            
         }
         else
         {

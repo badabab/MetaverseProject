@@ -7,7 +7,7 @@ public class EndCollider : MonoBehaviourPunCallbacks
     public Transform Start2, Start3;
     private CharacterController _characterController;
     private bool isFirstPlayerDetected = false;
-    private string firstPlayerId;
+    private string firstPlayerNickName;
 
 
     public TextMeshProUGUI CountNumber;
@@ -35,15 +35,29 @@ public class EndCollider : MonoBehaviourPunCallbacks
             }
             else if (gameObject.name == "End3")
             {
-                FallGuysManager.Instance.SetGameState(GameState.Over);
-                if (playerPhotonView != null)
+                if (!isFirstPlayerDetected)
                 {
+                    FallGuysManager.Instance.SetGameState(GameState.Over);
                     isFirstPlayerDetected = true;
-                    firstPlayerId = playerPhotonView.Owner.UserId;
-                    Debug.Log($"{playerPhotonView.Owner.NickName} reached the end first!");
-                    Debug.Log("게임 끝");
+                    firstPlayerNickName = playerPhotonView.Owner.NickName;
+                    Debug.Log($"{firstPlayerNickName} reached the end first!");
                     PersonalManager.Instance.CoinUpdate(playerPhotonView.Owner.NickName);
                 }
+
+                // 모든 플레이어에 대해 승/패 여부를 업데이트
+                if (playerPhotonView.IsMine)
+                {
+                    if (firstPlayerNickName == playerPhotonView.Owner.NickName)
+                    {
+                        UI_GameOver.Instance.CheckFirst();
+                    }
+                    else
+                    {
+                        UI_GameOver.Instance.CheckLast();
+                    }
+                }
+
+                Debug.Log("게임 끝");
             }
         }
     }

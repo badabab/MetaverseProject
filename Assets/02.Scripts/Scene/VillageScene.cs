@@ -32,6 +32,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
 
     private void Init()
     {
+
         Debug.Log("플레이어 초기화");
         _init = true;
         Vector3 spawnPoint = GetRandomSpawnPoint();

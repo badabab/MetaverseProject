@@ -1,7 +1,8 @@
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GamePortal : MonoBehaviour
+public class GamePortal : MonoBehaviourPunCallbacks
 {
     private Collider _collider;
     private void Start()
@@ -11,7 +12,7 @@ public class GamePortal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && other.GetComponent<PhotonView>().IsMine)
         {
             if (gameObject.name == ("BattleTilePortal"))
             {

@@ -2,46 +2,25 @@ using Photon.Pun;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleTileManager : MonoBehaviourPunCallbacks
 {
     public static BattleTileManager Instance { get; private set; }
 
-    private int _countDown = 3;
     private float _gameDuration = 120f; // 2분 = 120초
     public float TimeRemaining;
 
     public GameState State { get; private set; } = GameState.Ready;
 
+    public Image Ready;
+    public Image Go;
+    public GameObject Gameover;
+
     private void Awake()
     {
         Instance = this;
         StartCoroutine(Start_Coroutine());
-    }
-
-    public void Refresh()
-    {
-        switch (State)
-        {
-            case GameState.Ready:
-                if (AreAllPlayersReady())
-                {
-                    TimeRemaining = (int)_gameDuration; // 게임 시작 시 타이머 초기화
-                    State = GameState.Loading;
-                }
-                break;
-
-            case GameState.Loading:
-                break;
-
-            case GameState.Go:
-                Debug.Log("게임 시작");
-                break;
-
-            case GameState.Over:
-                Debug.Log("게임 종료");
-                break;
-        }
     }
 
     private void Update()
@@ -72,14 +51,18 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
     }
     private IEnumerator Start_Coroutine()
     {
-        State = GameState.Ready;
-        Refresh();
-
+        State = GameState.Ready;     
+        Ready.gameObject.SetActive(true);
         yield return new WaitForSeconds(2f);
-        State = GameState.Go;
-        Refresh();
-    }
 
+        Ready.gameObject.SetActive(false);
+        Go.gameObject.SetActive(true);
+        TimeRemaining = (int)_gameDuration; // 게임 시작 시 타이머 초기화
+        yield return new WaitForSeconds(0.5f);
+        
+        Go.gameObject.SetActive(false);        
+        State = GameState.Go;       
+    }
 
     void UpdateGameTimer()
     {
@@ -91,7 +74,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
             {
                 TimeRemaining = 0;
                 State = GameState.Over;
-                Refresh();
+                Gameover.gameObject.SetActive(true);
             }
         }
     }

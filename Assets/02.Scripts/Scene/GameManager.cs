@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static GameManager Instance;
 
     private Dictionary<string, Personal> playerData = new Dictionary<string, Personal>();
-    private Player _localPlayerController;
+    private PlayerOptionAbility _localPlayerController;
 
     void Awake()
     {
@@ -34,16 +34,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (_localPlayerController == null)
         {
-            foreach (var player in FindObjectsOfType<Player>())
+            foreach (var player in FindObjectsOfType<PlayerOptionAbility>())
             {
-                if (player.PhotonView.IsMine)
+                if (player.photonView.IsMine)
                 {
                     _localPlayerController = player;
                     Debug.Log($"Local player found: {player.name}");
                     break;
                 }
             }
-
             if (_localPlayerController == null)
             {
                 Debug.LogError("Local player not found!");
@@ -58,28 +57,25 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void Pause()
     {
-        if (_localPlayerController != null && _localPlayerController.PhotonView.IsMine)
+        if (_localPlayerController != null)
         {
-            Debug.Log(_localPlayerController.name);
-            Time.timeScale = 0f;
+            _localPlayerController.Pause();
         }
     }
 
     public void Continue()
     {
-        if (_localPlayerController != null && _localPlayerController.PhotonView.IsMine)
+        if (_localPlayerController != null)
         {
-            Debug.Log(_localPlayerController.name);
-            Time.timeScale = 1f;
+            _localPlayerController.Continue();
         }
     }
 
     public void BackToVillage()
     {
-        if (_localPlayerController != null && _localPlayerController.PhotonView.IsMine && SceneManager.GetActiveScene().name != "VillageScene")
+        if (_localPlayerController != null)
         {
-            Debug.Log(_localPlayerController.name);
-            SceneManager.LoadScene("VillageScene");
+            photonView.RPC("TeleportToVillage", RpcTarget.All, null);
         }
     }
 
@@ -90,7 +86,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void GameOver()
     {
-        if (_localPlayerController != null && _localPlayerController.PhotonView.IsMine)
+        if (_localPlayerController != null && _localPlayerController.photonView.IsMine)
         {
             // Photon Network에서 방 나가기
             PhotonNetwork.LeaveRoom();
@@ -100,12 +96,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         // 방을 나간 후에 애플리케이션 종료
-        if (_localPlayerController != null && _localPlayerController.PhotonView.IsMine)
+        if (_localPlayerController != null && _localPlayerController.photonView.IsMine)
         {
             // 빌드 후 실행했을 경우 종료하는 방법
             Application.Quit();
 #if UNITY_EDITOR
-            // 유니티 에디터에서 실행했을 경우 종료하는 방법
+            // 유니티 에디터에서 실행했을 경우 종료하는
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
         }

@@ -2,6 +2,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class VillageScene : MonoBehaviourPunCallbacks
 {
@@ -27,7 +28,18 @@ public class VillageScene : MonoBehaviourPunCallbacks
         if (!_init)
         {
             Init();
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC("RestartGame", RpcTarget.All);
+            }
         }
+    }
+
+    [PunRPC]
+    void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void Init()

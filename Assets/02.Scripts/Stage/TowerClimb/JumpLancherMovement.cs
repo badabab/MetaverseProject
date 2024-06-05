@@ -13,24 +13,28 @@ public class JumpLancherMovement : MonoBehaviour
     {
         if (other.CompareTag("Player") && !isBouncing)
         {
-            CharacterController controller = other.GetComponent<CharacterController>();
-            if (controller != null)
+            Rigidbody rb = other.GetComponent<Rigidbody>();
+            if (rb != null)
             {
-                StartCoroutine(BouncePlayer(controller));
+                StartCoroutine(BouncePlayer(rb));
             }
         }
     }
 
-    private IEnumerator BouncePlayer(CharacterController controller)
+    private IEnumerator BouncePlayer(Rigidbody rb)
     {
         isBouncing = true;
         float elapsedTime = 0f;
+        Vector3 originalVelocity = rb.velocity;
+        rb.velocity = new Vector3(rb.velocity.x, bounceForce, rb.velocity.z); // 위쪽으로 힘을 가함
+
         while (elapsedTime < bounceDuration)
         {
-            controller.Move(Vector3.up * bounceForce * Time.deltaTime);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+
+        rb.velocity = originalVelocity; // 원래 속도로 되돌림
         isBouncing = false;
     }
 }

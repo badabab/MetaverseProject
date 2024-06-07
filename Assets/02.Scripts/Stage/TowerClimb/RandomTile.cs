@@ -7,7 +7,6 @@ public class RandomTile : MonoBehaviour
     public GameObject GameObject1; // 첫 번째 게임 오브젝트
     public GameObject GameObject2; // 두 번째 게임 오브젝트
 
-    private GameObject GlassPane;// 진짜 유리판
     private GameObject fakeGlassPane; // 가짜 유리판
 
     void Start()
@@ -16,7 +15,6 @@ public class RandomTile : MonoBehaviour
         if (Random.Range(0, 2) == 0)
         {
             fakeGlassPane = GameObject1;
-
         }
         else
         {

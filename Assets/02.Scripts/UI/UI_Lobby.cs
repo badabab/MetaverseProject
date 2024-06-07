@@ -161,21 +161,26 @@ public class UI_Lobby : MonoBehaviour
         // Metaverse1 비활성화, Metaverse2 활성화
         Metaverse1.SetActive(false);
         Metaverse2.SetActive(true);
-
-        // Photon 룸에 입장
-        RoomOptions roomOptions = new RoomOptions
+        if (PhotonNetwork.IsConnectedAndReady)
         {
-            MaxPlayers = 20,
-            IsVisible = true,
-            IsOpen = true,
-            EmptyRoomTtl = 1000 * 20,
-            CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "MasterNickname", PhotonNetwork.NickName } },
-            CustomRoomPropertiesForLobby = new string[] { "MasterNickname" },
-        };
+            RoomOptions roomOptions = new RoomOptions
+            {
+                MaxPlayers = 20,
+                IsVisible = true,
+                IsOpen = true,
+                EmptyRoomTtl = 1000 * 20,
+                CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "MasterNickname", PhotonNetwork.NickName } },
+                CustomRoomPropertiesForLobby = new string[] { "MasterNickname" },
+            };
 
-        PhotonNetwork.JoinOrCreateRoom(RoomID, roomOptions, TypedLobby.Default);
-        Debug.Log($"{RoomID}");
-        PlayerSelection.Instance.ReloadCharacter();
+            PhotonNetwork.JoinOrCreateRoom(RoomID, roomOptions, TypedLobby.Default);
+            Debug.Log($"{RoomID}");
+            PlayerSelection.Instance.ReloadCharacter();
+        }
+        else
+        {
+            Debug.LogWarning("PhotonNetwork is not ready.");
+        }
     }
     public void OnClickMaleButton() => OnClickPlayerTypeButton(PlayerType.Male);
     public void OnClickFemaleButton() => OnClickPlayerTypeButton(PlayerType.Female);

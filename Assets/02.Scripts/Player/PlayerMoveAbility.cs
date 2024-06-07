@@ -36,6 +36,8 @@ public class PlayerMoveAbility : PlayerAbility
             GameObject.FindWithTag("MainCamera").GetComponent<TPSCamera>().target = CameraRoot;
         }
         _isFallGuysScene = SceneManager.GetActiveScene().name == "FallGuysScene";
+
+        Physics.gravity = new Vector3(0, -9.81f, 0);
     }
 
     // 키 입력과 이동방향 계산
@@ -134,7 +136,8 @@ public class PlayerMoveAbility : PlayerAbility
         if (Physics.Raycast(LayerPoint.position, Vector3.down, out hit, groundDistance, defaultLayerMask))
         {
             isGrounded = true;
-            
+            Physics.gravity = new Vector3(0, -9.81f, 0);
+
         }
         else
         {

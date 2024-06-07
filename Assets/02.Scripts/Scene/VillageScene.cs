@@ -1,8 +1,6 @@
 using Photon.Pun;
-using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class VillageScene : MonoBehaviourPunCallbacks
 {
@@ -28,15 +26,6 @@ public class VillageScene : MonoBehaviourPunCallbacks
     private void Start()
     {
         InitializeIfNeeded();
-    }
-
-    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
-    {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            // 새 플레이어가 입장했을 때 씬 상태를 요청
-            photonView.RPC("RequestSceneState", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer);
-        }
     }
 
     public override void OnJoinedRoom()
@@ -94,32 +83,5 @@ public class VillageScene : MonoBehaviourPunCallbacks
     {
         int randomIndex = Random.Range(0, SpawnPoints.Count);
         return SpawnPoints[randomIndex].position;
-    }
-
-    [PunRPC]
-    private void RequestSceneState(Photon.Realtime.Player newPlayer)
-    {
-        SendSceneState(newPlayer);
-    }
-
-    private void SendSceneState(Photon.Realtime.Player newPlayer)
-    {
-        string sceneName = SceneManager.GetActiveScene().name;
-        photonView.RPC("ReceiveSceneState", newPlayer, sceneName);
-    }
-
-    [PunRPC]
-    private void ReceiveSceneState(string sceneName)
-    {
-        Debug.Log("Received scene state: " + sceneName);
-
-        if (SceneManager.GetActiveScene().name != sceneName)
-        {
-            SceneManager.LoadScene(sceneName);
-        }
-        else
-        {
-            Init();
-        }
     }
 }

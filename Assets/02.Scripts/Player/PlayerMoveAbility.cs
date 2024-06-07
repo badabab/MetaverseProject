@@ -5,11 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMoveAbility : PlayerAbility
 {
-    public float Movespeed = 5f;
-    public float RunSpeed = 10f;
+    public float Speed;
+    private float Movespeed = 5f;
+    private float RunSpeed = 10f;
 
-    public float NormalJumpPower= 3;
-    public float RunningJumpPower= 5;
+    
+    private float NormalJumpPower= 3;
+    private float RunningJumpPower= 6;
 
     public int JumpCount;
     private int MaxJumpCount = 1;
@@ -22,8 +24,13 @@ public class PlayerMoveAbility : PlayerAbility
 
     private bool _isRunning;
 
+    private bool _isJumping;
+    private bool _isRunningJumping;
+
     public Transform LayerPoint;
     private Animator _animator;
+    private bool _animationEnded;
+
     Rigidbody rb;
     public Transform CameraRoot;
     Vector3 dir = Vector3.zero;
@@ -52,12 +59,16 @@ public class PlayerMoveAbility : PlayerAbility
             return;
         }
         GroundCheck();
-        
-        Jump();
+        JumpCounter();
 
         if (Input.GetKeyDown(KeyCode.T))
         {
             _animator.SetTrigger("Punching");
+        }
+
+        if (JumpCount >= MaxJumpCount)
+        {
+            JumpCount = MaxJumpCount;
         }
     }
 
@@ -97,46 +108,62 @@ public class PlayerMoveAbility : PlayerAbility
             rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f));
 
             // 걷기 애니메이션 설정
-            _animator.SetBool("Walk", true);
+           // _animator.SetBool("Walk", true);
         }
         else // 키 입력이 없는 경우
         {
-            _animator.SetBool("Walk", false);
+            //_animator.SetBool("Walk", false);
         }
 
         // 달리기 여부에 따라 이동 속도 및 애니메이션 설정
         if (_isFallGuysScene ||Input.GetKey(KeyCode.LeftShift))
         {
-            rb.MovePosition(rb.position + direction * RunSpeed * Time.deltaTime);
+          
+            Speed = RunSpeed;
+            
+            rb.MovePosition(rb.position + direction * Speed * Time.deltaTime);
             _isRunning = true;
-            JumpPower = RunningJumpPower;
+            
             _animator.SetBool("Run", true);
         }
         else
         {
-            rb.MovePosition(rb.position + direction * Movespeed * Time.deltaTime);
+            Speed = Movespeed;
+            
+            rb.MovePosition(rb.position + direction * Speed * Time.deltaTime);
             _isRunning = false;
-            JumpPower = NormalJumpPower;
+            
             _animator.SetBool("Run", false);
         }
 
-        if(JumpCount >= MaxJumpCount)
+        if (Input.GetKeyDown(KeyCode.Space) && JumpCount == 1) 	// IsGrounded가 true일 때만 점프할 수 있도록
         {
-            JumpCount = MaxJumpCount;
+            if (_isRunning)
+            {
+                JumpPower = RunningJumpPower;
+            }
+            else
+            {
+                JumpPower = NormalJumpPower;
+            }
+            JumpCount -= 1;
+            rb.AddForce(Vector3.up * JumpPower, ForceMode.Impulse);
+            _animator.SetTrigger("Jump");
+
+            
         }
+
+
     }
 
     // 점프 동작 구현
-    void Jump()
+    void JumpCounter()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && JumpCount==1) 	// IsGrounded가 true일 때만 점프할 수 있도록
-        {
-            Vector3 jumpVelocity = Vector3.up * Mathf.Sqrt(JumpPower * -2f * Physics.gravity.y);
-            rb.AddForce(jumpVelocity, ForceMode.VelocityChange);
-            _animator.SetTrigger("Jump");
-            Debug.Log($"{isGrounded}");
 
-            JumpCount = 0;
+        if (isGrounded && JumpCount<1)
+        {
+            JumpCount += 1;
+            // 추가 동작 구현
         }
     }
 
@@ -152,11 +179,6 @@ public class PlayerMoveAbility : PlayerAbility
         {
             isGrounded = true;
             Physics.gravity = new Vector3(0, -9.81f, 0);
-            if(JumpCount == 0)
-            {
-                JumpCount += 1;
-            }
-            
 
         }
         else

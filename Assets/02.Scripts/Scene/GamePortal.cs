@@ -17,18 +17,26 @@ public class GamePortal : MonoBehaviourPunCallbacks
             if (gameObject.name == ("BattleTilePortal"))
             {
                 //PhotonNetwork.LoadLevel("BattleTileScene");
-                SceneManager.LoadScene("BattleTileScene");
+                //SceneManager.LoadScene("BattleTileScene");
+                photonView.RPC("ChangeSceneRPC", RpcTarget.AllBuffered, "BattleTilePortal");
             }
             else if (gameObject.name == ("FallGuysPortal"))
             {
-                //PhotonNetwork.LoadLevel("FallGuysScene");
                 SceneManager.LoadScene("FallGuysScene");
+                photonView.RPC("ChangeSceneRPC", RpcTarget.AllBuffered, "FallGuysScene");
             }
             else if (gameObject.name == ("TowerClimbPortal"))
             {
-                //PhotonNetwork.LoadLevel("TowerClimbScene");
                 SceneManager.LoadScene("TowerClimbScene");
+                photonView.RPC("ChangeSceneRPC", RpcTarget.AllBuffered, "TowerClimbScene");
             }
         }
+    }
+
+    [PunRPC]
+    void ChangeSceneRPC(string sceneName)
+    {
+        // 각 클라이언트가 로컬에서 씬을 전환함
+        SceneManager.LoadScene(sceneName);
     }
 }

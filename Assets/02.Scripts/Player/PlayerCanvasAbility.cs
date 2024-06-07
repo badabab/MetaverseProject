@@ -1,16 +1,16 @@
 using Photon.Pun;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerCanvasAbility : PlayerAbility
 {
     public static PlayerCanvasAbility Instance {  get; private set; }
 
     public Canvas PlayerCanvas;
-    public Text NicknameTextUI;
+    public TextMeshProUGUI NicknameTextUI;
     private Player player;
 
-    private void Awake()
+    private new void Awake()
     {
         if (Instance == null)
         {

@@ -17,10 +17,10 @@ public class TowerClimbManager : MonoBehaviour
 
     private int _countDown = 5;
     private int _countEnd = 10;
-    private bool isCountingDown = false;
+    //private bool isCountingDown = false;
     private bool isGameOver = false;
-    private bool isFirstPlayerDetected = false;
-    private string firstPlayerId;
+    //private bool isFirstPlayerDetected = false;
+    //private string firstPlayerId;
 
     public GameState _currentGameState = GameState.Ready;
 

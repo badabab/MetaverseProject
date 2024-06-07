@@ -15,7 +15,7 @@ public class UI_Countdown_B : MonoBehaviour
     private bool isCountDownCoroutineRunning = false;
     private bool isGoCoroutineRunning = false;
     private bool _isGo = false;
-    private int _countdownCount = 5;
+    //private int _countdownCount = 5;
 
     private GameState previousGameState;
 

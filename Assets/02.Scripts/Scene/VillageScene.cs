@@ -127,7 +127,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void RequestSceneState(Player newPlayer)
+    private void RequestSceneState(Photon.Realtime.Player newPlayer)
     {
         SendSceneState(newPlayer);
     }

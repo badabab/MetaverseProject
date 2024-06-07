@@ -1763,7 +1763,7 @@ Transform:
   m_GameObject: {fileID: 6655400521265169786}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.13, z: 0}
+  m_LocalPosition: {x: 0, y: 4.54, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3574,6 +3574,7 @@ MonoBehaviour:
   RunSpeed: 15
   NormalJumpPower: 3
   RunningJumpPower: 5
+  JumpCount: 0
   isGrounded: 1
   LayerMask:
     serializedVersion: 2
@@ -3590,7 +3591,7 @@ Rigidbody:
   m_GameObject: {fileID: 6655400521265169786}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 3
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}

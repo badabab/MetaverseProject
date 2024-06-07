@@ -63,6 +63,10 @@ public class PlayerMoveAbility : PlayerAbility
 
     private void FixedUpdate()
     {
+        if ( !_owner.PhotonView.IsMine)
+        {
+            return;
+        }
         InputAndDir();
     }
 

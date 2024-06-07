@@ -54,15 +54,6 @@ public class VillageScene : MonoBehaviourPunCallbacks
         SendPlayerInfo(newPlayer);
     }
 
-    public override void OnJoinedRoom()
-    {
-        Debug.Log("Entered Village Room.");
-        InitializeIfNeeded();
-
-        // 기존 플레이어들에게 자신을 알림
-        photonView.RPC("SendPlayerInfoToAll", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer);
-    }
-
     private void InitializeIfNeeded()
     {
         if (!isInitialized)
@@ -105,34 +96,6 @@ public class VillageScene : MonoBehaviourPunCallbacks
 
             PlayerCanvasAbility.Instance.NicknameTextUI.text = nickname;
             PlayerCanvasAbility.Instance.ShowMyNickname();
-        }
-    }
-
-    [PunRPC]
-    private void SendPlayerInfoToAll(Player newPlayer)
-    {
-        string nickname = PlayerPrefs.GetString("LoggedInId");
-        int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
-        string uniquePlayerKey = $"{nickname}_{characterIndex}";
-
-        if (!players.ContainsKey(uniquePlayerKey))
-        {
-            // 플레이어가 없는 경우 새로 생성
-            Vector3 spawnPoint = GetRandomSpawnPoint();
-            string characterPrefab = characterIndex <= 0 ? $"Player {PlayerSelection.Instance.SelectedCharacterIndex}" : $"Player {characterIndex}";
-            GameObject playerObject = PhotonNetwork.Instantiate(characterPrefab, spawnPoint, Quaternion.identity);
-
-            players.Add(uniquePlayerKey, playerObject);
-
-            PlayerCanvasAbility.Instance.NicknameTextUI.text = nickname;
-            PlayerCanvasAbility.Instance.ShowMyNickname();
-        }
-        else
-        {
-            // 플레이어가 이미 존재하는 경우
-            GameObject existingPlayer = players[uniquePlayerKey];
-            existingPlayer.transform.position = GetRandomSpawnPoint();
-            existingPlayer.SetActive(true);
         }
     }
 

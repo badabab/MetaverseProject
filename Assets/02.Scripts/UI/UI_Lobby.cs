@@ -139,7 +139,7 @@ public class UI_Lobby : MonoBehaviour
         }
     }
 
-    public void GoToLoadingScene()
+/*    public void GoToLoadingScene()
     {
         RoomOptions roomOptions = new RoomOptions
         {
@@ -154,7 +154,7 @@ public class UI_Lobby : MonoBehaviour
         PhotonNetwork.JoinOrCreateRoom(RoomID, roomOptions, TypedLobby.Default);
         PlayerSelection.Instance.ReloadCharacter();
         SceneManager.LoadScene("LoadingScene");
-    }
+    }*/
 
     public void OnClickStartButton()
     {
@@ -170,10 +170,11 @@ public class UI_Lobby : MonoBehaviour
             IsOpen = true,
             EmptyRoomTtl = 1000 * 20,
             CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "MasterNickname", PhotonNetwork.NickName } },
-            CustomRoomPropertiesForLobby = new string[] { "MasterNickname" }
+            CustomRoomPropertiesForLobby = new string[] { "MasterNickname" },
         };
 
         PhotonNetwork.JoinOrCreateRoom(RoomID, roomOptions, TypedLobby.Default);
+        Debug.Log($"{RoomID}");
         PlayerSelection.Instance.ReloadCharacter();
     }
     public void OnClickMaleButton() => OnClickPlayerTypeButton(PlayerType.Male);

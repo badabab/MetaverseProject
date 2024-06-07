@@ -18,7 +18,7 @@ public class PlayerMoveAbility : PlayerAbility
 
     public bool isGrounded;		// 땅에 서있는지 체크하기 위한 bool값
     public LayerMask LayerMask;	// 레이어마스크 설정
-    public float groundDistance = 0.2f;		// Ray를 쏴서 검사하는 거리
+    public float groundDistance = 0.4f;		// Ray를 쏴서 검사하는 거리
 
     private bool _isRunning;
 

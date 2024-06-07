@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerMoveAbility : PlayerAbility
 {
     public float Movespeed = 5f;
-    public float RunSpeed = 15f;
+    public float RunSpeed = 10f;
 
     public float NormalJumpPower= 3;
     public float RunningJumpPower= 5;
@@ -129,7 +129,7 @@ public class PlayerMoveAbility : PlayerAbility
     // 점프 동작 구현
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && (isGrounded || JumpCount==1)) 	// IsGrounded가 true일 때만 점프할 수 있도록
+        if (Input.GetKeyDown(KeyCode.Space) && JumpCount==1) 	// IsGrounded가 true일 때만 점프할 수 있도록
         {
             Vector3 jumpVelocity = Vector3.up * Mathf.Sqrt(JumpPower * -2f * Physics.gravity.y);
             rb.AddForce(jumpVelocity, ForceMode.VelocityChange);
@@ -152,7 +152,11 @@ public class PlayerMoveAbility : PlayerAbility
         {
             isGrounded = true;
             Physics.gravity = new Vector3(0, -9.81f, 0);
-            JumpCount +=1;
+            if(JumpCount == 0)
+            {
+                JumpCount += 1;
+            }
+            
 
         }
         else

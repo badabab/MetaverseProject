@@ -19,22 +19,23 @@ public class UI_Information : MonoBehaviourPunCallbacks
 
     private void SetXY()
     {
-        if (UI_Lobby.SelectedType == PlayerType.Female)
+        int Index = PersonalManager.Instance.CheckCharacterIndex();
+        if (Index >= 1 && Index <= 13)
         {
             X.gameObject.SetActive(true);
             Y.gameObject.SetActive(false);
         }
-        else if (UI_Lobby.SelectedType == PlayerType.Male)
+        else if (Index <= 14 && 26 >= Index)
         {
             X.gameObject.SetActive(false);
             Y.gameObject.SetActive(true);
         }
     }
 
-    [PunRPC]
     public void SetNickname()
     {
-        Nickname.text = PhotonNetwork.NickName;
-        Debug.Log($"{PhotonNetwork.NickName}");
+        string nickname = PlayerPrefs.GetString("LoggedInId");
+        Nickname.text = nickname;
+        Debug.Log($"{nickname}");
     }
 }

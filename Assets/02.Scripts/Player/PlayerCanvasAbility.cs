@@ -10,7 +10,7 @@ public class PlayerCanvasAbility : PlayerAbility
     public Text NicknameTextUI;
     private Player player;
 
-    private void Start()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -21,7 +21,10 @@ public class PlayerCanvasAbility : PlayerAbility
             Destroy(gameObject);
         }
         player = GetComponent<Player>();
+    }
 
+    private void Start()
+    {
         ShowMyNickname();
     }
     private void Update()

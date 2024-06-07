@@ -36,7 +36,7 @@ public class PlayerMoveAbility : PlayerAbility
     Vector3 dir = Vector3.zero;
 
     private bool _isFallGuysScene = false; // 폴가이즈 씬인지 확인
-
+    private bool _isTowerClimbScene = false;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -47,6 +47,7 @@ public class PlayerMoveAbility : PlayerAbility
             GameObject.FindWithTag("MainCamera").GetComponent<TPSCamera>().target = CameraRoot;
         }
         _isFallGuysScene = SceneManager.GetActiveScene().name == "FallGuysScene";
+        _isTowerClimbScene = SceneManager.GetActiveScene().name == "TowerClimbScene";
 
         Physics.gravity = new Vector3(0, -9.81f, 0);
     }
@@ -135,8 +136,18 @@ public class PlayerMoveAbility : PlayerAbility
             
             _animator.SetBool("Run", false);
         }
+        if (_isTowerClimbScene)
+        {
+            JumpPower = 20;
+            if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+            {
+                JumpCount -= 1;
+                rb.AddForce(Vector3.up * JumpPower, ForceMode.Impulse);
+                _animator.SetTrigger("Jump");
+            }
 
-        if (Input.GetKeyDown(KeyCode.Space) && JumpCount == 1) 	// IsGrounded가 true일 때만 점프할 수 있도록
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && JumpCount == 1 && !_isTowerClimbScene) 	// IsGrounded가 true일 때만 점프할 수 있도록
         {
             if (_isRunning)
             {

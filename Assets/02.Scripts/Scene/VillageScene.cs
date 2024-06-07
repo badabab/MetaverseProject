@@ -31,7 +31,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
         InitializeIfNeeded();
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         if (PhotonNetwork.IsMasterClient)
         {
@@ -102,7 +102,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
         }
     }
 
-    private void SendPlayerInfo(Player newPlayer)
+    private void SendPlayerInfo(Photon.Realtime.Player newPlayer)
     {
         foreach (var player in players.Values)
         {
@@ -132,7 +132,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
         SendSceneState(newPlayer);
     }
 
-    private void SendSceneState(Player newPlayer)
+    private void SendSceneState(Photon.Realtime.Player newPlayer)
     {
         string sceneName = SceneManager.GetActiveScene().name;
         photonView.RPC("ReceiveSceneState", newPlayer, sceneName);

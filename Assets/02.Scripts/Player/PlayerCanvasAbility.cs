@@ -10,7 +10,6 @@ public class PlayerCanvasAbility : PlayerAbility
     public Text NicknameTextUI;
     private Player player;
 
-
     private void Awake()
     {
         if (Instance == null)
@@ -23,6 +22,7 @@ public class PlayerCanvasAbility : PlayerAbility
         }
         player = GetComponent<Player>();
     }
+
     private void Start()
     {
         ShowMyNickname();

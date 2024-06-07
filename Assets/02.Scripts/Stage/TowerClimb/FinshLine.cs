@@ -15,13 +15,5 @@ public class FinshLine : MonoBehaviour
             FinshLineSphere.transform.Rotate(0, Speed * Time.deltaTime, 0);
         }
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-
-        }
-    }
 }
 

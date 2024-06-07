@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class UI_GameManager : MonoBehaviour
 {
-    public static UI_GameManager Instance;  
+    public static UI_GameManager Instance;
     public GameObject GM_UI;
+
     void Awake()
     {
         if (Instance == null)
@@ -19,43 +20,66 @@ public class UI_GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     private void Start()
     {
         GM_UI.SetActive(false);
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            bool isActive = !GM_UI.activeSelf;
-            GM_UI.SetActive(isActive);
-            UnityEngine.Cursor.visible = isActive;
-            UnityEngine.Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
+            ToggleUI();
+        }
+    }
+
+    private void ToggleUI()
+    {
+        bool isActive = !GM_UI.activeSelf;
+        GM_UI.SetActive(isActive);
+        UnityEngine.Cursor.visible = isActive;
+        UnityEngine.Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
+
+        if (isActive)
+        {
             GameManager.Instance.Pause();
+        }
+        else
+        {
+            GameManager.Instance.Continue();
         }
     }
 
     public void OnClickQuit()
     {
         GM_UI.SetActive(false);
+        UnityEngine.Cursor.visible = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         GameManager.Instance.Continue();
     }
 
     public void OnClickReplay()
     {
-        GameManager.Instance.Continue();
         GM_UI.SetActive(false);
+        UnityEngine.Cursor.visible = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        GameManager.Instance.Continue();
     }
 
     public void OnClickVillige()
     {
-        GameManager.Instance.BackToVillage();
         GM_UI.SetActive(false);
+        UnityEngine.Cursor.visible = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        GameManager.Instance.BackToVillage();
     }
 
     public void OnClickGameQuitButton()
     {
-        GameManager.Instance.GameOver();
         GM_UI.SetActive(false);
+        UnityEngine.Cursor.visible = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        GameManager.Instance.GameOver();
     }
 }

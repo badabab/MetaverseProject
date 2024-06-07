@@ -22,13 +22,17 @@ public class RandomTile : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    // 충돌 감지
+    void OnCollisionEnter(Collision collision)
     {
-        // 플레이어 태그를 가진 오브젝트가 가짜 유리판에 닿았을 때
-        if (other.CompareTag("Player"))
+        // 충돌한 객체가 플레이어 태그를 가지고 있는지 확인
+        if (collision.gameObject.CompareTag("Player"))
         {
-            // 가짜 유리판 비활성화
-            fakeGlassPane.SetActive(false);
+            // 충돌한 객체와 fakeGlassPane로 결정된 객체가 충돌했을 때, fakeGlassPane를 비활성화
+            if (collision.gameObject == fakeGlassPane)
+            {
+                fakeGlassPane.SetActive(false);
+            }
         }
     }
 }

@@ -184,8 +184,4 @@ public class TowerClimbManager : MonoBehaviour
         }
         SceneManager.LoadScene("VillageScene");
     }
-
-
-    // 플레이어 하나라도 도착하면 게임 끝낼건지?
-    // 모든 플레이어 들어올때까지 관전모드(?) 같은 거 할 지 정해야 됨
 }

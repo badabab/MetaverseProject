@@ -64,13 +64,14 @@ public class VillageScene : MonoBehaviourPunCallbacks
 
         string nickname = PlayerPrefs.GetString("LoggedInId");
         int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
+        string uniquePlayerKey = $"{nickname}_{characterIndex}";
 
-        if (!players.ContainsKey(nickname))
+        if (!players.ContainsKey(uniquePlayerKey))
         {
             string characterPrefab = characterIndex <= 0 ? $"Player {PlayerSelection.Instance.SelectedCharacterIndex}" : $"Player {characterIndex}";
             GameObject playerObject = PhotonNetwork.Instantiate(characterPrefab, spawnPoint, Quaternion.identity);
 
-            players.Add(nickname, playerObject);
+            players.Add(uniquePlayerKey, playerObject);
 
             PlayerCanvasAbility.Instance.NicknameTextUI.text = nickname;
             PlayerCanvasAbility.Instance.ShowMyNickname();
@@ -78,7 +79,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
         else
         {
             // 이미 플레이어가 존재하면 위치를 업데이트
-            GameObject existingPlayer = players[nickname];
+            GameObject existingPlayer = players[uniquePlayerKey];
             existingPlayer.transform.position = spawnPoint;
 
             // 만약 기존 플레이어 오브젝트가 비활성화되어 있다면 활성화

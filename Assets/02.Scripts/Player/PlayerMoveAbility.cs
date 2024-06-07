@@ -7,11 +7,11 @@ public class PlayerMoveAbility : PlayerAbility
 {
     public float Speed;
     private float Movespeed = 5f;
-    private float RunSpeed = 10f;
+    private float RunSpeed = 8f;
 
     
-    private float NormalJumpPower= 3;
-    private float RunningJumpPower= 6;
+    private float NormalJumpPower= 4;
+    private float RunningJumpPower= 8;
 
     public int JumpCount;
     private int MaxJumpCount = 1;

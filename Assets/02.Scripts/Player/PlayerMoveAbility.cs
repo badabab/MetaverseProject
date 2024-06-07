@@ -10,6 +10,10 @@ public class PlayerMoveAbility : PlayerAbility
 
     public float NormalJumpPower= 3;
     public float RunningJumpPower= 5;
+
+    public int JumpCount;
+    private int MaxJumpCount = 1;
+
     private float JumpPower;
 
     public bool isGrounded;		// 땅에 서있는지 체크하기 위한 bool값
@@ -111,17 +115,24 @@ public class PlayerMoveAbility : PlayerAbility
             JumpPower = NormalJumpPower;
             _animator.SetBool("Run", false);
         }
+
+        if(JumpCount >= MaxJumpCount)
+        {
+            JumpCount = MaxJumpCount;
+        }
     }
 
     // 점프 동작 구현
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)	// IsGrounded가 true일 때만 점프할 수 있도록
+        if (Input.GetKeyDown(KeyCode.Space) && (isGrounded || JumpCount==1)) 	// IsGrounded가 true일 때만 점프할 수 있도록
         {
             Vector3 jumpVelocity = Vector3.up * Mathf.Sqrt(JumpPower * -2f * Physics.gravity.y);
             rb.AddForce(jumpVelocity, ForceMode.VelocityChange);
             _animator.SetTrigger("Jump");
             Debug.Log($"{isGrounded}");
+
+            JumpCount = 0;
         }
     }
 
@@ -137,6 +148,7 @@ public class PlayerMoveAbility : PlayerAbility
         {
             isGrounded = true;
             Physics.gravity = new Vector3(0, -9.81f, 0);
+            JumpCount +=1;
 
         }
         else

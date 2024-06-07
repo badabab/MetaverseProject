@@ -31,27 +31,30 @@ public class VillageScene : MonoBehaviourPunCallbacks
         InitializeIfNeeded();
     }
 
-    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            // 씬 자동 동기화가 설정되어 있으므로 LoadLevel을 사용하지 않습니다.
-        }
-        else
-        {
-            // 새로운 플레이어가 입장했을 때 마스터 클라이언트에게 씬 상태를 요청
-            if (photonView != null && PhotonNetwork.LocalPlayer != null)
-            {
-                photonView.RPC("RequestSceneState", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer);
-            }
-            else
-            {
-                Debug.LogWarning("PhotonView or LocalPlayer is null.");
-            }
+            // 마스터 클라이언트가 새로 입장한 플레이어에게 현재 씬 상태와 플레이어 정보를 전송
+            photonView.RPC("SendSceneAndPlayerInfo", newPlayer);
         }
 
         // 새로운 플레이어에게 현재 방의 플레이어 정보 전송
         SendPlayerInfo(newPlayer);
+    }
+
+    [PunRPC]
+    private void SendSceneAndPlayerInfo()
+    {
+        // 씬 상태 전송
+        string sceneName = SceneManager.GetActiveScene().name;
+        photonView.RPC("ReceiveSceneState", RpcTarget.Others, sceneName);
+
+        // 현재 방의 모든 플레이어 정보 전송
+        foreach (var player in players.Values)
+        {
+            photonView.RPC("ReceivePlayerInfo", RpcTarget.Others, player.GetPhotonView().ViewID);
+        }
     }
 
     private void InitializeIfNeeded()
@@ -99,7 +102,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
         }
     }
 
-    private void SendPlayerInfo(Photon.Realtime.Player newPlayer)
+    private void SendPlayerInfo(Player newPlayer)
     {
         foreach (var player in players.Values)
         {
@@ -124,12 +127,12 @@ public class VillageScene : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void RequestSceneState(Photon.Realtime.Player newPlayer)
+    private void RequestSceneState(Player newPlayer)
     {
         SendSceneState(newPlayer);
     }
 
-    private void SendSceneState(Photon.Realtime.Player newPlayer)
+    private void SendSceneState(Player newPlayer)
     {
         string sceneName = SceneManager.GetActiveScene().name;
         photonView.RPC("ReceiveSceneState", newPlayer, sceneName);

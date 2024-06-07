@@ -18,7 +18,6 @@ public class VillageScene : MonoBehaviourPunCallbacks
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            PhotonNetwork.AutomaticallySyncScene = true; // 씬 자동 동기화 설정
         }
         else
         {
@@ -31,30 +30,16 @@ public class VillageScene : MonoBehaviourPunCallbacks
         InitializeIfNeeded();
     }
 
-    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    public override void OnJoinedRoom()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            // 마스터 클라이언트가 새로 입장한 플레이어에게 현재 씬 상태와 플레이어 정보를 전송
-            photonView.RPC("SendSceneAndPlayerInfo", newPlayer);
-        }
-
-        // 새로운 플레이어에게 현재 방의 플레이어 정보 전송
-        SendPlayerInfo(newPlayer);
+        Debug.Log("Entered Village Room.");
+        InitializeIfNeeded();
     }
 
-    [PunRPC]
-    private void SendSceneAndPlayerInfo()
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
-        // 씬 상태 전송
-        string sceneName = SceneManager.GetActiveScene().name;
-        photonView.RPC("ReceiveSceneState", RpcTarget.Others, sceneName);
-
-        // 현재 방의 모든 플레이어 정보 전송
-        foreach (var player in players.Values)
-        {
-            photonView.RPC("ReceivePlayerInfo", RpcTarget.Others, player.GetPhotonView().ViewID);
-        }
+        Debug.Log($"Player {newPlayer.NickName} entered the room.");
+        InitializeIfNeeded();
     }
 
     private void InitializeIfNeeded()
@@ -102,54 +87,9 @@ public class VillageScene : MonoBehaviourPunCallbacks
         }
     }
 
-    private void SendPlayerInfo(Photon.Realtime.Player newPlayer)
-    {
-        foreach (var player in players.Values)
-        {
-            photonView.RPC("ReceivePlayerInfo", newPlayer, player.GetPhotonView().ViewID);
-        }
-    }
-
-    [PunRPC]
-    private void ReceivePlayerInfo(int viewID)
-    {
-        GameObject player = PhotonView.Find(viewID).gameObject;
-        if (player != null)
-        {
-            player.SetActive(true); // 필요한 경우 추가 작업 수행
-        }
-    }
-
     public Vector3 GetRandomSpawnPoint()
     {
         int randomIndex = Random.Range(0, SpawnPoints.Count);
         return SpawnPoints[randomIndex].position;
-    }
-
-    [PunRPC]
-    private void RequestSceneState(Photon.Realtime.Player newPlayer)
-    {
-        SendSceneState(newPlayer);
-    }
-
-    private void SendSceneState(Photon.Realtime.Player newPlayer)
-    {
-        string sceneName = SceneManager.GetActiveScene().name;
-        photonView.RPC("ReceiveSceneState", newPlayer, sceneName);
-    }
-
-    [PunRPC]
-    private void ReceiveSceneState(string sceneName)
-    {
-        Debug.Log("Received scene state: " + sceneName);
-
-        if (SceneManager.GetActiveScene().name != sceneName)
-        {
-            SceneManager.LoadScene(sceneName);
-        }
-        else
-        {
-            Init();
-        }
     }
 }

@@ -34,10 +34,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().name);
-        }
-        else
-        {
+            // 새 플레이어가 입장했을 때 씬 상태를 요청
             photonView.RPC("RequestSceneState", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer);
         }
     }

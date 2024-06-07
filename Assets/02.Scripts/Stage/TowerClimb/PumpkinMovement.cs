@@ -7,7 +7,7 @@ public class PumpkinMovement : MonoBehaviour
     public Transform pumpkin; // 플레이어 태그를 갖고 있는 오브젝트
     public float targetYSelected; // 선택된 오브젝트가 이동할 Y 좌표
     public float moveSpeed; // 이동 속도
-
+    private float Timer = 5f;
     private bool isMoving = false;
 
     private void OnTriggerEnter(Collider other)
@@ -48,7 +48,7 @@ public class PumpkinMovement : MonoBehaviour
     IEnumerator DisableAndEnableObject()
     {
         gameObject.SetActive(false);
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(Timer);
         gameObject.SetActive(true);
     }
 }

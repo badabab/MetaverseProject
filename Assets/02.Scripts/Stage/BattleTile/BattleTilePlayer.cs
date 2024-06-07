@@ -13,13 +13,12 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
     {
         if (!photonView.IsMine) return;
         _characterController = GetComponent<CharacterController>();
+        MyNum = GetUniqueRandomNumber();
         if (SceneManager.GetActiveScene().name != "BattleTileScene")
         {
             this.enabled = false;
             return;
         }
-
-        MyNum = GetUniqueRandomNumber();
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "PlayerNumber", MyNum }, { "PlayerTileNumber", MyNum } });
         GameObject startpoint = GameObject.Find($"Start{MyNum}");
         Teleport(startpoint.transform);
@@ -50,7 +49,6 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
                 }
             }
         } while (!isUnique);
-        Debug.Log(randomNum);
         return randomNum;
     }
 

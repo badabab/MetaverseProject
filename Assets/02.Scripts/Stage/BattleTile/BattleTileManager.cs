@@ -16,6 +16,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
     private int _countEnd = 5;
     private bool _isGameOver = false;
     private bool _isStartCoroutine = false;
+    private bool _isNameUI = false;
 
     public GameState _currentGameState = GameState.Ready;
     public GameObject Gameover;
@@ -54,7 +55,11 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
                 break;
 
             case GameState.Go:
-                // 게임이 진행 중일 때의 로직을 추가하세요.
+                if (!_isNameUI)
+                {
+                    UI_BattleTile.Instance.RefreshUI();
+                    _isNameUI = true;
+                }
                 break;
 
             case GameState.Over:

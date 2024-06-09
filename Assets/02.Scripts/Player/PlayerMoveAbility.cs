@@ -6,12 +6,12 @@ using UnityEngine.SceneManagement;
 public class PlayerMoveAbility : PlayerAbility
 {
     public float Speed;
-    private float Movespeed = 5f;
-    private float RunSpeed = 8f;
+    private float Movespeed = 3f;
+    private float RunSpeed = 5f;
 
     
-    private float NormalJumpPower= 4;
-    private float RunningJumpPower= 8;
+    private float NormalJumpPower= 2;
+    private float RunningJumpPower= 4;
 
     public int JumpCount;
     private int MaxJumpCount = 1;
@@ -139,15 +139,15 @@ public class PlayerMoveAbility : PlayerAbility
         if (_isTowerClimbScene)
         {
             JumpPower = 20;
-            if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+            if (Input.GetKey(KeyCode.Space) && isGrounded)
             {
                 JumpCount -= 1;
                 rb.AddForce(Vector3.up * JumpPower, ForceMode.Impulse);
-                _animator.SetTrigger("Jump");
+                _animator.SetBool("Jump", true);
             }
 
         }
-        if (Input.GetKeyDown(KeyCode.Space) && JumpCount == 1 && !_isTowerClimbScene) 	// IsGrounded가 true일 때만 점프할 수 있도록
+        if (Input.GetKey(KeyCode.Space) && isGrounded && !_isTowerClimbScene) 	// IsGrounded가 true일 때만 점프할 수 있도록
         {
             if (_isRunning)
             {
@@ -158,8 +158,8 @@ public class PlayerMoveAbility : PlayerAbility
                 JumpPower = NormalJumpPower;
             }
             JumpCount -= 1;
-            rb.AddForce(Vector3.up * JumpPower, ForceMode.Impulse);
-            _animator.SetTrigger("Jump");
+            rb.AddForce((Vector3.up * JumpPower)/2f, ForceMode.Impulse);
+            _animator.SetBool("Jump",true);
 
             
         }
@@ -189,12 +189,14 @@ public class PlayerMoveAbility : PlayerAbility
         if (Physics.Raycast(LayerPoint.position, Vector3.down, out hit, groundDistance, defaultLayerMask))
         {
             isGrounded = true;
+            
             Physics.gravity = new Vector3(0, -9.81f, 0);
 
         }
         else
         {
             isGrounded = false;
+            _animator.SetBool("Jump", false);
         }
     }
 }

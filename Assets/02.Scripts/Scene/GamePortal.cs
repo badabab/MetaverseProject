@@ -2,41 +2,27 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GamePortal : MonoBehaviourPunCallbacks
+public class GamePortal : MonoBehaviour
 {
-    private Collider _collider;
-    private void Start()
-    {
-        _collider = GetComponent<Collider>();
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && other.GetComponent<PhotonView>().IsMine)
         {
-            if (gameObject.name == ("BattleTilePortal"))
+            if (gameObject.name == "BattleTilePortal")
             {
-                //PhotonNetwork.LoadLevel("BattleTileScene");
-                //SceneManager.LoadScene("BattleTileScene");
-                photonView.RPC("ChangeSceneRPC", RpcTarget.AllBuffered, "BattleTilePortal");
+                // "BattleTileScene" 씬으로 이동
+                PhotonNetwork.LoadLevel("BattleTileScene");
             }
-            else if (gameObject.name == ("FallGuysPortal"))
+            else if (gameObject.name == "FallGuysPortal")
             {
-                SceneManager.LoadScene("FallGuysScene");
-                photonView.RPC("ChangeSceneRPC", RpcTarget.AllBuffered, "FallGuysScene");
+                // "FallGuysScene" 씬으로 이동
+                PhotonNetwork.LoadLevel("FallGuysScene");
             }
-            else if (gameObject.name == ("TowerClimbPortal"))
+            else if (gameObject.name == "TowerClimbPortal")
             {
-                SceneManager.LoadScene("TowerClimbScene");
-                photonView.RPC("ChangeSceneRPC", RpcTarget.AllBuffered, "TowerClimbScene");
+                // "TowerClimbScene" 씬으로 이동
+                PhotonNetwork.LoadLevel("TowerClimbScene");
             }
         }
-    }
-
-    [PunRPC]
-    void ChangeSceneRPC(string sceneName)
-    {
-        // 각 클라이언트가 로컬에서 씬을 전환함
-        SceneManager.LoadScene(sceneName);
     }
 }

@@ -30,14 +30,18 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         FindLocalPlayer();
     }
 
-
-
-    private void LateUpdate()
+    void Update()
     {
         if (target == null) return; // 타겟이 없으면 리턴
 
         rotationX += Input.GetAxis("Mouse X") * sensitivity;
         rotationY -= Input.GetAxis("Mouse Y") * sensitivity;
+    }
+
+    private void FixedUpdate()
+    {
+        if (target == null) return;
+
         rotationY = Mathf.Clamp(rotationY, -90f, 90f); // 상하 회전 각도 제한
 
         Quaternion targetRotation = Quaternion.Euler(rotationY, rotationX, 0); // 카메라 회전값 계산

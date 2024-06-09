@@ -17,10 +17,10 @@ public class TowerClimbManager : MonoBehaviour
 
     private int _countDown = 5;
     private int _countEnd = 10;
-    private bool isCountingDown = false;
+    private bool _isStart = false;
     private bool isGameOver = false;
-    private bool isFirstPlayerDetected = false;
-    private string firstPlayerId;
+    //private bool isFirstPlayerDetected = false;
+    //private string firstPlayerId;
 
     public GameState _currentGameState = GameState.Ready;
 
@@ -136,19 +136,23 @@ public class TowerClimbManager : MonoBehaviour
 
     private System.Collections.IEnumerator StartCountDown()
     {
-        for (int i = 0; i < _countDown + 1; i++)
+        if (!_isStart)
         {
-            yield return new WaitForSeconds(1);
-            Debug.Log($"CountDown: {i}");
-        }
+            _isStart = true;
+            for (int i = 0; i < _countDown + 1; i++)
+            {
+                yield return new WaitForSeconds(1);
+                Debug.Log($"CountDown: {i}");
+            }
 
-        /*while (_countDown > 0)
-        {
-            Debug.Log($"CountDown: {_countDown}");
-            yield return new WaitForSeconds(1);
-            _countDown--;
-        }*/
-        SetGameState(GameState.Go);
+            /*while (_countDown > 0)
+            {
+                Debug.Log($"CountDown: {_countDown}");
+                yield return new WaitForSeconds(1);
+                _countDown--;
+            }*/
+            SetGameState(GameState.Go);
+        }      
     }
     private System.Collections.IEnumerator EndGame()
     {

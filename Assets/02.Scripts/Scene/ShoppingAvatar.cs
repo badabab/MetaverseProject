@@ -14,8 +14,8 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
     private GameObject currentAvatar;
     private GameObject player;
     private int Coin100 = 100;
-    private int Coin150 = 150;
-    private int Coin200 = 200;
+    //private int Coin150 = 150;
+    //private int Coin200 = 200;
 
 
     private void Start()

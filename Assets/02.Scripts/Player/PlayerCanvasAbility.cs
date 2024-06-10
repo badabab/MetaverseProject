@@ -34,7 +34,11 @@ public class PlayerCanvasAbility : MonoBehaviourPunCallbacks
     public void ShowMyNickname()
     {
         PhotonView photonView = GetComponentInParent<PhotonView>();
-        if (photonView != null)
+        SetNickname(photonView.Owner.NickName);
+
+        return;
+
+        /*if (photonView != null)
         {
             Debug.Log("PhotonView found.");
             if (photonView.IsMine)
@@ -51,10 +55,8 @@ public class PlayerCanvasAbility : MonoBehaviourPunCallbacks
         else
         {
             Debug.LogError("PhotonView not found.");
-        }
+        }*/
     }
-
-
     [PunRPC]
     public void SetNickname(string nickname)
     {

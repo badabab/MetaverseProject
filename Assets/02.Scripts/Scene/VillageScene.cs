@@ -70,8 +70,8 @@ public class VillageScene : MonoBehaviourPunCallbacks
             PlayerCanvasAbility playerCanvasAbility = playerObject.GetComponentInChildren<PlayerCanvasAbility>();
             if (playerCanvasAbility != null)
             {
-                playerCanvasAbility.SetNickname(nickname);
-                //playerCanvasAbility.ShowMyNickname();
+                //playerCanvasAbility.SetNickname(nickname);
+                playerCanvasAbility.ShowMyNickname();
             }
             else
             {

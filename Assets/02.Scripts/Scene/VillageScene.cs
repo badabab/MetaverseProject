@@ -34,10 +34,10 @@ public class VillageScene : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         Debug.Log($"Player {newPlayer.NickName} entered the room.");
-        if (PhotonNetwork.IsMasterClient)
+/*        if (PhotonNetwork.IsMasterClient)
         {
             photonView.RPC("InitializePlayer", RpcTarget.AllBuffered, newPlayer.NickName);
-        }
+        }*/
     }
 
     [PunRPC]

@@ -51,7 +51,7 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         transform.LookAt(target.position); // 캐릭터를 바라보도록 설정
     }
 
-    private void FindLocalPlayer()
+    /*private void FindLocalPlayer()
     {
         // 모든 플레이어 오브젝트를 찾음
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -77,4 +77,4 @@ public class TPSCamera : MonoBehaviourPunCallbacks
             }
         }
     }
-}
+}*/

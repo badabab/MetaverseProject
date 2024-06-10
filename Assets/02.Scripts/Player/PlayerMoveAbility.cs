@@ -32,7 +32,7 @@ public class PlayerMoveAbility : PlayerAbility
     private bool _animationEnded;
 
     Rigidbody rb;
-    public Transform CameraRoot;
+   // public Transform CameraRoot;
     Vector3 dir = Vector3.zero;
 
     private bool _isFallGuysScene = false; // 폴가이즈 씬인지 확인

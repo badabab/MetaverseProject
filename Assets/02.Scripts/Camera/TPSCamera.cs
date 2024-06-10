@@ -61,9 +61,9 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         foreach (GameObject player in players)
         {
             PhotonView photonView = player.GetComponent<PhotonView>();
-
+            string nickname = PlayerPrefs.GetString("LoggedInId");
             // 자신의 캐릭터인지 확인
-            if (photonView != null && photonView.IsMine)
+            if (photonView != null && photonView.IsMine && PhotonNetwork.LocalPlayer.NickName == nickname)
             {
                 Transform cameraRoot = player.transform.Find("CameraRoot");
                 if (cameraRoot != null)

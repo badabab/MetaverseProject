@@ -65341,6 +65341,7 @@ GameObject:
   - component: {fileID: 1208540601192881829}
   - component: {fileID: 3972577360857655919}
   - component: {fileID: 3894615815493337131}
+  - component: {fileID: 3972577360857655920}
   m_Layer: 0
   m_Name: lifebuoy_001
   m_TagString: Untagged
@@ -68493,6 +68494,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3972577360857655920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3179983889582148538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15d65f7e250f8924bb056e01173ed8ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Spinspeed: 2
 --- !u!64 &3984680832712008798
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -73496,6 +73510,7 @@ GameObject:
   - component: {fileID: 5443978788807202569}
   - component: {fileID: 8945061764543961260}
   - component: {fileID: 6613475587229133926}
+  - component: {fileID: 8945061764543961261}
   m_Layer: 0
   m_Name: ball_001
   m_TagString: Untagged
@@ -84801,6 +84816,7 @@ GameObject:
   - component: {fileID: 6148627177374658871}
   - component: {fileID: 7132457446290079378}
   - component: {fileID: 4980808615677217368}
+  - component: {fileID: 7785652664278079707}
   - component: {fileID: 7785652664278079706}
   m_Layer: 0
   m_Name: pumpkin_002 (2)
@@ -84820,6 +84836,7 @@ GameObject:
   - component: {fileID: 6148627178190486167}
   - component: {fileID: 7132457447038661938}
   - component: {fileID: 4980808615285015032}
+  - component: {fileID: 7785652664452240251}
   - component: {fileID: 7785652664452240250}
   m_Layer: 0
   m_Name: pumpkin_002 (1)
@@ -84839,6 +84856,7 @@ GameObject:
   - component: {fileID: 6148627178055072391}
   - component: {fileID: 7132457446903641378}
   - component: {fileID: 4980808615420428776}
+  - component: {fileID: 7785652664585163627}
   - component: {fileID: 7785652664585163626}
   m_Layer: 0
   m_Name: pumpkin_002
@@ -90226,6 +90244,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 457640847727394876, guid: 562da4c5052858340b8079a0486a2175, type: 3}
+--- !u!114 &7785652664278079707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6782314917980203917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15d65f7e250f8924bb056e01173ed8ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Spinspeed: 0.1
 --- !u!64 &7785652664452240250
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -90248,6 +90279,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 457640847727394876, guid: 562da4c5052858340b8079a0486a2175, type: 3}
+--- !u!114 &7785652664452240251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6782314918347235373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15d65f7e250f8924bb056e01173ed8ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Spinspeed: -0.1
 --- !u!64 &7785652664585163626
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -90270,6 +90314,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 457640847727394876, guid: 562da4c5052858340b8079a0486a2175, type: 3}
+--- !u!114 &7785652664585163627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6782314918482321469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15d65f7e250f8924bb056e01173ed8ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Spinspeed: 0.1
 --- !u!4 &7801023928841043963
 Transform:
   m_ObjectHideFlags: 0
@@ -98492,6 +98549,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4667758302353755571}
   m_Mesh: {fileID: -5201138961992467968, guid: e265c7331db0a2b4b8237b09f3e5e595, type: 3}
+--- !u!114 &8945061764543961261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4667758302353755571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15d65f7e250f8924bb056e01173ed8ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Spinspeed: 2
 --- !u!4 &8984387739033914220
 Transform:
   m_ObjectHideFlags: 0

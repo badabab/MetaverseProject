@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class Spin : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float Spinspeed;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        transform.Rotate(0, Spinspeed * Time.deltaTime, 0);
     }
 }

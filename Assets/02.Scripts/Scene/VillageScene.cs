@@ -68,12 +68,14 @@ public class VillageScene : MonoBehaviourPunCallbacks
         GameObject playerObject = PhotonNetwork.Instantiate($"Player {characterIndex}", spawnPoint, Quaternion.identity);
         Debug.Log($"{player.NickName}");
 
-        // Ensure the nickname is set only for the local player
+        PlayerCanvasAbility.Instance.NicknameTextUI.text = player.NickName;
+
+/*        // Ensure the nickname is set only for the local player
         PlayerCanvasAbility canvasAbility = playerObject.GetComponentInChildren<PlayerCanvasAbility>();
         if (canvasAbility != null)
         {
             canvasAbility.SetNickname(player.NickName);
-        }
+        }*/
     }
 
     public Vector3 GetRandomSpawnPoint()

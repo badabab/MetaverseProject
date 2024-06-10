@@ -39,6 +39,11 @@ public class PlayerMoveAbility : PlayerAbility
     private bool _isTowerClimbScene = false;
     void Start()
     {
+        if (!_owner.PhotonView.IsMine)
+        {
+            return;
+        }
+
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
 

@@ -47,10 +47,10 @@ public class PlayerMoveAbility : PlayerAbility
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
 
-        if (_owner.PhotonView.IsMine)
+        /*if (_owner.PhotonView.IsMine)
         {
             GameObject.FindWithTag("MainCamera").GetComponent<TPSCamera>().target = CameraRoot;
-        }
+        }*/
         _isFallGuysScene = SceneManager.GetActiveScene().name == "FallGuysScene";
         _isTowerClimbScene = SceneManager.GetActiveScene().name == "TowerClimbScene";
 

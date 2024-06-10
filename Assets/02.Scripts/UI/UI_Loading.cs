@@ -36,7 +36,7 @@ public class UI_Loading : MonoBehaviour
 
         if (LoadingTime <= 0)
         {
-            SceneManager.LoadScene("VillageScene");
+            
         }
     }
 

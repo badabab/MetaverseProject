@@ -9,6 +9,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     string _nickname;
 
     public static PhotonManager Instance;
+
+    public GameObject StartButton;
+
     private void Awake()
     {
         if (Instance == null)
@@ -23,6 +26,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     }
     private void Start()
     {
+        StartButton.gameObject.SetActive(false);
         _nickname = PlayerPrefs.GetString("LoggedInId", "Player");
 
         PhotonNetwork.GameVersion = "0.0.1";
@@ -52,13 +56,14 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         Debug.Log("로비 입장");
+        StartButton.gameObject.SetActive(true);
     }
 
     public override void OnCreatedRoom()
     {
         Debug.Log("방 생성 성공!");
         Debug.Log($"RoomName: {PhotonNetwork.CurrentRoom.Name}");
-        LoadLoadingScene();
+
     }
 
     public override void OnJoinedRoom()
@@ -66,7 +71,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Debug.Log("방 입장 성공!");
         Debug.Log($"RoomPlayerCount: {PhotonNetwork.CurrentRoom.PlayerCount}");
 
-        LoadLoadingScene();
+        SceneManager.LoadScene("VillageScene");
+
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)

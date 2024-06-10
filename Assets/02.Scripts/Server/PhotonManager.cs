@@ -1,6 +1,5 @@
 using Photon.Pun;
 using Photon.Realtime;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +8,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     string _nickname;
 
     public static PhotonManager Instance;
+
+    public GameObject StartButton;
+
     private void Awake()
     {
         if (Instance == null)
@@ -21,8 +23,10 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             Destroy(gameObject);
         }
     }
+
     private void Start()
     {
+        StartButton?.SetActive(false);
         _nickname = PlayerPrefs.GetString("LoggedInId", "Player");
 
         PhotonNetwork.GameVersion = "0.0.1";
@@ -45,28 +49,26 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("마스터 서버 접속");
-
         PhotonNetwork.JoinLobby(TypedLobby.Default);
     }
 
     public override void OnJoinedLobby()
     {
         Debug.Log("로비 입장");
+        StartButton?.SetActive(true);
     }
 
     public override void OnCreatedRoom()
     {
         Debug.Log("방 생성 성공!");
         Debug.Log($"RoomName: {PhotonNetwork.CurrentRoom.Name}");
-        LoadLoadingScene();
     }
 
     public override void OnJoinedRoom()
     {
         Debug.Log("방 입장 성공!");
         Debug.Log($"RoomPlayerCount: {PhotonNetwork.CurrentRoom.PlayerCount}");
-
-        LoadLoadingScene();
+        SceneManager.LoadScene("VillageScene");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -85,10 +87,5 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("방 생성 실패");
         Debug.Log(message);
-    }
-
-    private void LoadLoadingScene()
-    {
-        SceneManager.LoadScene("LoadingScene");
     }
 }

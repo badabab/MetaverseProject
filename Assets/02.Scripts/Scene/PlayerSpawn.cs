@@ -14,14 +14,7 @@ public class PlayerSpawn : MonoBehaviourPunCallbacks
             Init();
         }
     }
-    public override void OnJoinedRoom()
-    {
-        Debug.Log("방에 입장했습니다.");
-        if (!_init)
-        {
-            Init();
-        }
-    }
+
 
     private void Init()
     {

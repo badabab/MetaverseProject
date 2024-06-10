@@ -16128,7 +16128,6 @@ RectTransform:
   m_Children:
   - {fileID: 1648458198}
   - {fileID: 1073632065}
-  - {fileID: 2004135897}
   m_Father: {fileID: 1804380756}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -25246,7 +25245,6 @@ MonoBehaviour:
   Metaverse1: {fileID: 2051955072}
   Metaverse2: {fileID: 531139014}
   RoomID: testRoom
-  SelectedCharacter: []
 --- !u!4 &849224729
 Transform:
   m_ObjectHideFlags: 0
@@ -29473,6 +29471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879c1b3ec53465c4990096a1efe2533d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StartButton: {fileID: 2004135896}
 --- !u!1 &1013012359
 GameObject:
   m_ObjectHideFlags: 0
@@ -52680,6 +52679,7 @@ RectTransform:
   m_Children:
   - {fileID: 2051955074}
   - {fileID: 2136035563}
+  - {fileID: 2004135897}
   - {fileID: 531139015}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -58126,11 +58126,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1952409321}
-  m_Father: {fileID: 531139015}
+  m_Father: {fileID: 1804380756}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -320}
+  m_AnchoredPosition: {x: 0, y: 170}
   m_SizeDelta: {x: 300, y: 70}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &2004135898
@@ -59335,7 +59335,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2051955074
 RectTransform:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ using UnityEngine;
 //[RequireComponent(typeof(PlayerRotateAbility))]
 [RequireComponent(typeof(PlayerGrabAbility))]
 //[RequireComponent(typeof(PlayerMovementAbility))]
-[RequireComponent(typeof(TPSCamera))]
+
 
 public class Player : MonoBehaviour
 {

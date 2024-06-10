@@ -20,11 +20,9 @@ public class PlayerCanvasAbility : MonoBehaviourPunCallbacks
             Destroy(gameObject);
         }
     }
-    
-
     private void Start()
     {
-       //ShowMyNickname();
+       ShowMyNickname();
     }
     private void Update()
     {
@@ -36,7 +34,6 @@ public class PlayerCanvasAbility : MonoBehaviourPunCallbacks
         PhotonView photonView = GetComponentInParent<PhotonView>();
         SetNickname(photonView.Owner.NickName);
 
-        return;
 
         /*if (photonView != null)
         {

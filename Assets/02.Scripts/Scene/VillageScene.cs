@@ -35,12 +35,12 @@ public class VillageScene : MonoBehaviourPunCallbacks
         Debug.Log("Entered Village Room.");
         InitializeIfNeeded();
     }
-
+/*
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         Debug.Log($"Player {newPlayer.NickName} entered the room.");
         InitializeIfNeeded();
-    }
+    }*/
 
     private void InitializeIfNeeded()
     {
@@ -59,14 +59,16 @@ public class VillageScene : MonoBehaviourPunCallbacks
         string nickname = PlayerPrefs.GetString("LoggedInId");
         int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
         string uniquePlayerKey = $"{nickname}_{characterIndex}";
+        string characterPrefab = characterIndex <= 0 ? $"Player {PlayerSelection.Instance.SelectedCharacterIndex}" : $"Player {characterIndex}";
+        GameObject playerObject = PhotonNetwork.Instantiate(characterPrefab, spawnPoint, Quaternion.identity);
+
+        players.Add(uniquePlayerKey, playerObject);
+
+        
+
 
         if (!players.ContainsKey(uniquePlayerKey))
         {
-            string characterPrefab = characterIndex <= 0 ? $"Player {PlayerSelection.Instance.SelectedCharacterIndex}" : $"Player {characterIndex}";
-            GameObject playerObject = PhotonNetwork.Instantiate(characterPrefab, spawnPoint, Quaternion.identity);
-
-            players.Add(uniquePlayerKey, playerObject);
-
             PlayerCanvasAbility playerCanvasAbility = playerObject.GetComponentInChildren<PlayerCanvasAbility>();
             if (playerCanvasAbility != null)
             {

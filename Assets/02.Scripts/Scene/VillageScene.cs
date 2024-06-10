@@ -35,7 +35,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
     {
         InitializePlayer(PhotonNetwork.LocalPlayer);
     }
-
+/*
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         Debug.Log($"Player {newPlayer.NickName} entered the room.");
@@ -49,7 +49,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
     private void NotifyNewPlayer(string playerName)
     {
         Debug.Log($"Notified of new player: {playerName}");
-    }
+    }*/
 
     private void InitializePlayer(Photon.Realtime.Player player)
     {
@@ -69,7 +69,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
         Debug.Log($"{player.NickName}");
 
         // Ensure the nickname is set only for the local player
-        PlayerCanvasAbility canvasAbility = playerObject.GetComponent<PlayerCanvasAbility>();
+        PlayerCanvasAbility canvasAbility = playerObject.GetComponentInChildren<PlayerCanvasAbility>();
         if (canvasAbility != null)
         {
             canvasAbility.SetNickname(player.NickName);

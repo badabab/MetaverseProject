@@ -28,19 +28,22 @@ public class VillageScene : MonoBehaviourPunCallbacks
         InitializePlayer(PhotonNetwork.LocalPlayer.ToString());
     }
 
-    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
-    {
-        Debug.Log($"Player {newPlayer.NickName} entered the room.");
-        if (PhotonNetwork.IsMasterClient)
+    /*    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
         {
-            photonView.RPC("InitializePlayer", RpcTarget.AllBuffered, newPlayer.NickName);
-        }
-    }
+            Debug.Log($"Player {newPlayer.NickName} entered the room.");
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC("InitializePlayer", RpcTarget.AllBuffered, newPlayer.NickName);
+            }
+        }*/
 
-    [PunRPC]
+
+    public override void OnJoinedRoom()
+    {
+        InitializePlayer(PhotonNetwork.LocalPlayer.ToString());
+    }
     private void InitializePlayer(string playerName)
     {
-        Debug.Log("플레이어 초기화");
         Vector3 spawnPoint = GetRandomSpawnPoint();
 
         int characterIndex = PersonalManager.Instance.CheckCharacterIndex();

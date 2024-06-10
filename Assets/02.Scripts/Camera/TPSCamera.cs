@@ -25,11 +25,11 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         FindLocalPlayer();
     }
 
-    /*public override void OnJoinedRoom()
+    public override void OnJoinedRoom()
     {
         // 방에 들어왔을 때 자신의 캐릭터 다시 찾기
         FindLocalPlayer();
-    }*/
+    }
 
     void Update()
     {

@@ -32,7 +32,7 @@ public class PlayerMoveAbility : PlayerAbility
     private bool _animationEnded;
 
     Rigidbody rb;
-   // public Transform CameraRoot;
+    public Transform CameraRoot;
     Vector3 dir = Vector3.zero;
 
     private bool _isFallGuysScene = false; // 폴가이즈 씬인지 확인
@@ -47,10 +47,10 @@ public class PlayerMoveAbility : PlayerAbility
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
 
-        /*if (_owner.PhotonView.IsMine)
+        if (_owner.PhotonView.IsMine)
         {
             GameObject.FindWithTag("MainCamera").GetComponent<TPSCamera>().target = CameraRoot;
-        }*/
+        }
         _isFallGuysScene = SceneManager.GetActiveScene().name == "FallGuysScene";
         _isTowerClimbScene = SceneManager.GetActiveScene().name == "TowerClimbScene";
 

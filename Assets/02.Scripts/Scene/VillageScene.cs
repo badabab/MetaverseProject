@@ -40,23 +40,23 @@ public class VillageScene : MonoBehaviourPunCallbacks
     [PunRPC]
     private void InitializePlayer(string playerName)
     {
-        Debug.Log("Initializing Player.");
+        Debug.Log("플레이어 초기화");
         Vector3 spawnPoint = GetRandomSpawnPoint();
 
         int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
-        string characterPrefab = characterIndex <= 0 ? $"Player {PlayerSelection.Instance.SelectedCharacterIndex}" : $"Player {characterIndex}";
 
-        GameObject playerObject = PhotonNetwork.Instantiate(characterPrefab, spawnPoint, Quaternion.identity);
-        Debug.Log(playerObject.name);
-
-        // 모든 플레이어에게 닉네임 표시
-        PlayerCanvasAbility playerCanvasAbility = playerObject.GetComponentInChildren<PlayerCanvasAbility>();
-        if (playerCanvasAbility != null)
+        if (characterIndex <= 0)
         {
-            playerCanvasAbility.SetNickname(playerName);
+            characterIndex = PlayerSelection.Instance.SelectedCharacterIndex;
         }
 
-       // players[playerName] = playerObject;
+        // Instantiate player
+        PhotonNetwork.Instantiate($"Player {characterIndex}", spawnPoint, Quaternion.identity);
+
+        Debug.Log($"{playerName}");
+
+        PlayerCanvasAbility.Instance.SetNickname(playerName);
+        PlayerCanvasAbility.Instance.ShowMyNickname();
     }
 
     public Vector3 GetRandomSpawnPoint()

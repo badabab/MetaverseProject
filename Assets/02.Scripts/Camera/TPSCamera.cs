@@ -40,10 +40,7 @@ public class TPSCamera : MonoBehaviourPunCallbacks
     void Update()
     {
 
-        if (!_owner.PhotonView.IsMine)
-        {
-            return;
-        }
+
         if (target == null) return; // 타겟이 없으면 리턴
 
         rotationX += Input.GetAxis("Mouse X") * sensitivity;

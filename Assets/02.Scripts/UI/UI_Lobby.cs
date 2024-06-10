@@ -120,7 +120,6 @@ public class UI_Lobby : MonoBehaviour
         Debug.Log("Login successful, user remembered.");
     }
 
-
     public void SelectCharacterBrowser()
     {
         Metaverse1.SetActive(false);
@@ -141,7 +140,7 @@ public class UI_Lobby : MonoBehaviour
 
             PhotonNetwork.JoinOrCreateRoom(RoomID, roomOptions, TypedLobby.Default);
             Debug.Log($"{RoomID}");
-            SceneManager.LoadScene("LoadingScene");
+            SceneManager.LoadScene("LoadingScene"); // 이동할 씬을 여기에서 지정합니다.
         }
         else
         {

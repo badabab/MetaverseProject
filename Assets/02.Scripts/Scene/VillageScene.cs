@@ -25,10 +25,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        if (PhotonNetwork.IsConnected && PhotonNetwork.InRoom)
-        {
-            InitializePlayer(PhotonNetwork.LocalPlayer.ToString());
-        }
+        InitializePlayer(PhotonNetwork.LocalPlayer.ToString());
     }
 
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)

@@ -32,7 +32,6 @@ public class PlayerCanvasAbility : MonoBehaviourPunCallbacks
     public void ShowMyNickname()
     {
         PhotonView photonView = GetComponentInParent<PhotonView>();
-        
         SetNickname(photonView.Owner.NickName);
     }
     [PunRPC]

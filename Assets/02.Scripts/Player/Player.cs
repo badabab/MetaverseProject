@@ -1,6 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
-
+using Photon.Realtime;
 
 [RequireComponent(typeof(PlayerMoveAbility))]
 //[RequireComponent(typeof(PlayerRotateAbility))]
@@ -8,10 +8,10 @@ using UnityEngine;
 //[RequireComponent(typeof(PlayerMovementAbility))]
 
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviourPunCallbacks, IPunObservable
 {
-    public PhotonView PhotonView {  get; private set; }
-    
+    public PhotonView PhotonView { get; private set; }
+
     private void Awake()
     {
         PhotonView = GetComponent<PhotonView>();
@@ -19,5 +19,8 @@ public class Player : MonoBehaviour
         {
             UI_Minimap.Instance.MyPlayer = this;
         }
+    }
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
     }
 }

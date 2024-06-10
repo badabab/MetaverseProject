@@ -140,7 +140,7 @@ public class UI_Lobby : MonoBehaviour
 
             PhotonNetwork.JoinOrCreateRoom(RoomID, roomOptions, TypedLobby.Default);
             Debug.Log($"{RoomID}");
-            SceneManager.LoadScene("LoadingScene"); 
+            PhotonNetwork.LoadLevel("LoadingScene");
         }
         else
         {

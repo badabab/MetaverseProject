@@ -50,13 +50,13 @@ public class VillageScene : MonoBehaviourPunCallbacks
         Debug.Log(playerObject.name);
 
         // 모든 플레이어에게 닉네임 표시
-        PlayerCanvasAbility playerCanvasAbility = playerObject.GetComponent<PlayerCanvasAbility>();
+        PlayerCanvasAbility playerCanvasAbility = playerObject.GetComponentInChildren<PlayerCanvasAbility>();
         if (playerCanvasAbility != null)
         {
             playerCanvasAbility.SetNickname(playerName);
         }
 
-        players[playerName] = playerObject;
+       // players[playerName] = playerObject;
     }
 
     public Vector3 GetRandomSpawnPoint()

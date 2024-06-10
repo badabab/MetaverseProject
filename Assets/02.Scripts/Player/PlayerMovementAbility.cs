@@ -23,13 +23,15 @@ public class PlayerMovementAbility : PlayerAbility
     {
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
-        if(!_owner.PhotonView.IsMine)
-        {
-            return;
-        }
+
 
         if (_owner.PhotonView.IsMine)
         {
+            if (!_owner.PhotonView.IsMine)
+            {
+                return;
+            }
+
             GameObject.FindWithTag("MainCamera").GetComponent<TPSCamera>().target = CameraRoot;
         }
 

@@ -67,8 +67,16 @@ public class VillageScene : MonoBehaviourPunCallbacks
 
             players.Add(uniquePlayerKey, playerObject);
 
-            PlayerCanvasAbility.Instance.NicknameTextUI.text = nickname;
-            PlayerCanvasAbility.Instance.ShowMyNickname();
+            PlayerCanvasAbility playerCanvasAbility = playerObject.GetComponentInChildren<PlayerCanvasAbility>();
+            if (playerCanvasAbility != null)
+            {
+                playerCanvasAbility.SetNickname(nickname);
+                //playerCanvasAbility.ShowMyNickname();
+            }
+            else
+            {
+                Debug.LogError("PlayerCanvasAbility component not found on instantiated player.");
+            }
         }
         else
         {
@@ -82,7 +90,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
                 existingPlayer.SetActive(true);
             }
 
-            PlayerCanvasAbility.Instance.NicknameTextUI.text = nickname;
+          //  PlayerCanvasAbility.Instance.NicknameTextUI.text = nickname;
             PlayerCanvasAbility.Instance.ShowMyNickname();
         }
     }

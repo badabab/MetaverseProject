@@ -2,13 +2,12 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 
-public class PlayerCanvasAbility : PlayerAbility
+public class PlayerCanvasAbility : MonoBehaviourPunCallbacks
 {
     public static PlayerCanvasAbility Instance {  get; private set; }
 
     public Canvas PlayerCanvas;
     public TextMeshProUGUI NicknameTextUI;
-    private Player player;
 
     private new void Awake()
     {
@@ -20,13 +19,12 @@ public class PlayerCanvasAbility : PlayerAbility
         {
             Destroy(gameObject);
         }
-        player = GetComponentInParent<Player>();
     }
     
 
     private void Start()
     {
-        ShowMyNickname();
+       //ShowMyNickname();
     }
     private void Update()
     {
@@ -35,13 +33,27 @@ public class PlayerCanvasAbility : PlayerAbility
 
     public void ShowMyNickname()
     {
-        PhotonView photonView = GetComponentInParent(typeof(PhotonView)) as PhotonView;
-        if (photonView.IsMine)
+        PhotonView photonView = GetComponentInParent<PhotonView>();
+        if (photonView != null)
         {
-            string nickname = PlayerPrefs.GetString("LoggedInId");
-            photonView.RPC("SetNickname", RpcTarget.AllBuffered, nickname);
+            Debug.Log("PhotonView found.");
+            if (photonView.IsMine)
+            {
+                Debug.Log("PhotonView is mine.");
+                string nickname = PlayerPrefs.GetString("LoggedInId");
+                photonView.RPC("SetNickname", RpcTarget.AllBuffered, nickname);
+            }
+            else
+            {
+                Debug.LogError("PhotonView is not owned by this player.");
+            }
+        }
+        else
+        {
+            Debug.LogError("PhotonView not found.");
         }
     }
+
 
     [PunRPC]
     public void SetNickname(string nickname)

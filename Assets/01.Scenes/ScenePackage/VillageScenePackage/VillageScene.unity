@@ -1671,7 +1671,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 220423669}
-  - component: {fileID: 220423670}
   m_Layer: 5
   m_Name: Popup_Shop_Life
   m_TagString: Untagged
@@ -1700,20 +1699,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &220423670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 220423668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a00128818eda43dfaa959b83527b255, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  otherPanels:
-  - {fileID: 0}
 --- !u!1 &230309203
 GameObject:
   m_ObjectHideFlags: 0
@@ -3588,16 +3573,16 @@ MonoBehaviour:
   - {fileID: 9029329124467589125, guid: e7aaf1e1e8e9a124ca090f8025882aed, type: 3}
   - {fileID: 9029329124467589125, guid: a530a258cb6c6704eb8f4429ef7452ad, type: 3}
   - {fileID: 9029329124467589125, guid: 5744fb908309eb24d8ade3b1ba2681b7, type: 3}
-  - {fileID: 9029329124467589125, guid: d2d8d136445249149a2c8a1c50d32cfe, type: 3}
+  - {fileID: 9029329124467589125, guid: c3e64992074d1a2408cb887d18ac5ce5, type: 3}
   - {fileID: 9029329124467589125, guid: 64068fba87345904faaf8246442b670f, type: 3}
-  - {fileID: 9029329124467589125, guid: 43305af7150d15d45bca098b302feae4, type: 3}
+  - {fileID: 9029329124467589125, guid: 9c2338c8c10558e409efac5a0110ff64, type: 3}
   - {fileID: 9029329124467589125, guid: 745ae344545d9aa4780ae984625c5e7f, type: 3}
   - {fileID: 9029329124467589125, guid: 57ec283ffb50f2f4f9839ef787fe571f, type: 3}
   - {fileID: 9029329124467589125, guid: 7068cab0e7cffec499c7cb29b04db565, type: 3}
   - {fileID: 9029329124467589125, guid: 864cd9e2cbe091241bd929bfae70d879, type: 3}
   - {fileID: 9029329124467589125, guid: a230ac7a5c588c84fb24a0e9ee964569, type: 3}
   - {fileID: 9029329124467589125, guid: 1a4d6a19bed63284fb5d5f8e0ee9c57d, type: 3}
-  - {fileID: 9029329124467589125, guid: c618bc94ec6fcfd4e823fa4b4428363d, type: 3}
+  - {fileID: 9029329124467589125, guid: 468835b4d0ba397489988f8e6c9b7a41, type: 3}
   - {fileID: 9029329124467589125, guid: 1f510af963bfa3747899e44c0142542d, type: 3}
   - {fileID: 9029329124467589125, guid: 3833a7820078caa4e9039fc32ada183d, type: 3}
   - {fileID: 9029329124467589125, guid: 42cf8f33378712a40949bfe1d0ee3061, type: 3}
@@ -21492,9 +21477,9 @@ RectTransform:
   - {fileID: 1387683618}
   m_Father: {fileID: 610697732}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 151.285, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 151.285, y: -54}
   m_SizeDelta: {x: 0, y: 108}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1900393875

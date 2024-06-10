@@ -36,6 +36,5 @@ public class UI_Information : MonoBehaviourPunCallbacks
     {
         string nickname = PlayerPrefs.GetString("LoggedInId");
         Nickname.text = nickname;
-        Debug.Log($"{nickname}");
     }
 }

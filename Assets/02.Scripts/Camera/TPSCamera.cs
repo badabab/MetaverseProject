@@ -46,8 +46,12 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         Quaternion targetRotation = Quaternion.Euler(rotationY, rotationX, 0); // 카메라 회전값 계산
         Vector3 targetPosition = target.position + targetRotation * offset; // 타겟 주위의 위치 계산
 
-        transform.position = Vector3.Lerp(transform.position, targetPosition, smoothSpeed); // 부드러운 이동 계산
-        transform.LookAt(target.position); // 캐릭터를 바라보도록 설정
+        if (photonView.IsMine && PhotonNetwork.LocalPlayer != null)
+        {
+            transform.position = Vector3.Lerp(transform.position, targetPosition, smoothSpeed); // 부드러운 이동 계산
+            transform.LookAt(target.position); // 캐릭터를 바라보도록 설정
+        }
+
     }
 
 

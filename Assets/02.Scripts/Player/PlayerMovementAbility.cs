@@ -27,10 +27,6 @@ public class PlayerMovementAbility : PlayerAbility
 
         if (_owner.PhotonView.IsMine)
         {
-            if (!_owner.PhotonView.IsMine)
-            {
-                return;
-            }
 
             GameObject.FindWithTag("MainCamera").GetComponent<TPSCamera>().target = CameraRoot;
         }

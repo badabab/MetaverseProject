@@ -60,7 +60,12 @@ public class VillageScene : MonoBehaviourPunCallbacks
         int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
         string uniquePlayerKey = $"{nickname}_{characterIndex}";
         string characterPrefab = characterIndex <= 0 ? $"Player {PlayerSelection.Instance.SelectedCharacterIndex}" : $"Player {characterIndex}";
+
+        Debug.Log(uniquePlayerKey);
+        Debug.Log(characterPrefab);
+
         GameObject playerObject = PhotonNetwork.Instantiate(characterPrefab, spawnPoint, Quaternion.identity);
+        Debug.Log(playerObject.name);
 
         players.Add(uniquePlayerKey, playerObject);
 

@@ -36,19 +36,17 @@ public class PlayerCanvasAbility : PlayerAbility
     public void ShowMyNickname()
     {
         PhotonView photonView = GetComponentInParent(typeof(PhotonView)) as PhotonView;
-        //NicknameTextUI.text = PhotonNetwork.NickName;
         if (photonView.IsMine)
         {
             string nickname = PlayerPrefs.GetString("LoggedInId");
             photonView.RPC("SetNickname", RpcTarget.AllBuffered, nickname);
-            Debug.Log(nickname);
-         }
+        }
     }
 
     [PunRPC]
-    public void SetNickname()
+    public void SetNickname(string nickname)
     {
-        NicknameTextUI.text = PhotonNetwork.NickName;
-        Debug.Log($"{PhotonNetwork.NickName}");
+        NicknameTextUI.text = nickname;
     }
+
 }

@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     void Start()
     {
         // 로컬 플레이어 찾기
-        FindLocalPlayer();
+       // FindLocalPlayer();
     }
 
     void FindLocalPlayer()
@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 if (player.photonView.IsMine)
                 {
                     _localPlayerController = player;
-                    Debug.Log($"Local player found: {player.name}");
+                    Debug.Log($"플레이어 찾음: {player.name}");
                     break;
                 }
             }
@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         Debug.Log($"{newPlayer.NickName}님이 입장하였습니다.");
+        FindLocalPlayer();
     }
 
     public void Pause()

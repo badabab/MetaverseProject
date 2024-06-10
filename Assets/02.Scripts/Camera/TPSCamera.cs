@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class TPSCamera : MonoBehaviourPunCallbacks
 {
@@ -15,6 +16,11 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
     public Transform target; // 카메라가 따라다닐 대상 캐릭터의 Transform
 
+
+    private void Awake()
+    {
+        
+    }
     private void Start()
     {
         offset = new Vector3(0, height, -distance); // 초기 위치 설정
@@ -26,12 +32,15 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+
         // 방에 들어왔을 때 자신의 캐릭터 다시 찾기
         FindLocalPlayer();
     }
 
     void Update()
     {
+
+
         if (target == null) return; // 타겟이 없으면 리턴
 
         rotationX += Input.GetAxis("Mouse X") * sensitivity;

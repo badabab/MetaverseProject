@@ -42,7 +42,6 @@ public class UI_Loading : MonoBehaviour
 
     void ShowCharacter()
     {
-        PhotonView photonView = GetComponentInParent<PhotonView>();
 
             // PingPong 함수 사용하여 부드러운 Y 위치 변경
             float newY = Mathf.PingPong(Time.time * speed, maxY - minY) + minY;
@@ -50,8 +49,6 @@ public class UI_Loading : MonoBehaviour
             Vector3 newPosition = new Vector3(LoadingImage.transform.position.x, newY, LoadingImage.transform.position.z);
             LoadingImage.transform.position = newPosition;
             // _character = Instantiate(SelectedCharacter[PlayerSelection.Instance.SelectedCharacterIndex - 1], newPosition, Quaternion.identity);
-
-
 
             int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
             if (characterIndex != 0)

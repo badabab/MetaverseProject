@@ -21,13 +21,13 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.Locked;
 
         // 자신의 캐릭터 찾기
-       /* FindLocalPlayer();*/
+        FindLocalPlayer();
     }
 
     public override void OnJoinedRoom()
     {
         // 방에 들어왔을 때 자신의 캐릭터 다시 찾기
-        /*FindLocalPlayer();*/
+        FindLocalPlayer();
     }
 
     void Update()
@@ -50,9 +50,9 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         transform.position = Vector3.Lerp(transform.position, targetPosition, smoothSpeed); // 부드러운 이동 계산
         transform.LookAt(target.position); // 캐릭터를 바라보도록 설정
     }
-}
 
-    /*private void FindLocalPlayer()
+
+    private void FindLocalPlayer()
     {
         // 모든 플레이어 오브젝트를 찾음
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -78,4 +78,4 @@ public class TPSCamera : MonoBehaviourPunCallbacks
             }
         }
     }
-}*/
+}

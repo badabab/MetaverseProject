@@ -30,11 +30,11 @@ public class VillageScene : MonoBehaviourPunCallbacks
         InitializeIfNeeded();
     }
 
-    public override void OnJoinedRoom()
+/*    public override void OnJoinedRoom()
     {
         Debug.Log("Entered Village Room.");
         InitializeIfNeeded();
-    }
+    }*/
 /*
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
@@ -44,10 +44,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
 
     private void InitializeIfNeeded()
     {
-        if (!isInitialized)
-        {
-            Init();
-        }
+       Init();
     }
 
     private void Init()
@@ -69,36 +66,15 @@ public class VillageScene : MonoBehaviourPunCallbacks
 
         players.Add(uniquePlayerKey, playerObject);
 
-        
-
-
-        if (!players.ContainsKey(uniquePlayerKey))
+        PlayerCanvasAbility playerCanvasAbility = playerObject.GetComponentInChildren<PlayerCanvasAbility>();
+        if (playerCanvasAbility != null)
         {
-            PlayerCanvasAbility playerCanvasAbility = playerObject.GetComponentInChildren<PlayerCanvasAbility>();
-            if (playerCanvasAbility != null)
-            {
-                //playerCanvasAbility.SetNickname(nickname);
-                playerCanvasAbility.ShowMyNickname();
-            }
-            else
-            {
-                Debug.LogError("PlayerCanvasAbility component not found on instantiated player.");
-            }
+            //playerCanvasAbility.SetNickname(nickname);
+            playerCanvasAbility.ShowMyNickname();
         }
         else
         {
-            // 이미 플레이어가 존재하면 위치를 업데이트
-            GameObject existingPlayer = players[uniquePlayerKey];
-            existingPlayer.transform.position = spawnPoint;
-
-            // 만약 기존 플레이어 오브젝트가 비활성화되어 있다면 활성화
-            if (!existingPlayer.activeSelf)
-            {
-                existingPlayer.SetActive(true);
-            }
-
-          //  PlayerCanvasAbility.Instance.NicknameTextUI.text = nickname;
-            PlayerCanvasAbility.Instance.ShowMyNickname();
+            Debug.LogError("PlayerCanvasAbility component not found on instantiated player.");
         }
     }
 

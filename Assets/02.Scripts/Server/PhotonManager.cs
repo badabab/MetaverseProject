@@ -68,7 +68,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("방 입장 성공!");
         Debug.Log($"RoomPlayerCount: {PhotonNetwork.CurrentRoom.PlayerCount}");
-        SceneManager.LoadScene("VillageScene");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)

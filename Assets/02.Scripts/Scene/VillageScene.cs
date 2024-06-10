@@ -25,25 +25,36 @@ public class VillageScene : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        InitializePlayer(PhotonNetwork.LocalPlayer.ToString());
-    }
-
-    /*    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+        if (PhotonNetwork.InRoom)
         {
-            Debug.Log($"Player {newPlayer.NickName} entered the room.");
-            if (PhotonNetwork.IsMasterClient)
-            {
-                photonView.RPC("InitializePlayer", RpcTarget.AllBuffered, newPlayer.NickName);
-            }
-        }*/
-
+            InitializePlayer(PhotonNetwork.LocalPlayer);
+        }
+    }
 
     public override void OnJoinedRoom()
     {
-        InitializePlayer(PhotonNetwork.LocalPlayer.ToString());
+        InitializePlayer(PhotonNetwork.LocalPlayer);
     }
-    private void InitializePlayer(string playerName)
+
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
+        Debug.Log($"Player {newPlayer.NickName} entered the room.");
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("NotifyNewPlayer", newPlayer, newPlayer.NickName);
+        }
+    }
+
+    [PunRPC]
+    private void NotifyNewPlayer(string playerName)
+    {
+        Debug.Log($"Notified of new player: {playerName}");
+    }
+
+    private void InitializePlayer(Photon.Realtime.Player player)
+    {
+        if (!player.IsLocal) return;
+
         Vector3 spawnPoint = GetRandomSpawnPoint();
 
         int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
@@ -54,12 +65,15 @@ public class VillageScene : MonoBehaviourPunCallbacks
         }
 
         // Instantiate player
-        PhotonNetwork.Instantiate($"Player {characterIndex}", spawnPoint, Quaternion.identity);
+        GameObject playerObject = PhotonNetwork.Instantiate($"Player {characterIndex}", spawnPoint, Quaternion.identity);
+        Debug.Log($"{player.NickName}");
 
-        Debug.Log($"{playerName}");
-
-        PlayerCanvasAbility.Instance.SetNickname(playerName);
-        PlayerCanvasAbility.Instance.ShowMyNickname();
+        // Ensure the nickname is set only for the local player
+        PlayerCanvasAbility canvasAbility = playerObject.GetComponent<PlayerCanvasAbility>();
+        if (canvasAbility != null)
+        {
+            canvasAbility.SetNickname(player.NickName);
+        }
     }
 
     public Vector3 GetRandomSpawnPoint()

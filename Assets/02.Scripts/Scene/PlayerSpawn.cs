@@ -30,36 +30,23 @@ public class PlayerSpawn : MonoBehaviourPunCallbacks
         Vector3 spawnPoint = GetRandomSpawnPoint();
         Debug.Log($"스폰 위치: {spawnPoint}");
 
-
         int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
 
         if (characterIndex <= 0)
         {
-            if (UI_Lobby.SelectedType == PlayerType.Female)
-            {
-                PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
-                string nickname = PlayerPrefs.GetString("LoggedInId");
-                Debug.Log($"{nickname}");
-                PlayerCanvasAbility.Instance.SetNickname();
-                PlayerCanvasAbility.Instance.ShowMyNickname();
-            }
-            if (UI_Lobby.SelectedType == PlayerType.Male)
-            {
-                PhotonNetwork.Instantiate($"Player {PlayerSelection.Instance.SelectedCharacterIndex}", spawnPoint, Quaternion.identity);
-                string nickname = PlayerPrefs.GetString("LoggedInId");
-                Debug.Log($"{nickname}");
-                PlayerCanvasAbility.Instance.SetNickname();
-                PlayerCanvasAbility.Instance.ShowMyNickname();
-            }
+            characterIndex = PlayerSelection.Instance.SelectedCharacterIndex;
         }
-        else
-        {
-            PhotonNetwork.Instantiate($"Player {characterIndex}", spawnPoint, Quaternion.identity);
-            string nickname = PlayerPrefs.GetString("LoggedInId");
-            PlayerCanvasAbility.Instance.NicknameTextUI.text = nickname;
-            Debug.Log($"{nickname}");
-        }
+
+        // Instantiate player
+        PhotonNetwork.Instantiate($"Player {characterIndex}", spawnPoint, Quaternion.identity);
+
+        string nickname = PlayerPrefs.GetString("LoggedInId");
+        Debug.Log($"{nickname}");
+
+        PlayerCanvasAbility.Instance.SetNickname(nickname);
+        PlayerCanvasAbility.Instance.ShowMyNickname();
     }
+
     public Vector3 GetRandomSpawnPoint()
     {
         int randomIndex = Random.Range(0, SpawnPoints.Count);

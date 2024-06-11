@@ -119,7 +119,6 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
             transform.position = position;
         }
     }
-
     private System.Collections.IEnumerator StartCountDown()
     {
         if (!_isStart)
@@ -135,18 +134,6 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
     }
     private System.Collections.IEnumerator ShowVictoryAndLoadScene()
     {
-
-/*            GameObject winner = PhotonNetwork.PlayerList.FirstOrDefault(p => p.UserId == winnerId).TagObject as GameObject;
-            if (winner != null)
-            {
-                GameManager.Instance.AddCoinsToWinner(winnerId, 100);
-                Animator animator = winner.GetComponent<Animator>();
-                if (animator != null)
-                {
-                    animator.SetTrigger("Winning");
-                }
-            }
-        */
         while (_countEnd > 0)
         {
             Debug.Log($"CountDown: {_countEnd}");

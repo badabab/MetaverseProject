@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
+using System.Security.Cryptography;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -27,7 +28,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     void Start()
     {
         // 로컬 플레이어 찾기
-       // FindLocalPlayer();
+        //FindLocalPlayer();
     }
 
     void FindLocalPlayer()
@@ -75,11 +76,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void BackToVillage()
     {
-        SceneManager.LoadScene("VillageScene");
-/*        if (_localPlayerController != null)
+        if (SceneManager.GetActiveScene().name == "VillageScene")
         {
-            photonView.RPC("TeleportToVillage", RpcTarget.All, null);
-        }*/
+            return;
+        }
+        SceneManager.LoadScene("VillageScene");
     }
 
     [PunRPC]

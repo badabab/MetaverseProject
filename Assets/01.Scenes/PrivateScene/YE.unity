@@ -773,6 +773,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879c1b3ec53465c4990096a1efe2533d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StartButton: {fileID: 0}
+  NextRoomName: 
+  CurrentRoom: 
 --- !u!4 &1442706925
 Transform:
   m_ObjectHideFlags: 0
@@ -851,6 +854,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1719677724}
   - component: {fileID: 1719677725}
+  - component: {fileID: 1719677726}
   m_Layer: 0
   m_Name: Trail
   m_TagString: Untagged
@@ -986,6 +990,18 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &1719677726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719677723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a28b931ff364e234da8cce42611d3f98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1784303472
 GameObject:
   m_ObjectHideFlags: 0
@@ -13301,6 +13317,7 @@ GameObject:
   - component: {fileID: 7603693269224288779}
   - component: {fileID: 2120284906135722136}
   - component: {fileID: 946162788177608199}
+  - component: {fileID: 9029329123601134660}
   m_Layer: 9
   m_Name: Player 16
   m_TagString: Player
@@ -13308,6 +13325,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &9029329123601134660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9029329123601134659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62553ac7a45b1c841a52fa4c085a0365, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraRoot: {fileID: 0}
+  RotationSpeed: 2
 --- !u!1 &9037890102608036928
 GameObject:
   m_ObjectHideFlags: 0

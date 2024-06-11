@@ -4,6 +4,13 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
 using System.Security.Cryptography;
+public enum SceneType
+{
+    Villige,
+    MiniGame1,
+    MiniGame2,
+    MiniGame3,
+}
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -81,14 +88,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        PhotonNetwork.LoadLevel("VillageScene");
+        PhotonManager.Instance.NextRoomName = "Village";
+        PhotonNetwork.LeaveRoom();
+        //SceneManager.LoadScene("VillageScene");
+       // PhotonNetwork.LoadLevel("VillageScene");
     }
 
-    [PunRPC]
-    public void TeleportToVillage()
-    {
-        PhotonNetwork.LoadLevel("VillageScene");
-    }
 
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {

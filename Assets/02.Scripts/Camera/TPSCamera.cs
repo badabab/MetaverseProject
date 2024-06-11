@@ -41,6 +41,8 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
     private void FixedUpdate()
     {
+        if (target == null) return;
+
         rotationY = Mathf.Clamp(rotationY, -90f, 90f); // 상하 회전 각도 제한
 
         Quaternion targetRotation = Quaternion.Euler(rotationY, rotationX, 0); // 카메라 회전값 계산

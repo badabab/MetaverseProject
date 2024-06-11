@@ -32,14 +32,14 @@ public class VillageScene : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnJoinedRoom()
+/*    public override void OnJoinedRoom()
     {
         if (!localPlayerInitialized)
         {
             InitializePlayer(PhotonNetwork.LocalPlayer);
         }
     }
-
+*/
     private void InitializePlayer(Photon.Realtime.Player player)
     {
         if (!player.IsLocal) return;

@@ -14,14 +14,6 @@ public class PlayerSpawn : MonoBehaviourPunCallbacks
             Init();
         }
     }
-    public override void OnJoinedRoom()
-    {
-        if (!_init)
-        {
-            Init();
-        }
-    }
-
     private void Init()
     {
         if (!photonView.IsMine) { return; }
@@ -29,11 +21,11 @@ public class PlayerSpawn : MonoBehaviourPunCallbacks
         _init = true;
         Vector3 spawnPoint = GetRandomSpawnPoint();
         Debug.Log($"스폰 위치: {spawnPoint}");
-
         int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
+        string characterPrefab = characterIndex <= 0 ? $"Player {PlayerSelection.Instance.SelectedCharacterIndex}" : $"Player {characterIndex}";
 
-        PhotonNetwork.Instantiate($"Player {characterIndex}", spawnPoint, Quaternion.identity);
-
+        GameObject playerObject = PhotonNetwork.Instantiate(characterPrefab, spawnPoint, Quaternion.identity);
+        Debug.Log(playerObject.name);
     }
 
     public Vector3 GetRandomSpawnPoint()
@@ -41,4 +33,5 @@ public class PlayerSpawn : MonoBehaviourPunCallbacks
         int randomIndex = Random.Range(0, SpawnPoints.Count);
         return SpawnPoints[randomIndex].position;
     }
+
 }

@@ -11,6 +11,12 @@ public class PlayerCanvasAbility : PlayerAbility
 
     private void Start()
     {
+
+        SetNickname(_owner.photonView.Owner.NickName);
+
+
+        return;
+
         if (_owner.photonView.IsMine)
         {
             SetNickname(PhotonNetwork.LocalPlayer.NickName);
@@ -35,7 +41,7 @@ public class PlayerCanvasAbility : PlayerAbility
     {
         if (changedProps.ContainsKey("Nickname") && targetPlayer == _owner.photonView.Owner)
         {
-            SetNickname((string)changedProps["Nickname"]);
+            //SetNickname((string)changedProps["Nickname"]);
         }
     }
 }

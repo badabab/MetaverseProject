@@ -80,7 +80,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             return;
         }
-        SceneManager.LoadScene("VillageScene");
+
+        PhotonNetwork.LoadLevel("VillageScene");
     }
 
     [PunRPC]

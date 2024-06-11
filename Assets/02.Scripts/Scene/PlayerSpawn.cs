@@ -11,11 +11,12 @@ public class PlayerSpawn : MonoBehaviourPunCallbacks
     {
         if (!_init)
         {
-            Init();
+            Init(PhotonNetwork.LocalPlayer);
         }
     }
-    private void Init()
+    private void Init(Photon.Realtime.Player player)
     {
+        if (!player.IsLocal) { return; }
         _init = true;
         Vector3 spawnPoint = GetRandomSpawnPoint();
         Debug.Log($"스폰 위치: {spawnPoint}");

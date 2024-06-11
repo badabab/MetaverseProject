@@ -1,6 +1,5 @@
 using Photon.Pun;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GamePortal : MonoBehaviour
 {
@@ -10,24 +9,18 @@ public class GamePortal : MonoBehaviour
         {
             if (gameObject.name == "BattleTilePortal")
             {
-                // "BattleTileScene" 씬으로 이동
-               // SceneManager.LoadScene("BattleTileScene");
                 PhotonNetwork.LoadLevel("BattleTileScene");
-              //  Destroy(other.gameObject);
+                PhotonNetwork.Destroy(other.gameObject); // 로컬 플레이어 객체 제거
             }
             else if (gameObject.name == "FallGuysPortal")
             {
-                // "FallGuysScene" 씬으로 이동
-                //SceneManager.LoadScene("FallGuysScene");
-               PhotonNetwork.LoadLevel("FallGuysScene");
-               // Destroy(other.gameObject);
+                PhotonNetwork.LoadLevel("FallGuysScene");
+                PhotonNetwork.Destroy(other.gameObject); // 로컬 플레이어 객체 제거
             }
             else if (gameObject.name == "TowerClimbPortal")
             {
-                // "TowerClimbScene" 씬으로 이동
-               // SceneManager.LoadScene("TowerClimbScene");
                 PhotonNetwork.LoadLevel("TowerClimbScene");
-              //  Destroy(other.gameObject);
+                PhotonNetwork.Destroy(other.gameObject); // 로컬 플레이어 객체 제거
             }
         }
     }

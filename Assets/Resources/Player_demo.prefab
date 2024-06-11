@@ -187,12 +187,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9ee267c31ffadc42987a326ec486172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 5
-  RunSpeed: 15
-  _IsRunning: 0
-  JumpPower: 2.5
+  Speed: 0
+  JumpCount: 0
+  isGrounded: 0
+  LayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  groundDistance: 0.4
+  LayerPoint: {fileID: 0}
   CameraRoot: {fileID: 0}
-  RotationSpeed: 200
 --- !u!114 &1722086160777887365
 MonoBehaviour:
   m_ObjectHideFlags: 0

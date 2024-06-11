@@ -16,8 +16,6 @@ public class PlayerSpawn : MonoBehaviourPunCallbacks
     }
     private void Init()
     {
-        if (!photonView.IsMine) { return; }
-
         _init = true;
         Vector3 spawnPoint = GetRandomSpawnPoint();
         Debug.Log($"스폰 위치: {spawnPoint}");

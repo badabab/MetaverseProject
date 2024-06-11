@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnLeftRoom()
+/*    public override void OnLeftRoom()
     {
         // 방을 나간 후에 애플리케이션 종료
         if (_localPlayerController != null)
@@ -121,5 +121,5 @@ public class GameManager : MonoBehaviourPunCallbacks
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
         }
-    }
+    }*/
 }

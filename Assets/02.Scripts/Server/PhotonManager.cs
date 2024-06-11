@@ -81,7 +81,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        StartButton?.SetActive(true);
+        StartButton.SetActive(true);
 
     }
 
@@ -94,7 +94,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        Debug.Log($"방 입장 성공!({PhotonNetwork.CurrentRoom.Name})");
+        Debug.Log($"방 입장 성공! : ({PhotonNetwork.CurrentRoom.Name})");
         Debug.Log($"RoomPlayerCount: {PhotonNetwork.CurrentRoom.PlayerCount}");
 
         switch(PhotonNetwork.CurrentRoom.Name)

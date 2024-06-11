@@ -3,7 +3,7 @@ using UnityEngine;
 using Photon.Realtime;
 
 [RequireComponent(typeof(PlayerMoveAbility))]
-//[RequireComponent(typeof(PlayerRotateAbility))]
+[RequireComponent(typeof(PlayerRotateAbility))]
 [RequireComponent(typeof(PlayerGrabAbility))]
 //[RequireComponent(typeof(PlayerMovementAbility))]
 

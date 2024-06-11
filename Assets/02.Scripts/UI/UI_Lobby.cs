@@ -35,47 +35,35 @@ public class UI_Lobby : MonoBehaviour
 
     private void LoadLoginInfo()
     {
-        Hashtable loginInfo = PhotonNetwork.LocalPlayer.CustomProperties;
-        if (loginInfo.ContainsKey("LoggedInId") && loginInfo.ContainsKey("LoggedInPassword"))
-        {
-            string loggedInUser = (string)loginInfo["LoggedInId"];
-            string loggedInPassword = (string)loginInfo["LoggedInPassword"];
-            TMP_InputFieldId.text = loggedInUser;
-            TMP_InputFieldPw.text = loggedInPassword;
-        }
+        string loggedInUser = PlayerPrefs.GetString("LoggedInId", string.Empty);
+        string loggedInPassword = PlayerPrefs.GetString("LoggedInPassword", string.Empty);
+        TMP_InputFieldId.text = loggedInUser;
+        TMP_InputFieldPw.text = loggedInPassword;
     }
 
     private void AutoLogin()
     {
-        Hashtable loginInfo = PhotonNetwork.LocalPlayer.CustomProperties;
 
-        if (loginInfo.ContainsKey("LoggedInId") && loginInfo.ContainsKey("LoggedInPassword"))
+        string loggedInUser = PlayerPrefs.GetString("LoggedInId", string.Empty);
+        string loggedInPassword = PlayerPrefs.GetString("LoggedInPassword", string.Empty);
+
+        if (!string.IsNullOrEmpty(loggedInUser) && !string.IsNullOrEmpty(loggedInPassword))
         {
-            string loggedInUser = (string)loginInfo["LoggedInId"];
-            string loggedInPassword = (string)loginInfo["LoggedInPassword"];
-
-            if (!string.IsNullOrEmpty(loggedInUser) && !string.IsNullOrEmpty(loggedInPassword))
+            var user = PersonalManager.Instance.Login(loggedInUser, loggedInPassword);
+            if (user != null)
             {
-                var user = PersonalManager.Instance.Login(loggedInUser, loggedInPassword);
-                if (user != null)
-                {
-                    PhotonNetwork.NickName = loggedInUser;
-                    PlayerSelection.Instance.SelectedCharacterIndex = user.CharacterIndex;
+                PhotonNetwork.NickName = loggedInUser;
+                PlayerSelection.Instance.SelectedCharacterIndex = user.CharacterIndex;
 
-                    if (user.CharacterIndex != 0)
-                    {
-                        PlayerSelection.Instance.ReloadCharacter();
-                        SelectCharacterBrowser();
-                    }
-                    else
-                    {
-                        Metaverse1.SetActive(false);
-                        Metaverse2.SetActive(true);
-                    }
+                if (user.CharacterIndex != 0)
+                {
+                    PlayerSelection.Instance.ReloadCharacter();
+                    SelectCharacterBrowser();
                 }
                 else
                 {
-                    Metaverse1.SetActive(true);
+                    Metaverse1.SetActive(false);
+                    Metaverse2.SetActive(true);
                 }
             }
             else
@@ -83,6 +71,7 @@ public class UI_Lobby : MonoBehaviour
                 Metaverse1.SetActive(true);
             }
         }
+
         else
         {
             Metaverse1.SetActive(true);

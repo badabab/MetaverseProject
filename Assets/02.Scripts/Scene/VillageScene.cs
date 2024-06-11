@@ -43,6 +43,8 @@ public class VillageScene : MonoBehaviourPunCallbacks
     private void InitializePlayer(Photon.Realtime.Player player)
     {
         if (!player.IsLocal) return;
+        Player localPlayer = FindLocalPlayer();
+
 
         Vector3 spawnPoint = GetRandomSpawnPoint();
 
@@ -58,5 +60,16 @@ public class VillageScene : MonoBehaviourPunCallbacks
     {
         int randomIndex = Random.Range(0, SpawnPoints.Count);
         return SpawnPoints[randomIndex].position;
+    }
+    private Player FindLocalPlayer()
+    {
+        foreach (var player in FindObjectsOfType<Player>())
+        {
+            if (player.photonView.IsMine)
+            {
+                return player;
+            }
+        }
+        return null;
     }
 }

@@ -852,6 +852,7 @@ GameObject:
   - component: {fileID: 3677402559132361156}
   - component: {fileID: 1094749837007609331}
   - component: {fileID: 4878994592777396679}
+  - component: {fileID: 7814108633509524591}
   m_Layer: 9
   m_Name: PlayerCanvas
   m_TagString: Untagged
@@ -943,6 +944,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
 --- !u!114 &4878994592777396679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2865686156753528332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0767bd45f07d9784d890d70ab1a39421, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerCanvas: {fileID: 9098418299883501310}
+  NicknameTextUI: {fileID: 6978944719705877048}
+--- !u!114 &7814108633509524591
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2658,7 +2673,6 @@ GameObject:
   - component: {fileID: 5688932390469032344}
   - component: {fileID: 2191229734797917607}
   - component: {fileID: 4095897865085939581}
-  - component: {fileID: -8187125918839393978}
   m_Layer: 9
   m_Name: Player 18
   m_TagString: Player
@@ -3095,20 +3109,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CameraRoot: {fileID: 6725541871435156712}
   RotationSpeed: 200
---- !u!114 &-8187125918839393978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9029329124467589125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0767bd45f07d9784d890d70ab1a39421, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerCanvas: {fileID: 9098418299883501310}
-  NicknameTextUI: {fileID: 6978944719705877048}
 --- !u!1 &9074448728345242793
 GameObject:
   m_ObjectHideFlags: 0

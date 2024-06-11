@@ -23,7 +23,8 @@ public class PlayerCanvasAbility : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        if (photonView.IsMine)
+        PhotonView photonview = GetComponentInParent<PhotonView>();
+        if (photonview.IsMine)
         {
             photonView.RPC("SetNickname", RpcTarget.AllBuffered, PhotonNetwork.NickName);
         }

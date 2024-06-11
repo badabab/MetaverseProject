@@ -8,7 +8,7 @@ public class PlayerRotateAbility : PlayerAbility
     public PhotonView PhotonView { get; private set; }
 
     public Transform CameraRoot;
-    public float RotationSpeed = 200;
+    public float RotationSpeed = 2;
 
     private bool _isTowerClimbScene = false;
 
@@ -55,7 +55,7 @@ public class PlayerRotateAbility : PlayerAbility
                 if (cinemachineVirtualCamera != null)
                 {
                     cinemachineVirtualCamera.Follow = CameraRoot;
-                    cinemachineVirtualCamera.LookAt = CameraRoot;
+                    //cinemachineVirtualCamera.LookAt = CameraRoot;
                 }
                 else
                 {
@@ -82,7 +82,7 @@ public class PlayerRotateAbility : PlayerAbility
         _mx += mouseX * RotationSpeed * Time.deltaTime;
         _my += mouseY * RotationSpeed * Time.deltaTime;
 
-        _my = Mathf.Clamp(_my, -135f, 135f);
+        _my = Mathf.Clamp(_my, -50f, 25f);
 
         transform.eulerAngles = new Vector3(0, _mx, 0);
         CameraRoot.localEulerAngles = new Vector3(-_my, 0, 0);

@@ -5,7 +5,8 @@ public class GamePortal : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && other.GetComponent<PhotonView>().IsMine)
+        PhotonView photonView = other.GetComponent<PhotonView>();
+        if (other.CompareTag("Player") && photonView.IsMine)
         {
             if (gameObject.name == "BattleTilePortal")
             {

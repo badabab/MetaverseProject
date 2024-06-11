@@ -37,7 +37,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Hashtable customProperties = new Hashtable { { "Nickname", _nickname } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
 
-        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.AutomaticallySyncScene = false;
         if (!PhotonNetwork.IsConnected)
         {
             PhotonNetwork.ConnectUsingSettings();

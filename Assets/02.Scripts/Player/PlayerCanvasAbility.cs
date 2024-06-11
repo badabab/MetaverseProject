@@ -9,7 +9,9 @@ public class PlayerCanvasAbility : MonoBehaviourPunCallbacks
     public Canvas PlayerCanvas;
     public TextMeshProUGUI NicknameTextUI;
 
-    private new void Awake()
+    private PhotonView parentPhotonView;
+
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -19,15 +21,18 @@ public class PlayerCanvasAbility : MonoBehaviourPunCallbacks
         {
             Destroy(gameObject);
         }
+
+        // 부모 객체에서 PhotonView를 찾습니다.
+        parentPhotonView = GetComponentInParent<PhotonView>();
+        if (parentPhotonView == null)
+        {
+            Debug.LogError("Parent PhotonView not found!");
+        }
     }
 
     private void Start()
     {
-        PhotonView photonview = GetComponentInParent<PhotonView>();
-        if (photonview.IsMine)
-        {
-            photonView.RPC("SetNickname", RpcTarget.AllBuffered, PhotonNetwork.NickName);
-        }
+        SetNickname(PhotonNetwork.NickName);
     }
 
     private void Update()
@@ -35,7 +40,6 @@ public class PlayerCanvasAbility : MonoBehaviourPunCallbacks
         transform.forward = Camera.main.transform.forward;
     }
 
-    [PunRPC]
     public void SetNickname(string nickname)
     {
         NicknameTextUI.text = nickname;

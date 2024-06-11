@@ -43,7 +43,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
     private void InitializePlayer(Photon.Realtime.Player player)
     {
         if (!player.IsLocal) return;
-        Player localPlayer = FindLocalPlayer();
+      //  Player localPlayer = FindLocalPlayer();
 
 
         Vector3 spawnPoint = GetRandomSpawnPoint();

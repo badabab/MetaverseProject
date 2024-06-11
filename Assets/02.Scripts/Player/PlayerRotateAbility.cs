@@ -89,8 +89,12 @@ public class PlayerRotateAbility : PlayerAbility
 
         // Calculate the Y position based on the X rotation
         float yPos = Mathf.Lerp(0f, 1.65f, Mathf.InverseLerp(-50f, 25f, -_my));
+        // Calculate the Z position based on the X rotation from 0 to 50
+        float zPos = Mathf.Lerp(0f, 2f, Mathf.InverseLerp(0f, 50f, -_my));
+
         Vector3 cameraRootPosition = CameraRoot.localPosition;
         cameraRootPosition.y = yPos;
+        cameraRootPosition.z = zPos;
         CameraRoot.localPosition = cameraRootPosition;
     }
 }

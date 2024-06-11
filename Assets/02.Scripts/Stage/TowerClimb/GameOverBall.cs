@@ -7,8 +7,6 @@ public class GameOverBall : MonoBehaviour
 {
     public GameObject GameOverUI;
     public GameObject GameOver_testUI;
-    public GameObject winUI;
-    public GameObject LoseUI;
 
     private bool playerCollided = false;
 
@@ -32,19 +30,7 @@ public class GameOverBall : MonoBehaviour
 
         GameOver_testUI.SetActive(false);
 
-        if (collidingPlayer.CompareTag("Player"))
-        {
-            winUI.SetActive(true);
-        }
-
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject player in players)
-        {
-            if (player != collidingPlayer)
-            {
-                LoseUI.SetActive(true);
-            }
-        }
 
         yield return new WaitForSecondsRealtime(3f);
 

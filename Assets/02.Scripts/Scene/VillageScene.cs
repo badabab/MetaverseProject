@@ -9,6 +9,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
     public List<Transform> SpawnPoints;
 
     private Dictionary<string, GameObject> players = new Dictionary<string, GameObject>();
+    private bool localPlayerInitialized = false;
 
     private void Awake()
     {
@@ -25,7 +26,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        if (PhotonNetwork.InRoom)
+        if (PhotonNetwork.InRoom && !localPlayerInitialized)
         {
             InitializePlayer(PhotonNetwork.LocalPlayer);
         }
@@ -33,23 +34,12 @@ public class VillageScene : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        InitializePlayer(PhotonNetwork.LocalPlayer);
-    }
-/*
-    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
-    {
-        Debug.Log($"Player {newPlayer.NickName} entered the room.");
-        if (PhotonNetwork.IsMasterClient)
+        if (!localPlayerInitialized)
         {
-            photonView.RPC("NotifyNewPlayer", newPlayer, newPlayer.NickName);
+            InitializePlayer(PhotonNetwork.LocalPlayer);
         }
     }
 
-    [PunRPC]
-    private void NotifyNewPlayer(string playerName)
-    {
-        Debug.Log($"Notified of new player: {playerName}");
-    }*/
     private void InitializePlayer(Photon.Realtime.Player player)
     {
         if (!player.IsLocal) return;
@@ -63,7 +53,10 @@ public class VillageScene : MonoBehaviourPunCallbacks
         Debug.Log(playerObject.name);
 
         PlayerCanvasAbility.Instance.ShowMyNickname();
+
+        localPlayerInitialized = true; // 로컬 플레이어가 생성되었음을 표시
     }
+
     public Vector3 GetRandomSpawnPoint()
     {
         int randomIndex = Random.Range(0, SpawnPoints.Count);

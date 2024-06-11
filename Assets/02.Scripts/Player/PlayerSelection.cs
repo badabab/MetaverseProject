@@ -39,7 +39,8 @@ public class PlayerSelection : MonoBehaviour
         if (type == PlayerType.Male)
         {
             int indexMale = Random.Range(13, 26);
-            currentCharacter = Instantiate(SelectedCharacter[indexMale - 1], Vector3.zero, Quaternion.identity);
+            //currentCharacter = Instantiate(SelectedCharacter[indexMale - 1], Vector3.zero, Quaternion.identity);
+            currentCharacter = SelectedCharacter[indexMale - 1];
             SelectedCharacterIndex = indexMale;
             Debug.Log($"{SelectedCharacterIndex}");
             PersonalManager.Instance.UpdateCharacterIndex(SelectedCharacterIndex);
@@ -47,7 +48,8 @@ public class PlayerSelection : MonoBehaviour
         else
         {
             int indexFemale = Random.Range(1, 13);
-            currentCharacter = Instantiate(SelectedCharacter[indexFemale - 1], Vector3.zero, Quaternion.identity);
+            // currentCharacter = Instantiate(SelectedCharacter[indexFemale - 1], Vector3.zero, Quaternion.identity);
+            currentCharacter = SelectedCharacter[indexFemale - 1];
             SelectedCharacterIndex = indexFemale;
             Debug.Log($"{SelectedCharacterIndex}");
             PersonalManager.Instance.UpdateCharacterIndex(SelectedCharacterIndex);
@@ -66,7 +68,8 @@ public class PlayerSelection : MonoBehaviour
                 Destroy(currentCharacter);
             }
 
-            currentCharacter = Instantiate(SelectedCharacter[characterIndex - 1], Vector3.zero, Quaternion.identity);
+            // currentCharacter = Instantiate(SelectedCharacter[characterIndex - 1], Vector3.zero, Quaternion.identity);
+            currentCharacter = SelectedCharacter[characterIndex - 1];
             currentCharacter.gameObject.SetActive(true);
         }
         else

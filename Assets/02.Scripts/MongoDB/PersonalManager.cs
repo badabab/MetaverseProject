@@ -27,7 +27,7 @@ public class PersonalManager : MonoBehaviour
     public void Init()
     {
         string connnectionString = "mongodb+srv://MetaversePro:MetaversePro@cluster0.ed1au27.mongodb.net/";
-        MongoClient mongoClient = new MongoClient(connnectionString);        
+        MongoClient mongoClient = new MongoClient(connnectionString);
         IMongoDatabase db = mongoClient.GetDatabase("Logins");
         // 3. 특정 콜렉션 연결
         _personalCollection = db.GetCollection<Personal>("Log");
@@ -119,7 +119,7 @@ public class PersonalManager : MonoBehaviour
         }
         var filter = Builders<Personal>.Filter.Eq(p => p.Name, name);
         var user = _personalCollection.Find(filter).FirstOrDefault();
-        if (user != null) 
+        if (user != null)
         {
             int newCoins = user.Coins - number;
             var update = Builders<Personal>.Update.Set(p => p.Coins, newCoins);

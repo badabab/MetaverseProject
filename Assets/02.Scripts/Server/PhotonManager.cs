@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Pun.Demo.Cockpit;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,6 +13,10 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public GameObject StartButton;
 
+    [HideInInspector]
+    public string NextRoomName = string.Empty;
+
+    public string CurrentRoom;
     private void Awake()
     {
         if (Instance == null)
@@ -37,7 +42,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Hashtable customProperties = new Hashtable { { "Nickname", _nickname } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
 
-        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.AutomaticallySyncScene = false;
         if (!PhotonNetwork.IsConnected)
         {
             PhotonNetwork.ConnectUsingSettings();
@@ -60,7 +65,24 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         Debug.Log("로비 입장");
+
+        if (!string.IsNullOrEmpty(NextRoomName))
+        {
+            RoomOptions roomOptions = new RoomOptions
+            {
+                MaxPlayers = 20,
+                IsVisible = true,
+                IsOpen = true,
+                EmptyRoomTtl = 1000 * 20,
+            };
+
+            PhotonNetwork.JoinOrCreateRoom(NextRoomName, roomOptions, TypedLobby.Default);
+
+            return;
+        }
+
         StartButton?.SetActive(true);
+
     }
 
     public override void OnCreatedRoom()
@@ -72,10 +94,26 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("방 입장 성공!");
+        Debug.Log($"방 입장 성공!({PhotonNetwork.CurrentRoom.Name})");
         Debug.Log($"RoomPlayerCount: {PhotonNetwork.CurrentRoom.PlayerCount}");
-        PhotonNetwork.LoadLevel("VillageScene");
+
+        switch(PhotonNetwork.CurrentRoom.Name)
+        {
+            case "Village":
+                PhotonNetwork.LoadLevel("VillageScene");
+                break;
+            case "MiniGame1":
+                PhotonNetwork.LoadLevel("BattleTileScene");
+                break;
+            case "MiniGame2":
+                PhotonNetwork.LoadLevel("FallGuysScene");
+                break;
+            case "MiniGame3":
+                PhotonNetwork.LoadLevel("TowerClimbScene");
+                break;
+        }
     }
+
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {

@@ -4,13 +4,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 public enum PlayerType
 {
     Male,
     Female,
 }
-
 public class UI_Lobby : MonoBehaviour
 {
     public TMP_InputField TMP_InputFieldId;
@@ -23,7 +22,7 @@ public class UI_Lobby : MonoBehaviour
     public GameObject Metaverse1;
     public GameObject Metaverse2;
 
-    public string RoomID = "testRoom";
+    public string RoomID = "Village";
     public static PlayerType SelectedType = PlayerType.Male;
 
     public static UI_Lobby Instance;
@@ -36,34 +35,47 @@ public class UI_Lobby : MonoBehaviour
 
     private void LoadLoginInfo()
     {
-        string loggedInUser = PlayerPrefs.GetString("LoggedInId", string.Empty);
-        string loggedInPassword = PlayerPrefs.GetString("LoggedInPassword", string.Empty);
-        TMP_InputFieldId.text = loggedInUser;
-        TMP_InputFieldPw.text = loggedInPassword;
+        Hashtable loginInfo = PhotonNetwork.LocalPlayer.CustomProperties;
+        if (loginInfo.ContainsKey("LoggedInId") && loginInfo.ContainsKey("LoggedInPassword"))
+        {
+            string loggedInUser = (string)loginInfo["LoggedInId"];
+            string loggedInPassword = (string)loginInfo["LoggedInPassword"];
+            TMP_InputFieldId.text = loggedInUser;
+            TMP_InputFieldPw.text = loggedInPassword;
+        }
     }
 
     private void AutoLogin()
     {
-        string loggedInUser = PlayerPrefs.GetString("LoggedInId", string.Empty);
-        string loggedInPassword = PlayerPrefs.GetString("LoggedInPassword", string.Empty);
+        Hashtable loginInfo = PhotonNetwork.LocalPlayer.CustomProperties;
 
-        if (!string.IsNullOrEmpty(loggedInUser) && !string.IsNullOrEmpty(loggedInPassword))
+        if (loginInfo.ContainsKey("LoggedInId") && loginInfo.ContainsKey("LoggedInPassword"))
         {
-            var user = PersonalManager.Instance.Login(loggedInUser, loggedInPassword);
-            if (user != null)
-            {
-                PhotonNetwork.NickName = loggedInUser;
-                PlayerSelection.Instance.SelectedCharacterIndex = user.CharacterIndex;
+            string loggedInUser = (string)loginInfo["LoggedInId"];
+            string loggedInPassword = (string)loginInfo["LoggedInPassword"];
 
-                if (user.CharacterIndex != 0)
+            if (!string.IsNullOrEmpty(loggedInUser) && !string.IsNullOrEmpty(loggedInPassword))
+            {
+                var user = PersonalManager.Instance.Login(loggedInUser, loggedInPassword);
+                if (user != null)
                 {
-                    PlayerSelection.Instance.ReloadCharacter();
-                    SelectCharacterBrowser();
+                    PhotonNetwork.NickName = loggedInUser;
+                    PlayerSelection.Instance.SelectedCharacterIndex = user.CharacterIndex;
+
+                    if (user.CharacterIndex != 0)
+                    {
+                        PlayerSelection.Instance.ReloadCharacter();
+                        SelectCharacterBrowser();
+                    }
+                    else
+                    {
+                        Metaverse1.SetActive(false);
+                        Metaverse2.SetActive(true);
+                    }
                 }
                 else
                 {
-                    Metaverse1.SetActive(false);
-                    Metaverse2.SetActive(true);
+                    Metaverse1.SetActive(true);
                 }
             }
             else
@@ -115,8 +127,14 @@ public class UI_Lobby : MonoBehaviour
             Debug.Log("New user registered.");
         }
 
-        PlayerPrefs.SetString("LoggedInId", nickname);
-        PlayerPrefs.SetString("LoggedInPassword", password);
+        Hashtable loginInfo = new Hashtable
+        {
+            { "LoggedInId", nickname },
+            { "LoggedInPassword", password }
+        };
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(loginInfo);
+
         Debug.Log("Login successful, user remembered.");
     }
 
@@ -155,13 +173,5 @@ public class UI_Lobby : MonoBehaviour
     {
         SelectedType = Ptype;
         PlayerSelection.Instance.CharacterSelection(Ptype);
-    }
-
-    public void OnNicknameValueChanged(string newValue)
-    {
-        if (!string.IsNullOrEmpty(newValue))
-        {
-            PhotonNetwork.NickName = newValue;
-        }
     }
 }

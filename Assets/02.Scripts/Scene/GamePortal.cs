@@ -12,16 +12,19 @@ public class GamePortal : MonoBehaviour
             {
                 // "BattleTileScene" 씬으로 이동
                 PhotonNetwork.LoadLevel("BattleTileScene");
+                Destroy(other.gameObject);
             }
             else if (gameObject.name == "FallGuysPortal")
             {
                 // "FallGuysScene" 씬으로 이동
                 PhotonNetwork.LoadLevel("FallGuysScene");
+                Destroy(other.gameObject);
             }
             else if (gameObject.name == "TowerClimbPortal")
             {
                 // "TowerClimbScene" 씬으로 이동
                 PhotonNetwork.LoadLevel("TowerClimbScene");
+                Destroy(other.gameObject);
             }
         }
     }

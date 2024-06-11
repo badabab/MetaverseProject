@@ -48,8 +48,8 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
         
         
-            transform.position = Vector3.Lerp(transform.position, targetPosition, smoothSpeed); // 부드러운 이동 계산
-            transform.LookAt(target.position); // 캐릭터를 바라보도록 설정
+        transform.position = Vector3.Lerp(transform.position, targetPosition, smoothSpeed); // 부드러운 이동 계산
+        transform.LookAt(target.position); // 캐릭터를 바라보도록 설정
         
 
     }

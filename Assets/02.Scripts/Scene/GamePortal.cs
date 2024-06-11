@@ -34,7 +34,7 @@ public class GamePortal : MonoBehaviour
 
             }
            
-            PhotonNetwork.LeaveRoom();
+           // PhotonNetwork.LeaveRoom();
 
         }
     }

@@ -16,7 +16,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     [HideInInspector]
     public string NextRoomName = string.Empty;
 
-    public string CurrentRoom;
     private void Awake()
     {
         if (Instance == null)

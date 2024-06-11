@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -50,12 +51,14 @@ public class EndCollider : MonoBehaviourPunCallbacks
                 {
                     if (firstPlayerNickName == playerPhotonView.Owner.NickName)
                     {
+                        Debug.Log($"{firstPlayerNickName}");
+                        Debug.Log($"{playerPhotonView.Owner.NickName}");
                         UI_GameOver.Instance.CheckFirst();
                         var playermove = playerPhotonView.gameObject.GetComponent<PlayerMoveAbility>();
                         var animator = playermove.GetComponent<Animator>();
                         animator.SetBool("Win", true);
                     }
-                    else
+                    else if (firstPlayerNickName != playerPhotonView.Owner.NickName)
                     {
                         UI_GameOver.Instance.CheckLast();
                         var playermove = playerPhotonView.gameObject.GetComponent<PlayerMoveAbility>();
@@ -63,7 +66,6 @@ public class EndCollider : MonoBehaviourPunCallbacks
                         animator.SetBool("Sad", true);
                     }
                 }
-
                 Debug.Log("게임 끝");
             }
         }

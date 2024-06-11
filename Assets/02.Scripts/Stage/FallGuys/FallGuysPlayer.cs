@@ -27,7 +27,7 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
 
         _currentCheckpoint = _testPosition.transform.position;
       //  _currentCheckpoint = new Vector3(500, 2, 80); // Start1 위치
-        Teleport(_currentCheckpoint);
+        this.transform.position = _currentCheckpoint;
     }
 
     private void Update()
@@ -60,7 +60,7 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
     [PunRPC]
     public void MovePlayer(Vector3 newPosition)
     {
-        Teleport(newPosition);
+        this.transform.position = newPosition;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -74,14 +74,7 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
         }
         else if (other.gameObject.name == "Respawn")
         {
-            Teleport(_currentCheckpoint);
+            this.transform.position = _currentCheckpoint;
         }
-    }
-
-    private void Teleport(Vector3 position)
-    {
-        _characterController.enabled = false;
-        transform.position = position;
-        _characterController.enabled = true;
     }
 }

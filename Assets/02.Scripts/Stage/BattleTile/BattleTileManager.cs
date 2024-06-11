@@ -18,7 +18,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
     private bool _isStartCoroutine = false;
     private bool _isNameUI = false;
 
-    public GameState _currentGameState = GameState.Ready;
+    public GameState CurrentGameState = GameState.Ready;
     public GameObject Gameover;
 
     private void Awake()
@@ -29,12 +29,12 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (_currentGameState == GameState.Go)
+        if (CurrentGameState == GameState.Go)
         {
             UpdateGameTimer();
         }
 
-        switch (_currentGameState)
+        switch (CurrentGameState)
 
         {
             case GameState.Ready:
@@ -74,8 +74,8 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
 
     public void SetGameState(GameState newState)
     {
-        _currentGameState = newState;
-        Debug.Log($"Game state changed to: {_currentGameState}");
+        CurrentGameState = newState;
+        Debug.Log($"Game state changed to: {CurrentGameState}");
     }
 
     public bool AreAllPlayersReady()
@@ -139,7 +139,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
             if (TimeRemaining <= 0)
             {
                 TimeRemaining = 0;
-                _currentGameState = GameState.Over;
+                CurrentGameState = GameState.Over;
                 Gameover.gameObject.SetActive(true);
             }
         }

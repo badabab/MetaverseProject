@@ -17,6 +17,11 @@ public class Tile : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider other)
     {
+        if (BattleTileManager.Instance.CurrentGameState != GameState.Go)
+        {
+            return;
+        }
+
         if (other.CompareTag("Player") && other.GetComponent<PhotonView>().IsMine)
         {
             _player = other.GetComponent<BattleTilePlayer>();

@@ -17,14 +17,14 @@ public class PlayerCanvasAbility : PlayerAbility
 
         return;
 
-        if (_owner.photonView.IsMine)
+        /*if (_owner.photonView.IsMine)
         {
             SetNickname(PhotonNetwork.LocalPlayer.NickName);
         }
         else
         {
             SetNickname(_owner.photonView.Owner.NickName);
-        }
+        }*/
     }
 
     private void Update()

@@ -17,12 +17,32 @@ public class PlayerRotateAbility : PlayerAbility
 
     private void Start()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded; // 씬이 로드될 때 호출될 메서드 등록
+        CheckSceneAndEnable();
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded; // 씬 로드 이벤트 해제
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        CheckSceneAndEnable();
+    }
+
+    private void CheckSceneAndEnable()
+    {
         _isTowerClimbScene = SceneManager.GetActiveScene().name == "TowerClimbScene";
 
         if (!_isTowerClimbScene)
         {
             this.enabled = false; // TowerClimbScene이 아닌 경우 스크립트를 비활성화
             return;
+        }
+        else
+        {
+            this.enabled = true; // TowerClimbScene인 경우 스크립트를 활성화
         }
 
         if (_owner.PhotonView.IsMine)

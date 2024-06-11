@@ -62,12 +62,14 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("방 생성 성공!");
         Debug.Log($"RoomName: {PhotonNetwork.CurrentRoom.Name}");
+        //PhotonNetwork.LoadLevel("VillageScene");
     }
 
     public override void OnJoinedRoom()
     {
         Debug.Log("방 입장 성공!");
         Debug.Log($"RoomPlayerCount: {PhotonNetwork.CurrentRoom.PlayerCount}");
+        PhotonNetwork.LoadLevel("VillageScene");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)

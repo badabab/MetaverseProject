@@ -25,41 +25,50 @@ public class VillageScene : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        if (PhotonNetwork.IsConnected && PhotonNetwork.InRoom)
+        if (PhotonNetwork.InRoom)
         {
-            InitializePlayer(PhotonNetwork.LocalPlayer.ToString());
+            InitializePlayer(PhotonNetwork.LocalPlayer);
         }
     }
 
+    public override void OnJoinedRoom()
+    {
+        InitializePlayer(PhotonNetwork.LocalPlayer);
+    }
+/*
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         Debug.Log($"Player {newPlayer.NickName} entered the room.");
         if (PhotonNetwork.IsMasterClient)
         {
-            photonView.RPC("InitializePlayer", RpcTarget.AllBuffered, newPlayer.NickName);
+            photonView.RPC("NotifyNewPlayer", newPlayer, newPlayer.NickName);
         }
     }
 
     [PunRPC]
-    private void InitializePlayer(string playerName)
+    private void NotifyNewPlayer(string playerName)
     {
-        Debug.Log("Initializing Player.");
+        Debug.Log($"Notified of new player: {playerName}");
+    }*/
+
+    private void InitializePlayer(Photon.Realtime.Player player)
+    {
+        if (!player.IsLocal) return;
+
         Vector3 spawnPoint = GetRandomSpawnPoint();
 
         int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
-        string characterPrefab = characterIndex <= 0 ? $"Player {PlayerSelection.Instance.SelectedCharacterIndex}" : $"Player {characterIndex}";
 
-        GameObject playerObject = PhotonNetwork.Instantiate(characterPrefab, spawnPoint, Quaternion.identity);
-        Debug.Log(playerObject.name);
-
-        // 모든 플레이어에게 닉네임 표시
-        PlayerCanvasAbility playerCanvasAbility = playerObject.GetComponent<PlayerCanvasAbility>();
-        if (playerCanvasAbility != null)
+        if (characterIndex <= 0)
         {
-            playerCanvasAbility.SetNickname(playerName);
+            characterIndex = PlayerSelection.Instance.SelectedCharacterIndex;
         }
 
-        players[playerName] = playerObject;
+        // Instantiate player
+        GameObject playerObject = PhotonNetwork.Instantiate($"Player {characterIndex}", spawnPoint, Quaternion.identity);
+        Debug.Log($"{playerObject.name}");
+
+        PlayerCanvasAbility.Instance.ShowMyNickname();
     }
 
     public Vector3 GetRandomSpawnPoint()

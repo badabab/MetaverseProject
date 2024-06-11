@@ -36,7 +36,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             foreach (var player in FindObjectsOfType<PlayerOptionAbility>())
             {
-                if (player.photonView.IsMine)
+                PhotonView photonView = player.GetComponent<PhotonView>();
+                if (photonView != null && photonView.IsMine)
                 {
                     _localPlayerController = player;
                     Debug.Log($"플레이어 찾음: {player.name}");
@@ -74,17 +75,17 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void BackToVillage()
     {
-        SceneManager.LoadScene("VillageScene");
-        /*        if (_localPlayerController != null)
-                {
-                    photonView.RPC("TeleportToVillage", RpcTarget.All, null);
-                }*/
+        //SceneManager.LoadScene("VillageScene");
+        if (_localPlayerController != null)
+        {
+            photonView.RPC("TeleportToVillage", RpcTarget.All, null);
+        }
     }
 
     [PunRPC]
     public void TeleportToVillage()
     {
-       SceneManager.LoadScene("LobbyScene");
+        PhotonNetwork.LoadLevel("VillageScene");
     }
 
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
@@ -94,7 +95,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void GameOver()
     {
-        if (_localPlayerController != null && _localPlayerController.photonView.IsMine)
+        if (_localPlayerController != null)
         {
             // Photon Network에서 방 나가기
             PhotonNetwork.LeaveRoom();
@@ -104,7 +105,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         // 방을 나간 후에 애플리케이션 종료
-        if (_localPlayerController != null && _localPlayerController.photonView.IsMine)
+        if (_localPlayerController != null)
         {
             // 빌드 후 실행했을 경우 종료하는 방법
             Application.Quit();

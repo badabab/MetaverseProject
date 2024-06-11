@@ -7,10 +7,10 @@ public class TileScore : MonoBehaviour
 {
     public static TileScore Instance { get; private set; }
 
-    public Material Tile_Blue;
     public Material Tile_Green;
     public Material Tile_Pink;
-    public Material Tile_Violet;
+    public Material Tile_Yellow;
+    public Material Tile_Blue;
 
     public int Player1score;
     public int Player2score;
@@ -45,22 +45,22 @@ public class TileScore : MonoBehaviour
                 {
                     foreach (Material mat in renderer.sharedMaterials)
                     {
-                        if (mat == Tile_Blue)
+                        if (mat == Tile_Green)
                         {
                             Player1score++;
                             break;
                         }
-                        else if (mat == Tile_Green)
+                        else if (mat == Tile_Pink)
                         {
                             Player2score++;
                             break;
                         }
-                        else if (mat == Tile_Pink)
+                        else if (mat == Tile_Yellow)
                         {
                             Player3score++;
                             break;
                         }
-                        else if (mat == Tile_Violet)
+                        else if (mat == Tile_Blue)
                         {
                             Player4score++;
                             break;

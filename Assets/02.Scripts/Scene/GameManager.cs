@@ -75,11 +75,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void BackToVillage()
     {
-        //SceneManager.LoadScene("VillageScene");
-        if (_localPlayerController != null)
+        SceneManager.LoadScene("VillageScene");
+/*        if (_localPlayerController != null)
         {
             photonView.RPC("TeleportToVillage", RpcTarget.All, null);
-        }
+        }*/
     }
 
     [PunRPC]

@@ -9,15 +9,6 @@ public class GamePortal : MonoBehaviour
         PhotonView photonView = other.GetComponent<PhotonView>();
         if (other.CompareTag("Player") && photonView.IsMine)
         {
-            RoomOptions roomOptions = new RoomOptions
-            {
-                MaxPlayers = 20,
-                IsVisible = true,
-                IsOpen = true,
-                EmptyRoomTtl = 1000 * 20,
-            };
-
-
             if (gameObject.name == "BattleTilePortal")
             {
                 PhotonManager.Instance.NextRoomName = "MiniGame1";
@@ -34,9 +25,7 @@ public class GamePortal : MonoBehaviour
                 PhotonManager.Instance.NextRoomName = "MiniGame3";
                 //PhotonNetwork.JoinOrCreateRoom("MiniGame3", roomOptions, TypedLobby.Default);
             }
-           
             PhotonNetwork.LeaveRoom();
-
         }
     }
 }

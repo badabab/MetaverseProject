@@ -40,7 +40,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
     
         {
             case GameState.Ready:
-                if (PhotonNetwork.PlayerList.Length == 1 || AreAllPlayersReady()) // 플레이어가 한 명이거나 모든 플레이어가 레디인 경우
+                if (AreAllPlayersReady()) // 모든 플레이어가 레디인 경우
                 {
                     SetGameState(GameState.Loading);
                 }
@@ -133,18 +133,6 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
             SetGameState(GameState.Go);
         }      
     }
-    private System.Collections.IEnumerator EndGame()
-    {
-        yield return new WaitForSeconds(5);
-        photonView.RPC("LoadVillageScene", RpcTarget.All);
-    }
-
-    [PunRPC]
-    void LoadVillageScene()
-    {
-        SceneManager.LoadScene("VillageScene");
-    }
-
     private System.Collections.IEnumerator ShowVictoryAndLoadScene()
     {
 
@@ -165,6 +153,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(5);
             _countEnd--;
         }
-        SceneManager.LoadScene("VillageScene");
+        PhotonManager.Instance.NextRoomName = "Village";
+        PhotonNetwork.LeaveRoom();
     }
 }

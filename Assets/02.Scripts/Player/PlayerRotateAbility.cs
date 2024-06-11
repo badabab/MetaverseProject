@@ -45,7 +45,7 @@ public class PlayerRotateAbility : PlayerAbility
             this.enabled = true; // TowerClimbScene인 경우 스크립트를 활성화
         }
 
-        if (_owner.PhotonView.IsMine)
+        if (_owner.PhotonView.IsMine && _isTowerClimbScene)
         {
             Cursor.lockState = CursorLockMode.Locked;
             GameObject followCamera = GameObject.FindWithTag("FollowCamera");

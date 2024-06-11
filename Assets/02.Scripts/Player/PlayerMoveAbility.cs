@@ -52,15 +52,7 @@ public class PlayerMoveAbility : PlayerAbility
         {
             GameObject.FindWithTag("MainCamera").GetComponent<TPSCamera>().target = CameraRoot; 
         }
-        else if (_owner.PhotonView.IsMine && _isTowerClimbScene)
-        {
-            cinemachineCamera = FindObjectOfType<CinemachineFreeLook>();
-            if (cinemachineCamera != null)
-            {
-                cinemachineCamera.Follow = CameraRoot;
-                cinemachineCamera.LookAt = CameraRoot;
-            }
-        }
+       
         _isFallGuysScene = SceneManager.GetActiveScene().name == "FallGuysScene";
         _isTowerClimbScene = SceneManager.GetActiveScene().name == "TowerClimbScene";
 

@@ -1,6 +1,7 @@
 using Cinemachine;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerRotateAbility : PlayerAbility
 {
@@ -9,14 +10,18 @@ public class PlayerRotateAbility : PlayerAbility
     public Transform CameraRoot;
     public float RotationSpeed = 200;
 
+    private bool _isTowerClimbScene = false;
+
     private float _mx;
     private float _my;
 
     private void Start()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
-        if (_owner.PhotonView.IsMine)
+        _isTowerClimbScene = SceneManager.GetActiveScene().name == "TowerClimbScene";
+        
+        if (_owner.PhotonView.IsMine && _isTowerClimbScene)
         {
+            Cursor.lockState = CursorLockMode.Locked;
             GameObject.FindWithTag("FollowCamera").GetComponent<CinemachineVirtualCamera>().Follow = CameraRoot;
             GameObject.FindWithTag("FollowCamera").GetComponent<CinemachineVirtualCamera>().LookAt = CameraRoot;
         }
@@ -24,7 +29,7 @@ public class PlayerRotateAbility : PlayerAbility
 
     private void Update()
     {
-        if (!_owner.PhotonView.IsMine)
+        if (!_owner.PhotonView.IsMine&& !_isTowerClimbScene)
         {
             return;
         }

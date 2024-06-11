@@ -88,7 +88,7 @@ public class PlayerRotateAbility : PlayerAbility
         CameraRoot.localEulerAngles = new Vector3(-_my, 0, 0);
 
         // Calculate the Y position based on the X rotation
-        float yPos = Mathf.Lerp(0f, 1.65f, Mathf.InverseLerp(-50f, 25f, _my));
+        float yPos = Mathf.Lerp(0f, 1.65f, Mathf.InverseLerp(-50f, 25f, -_my));
         Vector3 cameraRootPosition = CameraRoot.localPosition;
         cameraRootPosition.y = yPos;
         CameraRoot.localPosition = cameraRootPosition;

@@ -1,3 +1,4 @@
+using Cinemachine;
 using Photon.Pun;
 using System.Security.Cryptography;
 using UnityEngine;
@@ -35,6 +36,9 @@ public class PlayerMoveAbility : PlayerAbility
     public Transform CameraRoot;
     Vector3 dir = Vector3.zero;
 
+    private CinemachineFreeLook cinemachineCamera;
+
+
     private bool _isFallGuysScene = false; // 폴가이즈 씬인지 확인
     private bool _isTowerClimbScene = false;
     void Start()
@@ -44,9 +48,18 @@ public class PlayerMoveAbility : PlayerAbility
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
 
-        if (_owner.PhotonView.IsMine)
+        if (_owner.PhotonView.IsMine && !_isTowerClimbScene)
         {
-            GameObject.FindWithTag("MainCamera").GetComponent<TPSCamera>().target = CameraRoot;
+            GameObject.FindWithTag("MainCamera").GetComponent<TPSCamera>().target = CameraRoot; 
+        }
+        else if (_owner.PhotonView.IsMine && _isTowerClimbScene)
+        {
+            cinemachineCamera = FindObjectOfType<CinemachineFreeLook>();
+            if (cinemachineCamera != null)
+            {
+                cinemachineCamera.Follow = CameraRoot;
+                cinemachineCamera.LookAt = CameraRoot;
+            }
         }
         _isFallGuysScene = SceneManager.GetActiveScene().name == "FallGuysScene";
         _isTowerClimbScene = SceneManager.GetActiveScene().name == "TowerClimbScene";

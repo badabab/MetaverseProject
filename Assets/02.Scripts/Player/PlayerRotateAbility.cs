@@ -18,18 +18,40 @@ public class PlayerRotateAbility : PlayerAbility
     private void Start()
     {
         _isTowerClimbScene = SceneManager.GetActiveScene().name == "TowerClimbScene";
-        
-        if (_owner.PhotonView.IsMine && _isTowerClimbScene)
+
+        if (!_isTowerClimbScene)
+        {
+            this.enabled = false; // TowerClimbScene이 아닌 경우 스크립트를 비활성화
+            return;
+        }
+
+        if (_owner.PhotonView.IsMine)
         {
             Cursor.lockState = CursorLockMode.Locked;
-            GameObject.FindWithTag("FollowCamera").GetComponent<CinemachineVirtualCamera>().Follow = CameraRoot;
-            GameObject.FindWithTag("FollowCamera").GetComponent<CinemachineVirtualCamera>().LookAt = CameraRoot;
+            GameObject followCamera = GameObject.FindWithTag("FollowCamera");
+            if (followCamera != null)
+            {
+                CinemachineVirtualCamera cinemachineVirtualCamera = followCamera.GetComponent<CinemachineVirtualCamera>();
+                if (cinemachineVirtualCamera != null)
+                {
+                    cinemachineVirtualCamera.Follow = CameraRoot;
+                    cinemachineVirtualCamera.LookAt = CameraRoot;
+                }
+                else
+                {
+                    Debug.LogError("CinemachineVirtualCamera component not found on FollowCamera.");
+                }
+            }
+            else
+            {
+                Debug.LogError("FollowCamera not found.");
+            }
         }
     }
 
     private void Update()
     {
-        if (!_owner.PhotonView.IsMine&& !_isTowerClimbScene)
+        if (!_owner.PhotonView.IsMine)
         {
             return;
         }

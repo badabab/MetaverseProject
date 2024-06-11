@@ -143,6 +143,7 @@ public class PlayerMoveAbility : PlayerAbility
             
             _animator.SetBool("Run", false);
         }
+
         if (_isTowerClimbScene)
         {
             JumpPower = 20;

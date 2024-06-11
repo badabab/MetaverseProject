@@ -2,6 +2,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
@@ -31,6 +32,10 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.GameVersion = "0.0.1";
         PhotonNetwork.NickName = _nickname;
+
+        // Custom Properties 설정
+        Hashtable customProperties = new Hashtable { { "Nickname", _nickname } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
 
         PhotonNetwork.AutomaticallySyncScene = true;
         if (!PhotonNetwork.IsConnected)

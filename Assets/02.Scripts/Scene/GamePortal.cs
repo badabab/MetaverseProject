@@ -26,15 +26,16 @@ public class GamePortal : MonoBehaviour
             else if (gameObject.name == "FallGuysPortal")
             {
                 PhotonManager.Instance.NextRoomName = "MiniGame2";
+                //PhotonNetwork.JoinOrCreateRoom("MiniGame2", roomOptions, TypedLobby.Default);
 
             }
             else if (gameObject.name == "TowerClimbPortal")
             {
                 PhotonManager.Instance.NextRoomName = "MiniGame3";
-
+                //PhotonNetwork.JoinOrCreateRoom("MiniGame3", roomOptions, TypedLobby.Default);
             }
            
-           // PhotonNetwork.LeaveRoom();
+            PhotonNetwork.LeaveRoom();
 
         }
     }

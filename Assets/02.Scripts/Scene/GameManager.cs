@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         PhotonManager.Instance.NextRoomName = "Village";
-       // PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LeaveRoom();
         //SceneManager.LoadScene("VillageScene");
        // PhotonNetwork.LoadLevel("VillageScene");
     }

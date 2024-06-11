@@ -35,7 +35,7 @@ public class TPSCamera : MonoBehaviourPunCallbacks
     {
         if (target == null) return; // 타겟이 없으면 리턴
 
-        rotationX += Input.GetAxis("Mouse X") * sensitivity;
+        rotationX += Input.GetAxis("Mouse X") *  sensitivity;
         rotationY -= Input.GetAxis("Mouse Y") * sensitivity;
     }
 

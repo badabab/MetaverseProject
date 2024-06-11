@@ -50,7 +50,6 @@ public class VillageScene : MonoBehaviourPunCallbacks
     {
         Debug.Log($"Notified of new player: {playerName}");
     }*/
-
     private void InitializePlayer(Photon.Realtime.Player player)
     {
         if (!player.IsLocal) return;
@@ -58,19 +57,13 @@ public class VillageScene : MonoBehaviourPunCallbacks
         Vector3 spawnPoint = GetRandomSpawnPoint();
 
         int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
+        string characterPrefab = characterIndex <= 0 ? $"Player {PlayerSelection.Instance.SelectedCharacterIndex}" : $"Player {characterIndex}";
 
-        if (characterIndex <= 0)
-        {
-            characterIndex = PlayerSelection.Instance.SelectedCharacterIndex;
-        }
-
-        // Instantiate player
-        GameObject playerObject = PhotonNetwork.Instantiate($"Player {characterIndex}", spawnPoint, Quaternion.identity);
-        Debug.Log($"{playerObject.name}");
+        GameObject playerObject = PhotonNetwork.Instantiate(characterPrefab, spawnPoint, Quaternion.identity);
+        Debug.Log(playerObject.name);
 
         PlayerCanvasAbility.Instance.ShowMyNickname();
     }
-
     public Vector3 GetRandomSpawnPoint()
     {
         int randomIndex = Random.Range(0, SpawnPoints.Count);

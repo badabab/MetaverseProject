@@ -58,6 +58,9 @@ public class EndCollider : MonoBehaviourPunCallbacks
                     else
                     {
                         UI_GameOver.Instance.CheckLast();
+                        var playermove = playerPhotonView.gameObject.GetComponent<PlayerMoveAbility>();
+                        var animator = playermove.GetComponent<Animator>();
+                        animator.SetBool("Sad", true);
                     }
                 }
 

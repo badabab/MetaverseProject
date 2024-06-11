@@ -83,6 +83,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void BackToVillage()
     {
+        FindLocalPlayer();
+
         if (SceneManager.GetActiveScene().name == "VillageScene")
         {
             return;

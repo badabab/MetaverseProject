@@ -26,7 +26,7 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
         }
 
         _currentCheckpoint = _testPosition.transform.position;
-      //  _currentCheckpoint = new Vector3(500, 2, 80); // Start1 위치
+      // _currentCheckpoint = new Vector3(500, 2, 80); // Start1 위치
         this.transform.position = _currentCheckpoint;
     }
 

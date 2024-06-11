@@ -9,6 +9,7 @@ public class EndCollider : MonoBehaviourPunCallbacks
     private bool isFirstPlayerDetected = false;
     private string firstPlayerNickName;
 
+    private Animator animator;
 
     public TextMeshProUGUI CountNumber;
     private void OnTriggerEnter(Collider other)
@@ -50,6 +51,9 @@ public class EndCollider : MonoBehaviourPunCallbacks
                     if (firstPlayerNickName == playerPhotonView.Owner.NickName)
                     {
                         UI_GameOver.Instance.CheckFirst();
+                        var playermove = playerPhotonView.gameObject.GetComponent<PlayerMoveAbility>();
+                        var animator = playermove.GetComponent<Animator>();
+                        animator.SetBool("Win", true);
                     }
                     else
                     {

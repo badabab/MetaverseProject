@@ -101,7 +101,7 @@ public class TileScore : MonoBehaviour
         int maxScore = playerScores[winner];
 
         Debug.Log($"Winner is {winner} with {maxScore} tiles!");
-        PersonalManager.Instance.CoinUpdate(winner);
+        PersonalManager.Instance.CoinUpdate(winner, 100);
     }
 
 }

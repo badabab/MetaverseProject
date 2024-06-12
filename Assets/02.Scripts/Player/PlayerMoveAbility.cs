@@ -115,7 +115,7 @@ public class PlayerMoveAbility : PlayerAbility
             a.y = 0f;
             // 이동 방향으로 캐릭터 회전
             Quaternion targetRotation = Quaternion.LookRotation(a);
-            rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f));
+            rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f));
 
             // 걷기 애니메이션 설정
            // _animator.SetBool("Walk", true);
@@ -133,9 +133,9 @@ public class PlayerMoveAbility : PlayerAbility
           
             Speed = RunSpeed;
 
-            Debug.Log(rb.position + direction * Speed * Time.deltaTime);
+            Debug.Log(rb.position + direction * Speed * Time.fixedDeltaTime);
 
-            rb.MovePosition(rb.position + direction * Speed * Time.deltaTime);
+            rb.MovePosition(rb.position + direction * Speed * Time.fixedDeltaTime);
             _isRunning = true;
             
             _animator.SetBool("Run", true);
@@ -144,8 +144,8 @@ public class PlayerMoveAbility : PlayerAbility
         {
             Speed = Movespeed;
 
-            Debug.Log(rb.position + direction * Speed * Time.deltaTime);
-            rb.MovePosition(rb.position + direction * Speed * Time.deltaTime);
+            Debug.Log(rb.position + direction * Speed * Time.fixedDeltaTime);
+            rb.MovePosition(rb.position + direction * Speed * Time.fixedDeltaTime);
             _isRunning = false;
             
             _animator.SetBool("Run", false);

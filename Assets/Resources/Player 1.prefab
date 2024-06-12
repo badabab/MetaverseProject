@@ -2738,7 +2738,7 @@ MonoBehaviour:
   isGrounded: 0
   LayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 0
   groundDistance: 0.4
   LayerPoint: {fileID: 2024064310669707736}
   CameraRoot: {fileID: 6725541871435156712}
@@ -2838,6 +2838,12 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: Walk
+  - Type: 4
+    SynchronizeType: 0
+    Name: Win
+  - Type: 4
+    SynchronizeType: 0
+    Name: Sad
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0

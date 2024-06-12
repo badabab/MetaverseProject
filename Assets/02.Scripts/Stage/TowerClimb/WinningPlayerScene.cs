@@ -1,6 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class WinningPlayerScene : MonoBehaviour
 {
@@ -14,5 +16,15 @@ public class WinningPlayerScene : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void AllPlayerCameraOff()
+    {
+        Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray();
+        Debug.Log("Player count: " + players.Length);
+        foreach (Photon.Realtime.Player player in players)
+        {
+
+        }
     }
 }

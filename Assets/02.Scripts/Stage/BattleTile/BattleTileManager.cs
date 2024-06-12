@@ -1,9 +1,11 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using ExitGames.Client.Photon;
 
 public class BattleTileManager : MonoBehaviourPunCallbacks
 {
@@ -19,7 +21,10 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
     private bool _isNameUI = false;
 
     public GameState CurrentGameState = GameState.Ready;
-    public GameObject Gameover;
+    public GameObject GameEndUI;
+    public Image Gameover;
+    public Image Lose;
+    public Image Win;
 
     private void Awake()
     {
@@ -35,7 +40,6 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
         }
 
         switch (CurrentGameState)
-
         {
             case GameState.Ready:
                 if (PhotonNetwork.PlayerList.Length == 1 || AreAllPlayersReady()) // 플레이어가 한 명이거나 모든 플레이어가 레디인 경우
@@ -44,9 +48,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
                 }
                 break;
 
-
             case GameState.Loading:
-                // PlayerReadySpawner();
                 if (!_isStartCoroutine)
                 {
                     StartCoroutine(StartCountDown());
@@ -110,24 +112,40 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(1);
             Debug.Log($"CountDown: {i}");
         }
-        SetGameState(GameState.Go);     
+        SetGameState(GameState.Go);
     }
 
-    private System.Collections.IEnumerator ShowVictoryAndLoadScene()
+    private IEnumerator ShowVictoryAndLoadScene()
     {
+        // DetermineWinner 메서드를 호출하여 각 플레이어의 승리 상태를 설정합니다.
         TileScore.Instance.DetermineWinner();
+
+        // Gameover 이미지를 2초 동안 표시합니다.
+        GameEndUI.SetActive(true);
+        Gameover.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2);
+        Gameover.gameObject.SetActive(false);
+
+        // 로컬 플레이어가 승자인지 여부를 확인하고, Win 또는 Lose 이미지를 표시합니다.
+        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("IsWinner") && (bool)PhotonNetwork.LocalPlayer.CustomProperties["IsWinner"])
+        {
+            Win.gameObject.SetActive(true);
+        }
+        else
+        {
+            Lose.gameObject.SetActive(true);
+        }
+
+        // 몇 초 동안 대기합니다 (카운트다운).
         while (_countEnd > 0)
         {
             Debug.Log($"CountDown: {_countEnd}");
             yield return new WaitForSeconds(1);
             _countEnd--;
         }
+
+        // VillageScene 씬으로 전환합니다.
         SceneManager.LoadScene("VillageScene");
-    }
-
-    void WhoisthehigherScore()
-    {
-
     }
 
     void UpdateGameTimer()

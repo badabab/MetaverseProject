@@ -2673,6 +2673,7 @@ GameObject:
   - component: {fileID: 8105579559602411273}
   - component: {fileID: 4169147288387279410}
   - component: {fileID: 4095897865085939581}
+  - component: {fileID: -1610754187520517461}
   m_Layer: 9
   m_Name: Player 24
   m_TagString: Player
@@ -2769,10 +2770,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f4ac00201e2ad4ebef13d0406a027e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hand: {fileID: 4004163540277444648}
-  Animator: {fileID: 8171539650239019205}
-  GrabDistance: 2.06
-  GrabbableLayer:
+  grabRange: 2
+  playerLayer:
     serializedVersion: 2
     m_Bits: 0
 --- !u!114 &6703264293214351524
@@ -3062,7 +3061,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
@@ -3109,6 +3108,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CameraRoot: {fileID: 6725541871435156712}
   RotationSpeed: 200
+--- !u!136 &-1610754187520517461
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9029329124467589125}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.88, z: 0}
 --- !u!1 &9074448728345242793
 GameObject:
   m_ObjectHideFlags: 0

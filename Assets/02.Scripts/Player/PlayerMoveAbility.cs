@@ -66,6 +66,7 @@ public class PlayerMoveAbility : PlayerAbility
         {
             return;
         }
+        InputAndDir();
         GroundCheck();
         JumpCounter();
 
@@ -80,14 +81,7 @@ public class PlayerMoveAbility : PlayerAbility
         }
     }
 
-    private void FixedUpdate()
-    {
-        if ( !_owner.PhotonView.IsMine)
-        {
-            return;
-        }
-        InputAndDir();
-    }
+   
 
     // 키 입력과 그에 따른 이동방향을 계산하는 함수
     void InputAndDir()

@@ -27,8 +27,6 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
     public Collider[] ColliderList;
     public Transform[] spawnPoints;
 
-    public Transform EndPosition;
-
     private void Awake()
     {
         Instance = this;
@@ -137,7 +135,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
         while (_countEnd > 0)
         {
             Debug.Log($"CountDown: {_countEnd}");
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(1);
             _countEnd--;
         }
         PhotonManager.Instance.NextRoomName = "Village";

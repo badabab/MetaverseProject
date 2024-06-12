@@ -21,6 +21,7 @@ public class UI_Lobby : MonoBehaviour
     public Button MaleButtonUI;
     public GameObject Metaverse1;
     public GameObject Metaverse2;
+   
 
     public string RoomID = "Village";
     public static PlayerType SelectedType = PlayerType.Male;
@@ -59,11 +60,12 @@ public class UI_Lobby : MonoBehaviour
                 {
                     PlayerSelection.Instance.ReloadCharacter();
                     SelectCharacterBrowser();
+                    FemaleButtonUI.gameObject.SetActive(false);
+                    MaleButtonUI.gameObject.SetActive(false);
                 }
                 else
                 {
-                    Metaverse1.SetActive(false);
-                    Metaverse2.SetActive(true);
+                    SelectCharacterBrowser();
                 }
             }
             else

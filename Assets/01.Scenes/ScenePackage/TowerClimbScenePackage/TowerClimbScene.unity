@@ -6830,7 +6830,6 @@ GameObject:
   m_Component:
   - component: {fileID: 210565309}
   - component: {fileID: 210565310}
-  - component: {fileID: 210565311}
   m_Layer: 5
   m_Name: Player1
   m_TagString: Untagged
@@ -6873,27 +6872,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 210565308}
   m_CullTransparentMesh: 1
---- !u!114 &210565311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 210565308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49e99f31067e8d445b2a4f2f852d45b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Stage0: {fileID: 43911940}
-  Stage1: {fileID: 2920470111733250939}
-  Stage2: {fileID: 430419196117679420}
-  Stage3: {fileID: 4598628603151787074}
-  Stage4: {fileID: 193889451668718964}
-  Stage5: {fileID: 451080301283125108}
-  UI_Spin: {fileID: 1885182205}
-  StageNum: {fileID: 272364467}
-  Spinspeed: 3
 --- !u!1 &210969038
 GameObject:
   m_ObjectHideFlags: 0
@@ -61216,6 +61194,7 @@ GameObject:
   - component: {fileID: 1885182206}
   - component: {fileID: 1885182208}
   - component: {fileID: 1885182207}
+  - component: {fileID: 1885182209}
   m_Layer: 5
   m_Name: Image (3)
   m_TagString: Untagged
@@ -61284,6 +61263,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1885182205}
   m_CullTransparentMesh: 1
+--- !u!114 &1885182209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885182205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49e99f31067e8d445b2a4f2f852d45b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Spinspeed: 300
+  StageNum: {fileID: 272364467}
 --- !u!1 &1886487040
 GameObject:
   m_ObjectHideFlags: 0
@@ -65654,7 +65647,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1725892355335644311, guid: 83b8575189c65f3418d5b522b79f2c3d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 96.2
+      value: 124.9
       objectReference: {fileID: 0}
     - target: {fileID: 1725892355335644311, guid: 83b8575189c65f3418d5b522b79f2c3d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -75299,7 +75292,7 @@ GameObject:
   - component: {fileID: 4491459180902191212}
   m_Layer: 0
   m_Name: ring_001 (4)
-  m_TagString: Untagged
+  m_TagString: Stage4
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75963,7 +75956,7 @@ GameObject:
   - component: {fileID: 4115494853295810596}
   m_Layer: 0
   m_Name: ring_001 (1)
-  m_TagString: Untagged
+  m_TagString: Stage2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76076,7 +76069,7 @@ GameObject:
   - component: {fileID: 4226210561489597036}
   m_Layer: 0
   m_Name: ring_001 (3)
-  m_TagString: Untagged
+  m_TagString: Stage5
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84255,7 +84248,7 @@ GameObject:
   - component: {fileID: 3713046814919678639}
   m_Layer: 0
   m_Name: ring_001
-  m_TagString: Untagged
+  m_TagString: Stage1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -88847,7 +88840,7 @@ GameObject:
   - component: {fileID: 4598628603151787075}
   m_Layer: 0
   m_Name: ring_001 (2)
-  m_TagString: Untagged
+  m_TagString: Stage3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

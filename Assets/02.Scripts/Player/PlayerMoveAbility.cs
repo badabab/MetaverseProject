@@ -111,8 +111,10 @@ public class PlayerMoveAbility : PlayerAbility
             forward.y = 0;
             direction = (forward.normalized * dir.z + Camera.main.transform.right * dir.x).normalized;
 
+            var a = direction;
+            a.y = 0f;
             // 이동 방향으로 캐릭터 회전
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            Quaternion targetRotation = Quaternion.LookRotation(a);
             rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f));
 
             // 걷기 애니메이션 설정
@@ -123,12 +125,16 @@ public class PlayerMoveAbility : PlayerAbility
             //_animator.SetBool("Walk", false);
         }
 
+        direction.y = 0f;
+
         // 달리기 여부에 따라 이동 속도 및 애니메이션 설정
         if (_isFallGuysScene ||Input.GetKey(KeyCode.LeftShift))
         {
           
             Speed = RunSpeed;
-            
+
+            Debug.Log(rb.position + direction * Speed * Time.deltaTime);
+
             rb.MovePosition(rb.position + direction * Speed * Time.deltaTime);
             _isRunning = true;
             
@@ -137,7 +143,8 @@ public class PlayerMoveAbility : PlayerAbility
         else
         {
             Speed = Movespeed;
-            
+
+            Debug.Log(rb.position + direction * Speed * Time.deltaTime);
             rb.MovePosition(rb.position + direction * Speed * Time.deltaTime);
             _isRunning = false;
             

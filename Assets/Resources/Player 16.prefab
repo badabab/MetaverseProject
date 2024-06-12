@@ -2755,10 +2755,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f4ac00201e2ad4ebef13d0406a027e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hand: {fileID: 4004163540277444648}
-  Animator: {fileID: 8171539650239019205}
-  GrabDistance: 2.06
-  GrabbableLayer:
+  grabRange: 2
+  playerLayer:
     serializedVersion: 2
     m_Bits: 0
 --- !u!114 &6703264293214351524

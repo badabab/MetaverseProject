@@ -21,7 +21,7 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
         }
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "PlayerNumber", MyNum }, { "PlayerTileNumber", MyNum } });
         GameObject startpoint = GameObject.Find($"Start{MyNum}");
-        Teleport(startpoint.transform);
+        this.transform.position = startpoint.transform.position;
     }
 
     private void Update()
@@ -50,13 +50,6 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
             }
         } while (!isUnique);
         return randomNum;
-    }
-
-    private void Teleport(Transform startpoint)
-    {
-        _characterController.enabled = false;
-        transform.position = startpoint.position;
-        _characterController.enabled = true;
     }
 
     private void SetReadyStateOnInput()

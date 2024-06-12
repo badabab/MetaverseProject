@@ -1,11 +1,9 @@
 using Photon.Pun;
-using Photon.Realtime;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using ExitGames.Client.Photon;
 
 public class BattleTileManager : MonoBehaviourPunCallbacks
 {
@@ -42,13 +40,18 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
         switch (CurrentGameState)
         {
             case GameState.Ready:
-                if (PhotonNetwork.PlayerList.Length == 1 || AreAllPlayersReady()) // 플레이어가 한 명이거나 모든 플레이어가 레디인 경우
+                if (AreAllPlayersReady()) // PhotonNetwork.PlayerList.Length == 1
                 {
                     SetGameState(GameState.Loading);
                 }
                 break;
 
             case GameState.Loading:
+                if (!_isNameUI)
+                {
+                    UI_BattleTile.Instance.RefreshUI();
+                    _isNameUI = true;
+                }
                 if (!_isStartCoroutine)
                 {
                     StartCoroutine(StartCountDown());
@@ -57,11 +60,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
                 break;
 
             case GameState.Go:
-                if (!_isNameUI)
-                {
-                    UI_BattleTile.Instance.RefreshUI();
-                    _isNameUI = true;
-                }
+               
                 break;
 
             case GameState.Over:
@@ -117,16 +116,14 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
 
     private IEnumerator ShowVictoryAndLoadScene()
     {
-        // DetermineWinner 메서드를 호출하여 각 플레이어의 승리 상태를 설정합니다.
         TileScore.Instance.DetermineWinner();
 
-        // Gameover 이미지를 2초 동안 표시합니다.
         GameEndUI.SetActive(true);
         Gameover.gameObject.SetActive(true);
         yield return new WaitForSeconds(2);
         Gameover.gameObject.SetActive(false);
 
-        // 로컬 플레이어가 승자인지 여부를 확인하고, Win 또는 Lose 이미지를 표시합니다.
+        // 이긴 사람만 Win, 나머지는 Lose
         if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("IsWinner") && (bool)PhotonNetwork.LocalPlayer.CustomProperties["IsWinner"])
         {
             Win.gameObject.SetActive(true);

@@ -12,16 +12,26 @@ public class UI_StageSpin : MonoBehaviour
     private float rotationThreshold = 1f;
     public TMP_Text StageNum;
 
+    public void SetStageNum(string stageNumber)
+    {
+        StageNum.text = stageNumber;
+    }
+
+    public void StopRotation()
+    {
+        shouldStopRotating = true;
+        StageNum.text = "5";
+    }
+
     void Update()
     {
         if (!shouldStopRotating)
         {
             transform.Rotate(0, 0, Spinspeed * Time.deltaTime);
 
-            // Check if the current rotation is close to the target rotation
             if (Mathf.Abs(transform.rotation.eulerAngles.z - targetRotation) < rotationThreshold)
             {
-                shouldStopRotating = true;
+                StopRotation(); 
             }
         }
     }

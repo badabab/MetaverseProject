@@ -6,7 +6,7 @@ using Photon.Pun;
 public class TunnelObject : MonoBehaviourPun
 {
     public Transform[] points; // 각 터널 객체에 대한 포인트 배열
-    public float transitionDuration = 0.1f; // 각 구간 이동 시간
+    public float transitionDuration = 0.05f; // 각 구간 이동 시간
 
     private void OnTriggerEnter(Collider other)
     {

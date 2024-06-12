@@ -21,12 +21,12 @@ public class UI_Countdown_B : MonoBehaviour
 
     void Start()
     {
-        previousGameState = BattleTileManager.Instance._currentGameState;
+        previousGameState = BattleTileManager.Instance.CurrentGameState;
     }
 
     void Update()
     {
-        GameState currentGameState = BattleTileManager.Instance._currentGameState;
+        GameState currentGameState = BattleTileManager.Instance.CurrentGameState;
 
         if (currentGameState != previousGameState)
         {

@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         if (SceneManager.GetActiveScene().name == "VillageScene")
         {
-            return;
+            _localPlayerController.Continue();
         }
 
         if (_localPlayerController.photonView.IsMine)

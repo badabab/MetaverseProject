@@ -1,148 +1,77 @@
-using Photon.Pun;
 using UnityEngine;
+using Photon.Pun;
 
 public class PlayerGrabAbility : MonoBehaviourPunCallbacks
 {
-    public Transform Hand; // 캐릭터 손 위치
-    private GameObject _grabbedObject;
-    private CharacterController _characterController;
-    public Animator Animator;
-    public float GrabDistance = 2.0f;
-    public LayerMask GrabbableLayer; // Grabbable 오브젝트가 속한 레이어
+    public float grabRange = 2.0f; // 잡을 수 있는 최대 거리
+    public LayerMask playerLayer; // 플레이어 레이어
 
-    void Start()
-    {
-        _characterController = GetComponent<CharacterController>();
-    }
+    private GameObject grabbedPlayer = null;
 
     void Update()
     {
-        if (photonView.IsMine)
-        {
-            HandleGrab();
-        }
-    }
+        if (!photonView.IsMine)
+            return;
 
-    void HandleGrab()
-    {
-        if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 버튼 클릭으로 잡기
+        if (Input.GetKeyDown(KeyCode.G)) // 'G' 키를 눌러서 잡기 시도
         {
             TryGrab();
         }
-        else if (Input.GetMouseButtonUp(0) && _grabbedObject != null) // 마우스 왼쪽 버튼 떼기
+
+        if (Input.GetKeyUp(KeyCode.G)) // 'G' 키를 떼면 놓기
         {
             ReleaseGrab();
         }
-        if (Input.GetMouseButton(1))
+
+        if (grabbedPlayer != null)
         {
-            Animator.SetTrigger("Combo");
-            if (_grabbedObject != null)
-            {
-                photonView.RPC("RPC_ApplyObject", RpcTarget.AllBuffered, _grabbedObject.GetComponentInParent<PhotonView>().ViewID);
-            }
+            // 잡고 있는 플레이어의 위치를 계속 업데이트
+            grabbedPlayer.transform.position = transform.position + transform.forward * 1.5f;
         }
     }
 
     void TryGrab()
     {
-       // Debug.Log("Hand position: " + Hand.position);
-        Collider[] hitColliders = Physics.OverlapSphere(Hand.position, GrabDistance, GrabbableLayer);
-        Debug.Log("Number of colliders found: " + hitColliders.Length);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, grabRange, playerLayer);
 
-        if (hitColliders.Length > 0)
+        foreach (var hitCollider in hitColliders)
         {
-            foreach (var hitCollider in hitColliders)
+            if (hitCollider.gameObject != gameObject)
             {
-                Debug.Log("Hit collider: " + hitCollider.name);
-                if (hitCollider.CompareTag("Grabbable")) // Grabbable 태그가 붙은 오브젝트만 잡기
-                {
-                    _grabbedObject = hitCollider.gameObject;
-                    PhotonView objectPhotonView = _grabbedObject.GetComponentInParent<PhotonView>();
-                    if (_grabbedObject == null)
-                    {
-                        Debug.LogError("Grabbed object is null.");
-                    }
-                    else if (objectPhotonView == null)
-                    {
-                        Debug.LogError("Grabbed object does not have a PhotonView component.");
-                    }
-                    else if (!objectPhotonView.IsMine) // 다른 플레이어가 소유한 객체인지 확인
-                    {
-                        _grabbedObject = hitCollider.gameObject;
-                        photonView.RPC("RPC_TryGrab", RpcTarget.AllBuffered, objectPhotonView.ViewID);
-                        Animator.SetTrigger("Grab");
-                        break;
-                    }
-                }
+                grabbedPlayer = hitCollider.gameObject;
+                grabbedPlayer.GetComponent<PhotonView>().RPC("OnGrabbed", RpcTarget.AllBuffered, photonView.ViewID);
+                break;
             }
         }
-        else
-        {
-            Debug.Log("No grabbable objects found within range.");
-        }
-    }
-
-
-    [PunRPC]
-    void RPC_TryGrab(int viewID)
-    {
-        PhotonView grabbedPhotonView = PhotonView.Find(viewID);
-        if (grabbedPhotonView == null)
-        {
-            Debug.LogError("PhotonView with viewID " + viewID + " not found.");
-            return;
-        }
-
-        GameObject grabbedObj = grabbedPhotonView.gameObject;
-        grabbedObj.transform.SetParent(Hand);
-        grabbedObj.transform.localPosition = Vector3.zero;
-
-        // 잡힌 객체의 Rigidbody를 비활성화
-        Rigidbody grabbedRb = grabbedObj.GetComponentInChildren<Rigidbody>();
-        if (grabbedRb != null)
-        {
-            grabbedRb.isKinematic = true;
-        }
-
-        _grabbedObject = grabbedObj;
     }
 
     void ReleaseGrab()
     {
-        if (_grabbedObject != null)
+        if (grabbedPlayer != null)
         {
-            photonView.RPC("RPC_ReleaseGrab", RpcTarget.AllBuffered, _grabbedObject.GetComponentInParent<PhotonView>().ViewID);
-            _grabbedObject = null;
+            grabbedPlayer.GetComponent<PhotonView>().RPC("OnReleased", RpcTarget.AllBuffered);
+            grabbedPlayer = null;
         }
     }
 
     [PunRPC]
-    void RPC_ReleaseGrab(int viewID)
+    public void OnGrabbed(int viewID)
     {
-        GameObject grabbedObj = PhotonView.Find(viewID).gameObject;
+        if (!photonView.IsMine)
+            return;
 
-        // 잡힌 객체의 Rigidbody를 다시 활성화
-        Rigidbody grabbedRb = grabbedObj.GetComponentInChildren<Rigidbody>();
-        if (grabbedRb != null)
-        {
-            grabbedRb.isKinematic = false;
-        }
-
-        grabbedObj.transform.SetParent(null);
+        // 잡힌 상태 처리 (애니메이션 등)
+        Debug.Log("Grabbed by player with ViewID: " + viewID);
     }
+
     [PunRPC]
-    void RPC_ApplyObject(int viewID)
+    public void OnReleased()
     {
-        if (photonView.IsMine) return; // 내 소유라면 실행하지 않음
-        GameObject grabbedObj = PhotonView.Find(viewID).gameObject;
-        Rigidbody grabbedRb = grabbedObj.GetComponentInChildren<Rigidbody>();
-        if (grabbedRb != null)
-        {
-            Vector3 forceDirection = grabbedObj.transform.forward * -1; // 뒤로 밀기 위한 방향
-            float forceMagnitude = 10.0f; // 적용할 힘의 크기
-            grabbedRb.isKinematic = false; // 물리적 영향을 받을 수 있도록 설정
-            grabbedRb.AddForce(forceDirection * forceMagnitude, ForceMode.Impulse);
-            Debug.Log("Applied force to grabbed object: " + grabbedObj.name);
-        }
+        if (!photonView.IsMine)
+            return;
+
+        // 풀린 상태 처리 (애니메이션 등)
+        Debug.Log("Released");
     }
 }
+ 

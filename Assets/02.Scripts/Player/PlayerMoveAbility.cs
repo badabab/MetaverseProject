@@ -127,7 +127,7 @@ public class PlayerMoveAbility : PlayerAbility
           
             Speed = RunSpeed;
 
-            Debug.Log(rb.position + direction * Speed * Time.fixedDeltaTime);
+            //Debug.Log(rb.position + direction * Speed * Time.fixedDeltaTime);
 
             rb.MovePosition(rb.position + direction * Speed * Time.fixedDeltaTime);
             _isRunning = true;
@@ -138,7 +138,7 @@ public class PlayerMoveAbility : PlayerAbility
         {
             Speed = Movespeed;
 
-            Debug.Log(rb.position + direction * Speed * Time.fixedDeltaTime);
+            //Debug.Log(rb.position + direction * Speed * Time.fixedDeltaTime);
             rb.MovePosition(rb.position + direction * Speed * Time.fixedDeltaTime);
             _isRunning = false;
             

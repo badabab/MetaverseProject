@@ -18,6 +18,7 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        
         offset = new Vector3(0, height, -distance); // 초기 위치 설정
         Cursor.lockState = CursorLockMode.Locked;
 

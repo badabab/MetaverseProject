@@ -5,7 +5,7 @@ using Photon.Realtime;
 [RequireComponent(typeof(PlayerMoveAbility))]
 [RequireComponent(typeof(PlayerRotateAbility))]
 [RequireComponent(typeof(PlayerGrabAbility))]
-//[RequireComponent(typeof(PlayerMovementAbility))]
+
 
 
 public class Player : MonoBehaviourPunCallbacks, IPunObservable

@@ -93,14 +93,14 @@ public class PersonalManager : MonoBehaviour
         { return -1; }
     }
 
-    public void CoinUpdate(string name)
+    public void CoinUpdate(string name, int coinAdd)
     {
         var filter = Builders<Personal>.Filter.Eq(p => p.Name, name);
         var user = _personalCollection.Find(filter).FirstOrDefault();
 
         if (user != null)
         {
-            int newCoins = user.Coins + 100; // Add 100 coins
+            int newCoins = user.Coins + coinAdd; 
             var update = Builders<Personal>.Update.Set(p => p.Coins, newCoins);
             var result = _personalCollection.UpdateOne(filter, update);
 

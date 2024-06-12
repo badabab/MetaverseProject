@@ -66,6 +66,7 @@ public class PlayerMoveAbility : PlayerAbility
         {
             return;
         }
+        InputAndDir();
         GroundCheck();
         JumpCounter();
 
@@ -80,14 +81,7 @@ public class PlayerMoveAbility : PlayerAbility
         }
     }
 
-    private void FixedUpdate()
-    {
-        if ( !_owner.PhotonView.IsMine)
-        {
-            return;
-        }
-        InputAndDir();
-    }
+   
 
     // 키 입력과 그에 따른 이동방향을 계산하는 함수
     void InputAndDir()
@@ -111,9 +105,11 @@ public class PlayerMoveAbility : PlayerAbility
             forward.y = 0;
             direction = (forward.normalized * dir.z + Camera.main.transform.right * dir.x).normalized;
 
+            var a = direction;
+            a.y = 0f;
             // 이동 방향으로 캐릭터 회전
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f));
+            Quaternion targetRotation = Quaternion.LookRotation(a);
+            rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f));
 
             // 걷기 애니메이션 설정
            // _animator.SetBool("Walk", true);
@@ -123,13 +119,17 @@ public class PlayerMoveAbility : PlayerAbility
             //_animator.SetBool("Walk", false);
         }
 
+        direction.y = 0f;
+
         // 달리기 여부에 따라 이동 속도 및 애니메이션 설정
         if (_isFallGuysScene ||Input.GetKey(KeyCode.LeftShift))
         {
           
             Speed = RunSpeed;
-            
-            rb.MovePosition(rb.position + direction * Speed * Time.deltaTime);
+
+            Debug.Log(rb.position + direction * Speed * Time.fixedDeltaTime);
+
+            rb.MovePosition(rb.position + direction * Speed * Time.fixedDeltaTime);
             _isRunning = true;
             
             _animator.SetBool("Run", true);
@@ -137,8 +137,9 @@ public class PlayerMoveAbility : PlayerAbility
         else
         {
             Speed = Movespeed;
-            
-            rb.MovePosition(rb.position + direction * Speed * Time.deltaTime);
+
+            Debug.Log(rb.position + direction * Speed * Time.fixedDeltaTime);
+            rb.MovePosition(rb.position + direction * Speed * Time.fixedDeltaTime);
             _isRunning = false;
             
             _animator.SetBool("Run", false);

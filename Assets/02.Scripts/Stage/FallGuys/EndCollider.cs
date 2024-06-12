@@ -43,7 +43,7 @@ public class EndCollider : MonoBehaviourPunCallbacks
                     isFirstPlayerDetected = true;
                     firstPlayerNickName = playerPhotonView.Owner.NickName;
                     Debug.Log($"{firstPlayerNickName} reached the end first!");
-                    PersonalManager.Instance.CoinUpdate(playerPhotonView.Owner.NickName);
+                    PersonalManager.Instance.CoinUpdate(playerPhotonView.Owner.NickName, 100);
                 }
 
                 // 모든 플레이어에 대해 승/패 여부를 업데이트

@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,27 +16,25 @@ public class GameOverBall : MonoBehaviour
         if (other.CompareTag("Player") && !playerCollided)
         {
             playerCollided = true;
-
             Time.timeScale = 0f;
-
             StartCoroutine(GameOverSequence(other.gameObject));
         }
     }
-
-    private IEnumerator GameOverSequence(GameObject collidingPlayer)
+    private IEnumerator GameOverSequence(GameObject Player)
     {
         GameOverUI.SetActive(true);
-
         yield return new WaitForSecondsRealtime(2f);
-
         GameOver_testUI.SetActive(false);
-
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-
         yield return new WaitForSecondsRealtime(3f);
-
-        SceneManager.LoadScene("TowerClimbWinScene");
-
+        PhotonView photonView = Player.GetComponent<PhotonView>();
+        Animator animator = photonView.GetComponent<Animator>();
+        if (photonView != null)
+        {
+            animator.SetBool("Win", true);
+            PersonalManager.Instance.CoinUpdate(photonView.Owner.NickName, 100);
+            PhotonNetwork.LoadLevel("TowerClimbWinScene");
+            PhotonNetwork.LeaveRoom();
+        }
         Time.timeScale = 1f;
     }
 }

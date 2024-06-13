@@ -30,11 +30,16 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
         if (!photonView.IsMine) // 이 클라이언트의 로컬 플레이어인지 확인
             return;
 
+        if (Input.GetKeyDown(KeyCode.G)) // 'G' 키를 눌렀을 때
+        {
+            animator.SetBool("Grab", true); // Grab 애니메이션 실행
+        }
+
         if (grabbedPlayer != null) // 잡힌 플레이어가 존재하면
         {
             grabTimer += Time.deltaTime; // 타이머 증가
 
-            if (Input.GetKeyUp(KeyCode.G) || grabTimer >= grabDuration) // 'G' 키를 떼거나 4초가 지나면 놓기
+            if (grabTimer >= grabDuration) // 4초가 지나면 놓기
             {
                 ReleaseGrab();
             }
@@ -44,7 +49,6 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
                 grabbedPlayer.transform.position = transform.position + transform.forward * 1.5f; // 잡힌 플레이어의 위치 업데이트
                 playerMoveAbility.Speed *= grabberSpeedMultiplier; // 잡는 사람의 이동 속도 감소
                 grabbedPlayerMoveAbility.Speed = grabbedSpeed; // 잡힌 사람의 이동 속도 설정
-                animator.SetBool("isGrabbed", true); // 잡힌 애니메이션 설정
             }
         }
     }
@@ -54,7 +58,8 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
         if (!photonView.IsMine || isGrabbed) // 이 클라이언트의 로컬 플레이어인지 확인하고, 잡힌 상태가 아닌지 확인
             return;
 
-        if (other.CompareTag("Hand") && Input.GetKey(KeyCode.G)) // 'Hand' 태그를 가진 오브젝트와 충돌하고 'G' 키가 눌렸을 때
+        // 현재 애니메이터 상태가 "Grab" 애니메이션인지 확인
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Grab") && other.CompareTag("Hand"))
         {
             Collider[] hitColliders = Physics.OverlapSphere(other.transform.position, 0.1f, playerLayer); // 손 콜라이더 범위 내의 플레이어 감지
 
@@ -91,7 +96,7 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
             grabbedRb = null; // 잡힌 플레이어의 Rigidbody 초기화
             grabbedPlayerMoveAbility = null; // 잡힌 플레이어의 PlayerMoveAbility 초기화
             animator.SetBool("isGrabbing", false); // 잡기 애니메이션 해제
-            animator.SetBool("isGrabbed", false); // 잡힌 애니메이션 해제
+            animator.SetBool("Grab", false); // Grab 애니메이션 해제
             grabTimer = 0.0f; // 타이머 초기화
         }
     }

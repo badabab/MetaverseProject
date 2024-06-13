@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,37 +11,43 @@ public class UI_StageRing : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            string stageNumber = "";
+            PhotonView photonView = other.GetComponent<PhotonView>();
 
-            switch (gameObject.name)
+            if (photonView != null && photonView.IsMine)
             {
-                case "Stage5RingUp":
-                    stageNumber = "5";
-                    break;
-                case "Stage4RingDown":
-                case "Stage4RingUp":
-                    stageNumber = "4";
-                    break;
-                case "Stage3RingDown":
-                case "Stage3RingUp":
-                    stageNumber = "3";
-                    break;
-                case "Stage2RingDown":
-                case "Stage2RingUp":
-                    stageNumber = "2";
-                    break;
-                case "Stage1RingDown":
-                case "Stage1RingUp":
-                    stageNumber = "1";
-                    break;
-                case "Stage0Down":
-                case "Stage0Up":
-                    stageNumber = "0";
-                    break;
-                default:
-                    break;
+                string stageNumber = "";
+
+                switch (gameObject.name)
+                {
+                    case "Stage5RingUp":
+                        stageNumber = "5";
+                        break;
+                    case "Stage4RingDown":
+                    case "Stage4RingUp":
+                        stageNumber = "4";
+                        break;
+                    case "Stage3RingDown":
+                    case "Stage3RingUp":
+                        stageNumber = "3";
+                        break;
+                    case "Stage2RingDown":
+                    case "Stage2RingUp":
+                        stageNumber = "2";
+                        break;
+                    case "Stage1RingDown":
+                    case "Stage1RingUp":
+                        stageNumber = "1";
+                        break;
+                    case "Stage0Down":
+                    case "Stage0Up":
+                        stageNumber = "0";
+                        break;
+                    default:
+                        break;
+                }
+
+                stageSpinner.SetStageNum(stageNumber);
             }
-            stageSpinner.SetStageNum(stageNumber);
         }
     }
 }

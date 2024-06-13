@@ -22,7 +22,6 @@ public class UI_StageSpin : MonoBehaviour
 
     public void StopRotation()
     {
-        StageNum.text = "?";
         shouldStopRotating = true;
     }
 

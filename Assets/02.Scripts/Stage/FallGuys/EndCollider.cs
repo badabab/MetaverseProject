@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class EndCollider : MonoBehaviourPunCallbacks
 {
@@ -57,6 +58,11 @@ public class EndCollider : MonoBehaviourPunCallbacks
                         var playermove = playerPhotonView.gameObject.GetComponent<PlayerMoveAbility>();
                         var animator = playermove.GetComponent<Animator>();
                         animator.SetBool("Win", true);
+                        if (PhotonNetwork.IsMasterClient)
+                        {
+                            Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", firstPlayerNickName } };
+                            PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
+                        }
                     }
                     else if (firstPlayerNickName != playerPhotonView.Owner.NickName)
                     {

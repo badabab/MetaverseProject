@@ -138,7 +138,8 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(1);
             _countEnd--;
         }
-        PhotonManager.Instance.NextRoomName = "Village";
-        PhotonNetwork.LeaveRoom();
+        //PhotonManager.Instance.NextRoomName = "Village";
+        PhotonNetwork.LoadLevel("FallGuysWinScene");
+        //PhotonNetwork.LeaveRoom();
     }
 }

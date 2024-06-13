@@ -5809,6 +5809,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1118641246309719414, guid: faa6459a94c1a4b448017dba2bd89b4b, type: 3}
   m_PrefabInstance: {fileID: 1787420345}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1824871274
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1824871275}
+  m_Layer: 0
+  m_Name: PlayerSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1824871275
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1824871274}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.55, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1960553843}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1881532961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5995,6 +6026,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1118641246309719414, guid: faa6459a94c1a4b448017dba2bd89b4b, type: 3}
   m_PrefabInstance: {fileID: 1890532545}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1895013410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1895013412}
+  - component: {fileID: 1895013411}
+  m_Layer: 0
+  m_Name: WinningPlayerScene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1895013411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895013410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feee76001ec40a844afd0fceb9e3d94f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerSpawn: {fileID: 1824871275}
+  WinningName: {fileID: 2000565863}
+--- !u!4 &1895013412
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895013410}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 80.498436, y: 96.91194, z: 48.18724}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1922927141
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6298,6 +6375,7 @@ Transform:
   - {fileID: 320534891}
   - {fileID: 2070928414}
   - {fileID: 1186312277}
+  - {fileID: 1824871275}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1987103032
@@ -7465,3 +7543,4 @@ SceneRoots:
   - {fileID: 471326831}
   - {fileID: 250290945}
   - {fileID: 134124719}
+  - {fileID: 1895013412}

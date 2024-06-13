@@ -2,7 +2,7 @@ using Photon.Pun;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class TileScore : MonoBehaviourPunCallbacks
 {
     public static TileScore Instance { get; private set; }
@@ -110,6 +110,11 @@ public class TileScore : MonoBehaviourPunCallbacks
             if (playerName == winner)
             {
                 UI_BattleTile.Instance.CheckWin();
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", playerName } };
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
+                }
             }
             else
             {

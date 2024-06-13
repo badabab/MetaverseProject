@@ -124,7 +124,8 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
         }
 
         // VillageScene 씬으로 전환합니다.
-        SceneManager.LoadScene("VillageScene");
+        //SceneManager.LoadScene("VillageScene");
+        PhotonNetwork.LoadLevel("BattleTileWinScene");
     }
 
     void UpdateGameTimer()

@@ -19,10 +19,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
     private bool _isNameUI = false;
 
     public GameState CurrentGameState = GameState.Ready;
-    public GameObject GameEndUI;
-    public Image Gameover;
-    public Image Lose;
-    public Image Win;
+    
 
     private void Awake()
     {
@@ -116,22 +113,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
 
     private IEnumerator ShowVictoryAndLoadScene()
     {
-        TileScore.Instance.DetermineWinner();
-
-        GameEndUI.SetActive(true);
-        Gameover.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2);
-        Gameover.gameObject.SetActive(false);
-
-        // 이긴 사람만 Win, 나머지는 Lose
-        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("IsWinner") && (bool)PhotonNetwork.LocalPlayer.CustomProperties["IsWinner"])
-        {
-            Win.gameObject.SetActive(true);
-        }
-        else
-        {
-            Lose.gameObject.SetActive(true);
-        }
+        TileScore.Instance.DetermineWinner();  
 
         // 몇 초 동안 대기합니다 (카운트다운).
         while (_countEnd > 0)
@@ -155,7 +137,6 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
             {
                 TimeRemaining = 0;
                 CurrentGameState = GameState.Over;
-                Gameover.gameObject.SetActive(true);
             }
         }
     }

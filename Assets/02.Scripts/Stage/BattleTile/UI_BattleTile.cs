@@ -1,5 +1,8 @@
 using Photon.Pun;
+using System.Collections;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_BattleTile : MonoBehaviourPunCallbacks
 {
@@ -17,9 +20,22 @@ public class UI_BattleTile : MonoBehaviourPunCallbacks
 
     public TextMeshProUGUI Timer;
 
+    public GameObject GameEndUI;
+    public Image Gameover;
+    public Image Lose;
+    public Image Win;
+
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        GameEndUI.SetActive(false);
+        Gameover.gameObject.SetActive(true);
+        Lose.gameObject.SetActive(false);
+        Win.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -53,5 +69,25 @@ public class UI_BattleTile : MonoBehaviourPunCallbacks
                     break;
             }
         }
+    }
+
+    public void CheckWin()
+    {
+        StartCoroutine(ShowPopup_Coroutine(Win));
+    }
+    public void CheckLose()
+    {
+        StartCoroutine(ShowPopup_Coroutine(Lose));
+    }
+
+    public IEnumerator ShowPopup_Coroutine (Image image)
+    {
+        GameEndUI.SetActive(true);
+        yield return new WaitForSeconds(2);
+        Gameover.gameObject.SetActive(false);
+        image.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(3);
+        GameEndUI.SetActive(false);
     }
 }

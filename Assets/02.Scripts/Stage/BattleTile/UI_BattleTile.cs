@@ -20,6 +20,11 @@ public class UI_BattleTile : MonoBehaviourPunCallbacks
 
     public TextMeshProUGUI Timer;
 
+    public GameObject ReadyDescriptionUI;
+    public GameObject ReadyUI;
+    public GameObject NotReady;
+    public GameObject Ready;
+
     public GameObject GameEndUI;
     public Image Gameover;
     public Image Lose;
@@ -46,6 +51,30 @@ public class UI_BattleTile : MonoBehaviourPunCallbacks
         P4_Score.text = $"{TileScore.Instance.Player4score}";
 
         Timer.text = $"{(int)BattleTileManager.Instance.TimeRemaining}";
+
+        if (BattleTileManager.Instance.CurrentGameState == GameState.Ready || BattleTileManager.Instance.CurrentGameState == GameState.Loading)
+        {
+            if (BattleTileManager.Instance.CurrentGameState == GameState.Ready)
+            {
+                ReadyDescriptionUI.SetActive(true);
+                ReadyUI.gameObject.SetActive(true);
+            }
+            else if (BattleTileManager.Instance.CurrentGameState == GameState.Loading)
+            {
+                ReadyDescriptionUI.SetActive(false);
+                ReadyUI.gameObject.SetActive(false);
+            }
+            CheakReadyButton();
+        }        
+    }
+
+    void CheakReadyButton()
+    {
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("IsReady", out object isReady))
+        {
+            bool isReadyValue = (bool)isReady;
+            Ready.gameObject.SetActive(isReadyValue);
+        }
     }
 
     public void RefreshUI()

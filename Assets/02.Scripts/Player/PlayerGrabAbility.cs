@@ -3,12 +3,11 @@ using Photon.Pun;
 
 public class PlayerGrabAbility : MonoBehaviourPunCallbacks
 {
-    public float grabRange = 2.0f; // 잡을 수 있는 최대 거리
-    public LayerMask playerLayer; // 플레이어 레이어
     public float grabDuration = 4.0f; // 잡기 지속 시간
     public float grabberSpeedMultiplier = 0.7f; // 잡는 사람의 이동 속도 감소 비율
     public float grabbedSpeed = 0.5f; // 잡힌 사람의 이동 속도
     public float pushForce = 5.0f; // 잡기 상태가 풀릴 때 밀어내는 힘
+    public LayerMask playerLayer; // 플레이어 레이어
 
     private GameObject grabbedPlayer = null;
     private Animator animator;
@@ -31,11 +30,6 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
         if (!photonView.IsMine) // 이 클라이언트의 로컬 플레이어인지 확인
             return;
 
-        if (Input.GetKeyDown(KeyCode.G) && !isGrabbed) // 'G' 키를 눌러서 잡기 시도 (잡힌 상태가 아닌 경우에만)
-        {
-            TryGrab();
-        }
-
         if (grabbedPlayer != null) // 잡힌 플레이어가 존재하면
         {
             grabTimer += Time.deltaTime; // 타이머 증가
@@ -55,31 +49,32 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
         }
     }
 
-    void TryGrab()
+    void OnTriggerEnter(Collider other)
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, grabRange, playerLayer); // 주변의 플레이어 감지
+        if (!photonView.IsMine || isGrabbed) // 이 클라이언트의 로컬 플레이어인지 확인하고, 잡힌 상태가 아닌지 확인
+            return;
 
-        foreach (var hitCollider in hitColliders)
+        if (other.CompareTag("Hand") && Input.GetKey(KeyCode.G)) // 'Hand' 태그를 가진 오브젝트와 충돌하고 'G' 키가 눌렸을 때
         {
-            if (hitCollider.gameObject != gameObject)
-            {
-                grabbedPlayer = hitCollider.gameObject; // 잡힌 플레이어 설정
-                grabbedRb = grabbedPlayer.GetComponent<Rigidbody>(); // 잡힌 플레이어의 Rigidbody 가져오기
-                grabbedPlayerMoveAbility = grabbedPlayer.GetComponent<PlayerMoveAbility>(); // 잡힌 플레이어의 PlayerMoveAbility 가져오기
+            Collider[] hitColliders = Physics.OverlapSphere(other.transform.position, 0.1f, playerLayer); // 손 콜라이더 범위 내의 플레이어 감지
 
-                if (grabbedPlayerMoveAbility != null)
+            foreach (var hitCollider in hitColliders)
+            {
+                if (hitCollider.gameObject != gameObject)
                 {
-                    grabbedPlayer.GetComponent<PhotonView>().RPC("OnGrabbed", RpcTarget.AllBuffered, photonView.ViewID); // RPC 호출하여 모든 클라이언트에 잡힌 상태 동기화
-                    animator.SetBool("isGrabbing", true); // 잡기 애니메이션 설정
-                    grabTimer = 0.0f; // 타이머 초기화
-                    break;
+                    grabbedPlayer = hitCollider.gameObject; // 잡힌 플레이어 설정
+                    grabbedRb = grabbedPlayer.GetComponent<Rigidbody>(); // 잡힌 플레이어의 Rigidbody 가져오기
+                    grabbedPlayerMoveAbility = grabbedPlayer.GetComponent<PlayerMoveAbility>(); // 잡힌 플레이어의 PlayerMoveAbility 가져오기
+
+                    if (grabbedPlayerMoveAbility != null)
+                    {
+                        grabbedPlayer.GetComponent<PhotonView>().RPC("OnGrabbed", RpcTarget.AllBuffered, photonView.ViewID); // RPC 호출하여 모든 클라이언트에 잡힌 상태 동기화
+                        animator.SetBool("isGrabbing", true); // 잡기 애니메이션 설정
+                        grabTimer = 0.0f; // 타이머 초기화
+                        break;
+                    }
                 }
             }
-        }
-
-        if (grabbedPlayer == null) // 잡기 실패 시
-        {
-            animator.SetBool("isGrabbing", false); // 잡기 실패 애니메이션 설정
         }
     }
 

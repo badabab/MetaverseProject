@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 namespace ithappy
@@ -20,8 +19,10 @@ namespace ithappy
             anim = GetComponent<Animator>();
             offsetAnim = Random.Range(0f, 1f);
 
-
-            anim.Play(titleAnim, 0, offsetAnim);
+            if (SceneManager.GetActiveScene().name == "TowerClimbScene" && anim != null)
+            {
+                anim.Play(titleAnim, 0, offsetAnim);
+            }
         }
     }
 }

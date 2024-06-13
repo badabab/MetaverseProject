@@ -54,6 +54,20 @@ public class PersonalManager : MonoBehaviour
         var filter = Builders<Personal>.Filter.Eq("Name", name) & Builders<Personal>.Filter.Eq("Password", password);
         return _personalCollection.Find(filter).Any();
     }
+    public string UserNameMach()
+    {
+        string nickname = PlayerPrefs.GetString("LoggedInId");
+
+        if (string.IsNullOrEmpty(nickname))
+        {
+            Debug.LogError("사용자 이름을 찾을 수 없습니다.");
+            return string.Empty;
+        }
+
+        var filter = Builders<Personal>.Filter.Eq("Name", nickname);
+        var user = _personalCollection.Find(filter).Any();
+        return user ? nickname : string.Empty;
+    }
     public void UpdateCharacterIndex(int characterIndex)
     {
         string name = PlayerPrefs.GetString("LoggedInId");

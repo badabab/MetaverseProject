@@ -1,5 +1,8 @@
 using Photon.Pun;
+using System.Collections;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_BattleTile : MonoBehaviourPunCallbacks
 {
@@ -17,9 +20,27 @@ public class UI_BattleTile : MonoBehaviourPunCallbacks
 
     public TextMeshProUGUI Timer;
 
+    public GameObject ReadyDescriptionUI;
+    public GameObject ReadyUI;
+    public GameObject NotReady;
+    public GameObject Ready;
+
+    public GameObject GameEndUI;
+    public Image Gameover;
+    public Image Lose;
+    public Image Win;
+
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        GameEndUI.SetActive(false);
+        Gameover.gameObject.SetActive(true);
+        Lose.gameObject.SetActive(false);
+        Win.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -30,6 +51,30 @@ public class UI_BattleTile : MonoBehaviourPunCallbacks
         P4_Score.text = $"{TileScore.Instance.Player4score}";
 
         Timer.text = $"{(int)BattleTileManager.Instance.TimeRemaining}";
+
+        if (BattleTileManager.Instance.CurrentGameState == GameState.Ready || BattleTileManager.Instance.CurrentGameState == GameState.Loading)
+        {
+            if (BattleTileManager.Instance.CurrentGameState == GameState.Ready)
+            {
+                ReadyDescriptionUI.SetActive(true);
+                ReadyUI.gameObject.SetActive(true);
+            }
+            else if (BattleTileManager.Instance.CurrentGameState == GameState.Loading)
+            {
+                ReadyDescriptionUI.SetActive(false);
+                ReadyUI.gameObject.SetActive(false);
+            }
+            CheakReadyButton();
+        }        
+    }
+
+    void CheakReadyButton()
+    {
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("IsReady", out object isReady))
+        {
+            bool isReadyValue = (bool)isReady;
+            Ready.gameObject.SetActive(isReadyValue);
+        }
     }
 
     public void RefreshUI()
@@ -53,5 +98,25 @@ public class UI_BattleTile : MonoBehaviourPunCallbacks
                     break;
             }
         }
+    }
+
+    public void CheckWin()
+    {
+        StartCoroutine(ShowPopup_Coroutine(Win));
+    }
+    public void CheckLose()
+    {
+        StartCoroutine(ShowPopup_Coroutine(Lose));
+    }
+
+    public IEnumerator ShowPopup_Coroutine (Image image)
+    {
+        GameEndUI.SetActive(true);
+        yield return new WaitForSeconds(2);
+        Gameover.gameObject.SetActive(false);
+        image.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(3);
+        GameEndUI.SetActive(false);
     }
 }

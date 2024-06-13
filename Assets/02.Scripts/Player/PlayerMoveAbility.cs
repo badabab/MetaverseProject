@@ -41,20 +41,20 @@ public class PlayerMoveAbility : PlayerAbility
 
     private bool _isFallGuysScene = false; // 폴가이즈 씬인지 확인
     private bool _isTowerClimbScene = false;
+    private bool _isBattleTileScene = false;
     void Start()
     {
-
-
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
 
-        if (_owner.PhotonView.IsMine && !_isTowerClimbScene)
+        _isFallGuysScene = SceneManager.GetActiveScene().name == "FallGuysScene";
+        _isTowerClimbScene = SceneManager.GetActiveScene().name == "TowerClimbScene";
+        _isBattleTileScene = SceneManager.GetActiveScene().name == "BattleTileScene";
+
+        if (_owner.PhotonView.IsMine && !_isTowerClimbScene && !_isBattleTileScene)
         {
             GameObject.FindWithTag("MainCamera").GetComponent<TPSCamera>().target = CameraRoot; 
         }
-       
-        _isFallGuysScene = SceneManager.GetActiveScene().name == "FallGuysScene";
-        _isTowerClimbScene = SceneManager.GetActiveScene().name == "TowerClimbScene";
 
         Physics.gravity = new Vector3(0, -9.81f, 0);
     }

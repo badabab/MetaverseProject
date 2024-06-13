@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class TileScore : MonoBehaviour
+public class TileScore : MonoBehaviourPunCallbacks
 {
     public static TileScore Instance { get; private set; }
 
@@ -102,6 +102,19 @@ public class TileScore : MonoBehaviour
 
         Debug.Log($"Winner is {winner} with {maxScore} tiles!");
         PersonalManager.Instance.CoinUpdate(winner, 100);
-    }
 
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            string playerName = player.NickName;
+
+            if (playerName == winner)
+            {
+                UI_BattleTile.Instance.CheckWin();
+            }
+            else
+            {
+                UI_BattleTile.Instance.CheckLose();
+            }
+        }
+    }
 }

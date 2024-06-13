@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,23 +12,28 @@ public class UI_FinishingLineCount : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            string stageNumber = "";
-
-            switch (gameObject.name)
+            PhotonView photonView = other.GetComponent<PhotonView>();
+            if (photonView != null && photonView.IsMine)
             {
-                case "FinishingLineCount1":
-                    stageNumber = "1";
-                    break;
-                case "FinishingLineCount2":
-                    stageNumber = "2";
-                    break;
-                case "FinishingLineCount3":
-                    stageNumber = "3";
-                    break;
-                default:
-                    break;
+                string stageNumber = "";
+
+                switch (gameObject.name)
+                {
+                    case "FinishingLineCount1":
+                        stageNumber = "1";
+                        break;
+                    case "FinishingLineCount2":
+                        stageNumber = "2";
+                        break;
+                    case "FinishingLineCount3":
+                        stageNumber = "3";
+                        break;
+                    default:
+                        break;
+                }
+
+                uI_StageUI.SetStageNum(stageNumber);
             }
-            uI_StageUI.SetStageNum(stageNumber);
         }
     }
 }

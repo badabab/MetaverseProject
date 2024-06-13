@@ -2081,9 +2081,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3048790080952294702}
+  - component: {fileID: 3481731482867307784}
   m_Layer: 9
   m_Name: DEF-hand.R
-  m_TagString: Untagged
+  m_TagString: Hand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2112,6 +2113,27 @@ Transform:
   - {fileID: 2000215157138741109}
   m_Father: {fileID: 532649240777764458}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &3481731482867307784
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7641948316707796351}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.0012014521
+  m_Center: {x: -4.3189866e-10, y: 0.00048239628, z: 0.00015439537}
 --- !u!1 &7672493320378169733
 GameObject:
   m_ObjectHideFlags: 0

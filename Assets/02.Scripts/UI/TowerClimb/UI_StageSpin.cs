@@ -10,8 +10,8 @@ public class UI_StageSpin : MonoBehaviour
     private bool shouldStopRotating = false;
     private float targetRotation = 135f;
     private float rotationThreshold = 1f;
-    private string currentStageNumber;
     public TMP_Text StageNum;
+    private string currentStageNumber;
 
     public void SetStageNum(string stageNumber)
     {
@@ -34,6 +34,7 @@ public class UI_StageSpin : MonoBehaviour
             if (Mathf.Abs(transform.rotation.eulerAngles.z - targetRotation) < rotationThreshold)
             {
                 StopRotation();
+                Debug.Log("Stopped rotating at stage " + currentStageNumber);
             }
         }
     }

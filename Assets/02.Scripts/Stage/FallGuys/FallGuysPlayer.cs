@@ -9,7 +9,7 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
     private Vector3 _currentCheckpoint;
     private CharacterController _characterController;
 
-    private GameObject _testPosition;
+    //private GameObject _testPosition;
 
 /*    private void Awake()
     {
@@ -25,7 +25,7 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
             return;
         }
 
-        _currentCheckpoint = _testPosition.transform.position;
+        //_currentCheckpoint = _testPosition.transform.position;
         _currentCheckpoint = new Vector3(500, 2, 80); // Start1 위치
         this.transform.position = _currentCheckpoint;
     }

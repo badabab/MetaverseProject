@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WinningPlayerScene : MonoBehaviour
 {
@@ -23,14 +24,14 @@ public class WinningPlayerScene : MonoBehaviour
             {
                 int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
                 string firstCharacter = $"Player {characterIndex}";
-                winningPlayer = PhotonNetwork.Instantiate(firstCharacter, PlayerSpawn.position, Quaternion.identity);
+                winningPlayer = PhotonNetwork.Instantiate(firstCharacter, PlayerSpawn.position, Quaternion.Euler(0, 180, 0));
                 WinningName.text = _firstPlayerName;
 
                 Animator animator = winningPlayer.GetComponent<Animator>();
                 animator.SetBool("Win", true);
 
                 // 카메라 설정
-                SetupCameraForPlayer(winningPlayer);
+                //SetupCameraForPlayer(winningPlayer);
             }
         }
         else
@@ -80,7 +81,8 @@ public class WinningPlayerScene : MonoBehaviour
     public IEnumerator AllPlayerOut_Coroutine()
     {
         yield return new WaitForSeconds(5);
-        PhotonNetwork.LoadLevel("VillageScene");
-        PhotonNetwork.LeaveRoom();
+        //PhotonNetwork.LoadLevel("VillageScene");
+        //PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene("VillageScene");
     }
 }

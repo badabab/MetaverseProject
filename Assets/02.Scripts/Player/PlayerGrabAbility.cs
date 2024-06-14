@@ -30,10 +30,12 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
         if (!photonView.IsMine) // 이 클라이언트의 로컬 플레이어인지 확인
             return;
 
-        if (Input.GetKeyDown(KeyCode.G)) // 'G' 키를 눌렀을 때
+        if (Input.GetKey(KeyCode.G)) // 'G' 키를 눌렀을 때
         {
             animator.SetBool("Grab", true); // Grab 애니메이션 실행
         }
+
+
 
         if (grabbedPlayer != null) // 잡힌 플레이어가 존재하면
         {

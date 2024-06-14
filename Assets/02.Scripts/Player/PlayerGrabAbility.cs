@@ -100,6 +100,7 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
             grabbedRb = null; // 잡힌 플레이어의 Rigidbody 초기화
             grabbedPlayerMoveAbility = null; // 잡힌 플레이어의 PlayerMoveAbility 초기화
             animator.SetBool("isGrabbing", false); // 잡기 애니메이션 해제
+            animator.SetBool("Grab", false) ;
             grabTimer = 0.0f; // 타이머 초기화
         }
     }

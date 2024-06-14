@@ -8,7 +8,7 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
     public float grabbedSpeed = 0.5f; // 잡힌 사람의 이동 속도
     public float pushForce = 5.0f; // 잡기 상태가 풀릴 때 밀어내는 힘
     public LayerMask playerLayer; // 플레이어 레이어
-    public float grabCheckDuration = 0.5f; // 잡기 시도 지속 시간
+    private float grabCheckDuration = 2.2f; // 잡기 시도 지속 시간
 
     private GameObject grabbedPlayer = null;
     private Animator animator;

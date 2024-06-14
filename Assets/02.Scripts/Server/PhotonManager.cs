@@ -142,7 +142,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     private IEnumerator LeaveRoomAndLoadDescriptionScene()
     {
-        string descriptionSceneName; // 기본 로딩 씬
+        string descriptionSceneName;
 
         if (!string.IsNullOrEmpty(NextRoomName))
         {
@@ -157,8 +157,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
                 case "MiniGame3":
                     descriptionSceneName = "TowerClimbDescriptionScene";
                     break;
+                case "Village":
+                    descriptionSceneName = "VillageLoadScene";
+                    break;
                 default:
-                    descriptionSceneName = "LoadingScene";
+                    descriptionSceneName = "VillageLoadScene";
                     break;
             }
             AsyncOperation loadingScene = SceneManager.LoadSceneAsync(descriptionSceneName, LoadSceneMode.Additive);

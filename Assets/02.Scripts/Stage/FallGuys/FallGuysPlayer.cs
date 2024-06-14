@@ -38,7 +38,7 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
         if (photonView.IsMine && Input.GetKeyDown(KeyCode.R))
         {
             _isReady = !_isReady; // 레디 상태 토글
-            Hashtable props = new Hashtable { { "IsReady", _isReady } };
+            Hashtable props = new Hashtable { { "IsReady_FallGuys", _isReady } };
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
             Debug.Log("레디 버튼 누름: " + _isReady);
             FallGuysManager.Instance.SetPlayerReadyVFX(_isReady, transform.position);

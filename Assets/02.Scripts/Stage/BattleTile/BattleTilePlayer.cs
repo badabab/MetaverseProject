@@ -63,6 +63,6 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
 
     private void UpdateReadyState(bool readyState)
     {
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "IsReady", readyState } });
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "IsReady_BattleTile", readyState } });
     }
 }

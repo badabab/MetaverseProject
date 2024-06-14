@@ -9,7 +9,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
 {
     public static BattleTileManager Instance { get; private set; }
 
-    private float _gameDuration = 120f; // 2분 = 120초
+    private float _gameDuration = 90f; // 90초 = 1분30초
     public float TimeRemaining;
 
     private int _countDown = 5;

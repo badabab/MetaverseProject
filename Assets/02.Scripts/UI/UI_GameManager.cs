@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -72,7 +73,9 @@ public class UI_GameManager : MonoBehaviour
         GM_UI.SetActive(false);
         UnityEngine.Cursor.visible = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-        GameManager.Instance.BackToVillage();
+        //GameManager.Instance.BackToVillage();
+        PhotonManager.Instance.LeaveAndLoadRoom("Village");
+        PhotonNetwork.LeaveRoom();
     }
 
     public void OnClickGameQuitButton()

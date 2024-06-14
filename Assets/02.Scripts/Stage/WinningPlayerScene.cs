@@ -82,7 +82,7 @@ public class WinningPlayerScene : MonoBehaviour
         yield return new WaitForSeconds(5);
         //PhotonNetwork.LoadLevel("VillageScene");
         //PhotonNetwork.LeaveRoom();
-        PhotonManager.Instance.NextRoomName = "Village";
+        PhotonManager.Instance.LeaveAndLoadRoom("Village");
         PhotonNetwork.LeaveRoom();
     }
 }

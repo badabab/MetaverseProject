@@ -69,6 +69,7 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
         {
             this.transform.position = _currentCheckpoint;
             ParticleSystem particle = FallGuysManager.Instance.WaterParticle;
+            particle.transform.localScale *= 0.5f;
             Instantiate(particle, transform.position + Vector3.up, Quaternion.identity);
         }
     }

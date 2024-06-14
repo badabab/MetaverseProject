@@ -151,7 +151,8 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
     {
         if (isReady)
         {
-            Instantiate(ReadyParticle, position, Quaternion.identity);
+           ParticleSystem particle = Instantiate(ReadyParticle, position, Quaternion.identity);
+           particle.transform.localScale *= 0.4f;
         }
     }
 }

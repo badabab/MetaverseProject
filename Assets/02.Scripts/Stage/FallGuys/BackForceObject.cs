@@ -20,15 +20,12 @@ public class BackForceObject : MonoBehaviour
         {
             PhotonView playerPhotonView = collision.gameObject.GetComponent<PhotonView>();
             Rigidbody rigidbody = collision.gameObject.GetComponent<Rigidbody>();
-            Debug.Log("때림");
             if (playerPhotonView != null && rigidbody != null && playerPhotonView.IsMine)
             {
                 Vector3 forceDirection = _trans.forward; // 게임 오브젝트의 forward 방향
                 rigidbody.AddForce(forceDirection * _backForce);
                 Debug.Log("밀려남");
-                // 파티클 시스템 생성
-                Instantiate(_bomb, collision.transform.position + Vector3.up, Quaternion.identity);
-                Debug.Log("파티클 생성");
+                Instantiate(_bomb, collision.transform.position, Quaternion.identity);
                 // y값을 유지하면서 이동
                 Vector3 newPosition = collision.transform.position + forceDirection * (_backForce / rigidbody.mass);
                 newPosition.y =collision.transform.position.y; // y값 유지

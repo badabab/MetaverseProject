@@ -18,11 +18,10 @@ public class TunnelObject : MonoBehaviourPun
         if (other.CompareTag("Player"))
         {
             PhotonView photonView = other.GetComponent<PhotonView>();
-            Transform transform = photonView.transform;
             if (photonView != null && photonView.IsMine)
             {
+                Instantiate(_bomb2, other.transform.position, Quaternion.identity);
                 StartCoroutine(TeleportPlayer(other.transform, photonView));
-                Instantiate(_bomb2, transform.position + Vector3.up, Quaternion.identity);
             }
         }
     }

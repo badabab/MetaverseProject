@@ -26,7 +26,10 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
 
     public Collider[] ColliderList;
     public Transform[] spawnPoints;
+
     public ParticleSystem ParticleSystem;
+    public ParticleSystem ReadyParticle;
+    public ParticleSystem WaterParticle;
 
     private void Awake()
     {
@@ -143,5 +146,12 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
         //PhotonManager.Instance.NextRoomName = "Village";
         PhotonNetwork.LoadLevel("FallGuysWinScene");
         //PhotonNetwork.LeaveRoom();
+    }
+    public void SetPlayerReadyVFX(bool isReady, Vector3 position)
+    {
+        if (isReady)
+        {
+            Instantiate(ReadyParticle, position, Quaternion.identity);
+        }
     }
 }

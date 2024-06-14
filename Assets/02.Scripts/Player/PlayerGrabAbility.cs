@@ -62,7 +62,7 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
             }
         }
     }
-
+    [PunRPC]
     void OnTriggerEnter(Collider other)
     {
         if (!photonView.IsMine || isGrabbed) // 이 클라이언트의 로컬 플레이어인지 확인하고, 잡힌 상태가 아닌지 확인
@@ -94,7 +94,7 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
             }
         }
     }
-
+    [PunRPC]
     void ReleaseGrab()
     {
         if (grabbedPlayer != null) // 잡힌 플레이어가 존재하면

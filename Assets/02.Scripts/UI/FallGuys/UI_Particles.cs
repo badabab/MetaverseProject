@@ -7,13 +7,13 @@ public class UI_Particles : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        FadeOut();
+        StartCoroutine(FadeOut());
     }
 
     public IEnumerator FadeOut()
     {
         gameObject.SetActive(true);
-        yield return new WaitForSeconds(2);
-        gameObject.SetActive(false);   
+        yield return new WaitForSeconds(1);
+        Destroy(gameObject);
     }
 }

@@ -1,4 +1,5 @@
 using Cinemachine;
+using JetBrains.Annotations;
 using Photon.Pun;
 using System.Security.Cryptography;
 using UnityEngine;
@@ -37,6 +38,9 @@ public class PlayerMoveAbility : PlayerAbility
     Vector3 dir = Vector3.zero;
 
     private CinemachineFreeLook cinemachineCamera;
+
+   // public ParticleSystem WalkVFX;
+    public ParticleSystem JumpVFX;
 
 
     private bool _isFallGuysScene = false; // 폴가이즈 씬인지 확인
@@ -107,6 +111,7 @@ public class PlayerMoveAbility : PlayerAbility
 
         // 이동 애니메이션 설정
         _animator.SetFloat("Move", Mathf.Clamp01(movementMagnitude));
+        //Instantiate(WalkVFX, dir, Quaternion.identity);
 
         // 기존 y축 속도를 유지하면서 새로운 방향으로 속도 설정
         rb.velocity = new Vector3(direction.x, rb.velocity.y, direction.z);
@@ -182,7 +187,7 @@ public class PlayerMoveAbility : PlayerAbility
             JumpCount -= 1;
             rb.AddForce((Vector3.up * JumpPower)/2f, ForceMode.Impulse);
             _animator.SetBool("Jump",true);
-
+            Instantiate(JumpVFX, transform.position, Quaternion.identity);
             
         }
 

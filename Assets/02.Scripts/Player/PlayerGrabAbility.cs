@@ -8,15 +8,18 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
     public float grabbedSpeed = 0.5f; // 잡힌 사람의 이동 속도
     public float pushForce = 5.0f; // 잡기 상태가 풀릴 때 밀어내는 힘
     public LayerMask playerLayer; // 플레이어 레이어
+    public float grabCheckDuration = 0.5f; // 잡기 시도 지속 시간
 
     private GameObject grabbedPlayer = null;
     private Animator animator;
     private Rigidbody rb;
     private Rigidbody grabbedRb;
     private float grabTimer = 0.0f;
+    private float grabCheckTimer = 0.0f;
     private PlayerMoveAbility playerMoveAbility;
     private PlayerMoveAbility grabbedPlayerMoveAbility;
     private bool isGrabbed = false; // 잡힌 상태를 나타내는 플래그
+    private bool isGrabbing = false; // 잡기 시도 중인지 나타내는 플래그
 
     void Start()
     {
@@ -30,12 +33,22 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
         if (!photonView.IsMine) // 이 클라이언트의 로컬 플레이어인지 확인
             return;
 
-        if (Input.GetKey(KeyCode.G)) // 'G' 키를 눌렀을 때
+        if (Input.GetKeyDown(KeyCode.G)) // 'G' 키를 눌렀을 때
         {
             animator.SetBool("Grab", true); // Grab 애니메이션 실행
+            isGrabbing = true;
+            grabCheckTimer = 0.0f; // 잡기 시도 타이머 초기화
         }
 
-
+        if (isGrabbing)
+        {
+            grabCheckTimer += Time.deltaTime;
+            if (grabCheckTimer >= grabCheckDuration) // 잡기 시도 시간이 지나면
+            {
+                isGrabbing = false;
+                animator.SetBool("Grab", false); // Grab 애니메이션 해제
+            }
+        }
 
         if (grabbedPlayer != null) // 잡힌 플레이어가 존재하면
         {
@@ -78,6 +91,7 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
                         grabbedPlayer.GetComponent<PhotonView>().RPC("OnGrabbed", RpcTarget.AllBuffered, photonView.ViewID); // RPC 호출하여 모든 클라이언트에 잡힌 상태 동기화
                         animator.SetBool("isGrabbing", true); // 잡기 애니메이션 설정
                         grabTimer = 0.0f; // 타이머 초기화
+                        isGrabbing = false; // 잡기 시도 중 상태 해제
                         break;
                     }
                 }

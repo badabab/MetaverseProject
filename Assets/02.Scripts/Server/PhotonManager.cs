@@ -1,6 +1,7 @@
 using Photon.Pun;
 using Photon.Pun.Demo.Cockpit;
 using Photon.Realtime;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -130,5 +131,39 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("방 생성 실패");
         Debug.Log(message);
+    }
+
+
+    public void LeaveAndLoadRoom(string nextRoom)
+    {
+        NextRoomName = nextRoom;
+        StartCoroutine(LeaveRoomAndLoadDescriptionScene());
+    }
+
+    private IEnumerator LeaveRoomAndLoadDescriptionScene()
+    {
+        string descriptionSceneName; // 기본 로딩 씬
+
+        if (!string.IsNullOrEmpty(NextRoomName))
+        {
+            switch (NextRoomName)
+            {
+                case "MiniGame1":
+                    descriptionSceneName = "BattleTileDescriptionScene";
+                    break;
+                case "MiniGame2":
+                    descriptionSceneName = "FallGuysDescriptionScene";
+                    break;
+                case "MiniGame3":
+                    descriptionSceneName = "TowerClimbDescriptionScene";
+                    break;
+                default:
+                    descriptionSceneName = "LoadingScene";
+                    break;
+            }
+            AsyncOperation loadingScene = SceneManager.LoadSceneAsync(descriptionSceneName, LoadSceneMode.Additive);
+            yield return loadingScene;
+        }
+        //PhotonNetwork.LeaveRoom();
     }
 }

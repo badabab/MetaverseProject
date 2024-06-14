@@ -10,17 +10,28 @@ public class PlayerGrabAbility : MonoBehaviour
     public Animator animator; // 애니메이터 컴포넌트를 참조하기 위한 변수
     public float grabDistance = 2.0f; // 잡을 수 있는 최대 거리
 
+    private bool Grabed = false;
+
+    public float GrabTime;
+    public float GrabbingTimer = 4f;
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 버튼 클릭으로 잡기
         {
             TryGrab(); // 잡기 시도
-            animator.SetTrigger("Grab"); // Grab 애니메이션 실행
+            animator.SetBool("Grab",true); // Grab 애니메이션 실행
+        }
+        else if (grabbedObject == null)
+        {
+            animator.SetBool("Grab", false);
+            Grabed = false;
         }
         else if (Input.GetMouseButtonUp(0) && grabbedObject != null) // 마우스 왼쪽 버튼 떼기 및 객체가 잡힌 상태
         {
             ReleaseGrab(); // 잡기 해제
-            animator.SetTrigger("Release"); // Release 애니메이션 실행
+            animator.SetBool("isGrabbing", false); // Release 애니메이션 실행
+            Grabed = false;
         }
     }
 
@@ -33,6 +44,9 @@ public class PlayerGrabAbility : MonoBehaviour
         {
             if (hit.collider.CompareTag("Grabbable")) // Grabbable 태그가 붙은 오브젝트만 잡기
             {
+                animator.SetBool("isGrabbing", true );
+                Grabed = true;
+
                 grabbedObject = hit.collider.gameObject; // 잡힌 객체를 grabbedObject에 저장
 
                 configurableJoint = grabbedObject.AddComponent<ConfigurableJoint>(); // 잡힌 객체에 ConfigurableJoint 컴포넌트 추가
@@ -59,6 +73,7 @@ public class PlayerGrabAbility : MonoBehaviour
                 Rigidbody grabbedRb = grabbedObject.GetComponent<Rigidbody>(); // 잡힌 객체의 Rigidbody 가져오기
                 grabbedRb.useGravity = false; // 중력 해제
                 StartCoroutine(MoveObjectToHand(grabbedRb)); // 객체를 손으로 이동시키는 코루틴 시작
+                
             }
         }
     }

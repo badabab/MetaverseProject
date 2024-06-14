@@ -2764,11 +2764,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f4ac00201e2ad4ebef13d0406a027e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grabDuration: 4
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  handTransform: {fileID: 0}
+  hand: {fileID: 0}
+  animator: {fileID: 0}
+  grabDistance: 2
 --- !u!114 &6703264293214351524
 MonoBehaviour:
   m_ObjectHideFlags: 0

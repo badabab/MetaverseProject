@@ -66,7 +66,12 @@ public class PlayerMoveAbility : PlayerAbility
         {
             return;
         }
-        
+        if (FallGuysManager.Instance._currentGameState == GameState.Loading 
+            || BattleTileManager.Instance.CurrentGameState == GameState.Loading)
+        {
+            return;
+        }
+
         GroundCheck();
         JumpCounter();
 

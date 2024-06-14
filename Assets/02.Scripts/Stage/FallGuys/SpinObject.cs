@@ -2,8 +2,9 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class SpinObject : MonoBehaviour
+public class SpinObject : MonoBehaviourPun
 {
     public Transform Spin;
     public float speed = 90.0f;  // 초당 90도 회전
@@ -26,7 +27,7 @@ public class SpinObject : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             other.transform.SetParent(Spin);
-            Instantiate(_sweat, other.transform.position, Quaternion.identity);
+            Instantiate(_sweat, other.transform.position + Vector3.up, Quaternion.identity);
         }
     }
 

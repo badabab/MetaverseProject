@@ -503,6 +503,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1812535526827727460}
   - component: {fileID: 8940639943647821313}
+  - component: {fileID: 6765151038079982615}
   - component: {fileID: 5183322961763716103}
   m_Layer: 0
   m_Name: Chicken_001
@@ -549,6 +550,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6765151038079982615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3400528177024513191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0837bf57dd87d0742b0bfc8012515498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FireMaterial: {fileID: 2100000, guid: f55c24b1f9f584f4b9bb6da2592fec29, type: 2}
+  Warnig: {fileID: 2639060557864701836}
+  Material1: {fileID: 0}
 --- !u!135 &5183322961763716103
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -564,7 +580,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

@@ -66,14 +66,6 @@ public class PlayerMoveAbility : PlayerAbility
         {
             return;
         }
-        if (_isFallGuysScene || _isBattleTileScene)
-        {
-            if (FallGuysManager.Instance._currentGameState == GameState.Loading
-               || BattleTileManager.Instance.CurrentGameState == GameState.Loading)
-            {
-                return;
-            }
-        }
 
         GroundCheck();
         JumpCounter();
@@ -91,6 +83,16 @@ public class PlayerMoveAbility : PlayerAbility
 
     private void FixedUpdate()
     {
+        if (_isFallGuysScene)
+        {
+            if (FallGuysManager.Instance._currentGameState == GameState.Loading)
+            { return; }
+        }
+        else if (_isBattleTileScene)
+        {
+            if (BattleTileManager.Instance.CurrentGameState == GameState.Loading)
+            { return; }
+        }
         InputAndDir();
     }
 

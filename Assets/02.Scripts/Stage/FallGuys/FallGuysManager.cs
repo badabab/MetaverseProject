@@ -26,6 +26,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
 
     public Collider[] ColliderList;
     public Transform[] spawnPoints;
+    public ParticleSystem ParticleSystem;
 
     private void Awake()
     {
@@ -82,6 +83,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
                 col.isTrigger = true;
                 col.gameObject.SetActive(false);
             }
+            ParticleSystem.gameObject.SetActive(false);
         }
     }
     public bool AreAllPlayersReady()

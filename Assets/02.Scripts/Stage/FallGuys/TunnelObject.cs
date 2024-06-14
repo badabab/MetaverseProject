@@ -7,7 +7,12 @@ public class TunnelObject : MonoBehaviourPun
 {
     public Transform[] points; // 각 터널 객체에 대한 포인트 배열
     public float transitionDuration = 0.05f; // 각 구간 이동 시간
+    private ParticleSystem _bomb2;
 
+    private void Start()
+    {
+        _bomb2 = GameObject.Find("Bomb2").GetComponent<ParticleSystem>();
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -15,6 +20,7 @@ public class TunnelObject : MonoBehaviourPun
             PhotonView photonView = other.GetComponent<PhotonView>();
             if (photonView != null && photonView.IsMine)
             {
+                Instantiate(_bomb2, other.transform.position, Quaternion.identity);
                 StartCoroutine(TeleportPlayer(other.transform, photonView));
             }
         }

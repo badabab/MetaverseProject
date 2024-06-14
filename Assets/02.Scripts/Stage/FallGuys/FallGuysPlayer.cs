@@ -7,7 +7,6 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
 {
     private bool _isReady = false;
     private Vector3 _currentCheckpoint;
-    private CharacterController _characterController;
 
     //private GameObject _testPosition;
 
@@ -18,7 +17,6 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
     private void Start()
     {
         if (!photonView.IsMine) return;
-        _characterController = GetComponent<CharacterController>();
         if (SceneManager.GetActiveScene().name != "FallGuysScene")
         {
             this.enabled = false; // 씬이 "FallGuysScene"이 아니면 스크립트를 비활성화
@@ -43,6 +41,7 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
             Hashtable props = new Hashtable { { "IsReady", _isReady } };
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
             Debug.Log("레디 버튼 누름: " + _isReady);
+            FallGuysManager.Instance.SetPlayerReadyVFX(_isReady, transform.position);
         }
     }
 
@@ -69,6 +68,9 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
         else if (other.gameObject.name == "Respawn")
         {
             this.transform.position = _currentCheckpoint;
+            ParticleSystem particle = FallGuysManager.Instance.WaterParticle;
+            particle.transform.localScale *= 0.5f;
+            Instantiate(particle, transform.position + Vector3.up, Quaternion.identity);
         }
     }
 }

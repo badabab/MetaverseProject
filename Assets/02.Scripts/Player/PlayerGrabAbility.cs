@@ -10,6 +10,8 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
     public LayerMask playerLayer; // 플레이어 레이어
     private float grabCheckDuration = 2.2f; // 잡기 시도 지속 시간
 
+    public Transform handTransform; // 손 콜라이더의 Transform
+
     private GameObject grabbedPlayer = null;
     private Animator animator;
     private Rigidbody rb;
@@ -58,13 +60,6 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
             {
                 ReleaseGrab();
             }
-            else
-            {
-                // 잡고 있는 동안의 동작 처리
-                grabbedPlayer.transform.position = transform.position + transform.forward * 1.5f; // 잡힌 플레이어의 위치 업데이트
-                playerMoveAbility.Speed *= grabberSpeedMultiplier; // 잡는 사람의 이동 속도 감소
-                grabbedPlayerMoveAbility.Speed = grabbedSpeed; // 잡힌 사람의 이동 속도 설정
-            }
         }
     }
 
@@ -90,6 +85,7 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
                     {
                         grabbedPlayer.GetComponent<PhotonView>().RPC("OnGrabbed", RpcTarget.AllBuffered, photonView.ViewID); // RPC 호출하여 모든 클라이언트에 잡힌 상태 동기화
                         animator.SetBool("isGrabbing", true); // 잡기 애니메이션 설정
+                        grabbedPlayer.transform.SetParent(handTransform); // 손 콜라이더의 자식으로 설정하여 끌고 다닐 수 있게 함
                         grabTimer = 0.0f; // 타이머 초기화
                         isGrabbing = false; // 잡기 시도 중 상태 해제
                         break;
@@ -103,6 +99,8 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
     {
         if (grabbedPlayer != null) // 잡힌 플레이어가 존재하면
         {
+            grabbedPlayer.transform.SetParent(null); // 부모 관계 해제
+
             // 상대방을 밀어내는 힘을 가함
             Vector3 pushDirection = (grabbedPlayer.transform.position - transform.position).normalized; // 밀어내는 방향 계산
             grabbedRb.AddForce(pushDirection * pushForce, ForceMode.Impulse); // 밀어내는 힘 적용

@@ -1,127 +1,86 @@
-using Photon.Pun;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerGrabAbility : MonoBehaviourPunCallbacks
+public class PlayerGrabAbility : MonoBehaviour
 {
-    public float grabDuration = 4.0f; // 잡기 지속 시간
-    public LayerMask playerLayer; // 플레이어 레이어
-    public Transform handTransform; // 손 콜라이더의 Transform
-    private Animator animator;
-    private float grabCheckTimer = 0.0f;
-    private bool isGrabbing = false; // 잡기 시도 중인지 나타내는 플래그
-    private GameObject grabbedPlayer = null;
-    private Rigidbody grabbedRb;
-    private PlayerMoveAbility grabbedPlayerMoveAbility;
-    private bool isGrabbed = false; // 잡힌 상태를 나타내는 플래그
-    private float grabTimer = 0.0f;
-
-    void Start()
-    {
-        animator = GetComponent<Animator>(); // 애니메이터 컴포넌트 가져오기
-    }
+    public Transform hand; // 캐릭터 손 위치
+    private GameObject grabbedObject; // 잡힌 객체를 참조하기 위한 변수
+    private ConfigurableJoint configurableJoint; // 잡힌 객체에 적용할 ConfigurableJoint를 참조하기 위한 변수
+    public Animator animator; // 애니메이터 컴포넌트를 참조하기 위한 변수
+    public float grabDistance = 2.0f; // 잡을 수 있는 최대 거리
 
     void Update()
     {
-        if (!photonView.IsMine) // 이 클라이언트의 로컬 플레이어인지 확인
-            return;
-
-        if (Input.GetKeyDown(KeyCode.G)) // 'G' 키를 눌렀을 때
+        if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 버튼 클릭으로 잡기
         {
-            animator.SetBool("Grab", true); // Grab 애니메이션 실행
-            isGrabbing = true;
-            grabCheckTimer = 0.0f; // 잡기 시도 타이머 초기화
+            TryGrab(); // 잡기 시도
+            animator.SetTrigger("Grab"); // Grab 애니메이션 실행
         }
-
-        if (isGrabbing)
+        else if (Input.GetMouseButtonUp(0) && grabbedObject != null) // 마우스 왼쪽 버튼 떼기 및 객체가 잡힌 상태
         {
-            grabCheckTimer += Time.deltaTime;
-            if (grabCheckTimer >= 2.2f) // 잡기 시도 시간이 지나면
-            {
-                isGrabbing = false;
-                animator.SetBool("Grab", false); // Grab 애니메이션 해제
-            }
-        }
-
-        if (grabbedPlayer != null) // 잡힌 플레이어가 존재하면
-        {
-            grabTimer += Time.deltaTime; // 타이머 증가
-
-            if (grabTimer >= grabDuration || Input.GetKeyUp(KeyCode.G)) // 4초가 지나거나 'G' 키를 떼면 놓기
-            {
-                ReleaseGrab();
-            }
+            ReleaseGrab(); // 잡기 해제
+            animator.SetTrigger("Release"); // Release 애니메이션 실행
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void TryGrab()
     {
-        if (!photonView.IsMine || isGrabbed) // 이 클라이언트의 로컬 플레이어인지 확인하고, 잡힌 상태가 아닌지 확인
-            return;
+        Ray ray = new Ray(hand.position, hand.forward); // 손 위치에서 전방으로 레이 생성
+        RaycastHit hit; // 레이캐스트 결과를 저장할 변수
 
-        // 현재 애니메이터 상태가 "Grab" 애니메이션인지 확인
-        if (isGrabbing && other.CompareTag("Hand"))
+        if (Physics.Raycast(ray, out hit, grabDistance)) // 특정 거리 내에 있는 오브젝트 감지
         {
-            TryGrab(other);
-        }
-    }
-
-    void TryGrab(Collider other)
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(other.transform.position, 0.1f, playerLayer); // 손 콜라이더 범위 내의 플레이어 감지
-
-        foreach (var hitCollider in hitColliders)
-        {
-            if (hitCollider.gameObject != gameObject)
+            if (hit.collider.CompareTag("Grabbable")) // Grabbable 태그가 붙은 오브젝트만 잡기
             {
-                grabbedPlayer = hitCollider.gameObject; // 잡힌 플레이어 설정
-                grabbedRb = grabbedPlayer.GetComponent<Rigidbody>(); // 잡힌 플레이어의 Rigidbody 가져오기
-                grabbedPlayerMoveAbility = grabbedPlayer.GetComponent<PlayerMoveAbility>(); // 잡힌 플레이어의 PlayerMoveAbility 가져오기
+                grabbedObject = hit.collider.gameObject; // 잡힌 객체를 grabbedObject에 저장
 
-                if (grabbedPlayerMoveAbility != null)
-                {
-                    grabbedPlayer.GetComponent<PhotonView>().RPC("OnGrabbed", RpcTarget.AllBuffered, photonView.ViewID); // RPC 호출하여 모든 클라이언트에 잡힌 상태 동기화
-                    animator.SetBool("isGrabbing", true); // 잡기 애니메이션 설정
-                    grabbedPlayer.transform.SetParent(handTransform); // 손 콜라이더의 자식으로 설정하여 끌고 다닐 수 있게 함
-                    isGrabbing = false; // 잡기 시도 중 상태 해제
-                    grabTimer = 0.0f; // 타이머 초기화
-                    break;
-                }
+                configurableJoint = grabbedObject.AddComponent<ConfigurableJoint>(); // 잡힌 객체에 ConfigurableJoint 컴포넌트 추가
+                configurableJoint.connectedBody = null; // 연결된 바디 없음
+
+                // ConfigurableJoint 설정
+                configurableJoint.xMotion = ConfigurableJointMotion.Locked; // X축 이동 잠금
+                configurableJoint.yMotion = ConfigurableJointMotion.Locked; // Y축 이동 잠금
+                configurableJoint.zMotion = ConfigurableJointMotion.Locked; // Z축 이동 잠금
+                configurableJoint.angularXMotion = ConfigurableJointMotion.Free; // X축 회전 자유
+                configurableJoint.angularYMotion = ConfigurableJointMotion.Free; // Y축 회전 자유
+                configurableJoint.angularZMotion = ConfigurableJointMotion.Free; // Z축 회전 자유
+
+                // Anchor와 연결점 설정
+                configurableJoint.anchor = Vector3.zero; // 앵커를 객체의 중심에 설정
+                configurableJoint.autoConfigureConnectedAnchor = false; // 연결된 앵커 자동 설정 해제
+                configurableJoint.connectedAnchor = hand.position; // 연결된 앵커를 손 위치로 설정
+
+                // Break force와 torque 설정
+                configurableJoint.breakForce = 2000f; // 최대 파괴 힘 설정
+                configurableJoint.breakTorque = 2000f; // 최대 파괴 토크 설정
+
+                // 객체의 중력을 끄고 손 위치로 이동시키기
+                Rigidbody grabbedRb = grabbedObject.GetComponent<Rigidbody>(); // 잡힌 객체의 Rigidbody 가져오기
+                grabbedRb.useGravity = false; // 중력 해제
+                StartCoroutine(MoveObjectToHand(grabbedRb)); // 객체를 손으로 이동시키는 코루틴 시작
             }
         }
     }
 
     void ReleaseGrab()
     {
-        if (grabbedPlayer != null) // 잡힌 플레이어가 존재하면
+        if (configurableJoint != null) // configurableJoint가 존재하는 경우
         {
-            grabbedPlayer.transform.SetParent(null); // 부모 관계 해제
-            grabbedPlayer.GetComponent<PhotonView>().RPC("OnReleased", RpcTarget.AllBuffered); // RPC 호출하여 모든 클라이언트에 풀린 상태 동기화
-            grabbedPlayer = null; // 잡힌 플레이어 초기화
-            grabbedRb = null; // 잡힌 플레이어의 Rigidbody 초기화
-            grabbedPlayerMoveAbility = null; // 잡힌 플레이어의 PlayerMoveAbility 초기화
-            animator.SetBool("isGrabbing", false); // 잡기 애니메이션 해제
-            animator.SetBool("Grab", false) ;
-            grabTimer = 0.0f; // 타이머 초기화
+            Rigidbody grabbedRb = grabbedObject.GetComponent<Rigidbody>(); // 잡힌 객체의 Rigidbody 가져오기
+            grabbedRb.useGravity = true; // 중력 활성화
+            Destroy(configurableJoint); // ConfigurableJoint 파괴
         }
+        grabbedObject = null; // grabbedObject 변수 초기화
     }
 
-    [PunRPC]
-    public void OnGrabbed(int viewID)
+    IEnumerator MoveObjectToHand(Rigidbody grabbedRb)
     {
-        if (!photonView.IsMine) // 이 클라이언트의 로컬 플레이어인지 확인
-            return;
-
-        // 잡힌 상태 처리 (애니메이션 등)
-        isGrabbed = true; // 잡힌 상태로 설정
-    }
-
-    [PunRPC]
-    public void OnReleased()
-    {
-        if (!photonView.IsMine) // 이 클라이언트의 로컬 플레이어인지 확인
-            return;
-
-        // 풀린 상태 처리 (애니메이션 등)
-        isGrabbed = false; // 잡힌 상태 해제
+        while (grabbedObject != null) // 잡힌 객체가 존재하는 동안
+        {
+            Vector3 direction = (hand.position - grabbedObject.transform.position).normalized; // 손 위치와 객체 위치 사이의 방향 벡터 계산
+            grabbedRb.velocity = direction * 10f; // 객체를 손으로 이동시키는 속도 설정
+            yield return null; // 다음 프레임까지 대기
+        }
     }
 }

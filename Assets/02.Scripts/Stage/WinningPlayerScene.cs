@@ -2,7 +2,6 @@ using Photon.Pun;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class WinningPlayerScene : MonoBehaviour
 {
@@ -24,7 +23,7 @@ public class WinningPlayerScene : MonoBehaviour
             {
                 int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
                 string firstCharacter = $"Player {characterIndex}";
-                winningPlayer = PhotonNetwork.Instantiate(firstCharacter, PlayerSpawn.position, Quaternion.Euler(0, 180, 0));
+                winningPlayer = PhotonNetwork.Instantiate(firstCharacter, PlayerSpawn.position, Quaternion.Euler(0, -180, 0));
                 WinningName.text = _firstPlayerName;
 
                 Animator animator = winningPlayer.GetComponent<Animator>();
@@ -83,6 +82,7 @@ public class WinningPlayerScene : MonoBehaviour
         yield return new WaitForSeconds(5);
         //PhotonNetwork.LoadLevel("VillageScene");
         //PhotonNetwork.LeaveRoom();
-        SceneManager.LoadScene("VillageScene");
+        PhotonManager.Instance.NextRoomName = "Village";
+        PhotonNetwork.LeaveRoom();
     }
 }

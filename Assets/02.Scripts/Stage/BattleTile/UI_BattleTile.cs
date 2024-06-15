@@ -70,7 +70,7 @@ public class UI_BattleTile : MonoBehaviourPunCallbacks
 
     void CheakReadyButton()
     {
-        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("IsReady", out object isReady))
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("IsReady_BattleTile", out object isReady))
         {
             bool isReadyValue = (bool)isReady;
             Ready.gameObject.SetActive(isReadyValue);

@@ -2752,6 +2752,7 @@ MonoBehaviour:
   groundDistance: 0.4
   LayerPoint: {fileID: 28071588680968057}
   CameraRoot: {fileID: 6725541871435156712}
+  JumpVFX: {fileID: 0}
 --- !u!114 &2720985974631033899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2767,6 +2768,8 @@ MonoBehaviour:
   hand: {fileID: 0}
   animator: {fileID: 0}
   grabDistance: 2
+  GrabTime: 0
+  GrabbingTimer: 4
 --- !u!114 &6703264293214351524
 MonoBehaviour:
   m_ObjectHideFlags: 0

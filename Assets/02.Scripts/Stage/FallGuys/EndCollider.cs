@@ -17,10 +17,10 @@ public class EndCollider : MonoBehaviourPunCallbacks
     public TextMeshProUGUI CountNumber;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        PhotonView playerPhotonView = other.GetComponentInParent<PhotonView>();
+        if (other.CompareTag("Player") && playerPhotonView.IsMine)
         {
             _rb = other.GetComponent<Rigidbody>();
-            PhotonView playerPhotonView = other.GetComponentInParent<PhotonView>();
             if (gameObject.name == "End1")
             {
                 Debug.Log("End1 도착");
@@ -46,25 +46,15 @@ public class EndCollider : MonoBehaviourPunCallbacks
                     firstPlayerNickName = playerPhotonView.Owner.NickName;
                     Debug.Log($"{firstPlayerNickName} reached the end first!");
                     PersonalManager.Instance.CoinUpdate(playerPhotonView.Owner.NickName, 100);
-                }
 
-                // 모든 플레이어에 대해 승/패 여부를 업데이트
-                if (playerPhotonView.IsMine)
-                {
-                    var playermove = playerPhotonView.gameObject.GetComponent<PlayerMoveAbility>();
-                    var animator = playermove.GetComponent<Animator>();
-                    if (firstPlayerNickName == playerPhotonView.Owner.NickName)
+                    if (PhotonNetwork.IsMasterClient)
                     {
-                        UI_GameOver.Instance.CheckFirst();
-                        animator.SetBool("Win", true);
-                        if (PhotonNetwork.IsMasterClient)
-                        {
-                            Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", firstPlayerNickName } };
-                            PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
-                            Debug.Log($"{firstPlayerName} 저장");
-                        }
+                        Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", firstPlayerNickName } };
+                        PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
+                        Debug.Log($"{firstPlayerName} 저장");
                     }
                 }
+
                 Debug.Log("게임 끝");
             }
         }

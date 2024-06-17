@@ -13,17 +13,16 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
     private bool _isFinished = false;
     private void Awake()
     {
-        _testPosition = GameObject.Find("TestPosition");
-    }
-    private void Start()
-    {
         if (!photonView.IsMine) return;
         if (SceneManager.GetActiveScene().name != "FallGuysScene")
         {
             this.enabled = false; // 씬이 "FallGuysScene"이 아니면 스크립트를 비활성화
             return;
         }
-
+        _testPosition = GameObject.Find("TestPosition");
+    }
+    private void Start()
+    {
         _currentCheckpoint = _testPosition.transform.position;
         //_currentCheckpoint = new Vector3(500, 2, 80); // Start1 위치
         this.transform.position = _currentCheckpoint;

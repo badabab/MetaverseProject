@@ -47,6 +47,8 @@ public class PlayerGrabAbility : MonoBehaviour
                 animator.SetBool("isGrabbing", true );
                 Grabed = true;
 
+                GrabTime += Time.deltaTime;
+
                 grabbedObject = hit.collider.gameObject; // 잡힌 객체를 grabbedObject에 저장
 
                 configurableJoint = grabbedObject.AddComponent<ConfigurableJoint>(); // 잡힌 객체에 ConfigurableJoint 컴포넌트 추가
@@ -73,6 +75,12 @@ public class PlayerGrabAbility : MonoBehaviour
                 Rigidbody grabbedRb = grabbedObject.GetComponent<Rigidbody>(); // 잡힌 객체의 Rigidbody 가져오기
                 grabbedRb.useGravity = false; // 중력 해제
                 StartCoroutine(MoveObjectToHand(grabbedRb)); // 객체를 손으로 이동시키는 코루틴 시작
+
+                if (GrabTime >= GrabbingTimer)
+                {
+                    StopCoroutine(MoveObjectToHand(grabbedRb));
+                    animator.SetBool("isGrabbing", false);
+                }
                 
             }
         }

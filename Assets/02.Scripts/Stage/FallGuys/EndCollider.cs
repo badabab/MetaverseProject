@@ -1,3 +1,4 @@
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using System.Linq;
 using TMPro;
@@ -50,26 +51,18 @@ public class EndCollider : MonoBehaviourPunCallbacks
                 // 모든 플레이어에 대해 승/패 여부를 업데이트
                 if (playerPhotonView.IsMine)
                 {
+                    var playermove = playerPhotonView.gameObject.GetComponent<PlayerMoveAbility>();
+                    var animator = playermove.GetComponent<Animator>();
                     if (firstPlayerNickName == playerPhotonView.Owner.NickName)
                     {
-                        Debug.Log($"{firstPlayerNickName}");
-                        Debug.Log($"{playerPhotonView.Owner.NickName}");
                         UI_GameOver.Instance.CheckFirst();
-                        var playermove = playerPhotonView.gameObject.GetComponent<PlayerMoveAbility>();
-                        var animator = playermove.GetComponent<Animator>();
                         animator.SetBool("Win", true);
                         if (PhotonNetwork.IsMasterClient)
                         {
                             Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", firstPlayerNickName } };
                             PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
+                            Debug.Log($"{firstPlayerName} 저장");
                         }
-                    }
-                    else if (firstPlayerNickName != playerPhotonView.Owner.NickName)
-                    {
-                        UI_GameOver.Instance.CheckLast();
-                        var playermove = playerPhotonView.gameObject.GetComponent<PlayerMoveAbility>();
-                        var animator = playermove.GetComponent<Animator>();
-                        animator.SetBool("Sad", true);
                     }
                 }
                 Debug.Log("게임 끝");

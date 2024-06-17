@@ -8,12 +8,12 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
     private bool _isReady = false;
     private Vector3 _currentCheckpoint;
 
-    //private GameObject _testPosition;
+    private GameObject _testPosition;
 
-/*    private void Awake()
+    private void Awake()
     {
         _testPosition = GameObject.Find("End3");
-    }*/
+    }
     private void Start()
     {
         if (!photonView.IsMine) return;
@@ -23,14 +23,19 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
             return;
         }
 
-        //_currentCheckpoint = _testPosition.transform.position;
-        _currentCheckpoint = new Vector3(500, 2, 80); // Start1 위치
+        _currentCheckpoint = _testPosition.transform.position;
+        //_currentCheckpoint = new Vector3(500, 2, 80); // Start1 위치
         this.transform.position = _currentCheckpoint;
     }
 
     private void Update()
     {
+        if (!photonView.IsMine) return;
         ReadyPlayer();
+        if (FallGuysManager.Instance._currentGameState == GameState.Over) 
+        {
+            ShowLose();
+        }
     }
 
     void ReadyPlayer()
@@ -42,6 +47,17 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
             Debug.Log("레디 버튼 누름: " + _isReady);
             FallGuysManager.Instance.SetPlayerReadyVFX(_isReady, transform.position);
+        }
+    }
+
+    public void ShowLose()
+    {
+        string firstPlayerName = (string)PhotonNetwork.CurrentRoom.CustomProperties["FirstPlayerName"];
+        if (firstPlayerName != photonView.Owner.NickName) 
+        {
+            Animator animator = GetComponent<Animator>();
+            animator.SetBool("Sad", true);
+            UI_GameOver.Instance.CheckLast();
         }
     }
 

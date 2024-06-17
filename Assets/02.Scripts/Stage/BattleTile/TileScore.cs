@@ -114,6 +114,7 @@ public class TileScore : MonoBehaviourPunCallbacks
                 {
                     Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", playerName } };
                     PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
+                    Debug.Log($"{firstPlayerName} 저장");
                 }
             }
             else

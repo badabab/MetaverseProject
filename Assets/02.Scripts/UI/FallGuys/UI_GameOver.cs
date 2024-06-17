@@ -27,26 +27,24 @@ public class UI_GameOver : MonoBehaviourPunCallbacks
     }
     public void CheckFirst()
     {
-       Win.SetActive(true);
-       Lose.SetActive(false);
         Debug.Log("이겼다!");
         StartCoroutine(ShowPopUp(Win));
     }
     public void CheckLast()
     {
-        Lose.SetActive(true);
-        Win.SetActive(false);
         Debug.Log("졌다~");
         StartCoroutine(ShowPopUp(Lose));
     }
     
     public IEnumerator ShowPopUp(GameObject gameObject)
     {
+        yield return new WaitForSeconds(2);
+        gameObject.SetActive(true);
         while (_showTime > 0)
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(1);
             _showTime--;
         }
-        gameObject.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 }

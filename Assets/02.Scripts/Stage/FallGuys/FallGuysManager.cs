@@ -96,7 +96,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
         foreach (Photon.Realtime.Player player in players)
         {
             object isReadyObj;
-            if (player.CustomProperties.TryGetValue("IsReady", out isReadyObj))
+            if (player.CustomProperties.TryGetValue("IsReady_FallGuys", out isReadyObj))
             {
                 if (!(bool)isReadyObj)
                 {

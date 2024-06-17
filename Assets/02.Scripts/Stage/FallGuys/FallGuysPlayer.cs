@@ -8,12 +8,13 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
     private bool _isReady = false;
     private Vector3 _currentCheckpoint;
 
-    //private GameObject _testPosition;
+    private GameObject _testPosition;
 
-/*    private void Awake()
+    private bool _isFinished = false;
+    private void Awake()
     {
-        _testPosition = GameObject.Find("End3");
-    }*/
+        _testPosition = GameObject.Find("TestPosition");
+    }
     private void Start()
     {
         if (!photonView.IsMine) return;
@@ -23,14 +24,22 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
             return;
         }
 
-        //_currentCheckpoint = _testPosition.transform.position;
-        _currentCheckpoint = new Vector3(500, 2, 80); // Start1 위치
+        _currentCheckpoint = _testPosition.transform.position;
+        //_currentCheckpoint = new Vector3(500, 2, 80); // Start1 위치
         this.transform.position = _currentCheckpoint;
     }
 
     private void Update()
     {
+        if (!photonView.IsMine) return;
         ReadyPlayer();
+    }
+    private void FixedUpdate()
+    {
+        if (FallGuysManager.Instance._currentGameState == GameState.Over)
+        {
+            ShowResult();
+        }
     }
 
     void ReadyPlayer()
@@ -43,6 +52,31 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
             Debug.Log("레디 버튼 누름: " + _isReady);
             FallGuysManager.Instance.SetPlayerReadyVFX(_isReady, transform.position);
         }
+    }
+
+    public void ShowResult()
+    {
+        string firstPlayerName = (string)PhotonNetwork.CurrentRoom.CustomProperties["FirstPlayerName"];
+        if (firstPlayerName != null)
+        {
+            if (!_isFinished)
+            {
+                Animator animator = GetComponent<Animator>();
+                if (firstPlayerName == photonView.Owner.NickName)
+                {
+                    UI_GameOver.Instance.CheckFirst();
+                    animator.SetBool("Win", true);
+                }
+                else
+                {
+                    UI_GameOver.Instance.CheckLast();
+                    animator.SetBool("Sad", true);
+                }
+                _isFinished = true;
+            }
+        }
+        else
+        { return; }
     }
 
     [PunRPC]

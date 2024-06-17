@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bomb : MonoBehaviour
+public class AerialBomb : MonoBehaviour
 {
-    public GameObject explosionEffect; 
+    public GameObject explosionEffect;
 
     private void OnTriggerEnter(Collider other)
     {

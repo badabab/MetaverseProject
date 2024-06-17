@@ -17,6 +17,7 @@ public class Board : MonoBehaviour
             Canvas.gameObject.SetActive(true);
             UnityEngine.Cursor.visible = true;
             UnityEngine.Cursor.lockState = CursorLockMode.None;
+            other.GetComponent<PlayerMoveAbility>().isGrounded = false;
         }
     }
 
@@ -27,6 +28,8 @@ public class Board : MonoBehaviour
             Canvas.gameObject.SetActive(false);
             UnityEngine.Cursor.visible = false;
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
+            other.GetComponent<PlayerMoveAbility>().isGrounded = true;
         }
     }
 }

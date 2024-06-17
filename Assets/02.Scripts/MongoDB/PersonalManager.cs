@@ -1,16 +1,19 @@
-using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson;
 using MongoDB.Driver;
+using Photon.Voice.PUN;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PersonalManager : MonoBehaviour
 {
-    // 게시글 리스트
     private List<Personal> _personal = new List<Personal>();
     public List<Personal> Personals => _personal;
-    // 콜렉션
+
     private IMongoCollection<Personal> _personalCollection;
     public static PersonalManager Instance { get; private set; }
+
+    private string _cachedUserName;
+
     private void Awake()
     {
         if (Instance == null)
@@ -24,18 +27,17 @@ public class PersonalManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     public void Init()
     {
-        string connnectionString = "mongodb+srv://MetaversePro:MetaversePro@cluster0.ed1au27.mongodb.net/";
-        MongoClient mongoClient = new MongoClient(connnectionString);
+        string connectionString = "mongodb+srv://MetaversePro:MetaversePro@cluster0.ed1au27.mongodb.net/";
+        MongoClient mongoClient = new MongoClient(connectionString);
         IMongoDatabase db = mongoClient.GetDatabase("Logins");
-        // 3. 특정 콜렉션 연결
         _personalCollection = db.GetCollection<Personal>("Log");
     }
 
     public void JoinList(string name, string password, int characterIndex)
     {
-
         Personal personal = new Personal()
         {
             Name = name,
@@ -44,120 +46,119 @@ public class PersonalManager : MonoBehaviour
         };
         _personalCollection.InsertOne(personal);
     }
+
     public Personal Login(string name, string password)
     {
         var filter = Builders<Personal>.Filter.Eq("Name", name) & Builders<Personal>.Filter.Eq("Password", password);
         return _personalCollection.Find(filter).FirstOrDefault();
     }
+
     public bool CheckUser(string name, string password)
     {
         var filter = Builders<Personal>.Filter.Eq("Name", name) & Builders<Personal>.Filter.Eq("Password", password);
         return _personalCollection.Find(filter).Any();
     }
-    public string UserNameMach()
+
+    public bool ChangingNickName(string newName)
     {
-        string nickname = PlayerPrefs.GetString("LoggedInId");
+        string originalName = GetCachedUserName();
+        if (string.IsNullOrEmpty(originalName)) return false;
 
-        if (string.IsNullOrEmpty(nickname))
+        var filter = Builders<Personal>.Filter.Eq("Name", originalName);
+        var update = Builders<Personal>.Update.Set("Name", newName);
+
+        var result = _personalCollection.UpdateOne(filter, update);
+        if (result.ModifiedCount > 0)
         {
-            Debug.LogError("사용자 이름을 찾을 수 없습니다.");
-            return string.Empty;
+            _cachedUserName = newName; // Update cache
+            return true;
         }
-
-        var filter = Builders<Personal>.Filter.Eq("Name", nickname);
-        var user = _personalCollection.Find(filter).Any();
-        return user ? nickname : string.Empty;
+        return false;
     }
-    public void UpdateCharacterIndex(int characterIndex)
-    {
-        string name = PlayerPrefs.GetString("LoggedInId");
 
-        if (string.IsNullOrEmpty(name))
+    private string GetCachedUserName()
+    {
+        if (string.IsNullOrEmpty(_cachedUserName))
         {
-            Debug.LogError("사용자 이름을 찾을 수 없습니다.");
-            return;
+            _cachedUserName = PlayerPrefs.GetString("LoggedInId");
+
+            if (string.IsNullOrEmpty(_cachedUserName))
+            {
+                Debug.LogError("사용자 이름을 찾을 수 없습니다.");
+                return string.Empty;
+            }
+
+            var filter = Builders<Personal>.Filter.Eq("Name", _cachedUserName);
+            if (!_personalCollection.Find(filter).Any())
+            {
+                Debug.LogError("유효하지 않은 사용자 이름입니다.");
+                _cachedUserName = string.Empty;
+            }
         }
+        return _cachedUserName;
+    }
+
+    public bool UpdateCharacterIndex(int characterIndex)
+    {
+        string name = GetCachedUserName();
+        if (string.IsNullOrEmpty(name)) return false;
 
         var filter = Builders<Personal>.Filter.Eq(p => p.Name, name);
         var update = Builders<Personal>.Update.Set(p => p.CharacterIndex, characterIndex);
 
         var result = _personalCollection.UpdateOne(filter, update);
-        Debug.Log("Matched Count: " + result.MatchedCount);
-        Debug.Log("Modified Count: " + result.ModifiedCount);
+        return result.ModifiedCount > 0;
     }
+
     public int CheckCharacterIndex()
     {
-        string name = PlayerPrefs.GetString("LoggedInId");
-
-        if (string.IsNullOrEmpty(name))
-        {
-            Debug.LogError("사용자 이름을 찾을 수 없습니다.");
-            return -1;
-        }
+        string name = GetCachedUserName();
+        if (string.IsNullOrEmpty(name)) return -1;
 
         var filter = Builders<Personal>.Filter.Eq(p => p.Name, name);
         var user = _personalCollection.Find(filter).FirstOrDefault();
-
-        if (user != null)
-        {
-            Debug.Log("CharacterIndex: " + user.CharacterIndex);
-            return user.CharacterIndex;
-        }
-        else
-        { return -1; }
+        return user?.CharacterIndex ?? -1;
     }
 
-    public void CoinUpdate(string name, int coinAdd)
+    public bool CoinUpdate(string name, int coinAdd)
     {
         var filter = Builders<Personal>.Filter.Eq(p => p.Name, name);
-        var user = _personalCollection.Find(filter).FirstOrDefault();
+        var update = Builders<Personal>.Update.Inc(p => p.Coins, coinAdd); // 원자적 증가 연산
 
-        if (user != null)
+        var result = _personalCollection.UpdateOne(filter, update);
+
+        if (result.ModifiedCount > 0)
         {
-            int newCoins = user.Coins + coinAdd; 
-            var update = Builders<Personal>.Update.Set(p => p.Coins, newCoins);
-            var result = _personalCollection.UpdateOne(filter, update);
-
-            // Save updated coin count to PlayerPrefs
-            PlayerPrefs.SetInt($"{name}_Coins", newCoins);
-            PlayerPrefs.Save();
+            var user = _personalCollection.Find(filter).FirstOrDefault();
+            if (user != null)
+            {
+                PlayerPrefs.SetInt($"{name}_Coins", user.Coins);
+                PlayerPrefs.Save();
+                return true;
+            }
         }
+        return false;
     }
-    public void SpendCoins(int number)
+
+    public bool SpendCoins(int number)
     {
-        string name = PlayerPrefs.GetString("LoggedInId");
+        string name = GetCachedUserName();
+        if (string.IsNullOrEmpty(name)) return false;
 
-        if (string.IsNullOrEmpty(name))
-        {
-            Debug.LogError("사용자 이름을 찾을 수 없습니다.");
-        }
         var filter = Builders<Personal>.Filter.Eq(p => p.Name, name);
-        var user = _personalCollection.Find(filter).FirstOrDefault();
-        if (user != null)
-        {
-            int newCoins = user.Coins - number;
-            var update = Builders<Personal>.Update.Set(p => p.Coins, newCoins);
-            var result = _personalCollection.UpdateOne(filter, update);
-        }
+        var update = Builders<Personal>.Update.Inc(p => p.Coins, -number); // 원자적 감소 연산
+
+        var result = _personalCollection.UpdateOne(filter, update);
+        return result.ModifiedCount > 0;
     }
+
     public int CheckCoins()
     {
-        string name = PlayerPrefs.GetString("LoggedInId");
-
-        if (string.IsNullOrEmpty(name))
-        {
-            Debug.LogError("사용자 이름을 찾을 수 없습니다.");
-            return -1;
-        }
+        string name = GetCachedUserName();
+        if (string.IsNullOrEmpty(name)) return -1;
 
         var filter = Builders<Personal>.Filter.Eq(p => p.Name, name);
         var user = _personalCollection.Find(filter).FirstOrDefault();
-
-        if (user != null)
-        {
-            return user.Coins;
-        }
-        else
-        { return -1; }
+        return user?.Coins ?? -1;
     }
 }

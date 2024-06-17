@@ -92,8 +92,13 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             else
             {
+
                 Debug.LogError("권한 없는 플레이어가 방 전환을 시도하였습니다.");
             }
+        }
+        else
+        {
+            return;
         }
     }
 

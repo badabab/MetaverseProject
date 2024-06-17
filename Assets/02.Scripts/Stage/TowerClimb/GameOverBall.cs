@@ -16,22 +16,25 @@ public class GameOverBall : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider other)
     {
-        if(!PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
-            return;
+            Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", _firstPlayer } };
+            PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
         }
-
-        if (other.CompareTag("Player") && !playerCollided)
+        if (other.CompareTag("Player"))
         {
-            playerCollided = true;
-            Time.timeScale = 0f;
-            StartCoroutine(GameOverSequence(other.gameObject));
-            _firstPlayer = other.name;
-
-            if (PhotonNetwork.IsMasterClient ) 
+            if (!playerCollided)
             {
-                Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", _firstPlayer } };
-                PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
+                playerCollided = true;
+                Time.timeScale = 0f;
+                StartCoroutine(GameOverSequence(other.gameObject));
+                _firstPlayer = other.name;
+            }
+            else
+            {
+                other.GetComponent<Animator>().SetBool("Sad", true);
+                PhotonNetwork.LoadLevel("VillageLoadScene");
+                PhotonNetwork.LeaveRoom();
             }
         }
     }

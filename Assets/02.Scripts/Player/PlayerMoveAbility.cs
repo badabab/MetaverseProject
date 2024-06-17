@@ -68,7 +68,7 @@ public class PlayerMoveAbility : PlayerAbility
             }
         }
 
-        Physics.gravity = new Vector3(0, -9.81f, 0);
+
     }
 
     // 키 입력과 이동방향 계산
@@ -177,7 +177,7 @@ public class PlayerMoveAbility : PlayerAbility
 
         if (_isTowerClimbScene)
         {
-            JumpPower = 20;
+            JumpPower = 6;
             if (Input.GetKey(KeyCode.Space) && isGrounded)
             {
                 JumpCount -= 1;
@@ -230,7 +230,7 @@ public class PlayerMoveAbility : PlayerAbility
         if (Physics.Raycast(LayerPoint.position, Vector3.down, out hit, groundDistance, defaultLayerMask))
         {
             isGrounded = true;
-            
+
             Physics.gravity = new Vector3(0, -9.81f, 0);
 
         }
@@ -238,6 +238,7 @@ public class PlayerMoveAbility : PlayerAbility
         {
             isGrounded = false;
             _animator.SetBool("Jump", false);
+
         }
     }
 }

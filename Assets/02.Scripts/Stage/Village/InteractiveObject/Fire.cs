@@ -5,11 +5,13 @@ using UnityEngine;
 public class Fire : MonoBehaviour
 {
     public GameObject Cannon;
-    public GameObject CannonFire;
-    public GameObject CannonBall;
+    public GameObject CannonBody;
     public GameObject CannonBallFire;
+    public List<GameObject> CannonFire;
     public List<GameObject> ShipFire;
+    public List<GameObject> CannonWheels;
     public GameObject ShipDwon;
+
 
     void Update()
     {

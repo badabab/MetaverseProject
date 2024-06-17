@@ -15,13 +15,13 @@ public class VillageScene : MonoBehaviourPunCallbacks
     {
         if (Instance == null)
         {
-            Debug.Log("A");
+           // Debug.Log("A");
             Instance = this;
             //DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Debug.Log("B");
+           // Debug.Log("B");
 
             Destroy(gameObject);
         }
@@ -49,7 +49,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
     */
     private void InitializePlayer(Photon.Realtime.Player player)
     {
-        Debug.Log("호출");
+        //Debug.Log("호출");
         if (!player.IsLocal) return;
         Player localPlayer = FindLocalPlayer();
 

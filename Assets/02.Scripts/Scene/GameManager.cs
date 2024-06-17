@@ -4,6 +4,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
 using System.Security.Cryptography;
+using System.Linq;
 public enum SceneType
 {
     Villige,
@@ -35,26 +36,23 @@ public class GameManager : MonoBehaviourPunCallbacks
     void Start()
     {
         // 로컬 플레이어 찾기
-        //FindLocalPlayer();
+        FindLocalPlayer();
     }
 
     void FindLocalPlayer()
     {
         if (_localPlayerController == null)
         {
-            foreach (var player in FindObjectsOfType<PlayerOptionAbility>())
+            _localPlayerController = FindObjectsOfType<PlayerOptionAbility>()
+                .FirstOrDefault(player => player.GetComponent<PhotonView>().IsMine);
+
+            if (_localPlayerController != null)
             {
-                PhotonView photonView = player.GetComponent<PhotonView>();
-                if (photonView != null && photonView.IsMine)
-                {
-                    _localPlayerController = player;
-                    Debug.Log($"플레이어 찾음: {player.name}");
-                    break;
-                }
+                Debug.Log($"로컬 플레이어 찾음: {_localPlayerController.name}");
             }
-            if (_localPlayerController == null)
+            else
             {
-                Debug.LogError("Local player not found!");
+                Debug.LogError("로컬 플레이어를 찾지 못했습니다.");
             }
         }
     }
@@ -85,15 +83,17 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         FindLocalPlayer();
 
-        if (SceneManager.GetActiveScene().name == "VillageScene")
+        if (SceneManager.GetActiveScene().name != "VillageScene")
         {
-            _localPlayerController.Continue();
-        }
-
-        if (_localPlayerController.photonView.IsMine)
-        {
-            PhotonManager.Instance.NextRoomName = "Village";
-            PhotonNetwork.LeaveRoom();
+            if (_localPlayerController != null && _localPlayerController.photonView.IsMine)
+            {
+                PhotonNetwork.LeaveRoom();
+                PhotonNetwork.JoinRoom("Village");
+            }
+            else
+            {
+                Debug.LogError("권한 없는 플레이어가 방 전환을 시도하였습니다.");
+            }
         }
     }
 

@@ -110,16 +110,16 @@ public class TileScore : MonoBehaviourPunCallbacks
             if (playerName == winner)
             {
                 UI_BattleTile.Instance.CheckWin();
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", playerName } };
-                    PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
-                    Debug.Log($"{firstPlayerName} 저장");
-                }
             }
             else
             {
                 UI_BattleTile.Instance.CheckLose();
+            }
+            if (PhotonNetwork.IsMasterClient)
+            {
+                Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", playerName } };
+                PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
+                Debug.Log($"{firstPlayerName} 저장");
             }
         }
     }

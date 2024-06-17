@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class ShoppingAvatar : MonoBehaviourPunCallbacks
 {
-    public TextMeshProUGUI PopUpText;
+    //public TextMeshProUGUI PopUpText;
     public SphereCollider SphereCollider;
     public GameObject ChangeAvatarButton;
     public List<GameObject> Avatars; // 아바타 프리팹 리스트
@@ -15,12 +15,14 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
     private GameObject player;
     private int Coin100 = 100;
     //private int Coin150 = 150;
-    //private int Coin200 = 200;
+    private int Coin200 = 200;
 
-
+    public GameObject ChangingName;
+    public TMP_InputField InputFieldNameUI;
+    private string _newName;
     private void Start()
     {
-        PopUpText.gameObject.SetActive(false);
+        //PopUpText.gameObject.SetActive(false);
         ChangeAvatarButton.SetActive(false);
       //  ChangeAvatarButton.GetComponent<Button>().onClick.AddListener(OnClickChanging);
     }
@@ -30,7 +32,7 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
         if (other.CompareTag("Player") && other.GetComponentInParent<PhotonView>().IsMine)
         {
             player = other.gameObject;
-            PopUpText.gameObject.SetActive(true);
+            //PopUpText.gameObject.SetActive(true);
             ChangeAvatarButton.SetActive(true);
         }
     }
@@ -39,7 +41,7 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
     {
         if (other.CompareTag("Player") && other.GetComponentInParent<PhotonView>().IsMine)
         {
-            PopUpText.gameObject.SetActive(false);
+            //PopUpText.gameObject.SetActive(false);
             ChangeAvatarButton.SetActive(false);
             player = null;
         }
@@ -68,9 +70,30 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
             PhotonNetwork.Destroy(player);
 
             // UI 숨김
-            PopUpText.gameObject.SetActive(false);
+            //PopUpText.gameObject.SetActive(false);
             ChangeAvatarButton.SetActive(false);
         }
+    }
+
+    public void OnClickName()
+    {
+        int coins = PersonalManager.Instance.CheckCoins();
+
+        if (player != null & coins > Coin200)
+        {
+            ChangingName.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("돈 없음");
+        }
+    }
+    public void OnClickGetNewNickName() 
+    {
+        InputFieldNameUI.text = _newName;
+        PersonalManager.Instance.ChangingNickName(_newName);
+        ChangingName.gameObject.SetActive(false);
+        ChangeAvatarButton.gameObject.SetActive(false);
     }
     public void OnClickXButton()
     {

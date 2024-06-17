@@ -49,7 +49,7 @@ public class WarnigChickenFire : MonoBehaviour
                 Warnig.text = "1";
                 break;
             case 7:
-                LaunchMissiles();
+                StartCoroutine(LaunchMissilesRandomly());
                 break;
             default:
                 ResetWarnings();
@@ -57,16 +57,20 @@ public class WarnigChickenFire : MonoBehaviour
         }
     }
 
-    private void LaunchMissiles()
+    private IEnumerator LaunchMissilesRandomly()
     {
         Warnig.text = "";
 
-        for (int i = 0; i < 2; i++)
+        for (int launchCount = 0; launchCount < 2; launchCount++)
         {
-            int randomMissileIndex = Random.Range(0, Missiles.Count);
-            int randomFireIndex = Random.Range(0, MissileFire.Count);
+            float randomDelay = Random.Range(0f, 5f);
+            yield return new WaitForSeconds(randomDelay);
 
-            GameObject missile = Instantiate(Missiles[randomMissileIndex], MissileFire[randomFireIndex].transform.position, Quaternion.identity);
+            foreach (GameObject firePosition in MissileFire)
+            {
+                int randomMissileIndex = Random.Range(0, Missiles.Count);
+                Instantiate(Missiles[randomMissileIndex], firePosition.transform.position, Quaternion.identity);
+            }
         }
 
         collisionCount = 0;

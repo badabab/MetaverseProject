@@ -15,13 +15,18 @@ public class Board : MonoBehaviour
         if (other.CompareTag("Player") && other.GetComponentInParent<PhotonView>().IsMine)
         {
             Canvas.gameObject.SetActive(true);
+            UnityEngine.Cursor.visible = true;
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player") && other.GetComponentInParent<PhotonView>().IsMine)
         {
             Canvas.gameObject.SetActive(false);
+            UnityEngine.Cursor.visible = false;
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         }
     }
 }

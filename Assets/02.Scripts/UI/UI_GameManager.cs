@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UI_GameManager : MonoBehaviour
 {
@@ -74,8 +75,11 @@ public class UI_GameManager : MonoBehaviour
         UnityEngine.Cursor.visible = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         //GameManager.Instance.BackToVillage();
-        PhotonManager.Instance.LeaveAndLoadRoom("Village");
-        PhotonNetwork.LeaveRoom();
+        if (SceneManager.GetActiveScene().name != "Village")
+        {
+            PhotonManager.Instance.LeaveAndLoadRoom("Village");
+            PhotonNetwork.LeaveRoom();
+        }
     }
 
     public void OnClickGameQuitButton()

@@ -14,11 +14,4 @@ public class PlayerOptionAbility : PlayerAbility
         if (!_owner.photonView.IsMine) return;
         Time.timeScale = 1f;
     }
-
-    [PunRPC]
-    public void TeleportToVillage()
-    {
-        if (!_owner.photonView.IsMine) return;
-        PhotonNetwork.LoadLevel("VillageScene");
-    }
 }

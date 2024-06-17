@@ -22,6 +22,7 @@ public class AerialBomb : MonoBehaviourPunCallbacks, IPunObservable
         if (!hasExploded)
         {
             photonView.RPC("Explode", RpcTarget.AllViaServer);
+            Explode();
         }
     }
 

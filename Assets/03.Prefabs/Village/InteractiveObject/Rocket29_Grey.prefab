@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5952321096101763947}
   - component: {fileID: 215040021623716923}
   - component: {fileID: -1554831557860654573}
+  - component: {fileID: 5397816863924284087}
   m_Layer: 0
   m_Name: Rocket29_Grey
   m_TagString: Untagged
@@ -99,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionEffectPrefab: {fileID: 417761080263594737, guid: 1171e671672a84a4e92818a124a78692, type: 3}
-  BombSpeed: 8
+  BombFall: 8.5
   BombTime: 6
 --- !u!54 &215040021623716923
 Rigidbody:
@@ -151,3 +152,25 @@ CapsuleCollider:
   m_Height: 11.9181595
   m_Direction: 1
   m_Center: {x: -0.00000023841858, y: 0.70814633, z: -0.00000059604645}
+--- !u!114 &5397816863924284087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664849921657728913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

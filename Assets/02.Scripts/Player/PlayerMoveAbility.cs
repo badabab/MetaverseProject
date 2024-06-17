@@ -57,7 +57,15 @@ public class PlayerMoveAbility : PlayerAbility
 
         if (_owner.PhotonView.IsMine && !_isTowerClimbScene && !_isBattleTileScene)
         {
-            GameObject.FindWithTag("MainCamera").GetComponent<TPSCamera>().target = CameraRoot; 
+            GameObject mainCamera = GameObject.FindWithTag("MainCamera");
+            if (mainCamera != null)
+            {
+                TPSCamera tpsCamera = mainCamera.GetComponent<TPSCamera>();
+                if (tpsCamera != null)
+                {
+                    tpsCamera.target = CameraRoot;
+                }
+            }
         }
 
         Physics.gravity = new Vector3(0, -9.81f, 0);

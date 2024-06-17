@@ -96,9 +96,9 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
             configurableJoint.xMotion = ConfigurableJointMotion.Locked; // X축 이동 잠금
             configurableJoint.yMotion = ConfigurableJointMotion.Locked; // Y축 이동 잠금
             configurableJoint.zMotion = ConfigurableJointMotion.Locked; // Z축 이동 잠금
-            configurableJoint.angularXMotion = ConfigurableJointMotion.Free; // X축 회전 자유
-            configurableJoint.angularYMotion = ConfigurableJointMotion.Free; // Y축 회전 자유
-            configurableJoint.angularZMotion = ConfigurableJointMotion.Free; // Z축 회전 자유
+            configurableJoint.angularXMotion = ConfigurableJointMotion.Locked; // X축 회전 자유
+            configurableJoint.angularYMotion = ConfigurableJointMotion.Locked; // Y축 회전 자유
+            configurableJoint.angularZMotion = ConfigurableJointMotion.Locked; // Z축 회전 자유
 
             // Anchor와 연결점 설정
             configurableJoint.anchor = Vector3.zero; // 앵커를 객체의 중심에 설정
@@ -120,7 +120,7 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
     {
         if (configurableJoint != null) // configurableJoint가 존재하는 경우
         {
-            Rigidbody grabbedRb = grabbedObject.GetComponent<Rigidbody>(); // 잡힌 객체의 Rigidbody 가져오기
+            Rigidbody grabbedRb = grabbedObject.GetComponentInParent<Rigidbody>(); // 잡힌 객체의 Rigidbody 가져오기
             grabbedRb.useGravity = true; // 중력 활성화
             Destroy(configurableJoint); // ConfigurableJoint 파괴
             photonView.RPC("RPC_ReleaseGrab", RpcTarget.AllBuffered);

@@ -2653,6 +2653,8 @@ GameObject:
   - component: {fileID: -5785755160100389458}
   - component: {fileID: 4095897865085939581}
   - component: {fileID: -4558748419025401311}
+  - component: {fileID: 8479699301252598850}
+  - component: {fileID: 2506077322682412178}
   m_Layer: 9
   m_Name: Player 16
   m_TagString: Player
@@ -2754,7 +2756,6 @@ MonoBehaviour:
   animator: {fileID: 8171539650239019205}
   grabDistance: 2
   GrabbingTimer: 4
-  sphereRadius: 0.5
 --- !u!114 &6703264293214351524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2842,6 +2843,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: isGrabbing
+  - Type: 9
+    SynchronizeType: 0
+    Name: Attack
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -3121,6 +3125,37 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.88, z: 0}
+--- !u!114 &8479699301252598850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9029329124467589125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93da754bb87fd7c48a5a98edc06ace8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange: 2
+  attackDamage: 1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  animator: {fileID: 0}
+--- !u!114 &2506077322682412178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9029329124467589125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43f6a18e32f779d46aeb7460a09b30a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
 --- !u!1 &9074448728345242793
 GameObject:
   m_ObjectHideFlags: 0

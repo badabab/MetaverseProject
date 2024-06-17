@@ -87,6 +87,10 @@ public class PlayerMoveAbility : PlayerAbility
 
     private void FixedUpdate()
     {
+        if (!_owner.PhotonView.IsMine)
+        {
+            return;
+        }
         if (_isFallGuysScene)
         {
             if (FallGuysManager.Instance._currentGameState == GameState.Loading)

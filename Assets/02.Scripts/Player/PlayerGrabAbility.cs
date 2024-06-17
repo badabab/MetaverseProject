@@ -15,7 +15,7 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
     private bool Grabed = false;
     private float GrabTime;
     public float GrabbingTimer = 4f;
-    public float sphereRadius = 0.5f; // 레이 스피어의 반경
+    private float sphereRadius = 2f; // 레이 스피어의 반경
     void Update()
     {
         if (!photonView.IsMine) // 이 클라이언트의 로컬 플레이어인지 확인

@@ -7,12 +7,15 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(PlayerMoveAbility))]
 [RequireComponent(typeof(PlayerRotateAbility))]
 [RequireComponent(typeof(PlayerGrabAbility))]
+[RequireComponent(typeof(PlayerAttackAbility))]
 
 
 
 public class Player : MonoBehaviourPunCallbacks, IPunObservable
 {
     public PhotonView PhotonView { get; private set; }
+
+    public int PlayerHealth = 10;
 
     private void Awake()
     {

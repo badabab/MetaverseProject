@@ -9,6 +9,7 @@ public class Fire : MonoBehaviour
     public GameObject CannonBall;
     public GameObject CannonBallFire;
     public List<GameObject> ShipFire;
+    public GameObject ShipDwon;
 
     void Update()
     {

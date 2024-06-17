@@ -9,7 +9,7 @@ public class WinningPlayerScene : MonoBehaviour
 
     public Transform PlayerSpawn;
     public TextMeshProUGUI WinningName;
-    private GameObject winningPlayer;
+    public GameObject winningPlayer;
 
     // Start is called before the first frame update
     void Start()

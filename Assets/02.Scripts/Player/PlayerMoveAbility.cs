@@ -180,9 +180,7 @@ public class PlayerMoveAbility : PlayerAbility
             JumpPower = 6;
             if (Input.GetKey(KeyCode.Space) && isGrounded)
             {
-                JumpCount -= 1;
-                rb.AddForce(Vector3.up * JumpPower, ForceMode.Impulse);
-                _animator.SetBool("Jump", true);
+                JumpCode();
             }
 
         }
@@ -198,14 +196,18 @@ public class PlayerMoveAbility : PlayerAbility
             {
                 JumpPower = NormalJumpPower;
             }
-            JumpCount -= 1;
-            rb.AddForce((Vector3.up * JumpPower)/2f, ForceMode.Impulse);
-            _animator.SetBool("Jump",true);
-            Instantiate(JumpVFX, transform.position, Quaternion.identity);
-            
+
+            JumpCode();
         }
 
 
+    }
+    void JumpCode()
+    {
+        JumpCount -= 1;
+        rb.AddForce((Vector3.up * JumpPower) / 2f, ForceMode.Impulse);
+        _animator.SetBool("Jump", true);
+        Instantiate(JumpVFX, transform.position, Quaternion.identity);
     }
 
     // 점프 동작 구현

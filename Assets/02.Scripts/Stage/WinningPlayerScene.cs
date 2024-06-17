@@ -19,13 +19,13 @@ public class WinningPlayerScene : MonoBehaviour
             _firstPlayerName = (string)PhotonNetwork.CurrentRoom.CustomProperties["FirstPlayerName"];
 
             // 첫 번째 플레이어만 생성
-            if (PhotonNetwork.NickName == _firstPlayerName)
+            if (PhotonNetwork.LocalPlayer.NickName == _firstPlayerName)
             {
                 int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
                 string firstCharacter = $"Player {characterIndex}";
                 winningPlayer = PhotonNetwork.Instantiate(firstCharacter, PlayerSpawn.position, Quaternion.Euler(0, -180, 0));
                 WinningName.text = _firstPlayerName;
-
+                Debug.Log($"{_firstPlayerName} 님이 이겼습니다.");
                 Animator animator = winningPlayer.GetComponent<Animator>();
                 animator.SetBool("Win", true);
 

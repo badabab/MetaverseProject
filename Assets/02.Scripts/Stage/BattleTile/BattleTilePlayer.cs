@@ -9,16 +9,20 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
     public int MyNum;
     private TileScore _tileScore;
 
-    private void Start()
+    private void Awake()
     {
         if (!photonView.IsMine) return;
-        _characterController = GetComponent<CharacterController>();
-        MyNum = GetUniqueRandomNumber();
         if (SceneManager.GetActiveScene().name != "BattleTileScene")
         {
             this.enabled = false;
             return;
         }
+    }
+
+    private void Start()
+    {       
+        _characterController = GetComponent<CharacterController>();
+        MyNum = GetUniqueRandomNumber();        
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "PlayerNumber", MyNum }, { "PlayerTileNumber", MyNum } });
         GameObject startpoint = GameObject.Find($"Start{MyNum}");
         this.transform.position = startpoint.transform.position;

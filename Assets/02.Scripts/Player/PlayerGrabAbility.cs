@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEditor;
 
 public class PlayerGrabAbility : MonoBehaviourPunCallbacks
 {
@@ -62,6 +63,16 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
             {
                 photonView.RPC("RPC_TryGrab", RpcTarget.AllBuffered, hit.collider.gameObject.GetComponent<PhotonView>().ViewID);
             }
+            
+        }
+    }
+    // 기즈모를 그리는 메서드
+    private void OnDrawGizmos()
+    {
+        if (hand != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(hand.position, hand.forward * grabDistance);
         }
     }
 

@@ -176,6 +176,8 @@ public class PlayerMoveAbility : PlayerAbility
         }
         if (Input.GetKey(KeyCode.Space) && isGrounded && !_isTowerClimbScene) 	// IsGrounded가 true일 때만 점프할 수 있도록
         {
+            if (_isBattleTileScene)
+            { return; }
             if (_isRunning)
             {
                 JumpPower = RunningJumpPower;

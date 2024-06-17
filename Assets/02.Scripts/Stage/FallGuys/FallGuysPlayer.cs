@@ -10,9 +10,10 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
 
     private GameObject _testPosition;
 
+    private bool _isFinished = false;
     private void Awake()
     {
-        _testPosition = GameObject.Find("End3");
+        _testPosition = GameObject.Find("TestPosition");
     }
     private void Start()
     {
@@ -32,9 +33,12 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
     {
         if (!photonView.IsMine) return;
         ReadyPlayer();
-        if (FallGuysManager.Instance._currentGameState == GameState.Over) 
+    }
+    private void FixedUpdate()
+    {
+        if (FallGuysManager.Instance._currentGameState == GameState.Over)
         {
-            ShowLose();
+            ShowResult();
         }
     }
 
@@ -50,15 +54,29 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
         }
     }
 
-    public void ShowLose()
+    public void ShowResult()
     {
         string firstPlayerName = (string)PhotonNetwork.CurrentRoom.CustomProperties["FirstPlayerName"];
-        if (firstPlayerName != photonView.Owner.NickName) 
+        if (firstPlayerName != null)
         {
-            Animator animator = GetComponent<Animator>();
-            animator.SetBool("Sad", true);
-            UI_GameOver.Instance.CheckLast();
+            if (!_isFinished)
+            {
+                Animator animator = GetComponent<Animator>();
+                if (firstPlayerName == photonView.Owner.NickName)
+                {
+                    UI_GameOver.Instance.CheckFirst();
+                    animator.SetBool("Win", true);
+                }
+                else
+                {
+                    UI_GameOver.Instance.CheckLast();
+                    animator.SetBool("Sad", true);
+                }
+                _isFinished = true;
+            }
         }
+        else
+        { return; }
     }
 
     [PunRPC]

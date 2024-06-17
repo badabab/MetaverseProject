@@ -165,7 +165,7 @@ public class PlayerMoveAbility : PlayerAbility
             _isRunning = true;
             
             _animator.SetBool("Run", true);
-            PlayWalkVFX();
+            //PlayWalkVFX();
         }
         else
         {

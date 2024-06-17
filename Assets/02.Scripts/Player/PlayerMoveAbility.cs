@@ -40,8 +40,9 @@ public class PlayerMoveAbility : PlayerAbility
     private CinemachineFreeLook cinemachineCamera;
 
    // public ParticleSystem WalkVFX;
-    public ParticleSystem JumpVFX;
-
+    //public ParticleSystem JumpVFX;
+    private ParticleSystem[] walkVFX; // Walk VFX 배열
+    private int currentVFXIndex = 0; // 현재 재생 중인 Walk VFX 인덱스
 
     private bool _isFallGuysScene = false; // 폴가이즈 씬인지 확인
     private bool _isTowerClimbScene = false;
@@ -68,7 +69,8 @@ public class PlayerMoveAbility : PlayerAbility
             }
         }
 
-
+        ParticleSystem[] allParticleSystems = GetComponentsInChildren<ParticleSystem>();
+        walkVFX = System.Array.FindAll(allParticleSystems, ps => ps.gameObject.name.StartsWith("Walk"));
     }
 
     // 키 입력과 이동방향 계산
@@ -163,6 +165,7 @@ public class PlayerMoveAbility : PlayerAbility
             _isRunning = true;
             
             _animator.SetBool("Run", true);
+            PlayWalkVFX();
         }
         else
         {
@@ -201,8 +204,8 @@ public class PlayerMoveAbility : PlayerAbility
             JumpCount -= 1;
             rb.AddForce((Vector3.up * JumpPower)/2f, ForceMode.Impulse);
             _animator.SetBool("Jump",true);
-            Instantiate(JumpVFX, transform.position, Quaternion.identity);
-            
+            //Instantiate(JumpVFX, transform.position, Quaternion.identity);
+            PlayWalkVFX();
         }
 
 
@@ -240,6 +243,20 @@ public class PlayerMoveAbility : PlayerAbility
             _animator.SetBool("Jump", false);
 
         }
+    }
+
+    void PlayWalkVFX()
+    {
+        if (walkVFX.Length == 0) return;
+
+        // 현재 VFX 오브젝트를 활성화
+        if (!walkVFX[currentVFXIndex].gameObject.activeSelf)
+        {
+            walkVFX[currentVFXIndex].gameObject.SetActive(true);
+        }
+
+        // currentVFXIndex를 다음으로 이동
+        currentVFXIndex = (currentVFXIndex + 1) % walkVFX.Length;
     }
 }
 

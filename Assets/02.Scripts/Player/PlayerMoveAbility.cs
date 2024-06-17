@@ -237,6 +237,7 @@ public class PlayerMoveAbility : PlayerAbility
         else
         {
             isGrounded = false;
+            
             _animator.SetBool("Jump", false);
         }
     }

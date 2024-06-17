@@ -189,10 +189,10 @@ RectTransform:
   - {fileID: 773487938}
   m_Father: {fileID: 1078184273}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 275, y: -205}
+  m_SizeDelta: {x: 520, y: 143.33333}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &10704836
 MonoBehaviour:
@@ -1114,6 +1114,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
+  - {fileID: 150357754}
   - {fileID: 150357750}
   sceneViewId: 1
   InstantiationId: 0
@@ -1144,10 +1145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9ee267c31ffadc42987a326ec486172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Movespeed: 5
-  RunSpeed: 15
-  NormalJumpPower: 3
-  RunningJumpPower: 5
+  Speed: 0
+  JumpCount: 0
   isGrounded: 0
   LayerMask:
     serializedVersion: 2
@@ -1155,6 +1154,7 @@ MonoBehaviour:
   groundDistance: 0.2
   LayerPoint: {fileID: 0}
   CameraRoot: {fileID: 0}
+  JumpVFX: {fileID: 0}
 --- !u!114 &150357754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1219,12 +1219,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f4ac00201e2ad4ebef13d0406a027e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hand: {fileID: 791710815}
-  Animator: {fileID: 150357755}
-  GrabDistance: 2
-  GrabbableLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  hand: {fileID: 0}
+  animator: {fileID: 0}
+  grabDistance: 2
+  GrabbingTimer: 4
 --- !u!114 &150357758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3195,10 +3193,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9ee267c31ffadc42987a326ec486172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Movespeed: 5
-  RunSpeed: 15
-  NormalJumpPower: 3
-  RunningJumpPower: 5
+  Speed: 0
+  JumpCount: 0
   isGrounded: 0
   LayerMask:
     serializedVersion: 2
@@ -3206,6 +3202,7 @@ MonoBehaviour:
   groundDistance: 0.2
   LayerPoint: {fileID: 0}
   CameraRoot: {fileID: 0}
+  JumpVFX: {fileID: 0}
 --- !u!114 &435657814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3236,12 +3233,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f4ac00201e2ad4ebef13d0406a027e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hand: {fileID: 0}
-  Animator: {fileID: 435657818}
-  GrabDistance: 2
-  GrabbableLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  hand: {fileID: 0}
+  animator: {fileID: 0}
+  grabDistance: 2
+  GrabbingTimer: 4
 --- !u!114 &435657816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3729,7 +3724,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &522427198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4245,10 +4240,10 @@ RectTransform:
   - {fileID: 1068691571}
   m_Father: {fileID: 1078184273}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 275, y: -328.3333}
+  m_SizeDelta: {x: 520, y: 143.33333}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &568061450
 MonoBehaviour:
@@ -8101,10 +8096,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9ee267c31ffadc42987a326ec486172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Movespeed: 5
-  RunSpeed: 15
-  NormalJumpPower: 3
-  RunningJumpPower: 5
+  Speed: 0
+  JumpCount: 0
   isGrounded: 0
   LayerMask:
     serializedVersion: 2
@@ -8112,6 +8105,7 @@ MonoBehaviour:
   groundDistance: 0.2
   LayerPoint: {fileID: 0}
   CameraRoot: {fileID: 0}
+  JumpVFX: {fileID: 0}
 --- !u!114 &1086084775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8201,12 +8195,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f4ac00201e2ad4ebef13d0406a027e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hand: {fileID: 0}
-  Animator: {fileID: 0}
-  GrabDistance: 2
-  GrabbableLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  hand: {fileID: 0}
+  animator: {fileID: 0}
+  grabDistance: 2
+  GrabbingTimer: 4
 --- !u!1 &1112466363
 GameObject:
   m_ObjectHideFlags: 0
@@ -9704,10 +9696,10 @@ RectTransform:
   - {fileID: 674891461}
   m_Father: {fileID: 1078184273}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 275, y: -81.666664}
+  m_SizeDelta: {x: 520, y: 143.33333}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1450120807
 MonoBehaviour:
@@ -12722,6 +12714,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
+  - {fileID: 1908278139}
   - {fileID: 1908278135}
   sceneViewId: 6
   InstantiationId: 0
@@ -12752,10 +12745,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9ee267c31ffadc42987a326ec486172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Movespeed: 5
-  RunSpeed: 15
-  NormalJumpPower: 3
-  RunningJumpPower: 5
+  Speed: 0
+  JumpCount: 0
   isGrounded: 0
   LayerMask:
     serializedVersion: 2
@@ -12763,6 +12754,7 @@ MonoBehaviour:
   groundDistance: 0.2
   LayerPoint: {fileID: 0}
   CameraRoot: {fileID: 0}
+  JumpVFX: {fileID: 0}
 --- !u!114 &1908278139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12852,12 +12844,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f4ac00201e2ad4ebef13d0406a027e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hand: {fileID: 0}
-  Animator: {fileID: 0}
-  GrabDistance: 2
-  GrabbableLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  hand: {fileID: 0}
+  animator: {fileID: 0}
+  grabDistance: 2
+  GrabbingTimer: 4
 --- !u!1 &1910687513
 GameObject:
   m_ObjectHideFlags: 0
@@ -13302,6 +13292,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 879c1b3ec53465c4990096a1efe2533d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StartButton: {fileID: 0}
+  NextRoomName: 
 --- !u!4 &2032089228
 Transform:
   m_ObjectHideFlags: 0

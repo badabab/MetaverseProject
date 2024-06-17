@@ -35,9 +35,12 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
     }
     private void FixedUpdate()
     {
-        if (FallGuysManager.Instance._currentGameState == GameState.Over)
+        if (SceneManager.GetActiveScene().name == "FallGuysScene")
         {
-            ShowResult();
+            if (FallGuysManager.Instance._currentGameState == GameState.Over)
+            {
+                ShowResult();
+            }
         }
     }
 

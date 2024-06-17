@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEditor;
 
 public class PlayerGrabAbility : MonoBehaviourPunCallbacks
 {
@@ -14,7 +15,7 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
     private bool Grabed = false;
     private float GrabTime;
     public float GrabbingTimer = 4f;
-
+    public float sphereRadius = 0.5f; // 레이 스피어의 반경
     void Update()
     {
         if (!photonView.IsMine) // 이 클라이언트의 로컬 플레이어인지 확인
@@ -56,12 +57,24 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
         Ray ray = new Ray(hand.position, hand.forward); // 손 위치에서 전방으로 레이 생성
         RaycastHit hit; // 레이캐스트 결과를 저장할 변수
 
-        if (Physics.Raycast(ray, out hit, grabDistance)) // 특정 거리 내에 있는 오브젝트 감지
+        if (Physics.SphereCast(ray, sphereRadius, out hit, grabDistance)) // 특정 거리 내에 있는 오브젝트 감지
         {
             if (hit.collider.CompareTag("Grabbable")) // Grabbable 태그가 붙은 오브젝트만 잡기
             {
-                photonView.RPC("RPC_TryGrab", RpcTarget.AllBuffered, hit.collider.gameObject.GetComponent<PhotonView>().ViewID);
+                photonView.RPC("RPC_TryGrab", RpcTarget.AllBuffered, hit.collider.gameObject.GetComponentInParent<PhotonView>().ViewID);
             }
+            
+        }
+    }
+    // 기즈모를 그리는 메서드
+    private void OnDrawGizmos()
+    {
+        if (hand != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(hand.position, sphereRadius); // 시작 위치에 구를 그림
+            Gizmos.DrawRay(hand.position, hand.forward * grabDistance); // 레이를 그림
+            Gizmos.DrawWireSphere(hand.position + hand.forward * grabDistance, sphereRadius); // 끝 위치에 구를 그림
         }
     }
 
@@ -97,7 +110,7 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
             configurableJoint.breakTorque = 2000f; // 최대 파괴 토크 설정
 
             // 객체의 중력을 끄고 손 위치로 이동시키기
-            Rigidbody grabbedRb = grabbedObject.GetComponent<Rigidbody>(); // 잡힌 객체의 Rigidbody 가져오기
+            Rigidbody grabbedRb = grabbedObject.GetComponentInParent<Rigidbody>(); // 잡힌 객체의 Rigidbody 가져오기
             grabbedRb.useGravity = false; // 중력 해제
             StartCoroutine(MoveObjectToHand(grabbedRb)); // 객체를 손으로 이동시키는 코루틴 시작
         }

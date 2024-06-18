@@ -34,6 +34,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
         }
     }
 
+    [PunRPC]
     void Attack()
     {
         animator.SetTrigger("Attack"); // 공격 애니메이션 실행
@@ -57,27 +58,36 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isAttacking && other.gameObject.layer == LayerMask.NameToLayer("Player") && !other.GetComponent<PhotonView>().IsMine)
+        if (isAttacking)
         {
-            // 공격 중이며 충돌한 객체가 플레이어 레이어에 속하고 로컬 플레이어가 아닌 경우
-            PhotonView targetPhotonView = other.GetComponentInParent<PhotonView>(); // 충돌한 객체의 PhotonView 컴포넌트를 가져옴
-            if (targetPhotonView != null) // PhotonView가 존재하는지 확인
+            PhotonView otherPhotonView = other.GetComponentInParent<PhotonView>();
+
+            if (otherPhotonView == null)
             {
+                Debug.LogWarning("PhotonView not found on " + other.gameObject.name); // 디버그 경고 로그 추가
+                return;
+            }
+
+            if (other.gameObject.layer == LayerMask.NameToLayer("Player") && !otherPhotonView.IsMine)
+            {
+                // 공격 중이며 충돌한 객체가 플레이어 레이어에 속하고 로컬 플레이어가 아닌 경우
+                Debug.Log("Collision detected with " + other.gameObject.name); // 디버그 로그 추가
                 Vector3 pushDirection = (other.transform.position - transform.position).normalized; // 밀리는 방향 계산
-                targetPhotonView.RPC("ApplyPushForce", RpcTarget.AllBuffered, pushDirection, pushForce); // 상대 플레이어를 밀리게 하는 RPC 호출
+                Vector3 targetPosition = other.transform.position + pushDirection * pushForce; // 밀린 후의 위치 계산
+                otherPhotonView.RPC("ApplyPushForce", RpcTarget.AllBuffered, pushDirection, pushForce, targetPosition); // 상대 플레이어를 밀리게 하는 RPC 호출
                 Debug.Log("때림");
             }
         }
     }
 
     [PunRPC]
-    public void ApplyPushForce(Vector3 pushDirection, float force)
+    public void ApplyPushForce(Vector3 pushDirection, float force, Vector3 targetPosition)
     {
         Rigidbody targetRigidbody = GetComponentInParent<Rigidbody>(); // Rigidbody 컴포넌트 가져오기
         if (targetRigidbody != null) // Rigidbody가 존재하는지 확인
         {
             targetRigidbody.AddForce(pushDirection * force, ForceMode.Impulse); // 힘을 가해 밀기
-            targetRigidbody.MovePosition(targetRigidbody.position);
+            transform.position = targetPosition; // 위치 업데이트
         }
     }
 }

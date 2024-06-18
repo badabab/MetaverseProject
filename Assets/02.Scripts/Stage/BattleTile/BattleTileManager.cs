@@ -16,7 +16,6 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
     private int _countEnd = 5;
     private bool _isGameOver = false;
     private bool _isStartCoroutine = false;
-    private bool _isNameUI = false;
 
     public GameState CurrentGameState = GameState.Ready;
     
@@ -44,11 +43,6 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
                 break;
 
             case GameState.Loading:
-                if (!_isNameUI)
-                {
-                    UI_BattleTile.Instance.RefreshUI();
-                    _isNameUI = true;
-                }
                 if (!_isStartCoroutine)
                 {
                     StartCoroutine(StartCountDown());

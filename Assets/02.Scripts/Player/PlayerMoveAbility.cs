@@ -220,8 +220,11 @@ public class PlayerMoveAbility : PlayerAbility
         rb.AddForce((Vector3.up * JumpPower) / 2f, ForceMode.Impulse);
         _animator.SetBool("Jump", true);
         //Instantiate(JumpVFX, transform.position, Quaternion.identity);
-        
-        PlayWalkVFX();
+
+        if (photonView.IsMine)
+        {
+            PlayWalkVFX();
+        }
         vfxTimer -= Time.deltaTime;
     }
 
@@ -265,20 +268,56 @@ public class PlayerMoveAbility : PlayerAbility
 
         if (vfxTimer <= 0)
         {
-            // 모든 VFX 오브젝트를 비활성화
-            for (int i = 0; i < walkVFX.Length; i++)
+            // 현재 활성화된 VFX 오브젝트를 비활성화
+            if (currentVFXIndex >= 0 && currentVFXIndex < walkVFX.Length)
             {
-                walkVFX[i].gameObject.SetActive(false);
+                walkVFX[currentVFXIndex].gameObject.SetActive(false);
             }
 
-            // 현재 VFX 오브젝트를 활성화
+            // 다음 VFX 오브젝트를 활성화
+            currentVFXIndex = (currentVFXIndex + 1) % walkVFX.Length;
             walkVFX[currentVFXIndex].gameObject.SetActive(true);
 
-            // currentVFXIndex를 다음으로 이동
-            currentVFXIndex = (currentVFXIndex + 1) % walkVFX.Length;
+            // VFX 활성화 이벤트 전송
+            photonView.RPC("ActivateVFX", RpcTarget.Others, currentVFXIndex);
 
-            vfxTimer = 1; // 타이머를 재설정
+            vfxTimer = 1; // 타이머 재설정
+        }
+        else
+        {
+            vfxTimer -= Time.deltaTime;
+        }
+    }
+
+    [PunRPC]
+    void ActivateVFX(int vfxIndex)
+    {
+        if (vfxIndex >= 0 && vfxIndex < walkVFX.Length)
+        {
+            // 모든 VFX 비활성화
+            foreach (var vfx in walkVFX)
+            {
+                vfx.gameObject.SetActive(false);
+            }
+
+            // 지정된 VFX 활성화
+            walkVFX[vfxIndex].gameObject.SetActive(true);
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            // 타이머와 인덱스를 전송
+            stream.SendNext(vfxTimer);
+            stream.SendNext(currentVFXIndex);
+        }
+        else
+        {
+            // 타이머와 인덱스를 수신
+            vfxTimer = (float)stream.ReceiveNext();
+            currentVFXIndex = (int)stream.ReceiveNext();
         }
     }
 }
-

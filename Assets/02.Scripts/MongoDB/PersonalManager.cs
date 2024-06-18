@@ -48,7 +48,7 @@ public class PersonalManager : MonoBehaviour
         _personalCollection.InsertOne(personal);
     }
 
-    public Personal Login(string name, string password)
+    public Personal Login(string name, string password) 
     {
         var filter = Builders<Personal>.Filter.Eq("Name", name) & Builders<Personal>.Filter.Eq("Password", password);
         return _personalCollection.Find(filter).FirstOrDefault();

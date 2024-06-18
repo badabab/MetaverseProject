@@ -45,10 +45,18 @@ public class UI_BattleTile : MonoBehaviourPunCallbacks
 
     private void Update()
     {     
-        P1_Score.text = $"{TileScore.Instance.Player1score}";
-        P2_Score.text = $"{TileScore.Instance.Player2score}";
-        P3_Score.text = $"{TileScore.Instance.Player3score}";
-        P4_Score.text = $"{TileScore.Instance.Player4score}";
+        if (BattleTileManager.Instance.CurrentGameState == GameState.Ready)
+        {
+            RefreshUI();
+        }
+
+        if (BattleTileManager.Instance.CurrentGameState == GameState.Go)
+        {
+            P1_Score.text = $"{TileScore.Instance.Player1score}";
+            P2_Score.text = $"{TileScore.Instance.Player2score}";
+            P3_Score.text = $"{TileScore.Instance.Player3score}";
+            P4_Score.text = $"{TileScore.Instance.Player4score}";
+        }      
 
         Timer.text = $"{(int)BattleTileManager.Instance.TimeRemaining}";
 

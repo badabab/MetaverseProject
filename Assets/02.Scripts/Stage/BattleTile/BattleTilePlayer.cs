@@ -1,14 +1,14 @@
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class BattleTilePlayer : MonoBehaviourPunCallbacks
 {
     public bool isReady = false;
     private CharacterController _characterController;
     public int MyNum;
     private TileScore _tileScore;
-
+    private bool _isFinished = false;
     private void Awake()
     {
         if (!photonView.IsMine) return;
@@ -68,5 +68,34 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
     private void UpdateReadyState(bool readyState)
     {
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "IsReady_BattleTile", readyState } });
+    }
+
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    {
+        string firstPlayerName = (string)PhotonNetwork.CurrentRoom.CustomProperties["FirstPlayerName"];
+        if (firstPlayerName != null)
+        {
+            BattleTileManager.Instance.SetGameState(GameState.Over);
+
+            if (!_isFinished)
+            {
+                Animator animator = GetComponent<Animator>();
+                if (firstPlayerName == photonView.Owner.NickName)
+                {
+                    UI_GameOver.Instance.CheckFirst();
+                    animator.SetBool("Win", true);
+                }
+                else
+                {
+                    UI_GameOver.Instance.CheckLast();
+                    animator.SetBool("Sad", true);
+                }
+                _isFinished = true;
+            }
+        }
+        else
+        {
+            return;
+        }
     }
 }

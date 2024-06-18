@@ -54,7 +54,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
         }
         isAttacking = false; // 공격 중 상태 해제
     }
-    [PunRPC]
+
     private void OnTriggerEnter(Collider other)
     {
         if (isAttacking && other.gameObject.layer == LayerMask.NameToLayer("Player") && !other.GetComponent<PhotonView>().IsMine)

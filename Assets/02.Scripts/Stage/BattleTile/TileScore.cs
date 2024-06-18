@@ -107,14 +107,6 @@ public class TileScore : MonoBehaviourPunCallbacks
         {
             string playerName = player.NickName;
 
-            if (playerName == winner)
-            {
-                UI_BattleTile.Instance.CheckWin();
-            }
-            else
-            {
-                UI_BattleTile.Instance.CheckLose();
-            }
             if (PhotonNetwork.IsMasterClient)
             {
                 Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", playerName } };

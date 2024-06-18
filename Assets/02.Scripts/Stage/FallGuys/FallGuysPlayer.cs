@@ -33,16 +33,6 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
         if (!photonView.IsMine) return;
         ReadyPlayer();
     }
-    private void FixedUpdate()
-    {
-        if (SceneManager.GetActiveScene().name == "FallGuysScene")
-        {
-            if (FallGuysManager.Instance._currentGameState == GameState.Over)
-            {
-                ShowResult();
-            }
-        }
-    }
 
     void ReadyPlayer()
     {
@@ -55,12 +45,13 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
             FallGuysManager.Instance.SetPlayerReadyVFX(_isReady, transform.position);
         }
     }
-
-    public void ShowResult()
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
         string firstPlayerName = (string)PhotonNetwork.CurrentRoom.CustomProperties["FirstPlayerName"];
         if (firstPlayerName != null)
         {
+            FallGuysManager.Instance.SetGameState(GameState.Over);
+
             if (!_isFinished)
             {
                 Animator animator = GetComponent<Animator>();
@@ -78,7 +69,9 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
             }
         }
         else
-        { return; }
+        {
+            return;
+        }
     }
 
     [PunRPC]

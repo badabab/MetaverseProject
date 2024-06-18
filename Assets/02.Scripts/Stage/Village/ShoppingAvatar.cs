@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -20,6 +21,8 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
     public GameObject ChangingName;
     public TMP_InputField InputFieldNameUI;
     private string _newName;
+
+
     private void Start()
     {
         ChangeAvatarButton.SetActive(false);

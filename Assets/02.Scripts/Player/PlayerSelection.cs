@@ -1,8 +1,4 @@
-using MongoDB.Driver;
-using System.Collections.ObjectModel;
-using TMPro;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 public class PlayerSelection : MonoBehaviour
 {

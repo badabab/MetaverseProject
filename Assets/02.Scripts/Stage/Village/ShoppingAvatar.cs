@@ -59,7 +59,7 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
                 PhotonNetwork.Destroy(currentAvatar);
             }
 
-            int randomIndex = Random.Range(0, Avatars.Count);
+            int randomIndex = UnityEngine.Random.Range(0, Avatars.Count);
             Vector3 spawnPosition = player.transform.position;
             Quaternion spawnRotation = player.transform.rotation;
 

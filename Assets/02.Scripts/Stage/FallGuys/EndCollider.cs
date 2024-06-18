@@ -43,9 +43,6 @@ public class EndCollider : MonoBehaviourPunCallbacks
                 {
                     // 자기 자신만 바꾸죠
                     FallGuysManager.Instance.SetGameState(GameState.Over);
-                    
-                    
-                    
                     isFirstPlayerDetected = true;
                     firstPlayerNickName = playerPhotonView.Owner.NickName;
                     Debug.Log($"{firstPlayerNickName} reached the end first!");

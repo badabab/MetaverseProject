@@ -34,6 +34,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
         }
     }
 
+    [PunRPC]
     void Attack()
     {
         animator.SetTrigger("Attack"); // 공격 애니메이션 실행
@@ -72,19 +73,21 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
                 // 공격 중이며 충돌한 객체가 플레이어 레이어에 속하고 로컬 플레이어가 아닌 경우
                 Debug.Log("Collision detected with " + other.gameObject.name); // 디버그 로그 추가
                 Vector3 pushDirection = (other.transform.position - transform.position).normalized; // 밀리는 방향 계산
-                otherPhotonView.RPC("ApplyPushForce", RpcTarget.AllBuffered, pushDirection, pushForce); // 상대 플레이어를 밀리게 하는 RPC 호출
+                Vector3 targetPosition = other.transform.position + pushDirection * pushForce; // 밀린 후의 위치 계산
+                otherPhotonView.RPC("ApplyPushForce", RpcTarget.AllBuffered, pushDirection, pushForce, targetPosition); // 상대 플레이어를 밀리게 하는 RPC 호출
                 Debug.Log("때림");
             }
         }
     }
 
     [PunRPC]
-    public void ApplyPushForce(Vector3 pushDirection, float force)
+    public void ApplyPushForce(Vector3 pushDirection, float force, Vector3 targetPosition)
     {
         Rigidbody targetRigidbody = GetComponentInParent<Rigidbody>(); // Rigidbody 컴포넌트 가져오기
         if (targetRigidbody != null) // Rigidbody가 존재하는지 확인
         {
             targetRigidbody.AddForce(pushDirection * force, ForceMode.Impulse); // 힘을 가해 밀기
+            transform.position = targetPosition; // 위치 업데이트
         }
     }
 }

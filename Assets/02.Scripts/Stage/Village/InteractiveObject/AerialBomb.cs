@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AerialBomb : MonoBehaviourPunCallbacks
 {
-    private PhotonView photonView; // PhotonView 변수 추가
+    private PhotonView photonView;
 
     public GameObject explosionEffectPrefab;
     public float BombFall = 8.5f;

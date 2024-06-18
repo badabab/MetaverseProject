@@ -74,20 +74,37 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
                 Debug.Log("Collision detected with " + other.gameObject.name); // 디버그 로그 추가
                 Vector3 pushDirection = (other.transform.position - transform.position).normalized; // 밀리는 방향 계산
                 Vector3 targetPosition = other.transform.position + pushDirection * pushForce; // 밀린 후의 위치 계산
-                otherPhotonView.RPC("ApplyPushForce", RpcTarget.AllBuffered, pushDirection, pushForce, targetPosition); // 상대 플레이어를 밀리게 하는 RPC 호출
+                otherPhotonView.RPC("ApplyPushForce", RpcTarget.AllBuffered, pushDirection, pushForce); // 상대 플레이어를 밀리게 하는 RPC 호출
                 Debug.Log("때림");
             }
         }
     }
 
     [PunRPC]
-    public void ApplyPushForce(Vector3 pushDirection, float force, Vector3 targetPosition)
+    public void ApplyPushForce(Vector3 pushDirection, float force)
+    {
+        StartCoroutine(ApplyPushForceCoroutine(pushDirection, force));
+    }
+
+    private IEnumerator ApplyPushForceCoroutine(Vector3 pushDirection, float force)
     {
         Rigidbody targetRigidbody = GetComponentInParent<Rigidbody>(); // Rigidbody 컴포넌트 가져오기
         if (targetRigidbody != null) // Rigidbody가 존재하는지 확인
         {
-            targetRigidbody.AddForce(pushDirection * force, ForceMode.Impulse); // 힘을 가해 밀기
-            transform.position = targetPosition; // 위치 업데이트
+            float duration = 0.5f; // 밀리는 지속 시간
+            float elapsedTime = 0f;
+
+            Vector3 initialPosition = transform.position;
+            Vector3 targetPosition = initialPosition + pushDirection * force;
+
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+                float t = elapsedTime / duration;
+
+                targetRigidbody.MovePosition(Vector3.Lerp(initialPosition, targetPosition, t)); // 부드럽게 이동
+                yield return null;
+            }
         }
     }
 }

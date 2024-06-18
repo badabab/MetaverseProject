@@ -25,7 +25,7 @@ public class AerialBomb : MonoBehaviourPunCallbacks
             photonView.RPC("Explode", RpcTarget.AllViaServer, explosionIndex);
             Explode(explosionIndex);
         }
-
+        Destroy(this.gameObject);
         PhotonNetwork.Destroy(this.gameObject);
     }
 
@@ -40,6 +40,7 @@ public class AerialBomb : MonoBehaviourPunCallbacks
 
         if (photonView.IsMine)
         {
+            Destroy(this.gameObject);
             PhotonNetwork.Destroy(this.gameObject);
         }
     }

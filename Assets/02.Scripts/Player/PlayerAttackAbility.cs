@@ -77,6 +77,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
         if (targetRigidbody != null) // Rigidbody가 존재하는지 확인
         {
             targetRigidbody.AddForce(pushDirection * force, ForceMode.Impulse); // 힘을 가해 밀기
+            targetRigidbody.MovePosition(targetRigidbody.position);
         }
     }
 }

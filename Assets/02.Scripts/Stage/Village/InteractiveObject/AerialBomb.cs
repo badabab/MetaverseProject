@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AerialBomb : MonoBehaviourPunCallbacks
 {
+    private PhotonView photonView; // PhotonView 변수 추가
+
     public GameObject explosionEffectPrefab;
     public float BombFall = 8.5f;
     public float BombTime = 6f;
@@ -12,6 +14,8 @@ public class AerialBomb : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        photonView = GetComponent<PhotonView>();
+
         StartCoroutine(DropBomb());
     }
 
@@ -23,8 +27,9 @@ public class AerialBomb : MonoBehaviourPunCallbacks
         {
             int explosionIndex = GetUniqueExplosionIndex();
             photonView.RPC("Explode", RpcTarget.AllViaServer, explosionIndex);
-            Explode(explosionIndex);
+            Explode(explosionIndex); 
         }
+
         Destroy(this.gameObject);
         PhotonNetwork.Destroy(this.gameObject);
     }

@@ -2283,8 +2283,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.0012014521
-  m_Center: {x: -4.3189866e-10, y: 0.00048239628, z: 0.00015439537}
+  m_Radius: 0.00229698
+  m_Center: {x: -0.000009402909, y: 0.0007, z: 0.00016619111}
 --- !u!1 &7672493320378169733
 GameObject:
   m_ObjectHideFlags: 0
@@ -2772,7 +2772,7 @@ MonoBehaviour:
   isGrounded: 0
   LayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   groundDistance: 0.4
   LayerPoint: {fileID: 2256958790120204020}
   CameraRoot: {fileID: 6725541871435156712}
@@ -2788,8 +2788,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f4ac00201e2ad4ebef13d0406a027e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hand: {fileID: 0}
-  animator: {fileID: 0}
+  hand: {fileID: 3048790080952294702}
+  animator: {fileID: 8171539650239019205}
   grabDistance: 2
   GrabbingTimer: 4
 --- !u!114 &6703264293214351524
@@ -2859,37 +2859,37 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: Move
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Run
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: RunJump
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Jump
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Walk
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Win
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Sad
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: isGrabbing
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Attack
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
   - SynchronizeType: 1
     LayerIndex: 1
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 2
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 3
   - SynchronizeType: 0
     LayerIndex: 4
@@ -3176,7 +3176,7 @@ MonoBehaviour:
   pushForce: 5
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   animator: {fileID: 0}
 --- !u!114 &2506077322682412178
 MonoBehaviour:

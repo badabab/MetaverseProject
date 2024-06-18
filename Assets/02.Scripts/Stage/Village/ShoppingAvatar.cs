@@ -22,7 +22,6 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
     private string _newName;
     private void Start()
     {
-        //PopUpText.gameObject.SetActive(false);
         ChangeAvatarButton.SetActive(false);
       //  ChangeAvatarButton.GetComponent<Button>().onClick.AddListener(OnClickChanging);
     }

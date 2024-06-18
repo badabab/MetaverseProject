@@ -2,7 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using UnityEngine;
 
-public class AerialBomb : MonoBehaviourPunCallbacks, IPunObservable
+public class AerialBomb : MonoBehaviourPunCallbacks
 {
     public GameObject explosionEffectPrefab; 
     public float BombFall = 8.5f; 
@@ -40,10 +40,5 @@ public class AerialBomb : MonoBehaviourPunCallbacks, IPunObservable
         {
             PhotonNetwork.Destroy(this.gameObject);
         }
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-
     }
 }

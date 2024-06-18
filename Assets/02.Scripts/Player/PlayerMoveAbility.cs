@@ -43,6 +43,7 @@ public class PlayerMoveAbility : PlayerAbility
     //public ParticleSystem JumpVFX;
     private ParticleSystem[] walkVFX; // Walk VFX 배열
     private int currentVFXIndex = 0; // 현재 재생 중인 Walk VFX 인덱스
+    private float vfxTimer = 0;
 
     private bool _isFallGuysScene = false; // 폴가이즈 씬인지 확인
     private bool _isTowerClimbScene = false;
@@ -71,6 +72,10 @@ public class PlayerMoveAbility : PlayerAbility
 
         ParticleSystem[] allParticleSystems = GetComponentsInChildren<ParticleSystem>();
         walkVFX = System.Array.FindAll(allParticleSystems, ps => ps.gameObject.name.StartsWith("Walk"));
+        for (int i = 0; i < walkVFX.Length; i++)
+        {
+            walkVFX[i].gameObject.SetActive(false);
+        }
     }
 
     // 키 입력과 이동방향 계산
@@ -92,6 +97,11 @@ public class PlayerMoveAbility : PlayerAbility
         if (JumpCount >= MaxJumpCount)
         {
             JumpCount = MaxJumpCount;
+        }
+
+        if (this.isGrounded)
+        {
+            vfxTimer = 0;
         }
     }
 
@@ -210,7 +220,9 @@ public class PlayerMoveAbility : PlayerAbility
         rb.AddForce((Vector3.up * JumpPower) / 2f, ForceMode.Impulse);
         _animator.SetBool("Jump", true);
         //Instantiate(JumpVFX, transform.position, Quaternion.identity);
-        //PlayWalkVFX();
+        
+        PlayWalkVFX();
+        vfxTimer -= Time.deltaTime;
     }
 
     // 점프 동작 구현
@@ -251,14 +263,22 @@ public class PlayerMoveAbility : PlayerAbility
     {
         if (walkVFX.Length == 0) return;
 
-        // 현재 VFX 오브젝트를 활성화
-        if (!walkVFX[currentVFXIndex].gameObject.activeSelf)
+        if (vfxTimer <= 0)
         {
-            walkVFX[currentVFXIndex].gameObject.SetActive(true);
-        }
+            // 모든 VFX 오브젝트를 비활성화
+            for (int i = 0; i < walkVFX.Length; i++)
+            {
+                walkVFX[i].gameObject.SetActive(false);
+            }
 
-        // currentVFXIndex를 다음으로 이동
-        currentVFXIndex = (currentVFXIndex + 1) % walkVFX.Length;
+            // 현재 VFX 오브젝트를 활성화
+            walkVFX[currentVFXIndex].gameObject.SetActive(true);
+
+            // currentVFXIndex를 다음으로 이동
+            currentVFXIndex = (currentVFXIndex + 1) % walkVFX.Length;
+
+            vfxTimer = 1; // 타이머를 재설정
+        }
     }
 }
 

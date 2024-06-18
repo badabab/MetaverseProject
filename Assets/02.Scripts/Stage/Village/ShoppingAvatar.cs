@@ -24,7 +24,7 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
     {
         //PopUpText.gameObject.SetActive(false);
         ChangeAvatarButton.SetActive(false);
-      //  ChangeAvatarButton.GetComponent<Button>().onClick.AddListener(OnClickChanging);
+        //  ChangeAvatarButton.GetComponent<Button>().onClick.AddListener(OnClickChanging);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -88,7 +88,7 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
             Debug.Log("돈 없음");
         }
     }
-    public void OnClickGetNewNickName() 
+    public void OnClickGetNewNickName()
     {
         InputFieldNameUI.text = _newName;
         PersonalManager.Instance.ChangingNickName(_newName);

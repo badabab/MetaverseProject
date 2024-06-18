@@ -4,43 +4,50 @@ using UnityEngine;
 
 public class Fire : MonoBehaviour
 {
-    public GameObject FuseFire;
-    public List<GameObject> CannonFire;
-    public List<GameObject> ShipFire;
+    [SerializeField] private GameObject fuseFire;
+    [SerializeField] private List<GameObject> cannonFire;
+    [SerializeField] private List<GameObject> shipFire;
+
     private bool isFireActive = false;
-    private float FuseFireTime = 0.5f;
+    private const float fuseFireTime = 0.5f;
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && !isFireActive)
         {
-            StartCoroutine(ActivateFuseFireForSeconds(FuseFireTime));
-            RestartCannonFire(); // CannonFire 재시작 함수 호출
+            StartCoroutine(ActivateFuseFireForSeconds(fuseFireTime));
+            RestartCannonFire();
         }
     }
 
     IEnumerator ActivateFuseFireForSeconds(float seconds)
     {
         isFireActive = true;
-        FuseFire.SetActive(true);
+        if (fuseFire != null)
+        {
+            fuseFire.SetActive(true);
 
-        yield return new WaitForSeconds(seconds);
+            yield return new WaitForSeconds(seconds);
 
-        FuseFire.SetActive(false);
+            fuseFire.SetActive(false);
+        }
         isFireActive = false;
     }
 
     void RestartCannonFire()
     {
-        if (CannonFire != null)
+        if (cannonFire != null)
         {
-            foreach (GameObject cannon in CannonFire)
+            foreach (GameObject cannon in cannonFire)
             {
-                cannon.SetActive(true);
-                ParticleSystem particleSystem = cannon.GetComponentInChildren<ParticleSystem>();
-                if (particleSystem != null)
+                if (cannon != null)
                 {
-                    particleSystem.Play();
+                    cannon.SetActive(true);
+                    ParticleSystem particleSystem = cannon.GetComponentInChildren<ParticleSystem>();
+                    if (particleSystem != null)
+                    {
+                        particleSystem.Play();
+                    }
                 }
             }
         }

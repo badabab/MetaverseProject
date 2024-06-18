@@ -13,18 +13,6 @@ public class PlayerCanvasAbility : PlayerAbility
     {
         // 커스텀프로퍼티 없이 사용할 수 있는 코드
         SetNickname(_owner.photonView.Owner.NickName);
-
-
-        return;
-
-        /*if (_owner.photonView.IsMine) // 사용하지 않는 코드
-        {
-            SetNickname(PhotonNetwork.LocalPlayer.NickName);
-        }
-        else
-        {
-            SetNickname(_owner.photonView.Owner.NickName);
-        }*/
     }
 
     private void Update()

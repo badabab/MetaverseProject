@@ -1,5 +1,6 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Photon.Pun;
 using Photon.Voice.PUN;
 using System.Collections.Generic;
 using UnityEngine;
@@ -71,6 +72,7 @@ public class PersonalManager : MonoBehaviour
         if (result.ModifiedCount > 0)
         {
             _cachedUserName = newName; // Update cache
+            PhotonNetwork.NickName = newName;
             return true;
         }
         return false;

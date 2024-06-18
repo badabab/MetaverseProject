@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class AerialBomb : MonoBehaviourPunCallbacks
 {
-    public GameObject explosionEffectPrefab; 
-    public float BombFall = 8.5f; 
-    public float BombTime = 6f; 
+    public GameObject explosionEffectPrefab;
+    public float BombFall = 8.5f;
+    public float BombTime = 6f;
 
-    private bool hasExploded = false; 
+    private bool hasExploded = false;
 
     void Start()
     {
@@ -21,14 +21,16 @@ public class AerialBomb : MonoBehaviourPunCallbacks
 
         if (!hasExploded)
         {
-            photonView.RPC("Explode", RpcTarget.AllViaServer);
-            Explode();
+            int explosionIndex = GetUniqueExplosionIndex();
+            photonView.RPC("Explode", RpcTarget.AllViaServer, explosionIndex);
+            Explode(explosionIndex);
         }
+
         PhotonNetwork.Destroy(this.gameObject);
     }
 
     [PunRPC]
-    void Explode()
+    void Explode(int explosionIndex)
     {
         GameObject explosion = Instantiate(explosionEffectPrefab, transform.position, transform.rotation);
 
@@ -40,5 +42,10 @@ public class AerialBomb : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.Destroy(this.gameObject);
         }
+    }
+
+    int GetUniqueExplosionIndex()
+    {
+        return Random.Range(1000, 9999);
     }
 }

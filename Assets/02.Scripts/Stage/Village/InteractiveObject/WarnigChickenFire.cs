@@ -6,10 +6,12 @@ using UnityEngine;
 
 public class WarnigChickenFire : MonoBehaviour
 {
+    public PhotonView PhotonView { get; private set; }
+
     public TMP_Text Warnig;
     public List<GameObject> MissileFire; // 미사일 발사 위치들
     public List<GameObject> Missiles; // 미사일 오브젝트 리스트
-
+    private float MissilesAngle = 180f;
     private int collisionCount = 0;
 
     private void OnTriggerEnter(Collider other)
@@ -69,7 +71,7 @@ public class WarnigChickenFire : MonoBehaviour
             foreach (GameObject firePosition in MissileFire)
             {
                 int randomMissileIndex = Random.Range(0, Missiles.Count);
-                Instantiate(Missiles[randomMissileIndex], firePosition.transform.position, Quaternion.identity);
+                Instantiate(Missiles[randomMissileIndex], firePosition.transform.position, Quaternion.Euler(0, 0, MissilesAngle));
             }
         }
 

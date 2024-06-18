@@ -1,9 +1,12 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Fire : MonoBehaviour
 {
+    public PhotonView PhotonView { get; private set; }
+
     [SerializeField] private GameObject fuseFire;
     [SerializeField] private List<GameObject> cannonFire;
     [SerializeField] private List<GameObject> shipFire;

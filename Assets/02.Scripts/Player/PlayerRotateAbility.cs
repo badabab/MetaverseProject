@@ -82,15 +82,15 @@ public class PlayerRotateAbility : PlayerAbility
         _mx += mouseX * RotationSpeed * Time.deltaTime;
         _my += mouseY * RotationSpeed * Time.deltaTime;
 
-        _my = Mathf.Clamp(_my, -50f, 25f);
+        _my = Mathf.Clamp(_my, -70f, 30f);
 
         transform.eulerAngles = new Vector3(0, _mx, 0);
         CameraRoot.localEulerAngles = new Vector3(-_my, 0, 0);
 
         // Calculate the Y position based on the X rotation
-        float yPos = Mathf.Lerp(0f, 1.65f, Mathf.InverseLerp(-50f, 25f, -_my));
+        float yPos = Mathf.Lerp(0f, 1.65f, Mathf.InverseLerp(-70f, 30f, -_my));
         // Calculate the Z position based on the X rotation from 0 to 50
-        float zPos = Mathf.Lerp(0f, 4f, Mathf.InverseLerp(0f, 50f, -_my));
+        float zPos = Mathf.Lerp(0f, 5f, Mathf.InverseLerp(0f, 70f, -_my));
 
         Vector3 cameraRootPosition = CameraRoot.localPosition;
         cameraRootPosition.y = yPos;

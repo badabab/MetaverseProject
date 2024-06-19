@@ -11,12 +11,12 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
     private bool _isFinished = false;
     private void Awake()
     {
-        if (!photonView.IsMine) return;
         if (SceneManager.GetActiveScene().name != "BattleTileScene")
         {
             this.enabled = false;
             return;
         }
+        if (!photonView.IsMine) return;      
     }
 
     private void Start()

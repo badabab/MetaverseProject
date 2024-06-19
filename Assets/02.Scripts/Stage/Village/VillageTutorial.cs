@@ -22,8 +22,13 @@ public class VillageTutorial : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
+            if (isLeavingRoom)
+            {
+                return;
+            }
+
             LoadVillageScene();
         }
     }
@@ -36,6 +41,11 @@ public class VillageTutorial : MonoBehaviourPunCallbacks
 
     private void OnPlayableDirectorStopped(PlayableDirector aDirector)
     {
+        if(isLeavingRoom)
+        {
+            return;
+        }
+
         if (TimelineMaker == aDirector)
         {
             LoadVillageScene(); // 타임라인이 끝나면 빌리지 씬으로 이동
@@ -44,14 +54,29 @@ public class VillageTutorial : MonoBehaviourPunCallbacks
 
     private void LoadVillageScene()
     {
-        if (!isLeavingRoom)
+
+        isLeavingRoom = true;
+
+        RoomOptions roomOptions = new RoomOptions
+        {
+            MaxPlayers = 20,
+            IsVisible = true,
+            IsOpen = true,
+            EmptyRoomTtl = 1000 * 20,
+        };
+
+        PhotonNetwork.LoadLevel("LoadingScene");
+        PhotonNetwork.JoinOrCreateRoom(RoomID, roomOptions, TypedLobby.Default);
+        Debug.Log($"{RoomID}");
+
+      /*  if (!isLeavingRoom)
         {
             Debug.Log($"방 입장 성공! : ({PhotonNetwork.CurrentRoom.Name})");
             PhotonNetwork.IsMessageQueueRunning = false; // 메시지 큐 일시 정지
             PhotonNetwork.LoadLevel("VillageScene"); // PhotonNetwork를 통해 씬 로드
             PhotonNetwork.IsMessageQueueRunning = true; // 메시지 큐 재개
             isLeavingRoom = true;
-        }
+        }*/
 
     }
 }

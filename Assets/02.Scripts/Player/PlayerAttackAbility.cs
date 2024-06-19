@@ -8,12 +8,13 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
     private float pushForce = 2f; // 밀리는 힘의 크기
     public LayerMask playerLayer; // 플레이어 레이어
     public Animator animator; // 애니메이터 컴포넌트
-
+    PlayerMoveAbility playerMoveAbility;
     private Collider punchCollider; // 주먹 콜라이더
     private bool isAttacking = false; // 공격 중인지 여부
 
     void Start()
     {
+        playerMoveAbility = GetComponent<PlayerMoveAbility>();
         animator = GetComponent<Animator>(); // Animator 컴포넌트 가져오기
         punchCollider = GetComponentInChildren<Collider>(); // 주먹에 있는 BoxCollider 가져오기
         if (punchCollider != null && punchCollider.CompareTag("Hand")) // 주먹 콜라이더가 존재하며 Hand 태그가 있는지 확인

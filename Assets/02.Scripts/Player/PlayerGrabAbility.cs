@@ -30,7 +30,7 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
         {
             TryGrab();
             animator.SetBool("Grab", true);
-            photonAnimatorView.SetParameterSynchronized("Grab", PhotonAnimatorView.ParameterType.Bool); // 동기화 설정
+            photonAnimatorView.SetParameterSynchronized("Grab", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete); // 동기화 설정
         }
 
         if (Grabed)
@@ -91,7 +91,7 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
         {
             grabbedObject = targetPhotonView.gameObject;
             animator.SetBool("isGrabbing", true);
-            photonAnimatorView.SetParameterSynchronized("isGrabbing", PhotonAnimatorView.ParameterType.Bool); // 동기화 설정
+            photonAnimatorView.SetParameterSynchronized("isGrabbing", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete); // 동기화 설정
             Grabed = true;
             GrabTime = 0f;
 

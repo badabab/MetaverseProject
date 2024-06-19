@@ -25,23 +25,23 @@ public class UI_BattleTile : MonoBehaviourPunCallbacks
     public GameObject NotReady;
     public GameObject Ready;
 
-    public GameObject GameEndUI;
+    /*public GameObject GameEndUI;
     public Image Gameover;
     public Image Lose;
-    public Image Win;
+    public Image Win;*/
 
     private void Awake()
     {
         Instance = this;
     }
 
-    private void Start()
+    /*private void Start()
     {
         GameEndUI.SetActive(false);
         Gameover.gameObject.SetActive(true);
         Lose.gameObject.SetActive(false);
         Win.gameObject.SetActive(false);
-    }
+    }*/
 
     private void Update()
     {     
@@ -89,26 +89,29 @@ public class UI_BattleTile : MonoBehaviourPunCallbacks
     {
         foreach (var player in PhotonNetwork.PlayerList)
         {
-            int playerNumber = (int)player.CustomProperties["PlayerNumber"];
-            switch (playerNumber)
+            if (player.CustomProperties["PlayerNumber"] != null)
             {
-                case 1:
-                    P1_name.text = player.NickName;
-                    break;
-                case 2:
-                    P2_name.text = player.NickName;
-                    break;
-                case 3:
-                    P3_name.text = player.NickName;
-                    break;
-                case 4:
-                    P4_name.text = player.NickName;
-                    break;
-            }
+                int playerNumber = (int)player.CustomProperties["PlayerNumber"];
+                switch (playerNumber)
+                {
+                    case 1:
+                        P1_name.text = player.NickName;
+                        break;
+                    case 2:
+                        P2_name.text = player.NickName;
+                        break;
+                    case 3:
+                        P3_name.text = player.NickName;
+                        break;
+                    case 4:
+                        P4_name.text = player.NickName;
+                        break;
+                }
+            }           
         }
     }
 
-    public void CheckWin()
+    /*public void CheckWin()
     {
         StartCoroutine(ShowPopup_Coroutine(Win));
     }
@@ -126,5 +129,5 @@ public class UI_BattleTile : MonoBehaviourPunCallbacks
 
         yield return new WaitForSeconds(3);
         GameEndUI.SetActive(false);
-    }
+    }*/
 }

@@ -75,23 +75,24 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
         string firstPlayerName = (string)PhotonNetwork.CurrentRoom.CustomProperties["FirstPlayerName"];
         if (firstPlayerName != null)
         {
-            BattleTileManager.Instance.SetGameState(GameState.Over);
-
-            if (!_isFinished)
+            if (BattleTileManager.Instance.CurrentGameState == GameState.Over)
             {
-                Animator animator = GetComponent<Animator>();
-                if (firstPlayerName == photonView.Owner.NickName)
+                if (!_isFinished)
                 {
-                    UI_GameOver.Instance.CheckFirst();
-                    animator.SetBool("Win", true);
+                    Animator animator = GetComponent<Animator>();
+                    if (firstPlayerName == photonView.Owner.NickName)
+                    {
+                        UI_GameOver.Instance.CheckFirst();
+                        animator.SetBool("Win", true);
+                    }
+                    else
+                    {
+                        UI_GameOver.Instance.CheckLast();
+                        animator.SetBool("Sad", true);
+                    }
+                    _isFinished = true;
                 }
-                else
-                {
-                    UI_GameOver.Instance.CheckLast();
-                    animator.SetBool("Sad", true);
-                }
-                _isFinished = true;
-            }
+            }          
         }
         else
         {

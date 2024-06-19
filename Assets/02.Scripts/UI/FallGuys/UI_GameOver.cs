@@ -17,10 +17,12 @@ public class UI_GameOver : MonoBehaviourPunCallbacks
     private void Awake()
     {
         Instance = this;
-        GameoverUI.gameObject.SetActive(false);
-        ResultUI.gameObject.SetActive(false);
+        GameoverUI.SetActive(false);
+        ResultUI.SetActive(false);
+        Win.SetActive(false);
+        Lose.SetActive(false);
     }
-    private void Update()
+    /*private void Update()
     {
         if (FallGuysManager.Instance._currentGameState == GameState.Over)
         {
@@ -29,10 +31,11 @@ public class UI_GameOver : MonoBehaviourPunCallbacks
                 StartCoroutine(ShowPopUp(GameoverUI));
             }
         }
-    }
+    }*/
     public void CheckFirst()
     {
-        ResultUI.gameObject.SetActive(true);
+        GameoverUI.SetActive(true);
+        ResultUI.SetActive(true);
         if (!_isOnce) 
         {
             Debug.Log("이겼다!");
@@ -42,7 +45,8 @@ public class UI_GameOver : MonoBehaviourPunCallbacks
     }
     public void CheckLast()
     {
-        ResultUI.gameObject.SetActive(true);
+        GameoverUI.SetActive(true);
+        ResultUI.SetActive(true);
         if (!_isOnce)
         {
             Debug.Log("졌다~");
@@ -53,13 +57,15 @@ public class UI_GameOver : MonoBehaviourPunCallbacks
     
     public IEnumerator ShowPopUp(GameObject gameObject)
     {
-        _isOnce = true;
+        //_isOnce = true;
+        ResultUI.SetActive(true);
+        yield return new WaitForSeconds(2);
+        
+        ResultUI.SetActive(false);
         gameObject.SetActive(true);
-        while (_showTime > 0)
-        {
-            yield return new WaitForSeconds(1);
-            _showTime--;
-        }
-        gameObject.SetActive(false);
+        yield return new WaitForSeconds(_showTime);
+        
+        //gameObject.SetActive(false);
+        GameoverUI.SetActive(false);
     }
 }

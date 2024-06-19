@@ -74,12 +74,12 @@ public class UI_GameManager : MonoBehaviour
         GM_UI.SetActive(false);
         UnityEngine.Cursor.visible = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-        GameManager.Instance.BackToVillage();
-/*        if (SceneManager.GetActiveScene().name != "Village")
+        //GameManager.Instance.BackToVillage();
+        if (SceneManager.GetActiveScene().name != "Village")
         {
             PhotonManager.Instance.LeaveAndLoadRoom("Village");
             PhotonNetwork.LeaveRoom();
-        }*/
+        }
     }
 
     public void OnClickGameQuitButton()

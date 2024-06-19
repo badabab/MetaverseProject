@@ -83,8 +83,11 @@ public class PersonalManager : MonoBehaviour
             _cachedUserName = newName; // Update cache
             PlayerPrefs.SetString("LoggedInId", newName);
             PlayerPrefs.Save();
-            Hashtable customProperties = new Hashtable { { "Nickname", newName} };
-            PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
+            if (PhotonNetwork.LocalPlayer.IsLocal)
+            {
+                Hashtable customProperties = new Hashtable { { "Nickname", newName } };
+                PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
+            }
             PhotonNetwork.NickName = newName;
             Debug.Log($"Updated NickName to: {PhotonNetwork.NickName}");
             return true;

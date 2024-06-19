@@ -10,9 +10,9 @@ public class PlayerCanvasAbility : PlayerAbility
     public Canvas PlayerCanvas;
     public TextMeshProUGUI NicknameTextUI;
 
-    public static PlayerCanvasAbility Instance;
+    //public static PlayerCanvasAbility Instance;
 
-    protected override void Awake()
+/*    protected override void Awake()
     {
         base.Awake();
 
@@ -25,7 +25,7 @@ public class PlayerCanvasAbility : PlayerAbility
         {
             Destroy(gameObject);
         }
-    }
+    }*/
     private void Start()
     {
         // 커스텀프로퍼티 없이 사용할 수 있는 코드
@@ -47,8 +47,7 @@ public class PlayerCanvasAbility : PlayerAbility
     {
         if (changedProps.ContainsKey("Nickname") && targetPlayer == _owner.photonView.Owner)
         {
-            //SetNickname((string)changedProps["Nickname"]);
+            SetNickname((string)changedProps["Nickname"]);
         }
     }
-
 }

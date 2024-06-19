@@ -24,7 +24,7 @@ public class PlayerMoveAbility : PlayerAbility
     public LayerMask LayerMask;	// 레이어마스크 설정
     public float groundDistance = 0.4f;		// Ray를 쏴서 검사하는 거리
 
-    private bool _isRunning;
+    public bool _isRunning;
 
     private bool _isJumping;
     private bool _isRunningJumping;

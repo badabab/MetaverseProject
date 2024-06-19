@@ -25,23 +25,23 @@ public class UI_BattleTile : MonoBehaviourPunCallbacks
     public GameObject NotReady;
     public GameObject Ready;
 
-    /*public GameObject GameEndUI;
-    public Image Gameover;
-    public Image Lose;
-    public Image Win;*/
+    public GameObject P1_UI;
+    public GameObject P2_UI;
+    public GameObject P3_UI;
+    public GameObject P4_UI;
 
     private void Awake()
     {
         Instance = this;
     }
 
-    /*private void Start()
+    private void Start()
     {
-        GameEndUI.SetActive(false);
-        Gameover.gameObject.SetActive(true);
-        Lose.gameObject.SetActive(false);
-        Win.gameObject.SetActive(false);
-    }*/
+        P1_UI.SetActive(false);
+        P2_UI.SetActive(false);
+        P3_UI.SetActive(false);
+        P4_UI.SetActive(false);
+    }
 
     private void Update()
     {     
@@ -95,39 +95,23 @@ public class UI_BattleTile : MonoBehaviourPunCallbacks
                 switch (playerNumber)
                 {
                     case 1:
+                        P1_UI.SetActive(true);
                         P1_name.text = player.NickName;
                         break;
                     case 2:
+                        P2_UI.SetActive(true);
                         P2_name.text = player.NickName;
                         break;
                     case 3:
+                        P3_UI.SetActive(true);
                         P3_name.text = player.NickName;
                         break;
                     case 4:
+                        P4_UI.SetActive(true);
                         P4_name.text = player.NickName;
                         break;
                 }
             }           
         }
     }
-
-    /*public void CheckWin()
-    {
-        StartCoroutine(ShowPopup_Coroutine(Win));
-    }
-    public void CheckLose()
-    {
-        StartCoroutine(ShowPopup_Coroutine(Lose));
-    }
-
-    public IEnumerator ShowPopup_Coroutine (Image image)
-    {
-        GameEndUI.SetActive(true);
-        yield return new WaitForSeconds(2);
-        Gameover.gameObject.SetActive(false);
-        image.gameObject.SetActive(true);
-
-        yield return new WaitForSeconds(3);
-        GameEndUI.SetActive(false);
-    }*/
 }

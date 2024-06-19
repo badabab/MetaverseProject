@@ -8,12 +8,20 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class GameOverBall : MonoBehaviourPunCallbacks
 {
-    public GameObject GameOverUI;
-    public GameObject GameOver_textUI;
+    public GameObject GameEndUI;
+    public Image GameOver;
+    public Image Victory;
 
     private bool playerCollided = false;
 
     private string _firstPlayer;
+
+    private void Start()
+    {
+        GameEndUI.SetActive(false);
+        GameOver.gameObject.SetActive(false);
+        Victory.gameObject.SetActive(false);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -42,10 +50,15 @@ public class GameOverBall : MonoBehaviourPunCallbacks
 
     private IEnumerator GameOverSequence(GameObject Player)
     {
-        GameOverUI.SetActive(true);
+        GameEndUI.SetActive(true);
+        GameOver.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(2f);
-        GameOver_textUI.SetActive(false);
+
+        GameOver.gameObject.SetActive(false);
+        Victory.gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(3f);
+        GameEndUI.SetActive(false);
+
         PhotonView photonView = Player.GetComponent<PhotonView>();
         Animator animator = photonView.GetComponent<Animator>();
         if (photonView != null)

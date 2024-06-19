@@ -26,13 +26,19 @@ public class GameOverBall : MonoBehaviourPunCallbacks
     private void OnTriggerEnter(Collider other)
     {
         PhotonView playerPhotonView = other.GetComponentInParent<PhotonView>();
-        firstPlayerNickName = playerPhotonView.Owner.NickName;
-        PersonalManager.Instance.CoinUpdate(photonView.Owner.NickName, 100);
-        if (PhotonNetwork.IsMasterClient)
+        if (other.CompareTag("Player") && playerPhotonView.IsMine)
         {
-            Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", firstPlayerNickName } };
-            PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
+            firstPlayerNickName = playerPhotonView.Owner.NickName;
+            Debug.Log($"{firstPlayerNickName} reached the end first!");
+            PersonalManager.Instance.CoinUpdate(photonView.Owner.NickName, 100);
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", firstPlayerNickName } };
+                PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
+            }
         }
+      
         if (other.CompareTag("Player"))
         {
             if (!playerCollided)

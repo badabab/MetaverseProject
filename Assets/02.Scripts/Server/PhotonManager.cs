@@ -98,6 +98,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
         switch(PhotonNetwork.CurrentRoom.Name)
         {
+            case "VillageTutorial":
+                PhotonNetwork.LoadLevel("VillageSceneTutorials");
+                break;
             case "Village":
                 PhotonNetwork.LoadLevel("VillageScene");
                 break;

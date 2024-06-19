@@ -1,19 +1,16 @@
-using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class UI_Information : MonoBehaviourPunCallbacks
+public class UI_Information : PlayerAbility
 {
-    public TMP_Text Nickname;
+    public TextMeshProUGUI Nickname;
     public Image X;
     public Image Y;
 
     void Start()
     {
-        SetNickname();
+        SetNickname(_owner.photonView.Owner.NickName);
         SetXY();
     }
 
@@ -32,9 +29,19 @@ public class UI_Information : MonoBehaviourPunCallbacks
         }
     }
 
-    public void SetNickname()
+    public void SetNickname(string nickname)
     {
-        string nickname = PlayerPrefs.GetString("LoggedInId");
         Nickname.text = nickname;
+    }
+    public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, Hashtable changedProps)
+    {
+        if (changedProps.ContainsKey("Nickname") && targetPlayer == _owner.photonView.Owner)
+        {
+            SetNickname((string)changedProps["Nickname"]);
+        }
+        if (changedProps.ContainsKey("CharacterIndex"))
+        {
+            SetXY();
+        }
     }
 }

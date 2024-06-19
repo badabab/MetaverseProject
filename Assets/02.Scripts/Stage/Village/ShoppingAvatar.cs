@@ -8,24 +8,26 @@ using UnityEngine.UI;
 
 public class ShoppingAvatar : MonoBehaviourPunCallbacks
 {
-    //public TextMeshProUGUI PopUpText;
     public SphereCollider SphereCollider;
     public GameObject ChangeAvatarButton;
+    public GameObject ChoicePopup;
     public List<GameObject> Avatars; // 아바타 프리팹 리스트
     private GameObject currentAvatar;
     private GameObject player;
     private int Coin100 = 100;
-    //private int Coin150 = 150;
-    private int Coin200 = 200;
+    private int Coin300 = 300;
 
     public GameObject ChangingName;
     public TMP_InputField InputFieldNameUI;
     private string _newName;
 
+    public GameObject NoCoinAtAll;
 
     private void Start()
     {
         ChangeAvatarButton.SetActive(false);
+        NoCoinAtAll.SetActive(false);
+        ChangingName.SetActive(false);
         //  ChangeAvatarButton.GetComponent<Button>().onClick.AddListener(OnClickChanging);
     }
 
@@ -34,8 +36,9 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
         if (other.CompareTag("Player") && other.GetComponentInParent<PhotonView>().IsMine)
         {
             player = other.gameObject;
-            //PopUpText.gameObject.SetActive(true);
             ChangeAvatarButton.SetActive(true);
+            UnityEngine.Cursor.visible = true;
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
         }
     }
 
@@ -43,13 +46,14 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
     {
         if (other.CompareTag("Player") && other.GetComponentInParent<PhotonView>().IsMine)
         {
-            //PopUpText.gameObject.SetActive(false);
             ChangeAvatarButton.SetActive(false);
+            UnityEngine.Cursor.visible = false;
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             player = null;
         }
     }
 
-    public void OnClickChanging()
+    public void OnClickChangingAvatars()
     {
         int coins = PersonalManager.Instance.CheckCoins();
         if (player != null && coins > Coin100)
@@ -71,31 +75,60 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
             // 기존 플레이어 오브젝트를 제거
             PhotonNetwork.Destroy(player);
 
-            // UI 숨김
-            //PopUpText.gameObject.SetActive(false);
             ChangeAvatarButton.SetActive(false);
-        }
-    }
-
-    public void OnClickName()
-    {
-        int coins = PersonalManager.Instance.CheckCoins();
-
-        if (player != null & coins > Coin200)
-        {
-            ChangingName.gameObject.SetActive(true);
         }
         else
         {
+            NoCoinAtAll.SetActive(true);
+        }
+    }
+
+    public void OnClickNamePopup()
+    {
+        int coins = PersonalManager.Instance.CheckCoins();
+
+        if (player != null & coins > Coin300)
+        {
+            ChangingName.gameObject.SetActive(true);
+            ChoicePopup.gameObject.SetActive(false);
+        }
+        else
+        {
+            NoCoinAtAll.SetActive(true);
             Debug.Log("돈 없음");
         }
     }
     public void OnClickGetNewNickName()
     {
-        InputFieldNameUI.text = _newName;
-        PersonalManager.Instance.ChangingNickName(_newName);
-        ChangingName.gameObject.SetActive(false);
-        ChangeAvatarButton.gameObject.SetActive(false);
+        // InputFieldNameUI가 null이 아닌지 확인하고 값 설정
+        if (InputFieldNameUI == null)
+        {
+            Debug.LogError("InputFieldNameUI가 null입니다.");
+            return;
+        }
+
+        _newName = InputFieldNameUI.text;
+
+        if (string.IsNullOrEmpty(_newName))
+        {
+            Debug.LogError("새 이름이 유효하지 않습니다.");
+            return;
+        }
+
+        bool isChanged = PersonalManager.Instance.ChangingNickName(_newName);
+
+        if (isChanged)
+        {
+            PersonalManager.Instance.SpendCoins(Coin300);
+            PlayerCanvasAbility.Instance.SetNickname(_newName);
+            ChangingName.gameObject.SetActive(false);
+            ChangeAvatarButton.gameObject.SetActive(false);
+            Debug.Log("닉네임 변경 성공");
+        }
+        else
+        {
+            Debug.LogError("닉네임 변경 실패");
+        }
     }
     public void OnClickXButton()
     {

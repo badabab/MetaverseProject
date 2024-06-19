@@ -9,10 +9,24 @@ public class PlayerCanvasAbility : PlayerAbility
     public Canvas PlayerCanvas;
     public TextMeshProUGUI NicknameTextUI;
 
+    public static PlayerCanvasAbility Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     private void Start()
     {
         // 커스텀프로퍼티 없이 사용할 수 있는 코드
-        SetNickname(_owner.photonView.Owner.NickName);
+        SetNickname(PhotonNetwork.NickName);
     }
 
     private void Update()

@@ -62,6 +62,13 @@ public class PersonalManager : MonoBehaviour
 
     public bool ChangingNickName(string newName)
     {
+        // newName이 null 또는 빈 문자열인지 확인
+        if (string.IsNullOrEmpty(newName))
+        {
+            Debug.LogError("새 이름이 유효하지 않습니다.");
+            return false;
+        }
+
         string originalName = GetCachedUserName();
         if (string.IsNullOrEmpty(originalName)) return false;
 
@@ -69,10 +76,15 @@ public class PersonalManager : MonoBehaviour
         var update = Builders<Personal>.Update.Set("Name", newName);
 
         var result = _personalCollection.UpdateOne(filter, update);
+        Debug.Log($"MongoDB Update Result: {result}");
+
         if (result.ModifiedCount > 0)
         {
             _cachedUserName = newName; // Update cache
+            PlayerPrefs.SetString("LoggedInId", newName);
+            PlayerPrefs.Save();
             PhotonNetwork.NickName = newName;
+            Debug.Log($"Updated NickName to: {PhotonNetwork.NickName}");
             return true;
         }
         return false;

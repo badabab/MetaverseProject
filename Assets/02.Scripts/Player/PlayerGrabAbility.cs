@@ -1,30 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
-using UnityEditor;
+using System.Collections;
+using UnityEngine;
 
 public class PlayerGrabAbility : MonoBehaviourPunCallbacks
 {
-    public Transform hand; // 캐릭터 손 위치
-    private GameObject grabbedObject; // 잡힌 객체를 참조하기 위한 변수
-    private ConfigurableJoint configurableJoint; // 잡힌 객체에 적용할 ConfigurableJoint를 참조하기 위한 변수
-    public Animator animator; // 애니메이터 컴포넌트를 참조하기 위한 변수
-    public float grabDistance = 2.0f; // 잡을 수 있는 최대 거리
-
+    public Transform hand;
+    private GameObject grabbedObject;
+    private ConfigurableJoint configurableJoint;
+    public Animator animator;
+    private PhotonAnimatorView photonAnimatorView; // PhotonAnimatorView 컴포넌트 참조 추가
+    public float grabDistance = 2.0f;
     private bool Grabed = false;
     private float GrabTime;
     public float GrabbingTimer = 4f;
-    private float sphereRadius = 2f; // 레이 스피어의 반경
+    private float sphereRadius = 2f;
+
+    void Start()
+    {
+        animator = GetComponent<Animator>();
+        photonAnimatorView = GetComponent<PhotonAnimatorView>(); // PhotonAnimatorView 컴포넌트 가져오기
+    }
+
     void Update()
     {
-        if (!photonView.IsMine) // 이 클라이언트의 로컬 플레이어인지 확인
+        if (!photonView.IsMine)
             return;
 
-        if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 버튼 클릭으로 잡기
+        if (Input.GetMouseButtonDown(0))
         {
-            TryGrab(); // 잡기 시도
-            animator.SetBool("Grab", true); // Grab 애니메이션 실행
+            TryGrab();
+            animator.SetBool("Grab", true);
+            photonAnimatorView.SetParameterSynchronized("Grab", PhotonAnimatorView.ParameterType.Bool); // 동기화 설정
         }
 
         if (Grabed)
@@ -32,8 +38,8 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
             GrabTime += Time.deltaTime;
             if (GrabTime >= GrabbingTimer)
             {
-                ReleaseGrab(); // 잡기 해제
-                animator.SetBool("isGrabbing", false); // Release 애니메이션 실행
+                ReleaseGrab();
+                animator.SetBool("isGrabbing", false);
                 Grabed = false;
             }
         }
@@ -44,37 +50,36 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
             Grabed = false;
         }
 
-        if (Input.GetMouseButtonUp(0) && grabbedObject != null) // 마우스 왼쪽 버튼 떼기 및 객체가 잡힌 상태
+        if (Input.GetMouseButtonUp(0) && grabbedObject != null)
         {
-            ReleaseGrab(); // 잡기 해제
-            animator.SetBool("isGrabbing", false); // Release 애니메이션 실행
+            ReleaseGrab();
+            animator.SetBool("isGrabbing", false);
             Grabed = false;
         }
     }
 
     void TryGrab()
     {
-        Ray ray = new Ray(hand.position, hand.forward); // 손 위치에서 전방으로 레이 생성
-        RaycastHit hit; // 레이캐스트 결과를 저장할 변수
+        Ray ray = new Ray(hand.position, hand.forward);
+        RaycastHit hit;
 
-        if (Physics.SphereCast(ray, sphereRadius, out hit, grabDistance)) // 특정 거리 내에 있는 오브젝트 감지
+        if (Physics.SphereCast(ray, sphereRadius, out hit, grabDistance))
         {
-            if (hit.collider.CompareTag("Grabbable")) // Grabbable 태그가 붙은 오브젝트만 잡기
+            if (hit.collider.CompareTag("Grabbable"))
             {
                 photonView.RPC("RPC_TryGrab", RpcTarget.AllBuffered, hit.collider.gameObject.GetComponentInParent<PhotonView>().ViewID);
             }
-            
         }
     }
-    // 기즈모를 그리는 메서드
+
     private void OnDrawGizmos()
     {
         if (hand != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(hand.position, sphereRadius); // 시작 위치에 구를 그림
-            Gizmos.DrawRay(hand.position, hand.forward * grabDistance); // 레이를 그림
-            Gizmos.DrawWireSphere(hand.position + hand.forward * grabDistance, sphereRadius); // 끝 위치에 구를 그림
+            Gizmos.DrawWireSphere(hand.position, sphereRadius);
+            Gizmos.DrawRay(hand.position, hand.forward * grabDistance);
+            Gizmos.DrawWireSphere(hand.position + hand.forward * grabDistance, sphereRadius);
         }
     }
 
@@ -84,48 +89,45 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
         PhotonView targetPhotonView = PhotonView.Find(viewID);
         if (targetPhotonView != null)
         {
-            grabbedObject = targetPhotonView.gameObject; // 잡힌 객체를 grabbedObject에 저장
+            grabbedObject = targetPhotonView.gameObject;
             animator.SetBool("isGrabbing", true);
+            photonAnimatorView.SetParameterSynchronized("isGrabbing", PhotonAnimatorView.ParameterType.Bool); // 동기화 설정
             Grabed = true;
-            GrabTime = 0f; // 잡기 시작 시 타이머 초기화
+            GrabTime = 0f;
 
-            configurableJoint = grabbedObject.AddComponent<ConfigurableJoint>(); // 잡힌 객체에 ConfigurableJoint 컴포넌트 추가
-            configurableJoint.connectedBody = null; // 연결된 바디 없음
+            configurableJoint = grabbedObject.AddComponent<ConfigurableJoint>();
+            configurableJoint.connectedBody = null;
 
-            // ConfigurableJoint 설정
-            configurableJoint.xMotion = ConfigurableJointMotion.Locked; // X축 이동 잠금
-            configurableJoint.yMotion = ConfigurableJointMotion.Locked; // Y축 이동 잠금
-            configurableJoint.zMotion = ConfigurableJointMotion.Locked; // Z축 이동 잠금
-            configurableJoint.angularXMotion = ConfigurableJointMotion.Locked; // X축 회전 자유
-            configurableJoint.angularYMotion = ConfigurableJointMotion.Locked; // Y축 회전 자유
-            configurableJoint.angularZMotion = ConfigurableJointMotion.Locked; // Z축 회전 자유
+            configurableJoint.xMotion = ConfigurableJointMotion.Locked;
+            configurableJoint.yMotion = ConfigurableJointMotion.Locked;
+            configurableJoint.zMotion = ConfigurableJointMotion.Locked;
+            configurableJoint.angularXMotion = ConfigurableJointMotion.Locked;
+            configurableJoint.angularYMotion = ConfigurableJointMotion.Locked;
+            configurableJoint.angularZMotion = ConfigurableJointMotion.Locked;
 
-            // Anchor와 연결점 설정
-            configurableJoint.anchor = Vector3.zero; // 앵커를 객체의 중심에 설정
-            configurableJoint.autoConfigureConnectedAnchor = false; // 연결된 앵커 자동 설정 해제
-            configurableJoint.connectedAnchor = hand.position; // 연결된 앵커를 손 위치로 설정
+            configurableJoint.anchor = Vector3.zero;
+            configurableJoint.autoConfigureConnectedAnchor = false;
+            configurableJoint.connectedAnchor = hand.position;
 
-            // Break force와 torque 설정
-            configurableJoint.breakForce = 2000f; // 최대 파괴 힘 설정
-            configurableJoint.breakTorque = 2000f; // 최대 파괴 토크 설정
+            configurableJoint.breakForce = 2000f;
+            configurableJoint.breakTorque = 2000f;
 
-            // 객체의 중력을 끄고 손 위치로 이동시키기
-            Rigidbody grabbedRb = grabbedObject.GetComponentInParent<Rigidbody>(); // 잡힌 객체의 Rigidbody 가져오기
-            grabbedRb.useGravity = false; // 중력 해제
-            StartCoroutine(MoveObjectToHand(grabbedRb)); // 객체를 손으로 이동시키는 코루틴 시작
+            Rigidbody grabbedRb = grabbedObject.GetComponentInParent<Rigidbody>();
+            grabbedRb.useGravity = false;
+            StartCoroutine(MoveObjectToHand(grabbedRb));
         }
     }
 
     void ReleaseGrab()
     {
-        if (configurableJoint != null) // configurableJoint가 존재하는 경우
+        if (configurableJoint != null)
         {
-            Rigidbody grabbedRb = grabbedObject.GetComponentInParent<Rigidbody>(); // 잡힌 객체의 Rigidbody 가져오기
-            grabbedRb.useGravity = true; // 중력 활성화
-            Destroy(configurableJoint); // ConfigurableJoint 파괴
+            Rigidbody grabbedRb = grabbedObject.GetComponentInParent<Rigidbody>();
+            grabbedRb.useGravity = true;
+            Destroy(configurableJoint);
             photonView.RPC("RPC_ReleaseGrab", RpcTarget.AllBuffered);
         }
-        grabbedObject = null; // grabbedObject 변수 초기화
+        grabbedObject = null;
     }
 
     [PunRPC]
@@ -133,18 +135,18 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
     {
         if (grabbedObject != null)
         {
-            grabbedObject.transform.SetParent(null); // 부모 관계 해제
-            grabbedObject = null; // grabbedObject 변수 초기화
+            grabbedObject.transform.SetParent(null);
+            grabbedObject = null;
         }
     }
 
     IEnumerator MoveObjectToHand(Rigidbody grabbedRb)
     {
-        while (grabbedObject != null) // 잡힌 객체가 존재하는 동안
+        while (grabbedObject != null)
         {
-            Vector3 direction = (hand.position - grabbedObject.transform.position).normalized; // 손 위치와 객체 위치 사이의 방향 벡터 계산
-            grabbedRb.velocity = direction * 10f; // 객체를 손으로 이동시키는 속도 설정
-            yield return null; // 다음 프레임까지 대기
+            Vector3 direction = (hand.position - grabbedObject.transform.position).normalized;
+            grabbedRb.velocity = direction * 10f;
+            yield return null;
         }
     }
 }

@@ -161,12 +161,16 @@ public class PhotonManager : MonoBehaviourPunCallbacks
                     break;
                 case "Village":
                     descriptionSceneName = "VillageLoadScene";
+                    break;                
+                case "GoToVillage":
+                    descriptionSceneName = "VillageScene";
                     break;
                 default:
                     descriptionSceneName = "VillageLoadScene";
                     break;
             }
-            AsyncOperation loadingScene = SceneManager.LoadSceneAsync(descriptionSceneName, LoadSceneMode.Additive);
+
+            AsyncOperation loadingScene = SceneManager.LoadSceneAsync(descriptionSceneName, LoadSceneMode.Single);
             yield return loadingScene;
         }
         //PhotonNetwork.LeaveRoom();

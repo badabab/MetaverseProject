@@ -5,7 +5,7 @@ using UnityEngine; // UnityEngine 네임스페이스 사용
 
 public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 MonoBehaviourPunCallbacks를 상속받은 클래스 선언
 {
-    public float pushForce = 5f; // 밀리는 힘의 크기
+    private float pushForce = 2f; // 밀리는 힘의 크기
     public LayerMask playerLayer; // 플레이어 레이어
     public Animator animator; // 애니메이터 컴포넌트
 
@@ -37,7 +37,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
     [PunRPC]
     void Attack()
     {
-        animator.SetTrigger("Attack"); // 공격 애니메이션 실행
+        animator.SetBool("Attack", true); // 공격 애니메이션 실행
         isAttacking = true; // 공격 중 상태로 설정
         if (punchCollider != null && punchCollider.CompareTag("Hand")) // 주먹 콜라이더가 존재하며 Hand 태그가 있는지 확인
         {
@@ -54,6 +54,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
             punchCollider.enabled = false; // 주먹 콜라이더 비활성화
         }
         isAttacking = false; // 공격 중 상태 해제
+        animator.SetBool("Attack", false);
     }
 
     private void OnTriggerEnter(Collider other)

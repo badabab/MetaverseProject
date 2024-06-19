@@ -25,6 +25,8 @@ public class GameOverBall : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider other)
     {
+        PhotonView playerPhotonView = other.GetComponentInParent<PhotonView>();
+        firstPlayerNickName = playerPhotonView.Owner.NickName;
         PersonalManager.Instance.CoinUpdate(photonView.Owner.NickName, 100);
         if (PhotonNetwork.IsMasterClient)
         {

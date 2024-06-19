@@ -139,17 +139,10 @@ public class UI_Lobby : MonoBehaviour
     {
         if (PhotonNetwork.IsConnectedAndReady)
         {
-            RoomOptions roomOptions = new RoomOptions
-            {
-                MaxPlayers = 20,
-                IsVisible = true,
-                IsOpen = true,
-                EmptyRoomTtl = 1000 * 20,
-            };
-
-            PhotonNetwork.JoinOrCreateRoom(RoomID, roomOptions, TypedLobby.Default);
-            Debug.Log($"{RoomID}");
-            PhotonNetwork.LoadLevel("LoadingScene");
+            //SceneManager.LoadScene("LoadingScene");
+            SceneManager.LoadScene("VillageSceneTutorials");
+            
+           // PhotonNetwork.LoadLevel("LoadingScene");
         }
         else
         {

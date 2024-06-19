@@ -44,10 +44,14 @@ public class VillageTutorial : MonoBehaviourPunCallbacks
 
     private void LoadVillageScene()
     {
-        Debug.Log($"방 입장 성공! : ({PhotonNetwork.CurrentRoom.Name})");
-        PhotonNetwork.IsMessageQueueRunning = false; // 메시지 큐 일시 정지
-        PhotonNetwork.LoadLevel("VillageScene"); // PhotonNetwork를 통해 씬 로드
-        PhotonNetwork.IsMessageQueueRunning = true; // 메시지 큐 재개
-    }
+        if (!isLeavingRoom)
+        {
+            Debug.Log($"방 입장 성공! : ({PhotonNetwork.CurrentRoom.Name})");
+            PhotonNetwork.IsMessageQueueRunning = false; // 메시지 큐 일시 정지
+            PhotonNetwork.LoadLevel("VillageScene"); // PhotonNetwork를 통해 씬 로드
+            PhotonNetwork.IsMessageQueueRunning = true; // 메시지 큐 재개
+            isLeavingRoom = true;
+        }
 
+    }
 }

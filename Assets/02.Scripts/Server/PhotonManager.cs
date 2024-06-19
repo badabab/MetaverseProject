@@ -77,7 +77,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             };
 
             PhotonNetwork.JoinOrCreateRoom(NextRoomName, roomOptions, TypedLobby.Default);
-
             return;
         }
 

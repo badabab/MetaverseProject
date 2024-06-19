@@ -14,7 +14,7 @@ public class GameOverBall : MonoBehaviourPunCallbacks
 
     private bool playerCollided = false;
 
-    private string firstPlayerNickName;
+    private string _firstPlayer;
 
     private void Start()
     {
@@ -25,20 +25,11 @@ public class GameOverBall : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider other)
     {
-        PhotonView playerPhotonView = other.GetComponentInParent<PhotonView>();
-        if (other.CompareTag("Player") && playerPhotonView.IsMine)
+        if (PhotonNetwork.IsMasterClient)
         {
-            firstPlayerNickName = playerPhotonView.Owner.NickName;
-            Debug.Log($"{firstPlayerNickName} reached the end first!");
-            PersonalManager.Instance.CoinUpdate(photonView.Owner.NickName, 100);
-
-            if (PhotonNetwork.IsMasterClient)
-            {
-                Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", firstPlayerNickName } };
-                PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
-            }
+            Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", _firstPlayer } };
+            PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
         }
-      
         if (other.CompareTag("Player"))
         {
             if (!playerCollided)
@@ -46,7 +37,7 @@ public class GameOverBall : MonoBehaviourPunCallbacks
                 playerCollided = true;
                 Time.timeScale = 0f;
                 StartCoroutine(GameOverSequence(other.gameObject));
-                firstPlayerNickName = other.name;
+                _firstPlayer = other.name;
             }
             else
             {
@@ -72,7 +63,8 @@ public class GameOverBall : MonoBehaviourPunCallbacks
         Animator animator = photonView.GetComponent<Animator>();
         if (photonView != null)
         {
-            animator.SetBool("Win", true);          
+            animator.SetBool("Win", true);
+            PersonalManager.Instance.CoinUpdate(photonView.Owner.NickName, 100);
             PhotonNetwork.LoadLevel("TowerClimbWinScene");
             //PhotonNetwork.LeaveRoom();
         }

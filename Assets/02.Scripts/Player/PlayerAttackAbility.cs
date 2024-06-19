@@ -59,9 +59,9 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
         {
             punchCollider.enabled = false; // 주먹 콜라이더 비활성화
         }
-
-        isAttacking = false; // 공격 중 상태 해제
         animator.SetBool("Attack", false); // 공격 애니메이션 해제
+        isAttacking = false; // 공격 중 상태 해제
+       
     }
 
     private void OnTriggerEnter(Collider other)

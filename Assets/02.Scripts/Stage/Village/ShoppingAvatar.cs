@@ -125,7 +125,7 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
         if (isChanged)
         {
             PersonalManager.Instance.SpendCoins(Coin300);
-            PlayerCanvasAbility.Instance.SetNickname(_newName);
+            //PlayerCanvasAbility.Instance.SetNickname(_newName);
             ChangingName.gameObject.SetActive(false);
             ChangeAvatarButton.gameObject.SetActive(false);
             Debug.Log("닉네임 변경 성공");

@@ -23,7 +23,7 @@ public class UI_Lobby : MonoBehaviour
     public GameObject Metaverse2;
    
 
-    private string RoomID = "VillageTutorial";
+    private string RoomID = "Village";
     public static PlayerType SelectedType = PlayerType.Male;
 
     public static UI_Lobby Instance;

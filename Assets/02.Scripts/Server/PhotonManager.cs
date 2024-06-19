@@ -49,6 +49,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         }
         PhotonNetwork.SendRate = 50;
         PhotonNetwork.SerializationRate = 30;
+
     }
 
     public override void OnConnected()
@@ -62,26 +63,31 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinLobby(TypedLobby.Default);
     }
 
+
     public override void OnJoinedLobby()
     {
-        Debug.Log("로비 입장");
+        string currentSceneName = SceneManager.GetActiveScene().name;
 
-        if (!string.IsNullOrEmpty(NextRoomName))
+        if (currentSceneName == "LobbyScene") // 로비 씬 이름을 "LobbyScene"으로 가정
         {
-            RoomOptions roomOptions = new RoomOptions
+            Debug.Log("로비 입장");
+
+            if (!string.IsNullOrEmpty(NextRoomName))
             {
-                MaxPlayers = 20,
-                IsVisible = true,
-                IsOpen = true,
-                EmptyRoomTtl = 1000 * 20,
-            };
+                RoomOptions roomOptions = new RoomOptions
+                {
+                    MaxPlayers = 20,
+                    IsVisible = true,
+                    IsOpen = true,
+                    EmptyRoomTtl = 1000 * 20,
+                };
 
-            PhotonNetwork.JoinOrCreateRoom(NextRoomName, roomOptions, TypedLobby.Default);
-            return;
+                PhotonNetwork.JoinOrCreateRoom(NextRoomName, roomOptions, TypedLobby.Default);
+                return;
+            }
+
+            StartButton.SetActive(true);
         }
-
-        StartButton.SetActive(true);
-
     }
 
     public override void OnCreatedRoom()
@@ -102,7 +108,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
                 PhotonNetwork.LoadLevel("VillageSceneTutorials");
                 break;
             case "Village":
-                PhotonNetwork.LoadLevel("VillageScene");
+                PhotonNetwork.LoadLevel("VillageSceneTutorials");
                 break;
             case "MiniGame1":
                 PhotonNetwork.LoadLevel("BattleTileScene");

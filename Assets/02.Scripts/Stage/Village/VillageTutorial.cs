@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -46,6 +47,17 @@ public class VillageTutorial : MonoBehaviourPunCallbacks
 
     private void LoadVillageScene()
     {
-        PhotonManager.Instance.LeaveAndLoadRoom("GoToVillage");
+        //PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LoadLevel("VillageScene");
+        /*        RoomOptions roomOptions = new RoomOptions
+                {
+                    MaxPlayers = 20,
+                    IsVisible = true,
+                    IsOpen = true,
+                    EmptyRoomTtl = 1000 * 20,
+                };
+                PhotonNetwork.JoinOrCreateRoom("Village", roomOptions, TypedLobby.Default);*/
+        //PhotonManager.Instance.LeaveAndLoadRoom("GoToVillage");
+
     }
 }

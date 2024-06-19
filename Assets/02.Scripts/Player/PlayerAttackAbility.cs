@@ -5,7 +5,7 @@ using UnityEngine; // UnityEngine 네임스페이스 사용
 
 public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 MonoBehaviourPunCallbacks를 상속받은 클래스 선언
 {
-    private float pushForce = 2f; // 밀리는 힘의 크기
+    private float pushForce; // 밀리는 힘의 크기
     public LayerMask playerLayer; // 플레이어 레이어
     public Animator animator; // 애니메이터 컴포넌트
     PlayerMoveAbility playerMoveAbility;
@@ -16,7 +16,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
     {
         playerMoveAbility = GetComponent<PlayerMoveAbility>();
         animator = GetComponent<Animator>(); // Animator 컴포넌트 가져오기
-        punchCollider = GetComponentInChildren<Collider>(); // 주먹에 있는 BoxCollider 가져오기
+        punchCollider = GetComponentInChildren<Collider>(); // 주먹에 있는 Collider 가져오기
         if (punchCollider != null && punchCollider.CompareTag("Hand")) // 주먹 콜라이더가 존재하며 Hand 태그가 있는지 확인
         {
             punchCollider.isTrigger = true; // 콜라이더를 트리거로 설정하여 충돌 감지
@@ -44,7 +44,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
         {
             punchCollider.enabled = true; // 공격 시 주먹 콜라이더 활성화
         }
-        StartCoroutine(DisablePunchColliderAfterDelay(0.5f)); // 0.5초 후에 콜라이더 비활성화
+        StartCoroutine(DisablePunchColliderAfterDelay(0.7f)); // 0.5초 후에 콜라이더 비활성화
     }
 
     IEnumerator DisablePunchColliderAfterDelay(float delay)
@@ -72,6 +72,14 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
 
             if (other.gameObject.layer == LayerMask.NameToLayer("Player") && !otherPhotonView.IsMine)
             {
+                if (playerMoveAbility._isRunning)
+                {
+                    pushForce = 6f;
+                }
+                else
+                {
+                    pushForce = 2f;
+                }
                 // 공격 중이며 충돌한 객체가 플레이어 레이어에 속하고 로컬 플레이어가 아닌 경우
                 Debug.Log("Collision detected with " + other.gameObject.name); // 디버그 로그 추가
                 Vector3 pushDirection = (other.transform.position - transform.position).normalized; // 밀리는 방향 계산

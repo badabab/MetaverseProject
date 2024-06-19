@@ -1,5 +1,6 @@
 using Photon.Pun;
 using Photon.Realtime;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -11,8 +12,10 @@ public class PlayerCanvasAbility : PlayerAbility
 
     public static PlayerCanvasAbility Instance;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         if (Instance == null)
         {
             Instance = this;
@@ -47,4 +50,5 @@ public class PlayerCanvasAbility : PlayerAbility
             //SetNickname((string)changedProps["Nickname"]);
         }
     }
+
 }

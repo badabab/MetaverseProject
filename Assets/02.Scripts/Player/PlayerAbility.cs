@@ -5,7 +5,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class PlayerAbility : MonoBehaviourPunCallbacks
 {
     protected Player _owner { get; private set; }
-    protected void Awake()
+    protected virtual void Awake()
     {
         _owner = GetComponentInParent<Player>();
     }

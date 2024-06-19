@@ -1,5 +1,6 @@
+using Photon.Pun;
 using UnityEngine;
-
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class PlayerSelection : MonoBehaviour
 {
     public static PlayerSelection Instance;
@@ -46,13 +47,17 @@ public class PlayerSelection : MonoBehaviour
         Debug.Log($"{SelectedCharacterIndex}");
         PersonalManager.Instance.UpdateCharacterIndex(SelectedCharacterIndex);
 
+        Hashtable characterindex = new Hashtable { { "CharacterIndex", SelectedCharacterIndex } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(characterindex);
+
         SelectedType = type;
         currentCharacter.gameObject.SetActive(true);
     }
     public void ReloadCharacter()
     {
         int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
-
+        Hashtable characterindex = new Hashtable { { "CharacterIndex", characterIndex } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(characterindex);
         if (characterIndex != -1)
         {
             if (currentCharacter != null)

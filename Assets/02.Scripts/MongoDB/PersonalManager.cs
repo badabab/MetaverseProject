@@ -126,8 +126,15 @@ public class PersonalManager : MonoBehaviour
         var update = Builders<Personal>.Update.Set(p => p.CharacterIndex, characterIndex);
 
         var result = _personalCollection.UpdateOne(filter, update);
-        return result.ModifiedCount > 0;
+
+        if (result.ModifiedCount > 0 && PhotonNetwork.LocalPlayer.IsLocal)
+        {
+            Hashtable characterindex = new Hashtable { { "CharacterIndex", characterIndex } };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(characterindex);
+        }
+        return result.ModifiedCount > 0;    
     }
+
 
     public int CheckCharacterIndex()
     {
@@ -136,6 +143,7 @@ public class PersonalManager : MonoBehaviour
 
         var filter = Builders<Personal>.Filter.Eq(p => p.Name, name);
         var user = _personalCollection.Find(filter).FirstOrDefault();
+
         return user?.CharacterIndex ?? -1;
     }
 

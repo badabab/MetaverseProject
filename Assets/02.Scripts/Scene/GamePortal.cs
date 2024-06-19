@@ -1,4 +1,3 @@
-using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -13,20 +12,23 @@ public class GamePortal : MonoBehaviour
             if (gameObject.name == "BattleTilePortal")
             {
                 PhotonManager.Instance.LeaveAndLoadRoom("MiniGame1");
-                Debug.Log("{MiniGame1}");
+                //PhotonManager.Instance.NextRoomName = "MiniGame1";
+                //PhotonNetwork.JoinOrCreateRoom("MiniGame1", roomOptions, TypedLobby.Default);
             }
             else if (gameObject.name == "FallGuysPortal")
             {
                 PhotonManager.Instance.LeaveAndLoadRoom("MiniGame2");
-                Debug.Log("{MiniGame2}");
+                //PhotonManager.Instance.NextRoomName = "MiniGame2";
+                //PhotonNetwork.JoinOrCreateRoom("MiniGame2", roomOptions, TypedLobby.Default);
+
             }
             else if (gameObject.name == "TowerClimbPortal")
             {
                 PhotonManager.Instance.LeaveAndLoadRoom("MiniGame3");
-                Debug.Log("{MiniGame3}");
+                //PhotonManager.Instance.NextRoomName = "MiniGame3";
+                //PhotonNetwork.JoinOrCreateRoom("MiniGame3", roomOptions, TypedLobby.Default);
             }
-            Debug.Log("방떠남");
+            PhotonNetwork.LeaveRoom();
         }
     }
-
 }

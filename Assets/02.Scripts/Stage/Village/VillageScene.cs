@@ -39,21 +39,11 @@ public class VillageScene : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
     }
 
-    /*    public override void OnJoinedRoom()
-        {
-            if (!localPlayerInitialized)
-            {
-                InitializePlayer(PhotonNetwork.LocalPlayer);
-            }
-        }
-    */
     private void InitializePlayer(Photon.Realtime.Player player)
     {
         //Debug.Log("호출");
         if (!player.IsLocal) return;
         Player localPlayer = FindLocalPlayer();
-
-
         Vector3 spawnPoint = GetRandomSpawnPoint();
 
         int characterIndex = PersonalManager.Instance.CheckCharacterIndex();

@@ -46,6 +46,6 @@ public class VillageTutorial : MonoBehaviourPunCallbacks
 
     private void LoadVillageScene()
     {
-        PhotonNetwork.LoadLevel("VillageScene");
+        PhotonManager.Instance.LeaveAndLoadRoom("GoToVillage");
     }
 }

@@ -14,7 +14,7 @@ public class GameOverBall : MonoBehaviourPunCallbacks
 
     private bool playerCollided = false;
 
-    private string _firstPlayer;
+    private string firstPlayerNickName;
 
     private void Start()
     {
@@ -25,9 +25,10 @@ public class GameOverBall : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider other)
     {
+        PersonalManager.Instance.CoinUpdate(photonView.Owner.NickName, 100);
         if (PhotonNetwork.IsMasterClient)
         {
-            Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", _firstPlayer } };
+            Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", firstPlayerNickName } };
             PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
         }
         if (other.CompareTag("Player"))
@@ -37,7 +38,7 @@ public class GameOverBall : MonoBehaviourPunCallbacks
                 playerCollided = true;
                 Time.timeScale = 0f;
                 StartCoroutine(GameOverSequence(other.gameObject));
-                _firstPlayer = other.name;
+                firstPlayerNickName = other.name;
             }
             else
             {
@@ -63,8 +64,7 @@ public class GameOverBall : MonoBehaviourPunCallbacks
         Animator animator = photonView.GetComponent<Animator>();
         if (photonView != null)
         {
-            animator.SetBool("Win", true);
-            PersonalManager.Instance.CoinUpdate(photonView.Owner.NickName, 100);
+            animator.SetBool("Win", true);          
             PhotonNetwork.LoadLevel("TowerClimbWinScene");
             //PhotonNetwork.LeaveRoom();
         }

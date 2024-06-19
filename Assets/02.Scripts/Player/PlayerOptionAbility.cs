@@ -5,7 +5,6 @@ public class PlayerOptionAbility : PlayerAbility
 {
     public void Pause()
     {
-        Debug.Log("중지");
         if (!_owner.photonView.IsMine) return;
         photonView.RPC("RPC_Pause", RpcTarget.AllBuffered, photonView.ViewID);
         _owner.photonView.GetComponent<Animator>().SetFloat("Move", 0f);
@@ -13,7 +12,6 @@ public class PlayerOptionAbility : PlayerAbility
 
     public void Continue()
     {
-        Debug.Log("계속");
         if (!_owner.photonView.IsMine) return;
         photonView.RPC("RPC_Continue", RpcTarget.AllBuffered, photonView.ViewID);
     }

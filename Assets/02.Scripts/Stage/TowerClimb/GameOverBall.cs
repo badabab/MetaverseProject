@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class GameOverBall : MonoBehaviourPunCallbacks
 {
     public GameObject GameOverUI;
-    public GameObject GameOver_testUI;
+    public GameObject GameOver_textUI;
 
     private bool playerCollided = false;
 
@@ -39,15 +40,11 @@ public class GameOverBall : MonoBehaviourPunCallbacks
         }
     }
 
-    
-
-
-
     private IEnumerator GameOverSequence(GameObject Player)
     {
         GameOverUI.SetActive(true);
         yield return new WaitForSecondsRealtime(2f);
-        GameOver_testUI.SetActive(false);
+        GameOver_textUI.SetActive(false);
         yield return new WaitForSecondsRealtime(3f);
         PhotonView photonView = Player.GetComponent<PhotonView>();
         Animator animator = photonView.GetComponent<Animator>();

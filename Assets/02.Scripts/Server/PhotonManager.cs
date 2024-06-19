@@ -16,7 +16,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     [HideInInspector]
     public string NextRoomName = string.Empty;
-
+    private bool isLeavingRoom = false;
     private void Awake()
     {
         if (Instance == null)
@@ -66,28 +66,23 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
-        string currentSceneName = SceneManager.GetActiveScene().name;
+        Debug.Log("로비 입장");
 
-        if (currentSceneName == "LobbyScene") // 로비 씬 이름을 "LobbyScene"으로 가정
+        if (!string.IsNullOrEmpty(NextRoomName))
         {
-            Debug.Log("로비 입장");
-
-            if (!string.IsNullOrEmpty(NextRoomName))
+            RoomOptions roomOptions = new RoomOptions
             {
-                RoomOptions roomOptions = new RoomOptions
-                {
-                    MaxPlayers = 20,
-                    IsVisible = true,
-                    IsOpen = true,
-                    EmptyRoomTtl = 1000 * 20,
-                };
+                MaxPlayers = 20,
+                IsVisible = true,
+                IsOpen = true,
+                EmptyRoomTtl = 1000 * 20,
+            };
 
-                PhotonNetwork.JoinOrCreateRoom(NextRoomName, roomOptions, TypedLobby.Default);
-                return;
-            }
-
-            StartButton.SetActive(true);
+            PhotonNetwork.JoinOrCreateRoom(NextRoomName, roomOptions, TypedLobby.Default);
+            return;
         }
+
+        StartButton.SetActive(true);
     }
 
     public override void OnCreatedRoom()
@@ -169,10 +164,30 @@ public class PhotonManager : MonoBehaviourPunCallbacks
                     descriptionSceneName = "VillageLoadScene";
                     break;
             }
-
             AsyncOperation loadingScene = SceneManager.LoadSceneAsync(descriptionSceneName, LoadSceneMode.Additive);
             yield return loadingScene;
         }
-        //PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        if (!isLeavingRoom)
+        {
+            return;
+        }
+        Debug.Log("방을 떠났습니다. 이제 방에 참가하거나 생성합니다: " + NextRoomName);
+        isLeavingRoom = false; // 플래그 리셋
+        if (!string.IsNullOrEmpty(NextRoomName))
+        {
+            RoomOptions roomOptions = new RoomOptions
+            {
+                MaxPlayers = 20,
+                IsVisible = true,
+                IsOpen = true,
+                EmptyRoomTtl = 1000 * 20,
+            };
+            PhotonNetwork.JoinOrCreateRoom(NextRoomName, roomOptions, TypedLobby.Default);
+        }
     }
 }

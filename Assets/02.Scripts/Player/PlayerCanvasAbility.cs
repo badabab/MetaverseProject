@@ -26,7 +26,7 @@ public class PlayerCanvasAbility : PlayerAbility
     private void Start()
     {
         // 커스텀프로퍼티 없이 사용할 수 있는 코드
-        SetNickname(PhotonNetwork.NickName);
+        SetNickname(_owner.photonView.Owner.NickName);
     }
 
     private void Update()

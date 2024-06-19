@@ -37,6 +37,7 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
         {
             player = other.gameObject;
             ChangeAvatarButton.SetActive(true);
+            ChoicePopup.SetActive(true);
             UnityEngine.Cursor.visible = true;
             UnityEngine.Cursor.lockState = CursorLockMode.None;
         }
@@ -47,6 +48,7 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
         if (other.CompareTag("Player") && other.GetComponentInParent<PhotonView>().IsMine)
         {
             ChangeAvatarButton.SetActive(false);
+            ChoicePopup.SetActive(false);
             UnityEngine.Cursor.visible = false;
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             player = null;
@@ -89,8 +91,11 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
 
         if (player != null & coins > Coin300)
         {
-            ChangingName.gameObject.SetActive(true);
-            ChoicePopup.gameObject.SetActive(false);
+            bool isActive = ChangingName.activeSelf;
+
+            // 새로운 활성 상태 설정
+            ChangingName.SetActive(!isActive);
+            ChoicePopup.SetActive(isActive);
         }
         else
         {

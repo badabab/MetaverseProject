@@ -4,7 +4,7 @@ using Photon.Pun;
 using Photon.Voice.PUN;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class PersonalManager : MonoBehaviour
 {
     private List<Personal> _personal = new List<Personal>();
@@ -83,6 +83,8 @@ public class PersonalManager : MonoBehaviour
             _cachedUserName = newName; // Update cache
             PlayerPrefs.SetString("LoggedInId", newName);
             PlayerPrefs.Save();
+            Hashtable customProperties = new Hashtable { { "Nickname", newName} };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
             PhotonNetwork.NickName = newName;
             Debug.Log($"Updated NickName to: {PhotonNetwork.NickName}");
             return true;

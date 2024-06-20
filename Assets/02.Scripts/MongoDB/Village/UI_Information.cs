@@ -1,4 +1,6 @@
+using Photon.Pun;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -10,10 +12,16 @@ public class UI_Information : PlayerAbility
 
     void Start()
     {
-        SetNickname(_owner.photonView.Owner.NickName);
-        SetXY();
-    }
 
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SetNickname(PhotonNetwork.NickName);
+            SetXY();
+        }
+    }
     private void SetXY()
     {
         int Index = PersonalManager.Instance.CheckCharacterIndex();

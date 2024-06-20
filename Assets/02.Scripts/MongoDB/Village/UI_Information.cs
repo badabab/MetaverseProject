@@ -43,13 +43,48 @@ public class UI_Information : PlayerAbility
     }
     public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, Hashtable changedProps)
     {
-        if (changedProps.ContainsKey("Nickname") && targetPlayer == _owner.photonView.Owner)
+        Debug.Log("OnPlayerPropertiesUpdate called");
+
+        if (changedProps == null)
         {
-            SetNickname((string)changedProps["Nickname"]);
+            Debug.LogError("changedProps is null");
+            return;
         }
-        if (changedProps.ContainsKey("CharacterIndex"))
+
+        if (targetPlayer == null)
         {
-            SetXY();
+            Debug.LogError("targetPlayer is null");
+            return;
+        }
+
+        if (_owner == null)
+        {
+            Debug.LogError("_owner is null");
+            return;
+        }
+
+        if (_owner.photonView == null)
+        {
+            Debug.LogError("_owner.photonView is null");
+            return;
+        }
+
+        if (changedProps.ContainsKey("Nickname"))
+        {
+            Debug.Log("changedProps contains 'Nickname'");
+            if (targetPlayer == _owner.photonView.Owner)
+            {
+                Debug.Log("targetPlayer is _owner.photonView.Owner");
+                SetNickname((string)changedProps["Nickname"]);
+            }
+            else
+            {
+                Debug.LogWarning("targetPlayer is not _owner.photonView.Owner");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("changedProps does not contain 'Nickname'");
         }
     }
 }

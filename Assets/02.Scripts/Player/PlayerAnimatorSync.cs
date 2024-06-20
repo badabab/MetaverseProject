@@ -143,7 +143,8 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         else
         {
             // 원격 플레이어의 데이터를 수신
-            move = (float)stream.ReceiveNext();
+            moveX = (float)stream.ReceiveNext();
+            moveZ = (float)stream.ReceiveNext();
             run = (bool)stream.ReceiveNext();
             runJump = (bool)stream.ReceiveNext();
             walk = (bool)stream.ReceiveNext();

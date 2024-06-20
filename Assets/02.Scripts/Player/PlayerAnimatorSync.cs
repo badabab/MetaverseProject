@@ -6,9 +6,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     private Animator animator;
     private PhotonAnimatorView photonAnimatorView;
 
-    // 애니메이션 파라미터 변수 선언
-    private float moveX;
-    private float moveZ;
+    private float move;
     private bool run;
     private bool runJump;
     private bool walk;
@@ -23,9 +21,8 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        photonAnimatorView = GetComponent<PhotonAnimatorView>(); // PhotonAnimatorView 컴포넌트 가져오기
+        photonAnimatorView = GetComponent<PhotonAnimatorView>();
 
-        // 파라미터 동기화 설정
         photonAnimatorView.SetParameterSynchronized("Move", PhotonAnimatorView.ParameterType.Float, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("Run", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("RunJump", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
@@ -43,14 +40,11 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     {
         if (photonView.IsMine)
         {
-            // 로컬 플레이어의 입력 처리 및 애니메이션 파라미터 업데이트
             HandleInput();
         }
         else
         {
-            // 원격 플레이어의 애니메이션 파라미터를 업데이트
-            animator.SetFloat("Move", moveX);
-            animator.SetFloat("Move", moveZ);
+            animator.SetFloat("Move", move);
             animator.SetBool("Run", run);
             animator.SetBool("RunJump", runJump);
             animator.SetBool("Walk", walk);
@@ -66,15 +60,12 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
 
     private void HandleInput()
     {
-        // 예시 입력 처리
-        moveX = Input.GetAxis("Vertical");
-        moveZ = Input.GetAxis("Horizontal");
+        move = Input.GetAxis("Vertical");
+        float horizontal = Input.GetAxis("Horizontal");
 
-        // 애니메이터 파라미터 업데이트
-        animator.SetFloat("Move", moveX);
-        animator.SetFloat("Move", moveZ);
+        animator.SetFloat("Move", move);
+        animator.SetBool("Walk", move != 0 || horizontal != 0);
 
-        // 공격과 관련된 입력 처리
         if (Input.GetMouseButtonDown(1))
         {
             attack = true;
@@ -86,7 +77,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
 
         animator.SetBool("Attack", attack);
 
-        // 잡기와 관련된 입력 처리
         if (Input.GetMouseButtonDown(0))
         {
             isGrabbing = true;
@@ -98,7 +88,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
 
         animator.SetBool("isGrabbing", isGrabbing);
 
-        // 점프와 관련된 입력 처리
         if (Input.GetKeyDown(KeyCode.Space))
         {
             jump = true;
@@ -110,7 +99,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
 
         animator.SetBool("Jump", jump);
 
-        // 달리기와 관련된 입력 처리
         if (Input.GetKey(KeyCode.LeftShift))
         {
             run = true;
@@ -127,7 +115,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     {
         if (stream.IsWriting)
         {
-            // 로컬 플레이어의 데이터를 전송
             stream.SendNext(animator.GetFloat("Move"));
             stream.SendNext(animator.GetBool("Run"));
             stream.SendNext(animator.GetBool("RunJump"));
@@ -142,9 +129,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         }
         else
         {
-            // 원격 플레이어의 데이터를 수신
-            moveX = (float)stream.ReceiveNext();
-            moveZ = (float)stream.ReceiveNext();
+            move = (float)stream.ReceiveNext();
             run = (bool)stream.ReceiveNext();
             runJump = (bool)stream.ReceiveNext();
             walk = (bool)stream.ReceiveNext();

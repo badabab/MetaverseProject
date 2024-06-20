@@ -154,11 +154,11 @@ public class PlayerMoveAbility : PlayerAbility
             rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f));
 
             // 걷기 애니메이션 설정
-           // _animator.SetBool("Walk", true);
+            _animator.SetBool("Walk", true);
         }
         else // 키 입력이 없는 경우
         {
-            //_animator.SetBool("Walk", false);
+            _animator.SetBool("Walk", false);
         }
 
         direction.y = 0f;

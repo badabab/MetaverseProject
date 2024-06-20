@@ -95,7 +95,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         {
             isJumping = true;
         }
-        else if (Input.GetKeyUp(KeyCode.Space))
+        else if (Input.GetKeyUp(KeyCode.Space)  )
         {
             isJumping = false;
         }

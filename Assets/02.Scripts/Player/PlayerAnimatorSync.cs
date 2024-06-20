@@ -7,7 +7,8 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     private PhotonAnimatorView photonAnimatorView;
 
     // 애니메이션 파라미터 변수 선언
-    private float move;
+    private float moveX;
+    private float moveZ;
     private bool run;
     private bool runJump;
     private bool walk;
@@ -48,7 +49,8 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         else
         {
             // 원격 플레이어의 애니메이션 파라미터를 업데이트
-            animator.SetFloat("Move", move);
+            animator.SetFloat("Move", moveX);
+            animator.SetFloat("Move", moveZ);
             animator.SetBool("Run", run);
             animator.SetBool("RunJump", runJump);
             animator.SetBool("Walk", walk);
@@ -65,10 +67,12 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     private void HandleInput()
     {
         // 예시 입력 처리
-        move = Input.GetAxis("Vertical");
+        moveX = Input.GetAxis("Vertical");
+        moveZ = Input.GetAxis("Horizontal");
 
         // 애니메이터 파라미터 업데이트
-        animator.SetFloat("Move", move);
+        animator.SetFloat("Move", moveX);
+        animator.SetFloat("Move", moveZ);
 
         // 공격과 관련된 입력 처리
         if (Input.GetMouseButtonDown(1))

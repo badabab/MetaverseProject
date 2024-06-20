@@ -1,3 +1,5 @@
+using ExitGames.Client.Photon;
+using MongoDB.Driver;
 using Photon.Pun;
 using System.Collections;
 using TMPro;
@@ -25,10 +27,11 @@ public class WinningPlayerScene : MonoBehaviour
             {
                 int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
                 string firstCharacter = $"Player {characterIndex}";
+
                 if (SceneManager.GetActiveScene().name == "FallGuysWinScene")
                 {
-                    winningPlayer = PhotonNetwork.Instantiate(firstCharacter, PlayerSpawn.position, Quaternion.identity);
-                    winningPlayer.transform.rotation = PlayerSpawn.rotation * Quaternion.Euler(0, -180, 0);  // Y축 회전을 180도 더해서 설정
+                    winningPlayer = PhotonNetwork.Instantiate(firstCharacter, PlayerSpawn.position, PlayerSpawn.rotation);
+                    Debug.Log($"{winningPlayer.transform.rotation}");
                 }
 
                 else
@@ -62,6 +65,7 @@ public class WinningPlayerScene : MonoBehaviour
             if (tpsCamera != null)
             {
                 tpsCamera.target = cameraRoot;
+                
             }
             else
             {

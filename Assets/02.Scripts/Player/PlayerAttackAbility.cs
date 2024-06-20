@@ -39,7 +39,15 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
 
     void Attack()
     {
-        animator.SetBool("Attack", true); // 공격 애니메이션 실행
+        if (playerMoveAbility._isRunning)
+        {
+            animator.SetBool("FlyingAttack", true);
+        }
+        else
+        {
+            animator.SetBool("Attack", true); // 공격 애니메이션 실행
+        }
+        
         photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete); // 동기화 설정
         isAttacking = true; // 공격 중 상태로 설정
 
@@ -60,6 +68,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
             punchCollider.enabled = false; // 주먹 콜라이더 비활성화
         }
         animator.SetBool("Attack", false); // 공격 애니메이션 해제
+        animator.SetBool("FlyingAttack", false);
         isAttacking = false; // 공격 중 상태 해제
        
     }

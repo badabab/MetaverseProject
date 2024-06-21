@@ -15,13 +15,16 @@ public class UI_PlayerCoinCount : MonoBehaviour
 
     private void Update()
     {
-        UpdateCoinCount();
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            UpdateCoinCount();
+        }
     }
 
     private void UpdateCoinCount()
     {
         int coin = PersonalManager.Instance.CheckCoins();
-        PlayerCoinCount.text = coin.ToString();
+        PlayerCoinCount.text = coin.ToString(); 
         /*if (!string.IsNullOrEmpty(playerId))
         {
             int coinCount = PlayerPrefs.GetInt($"{playerId}_Coins", 0);

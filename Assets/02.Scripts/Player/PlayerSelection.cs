@@ -56,8 +56,10 @@ public class PlayerSelection : MonoBehaviour
     public void ReloadCharacter()
     {
         int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
+
         Hashtable characterindex = new Hashtable { { "CharacterIndex", characterIndex } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(characterindex);
+
         if (characterIndex != -1)
         {
             if (currentCharacter != null)

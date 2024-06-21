@@ -8,7 +8,6 @@ public class VillageScene : MonoBehaviourPunCallbacks
     public static VillageScene Instance { get; private set; }
     public List<Transform> SpawnPoints;
 
-    private Dictionary<string, GameObject> players = new Dictionary<string, GameObject>();
     private bool localPlayerInitialized = false;
 
     private void Awake()
@@ -22,7 +21,6 @@ public class VillageScene : MonoBehaviourPunCallbacks
             Destroy(gameObject);
         }
     }
-
     private void Start()
     {
         if (PhotonNetwork.InRoom && !localPlayerInitialized)
@@ -38,7 +36,6 @@ public class VillageScene : MonoBehaviourPunCallbacks
     private void InitializePlayer(Photon.Realtime.Player player)
     {
         if (!player.IsLocal) return;
-        Player localPlayer = FindLocalPlayer();
         Vector3 spawnPoint = GetRandomSpawnPoint();
 
         int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
@@ -53,16 +50,5 @@ public class VillageScene : MonoBehaviourPunCallbacks
     {
         int randomIndex = Random.Range(0, SpawnPoints.Count);
         return SpawnPoints[randomIndex].position;
-    }
-    private Player FindLocalPlayer()
-    {
-        foreach (var player in FindObjectsOfType<Player>())
-        {
-            if (player.photonView.IsMine)
-            {
-                return player;
-            }
-        }
-        return null;
     }
 }

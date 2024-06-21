@@ -608,7 +608,7 @@ GameObject:
   - component: {fileID: 5085545008508912991}
   - component: {fileID: 824911174852510610}
   m_Layer: 9
-  m_Name: m_10
+  m_Name: m_9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -674,7 +674,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -3665699625205391469, guid: 7efdde9a8d4742f4994a92bf7a1d4715, type: 3}
+  m_Mesh: {fileID: -1576537691316460908, guid: 7c64e3a2d4f08e94390e4dd97ae6d9dc, type: 3}
   m_Bones:
   - {fileID: 6742071149815771069}
   - {fileID: 6605317213740650893}
@@ -2728,6 +2728,7 @@ GameObject:
   - component: {fileID: -3475914910322251431}
   - component: {fileID: 8479699301252598850}
   - component: {fileID: 2506077322682412178}
+  - component: {fileID: 2466848045544376299}
   m_Layer: 9
   m_Name: Player 21
   m_TagString: Player
@@ -2821,13 +2822,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9029329124467589125}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29f4ac00201e2ad4ebef13d0406a027e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hand: {fileID: 3048790080952294702}
-  animator: {fileID: 0}
+  animator: {fileID: 8171539650239019205}
   grabDistance: 2
   GrabbingTimer: 4
 --- !u!114 &6703264293214351524
@@ -2853,6 +2854,7 @@ MonoBehaviour:
   - {fileID: 5239447867643841674}
   - {fileID: -1634637962399818110}
   - {fileID: 6277880519247252833}
+  - {fileID: 2466848045544376299}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -2920,6 +2922,9 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 1
     Name: Attack
+  - Type: 4
+    SynchronizeType: 0
+    Name: FlyingAttack
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -3229,6 +3234,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1
+--- !u!114 &2466848045544376299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9029329124467589125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4f77bbbba85baa498377d4a2522e832, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9074448728345242793
 GameObject:
   m_ObjectHideFlags: 0

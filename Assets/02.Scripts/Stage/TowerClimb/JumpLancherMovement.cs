@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class JumpLancherMovement : MonoBehaviour
 {
-    public float bounceForce;
-    public float bounceDuration;
+    public float bounceForce = 50f;
+    public float bounceDuration = 5f;
 
     private bool isBouncing = false;
 

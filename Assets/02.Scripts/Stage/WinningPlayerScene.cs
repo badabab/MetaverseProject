@@ -1,7 +1,11 @@
+using ExitGames.Client.Photon;
+using MongoDB.Driver;
 using Photon.Pun;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.SceneManagement;
 
 public class WinningPlayerScene : MonoBehaviour
 {
@@ -23,7 +27,17 @@ public class WinningPlayerScene : MonoBehaviour
             {
                 int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
                 string firstCharacter = $"Player {characterIndex}";
-                winningPlayer = PhotonNetwork.Instantiate(firstCharacter, PlayerSpawn.position, Quaternion.Euler(0, -180, 0));
+
+                if (SceneManager.GetActiveScene().name == "FallGuysWinScene")
+                {
+                    winningPlayer = PhotonNetwork.Instantiate(firstCharacter, PlayerSpawn.position, PlayerSpawn.rotation);
+                    Debug.Log($"{winningPlayer.transform.rotation}");
+                }
+
+                else
+                {
+                    winningPlayer = PhotonNetwork.Instantiate(firstCharacter, PlayerSpawn.position, Quaternion.Euler(0, -180, 0));
+                }
                 WinningName.text = _firstPlayerName;
                 Debug.Log($"{_firstPlayerName} 님이 이겼습니다.");
                 Animator animator = winningPlayer.GetComponent<Animator>();
@@ -51,6 +65,7 @@ public class WinningPlayerScene : MonoBehaviour
             if (tpsCamera != null)
             {
                 tpsCamera.target = cameraRoot;
+                
             }
             else
             {

@@ -105,9 +105,10 @@ public class TileScore : MonoBehaviourPunCallbacks
 
         foreach (var player in PhotonNetwork.PlayerList)
         {
+
             string playerName = player.NickName;
 
-            if (PhotonNetwork.IsMasterClient)
+            if (PhotonNetwork.IsMasterClient && playerName == winner)
             {
                 Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", playerName } };
                 PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);

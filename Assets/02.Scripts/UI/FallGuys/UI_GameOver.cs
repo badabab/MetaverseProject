@@ -39,9 +39,9 @@ public class UI_GameOver : MonoBehaviourPunCallbacks
         if (!_isOnce) 
         {
             Debug.Log("이겼다!");
+            Lose.SetActive(false);
             StartCoroutine(ShowPopUp(Win));
         }
-        Lose.SetActive(false);
     }
     public void CheckLast()
     {
@@ -50,9 +50,9 @@ public class UI_GameOver : MonoBehaviourPunCallbacks
         if (!_isOnce)
         {
             Debug.Log("졌다~");
+            Win.SetActive(false);
             StartCoroutine(ShowPopUp(Lose));
-        }
-        Win.SetActive(false);
+        }      
     }
     
     public IEnumerator ShowPopUp(GameObject gameObject)

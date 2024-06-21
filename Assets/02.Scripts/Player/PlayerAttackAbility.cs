@@ -81,7 +81,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
 
             if (otherPhotonView == null)
             {
-                Debug.LogWarning("PhotonView not found on " + other.gameObject.name); // 디버그 경고 로그 추가
+                //Debug.LogWarning("PhotonView not found on " + other.gameObject.name); // 디버그 경고 로그 추가
                 return;
             }
 

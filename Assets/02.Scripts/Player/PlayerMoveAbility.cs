@@ -4,6 +4,7 @@ using Photon.Pun;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class PlayerMoveAbility : PlayerAbility
 {
@@ -188,6 +189,16 @@ public class PlayerMoveAbility : PlayerAbility
             _animator.SetBool("Run", false);
         }
 
+        if (PhotonNetwork.CurrentRoom.Name == "MiniGame1")
+        {
+            Vector3 newPosition = transform.position;
+            //newPosition.x = Mathf.Max(-7.7f, Mathf.Min(7.6f, newPosition.x));
+            //newPosition.z = Mathf.Max(0f, Mathf.Min(13.6f, newPosition.z));
+            newPosition.x = Mathf.Max(-8f, Mathf.Min(8f, newPosition.x));
+            newPosition.z = Mathf.Max(-0.6f, Mathf.Min(14f, newPosition.z));
+            transform.position = newPosition;
+        }
+
         if (_isTowerClimbScene)
         {
             _JumpPower = 6;
@@ -213,6 +224,9 @@ public class PlayerMoveAbility : PlayerAbility
             JumpCode();
         }
 
+       
+
+        
 
     }
     

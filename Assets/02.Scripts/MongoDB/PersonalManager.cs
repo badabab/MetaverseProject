@@ -182,6 +182,8 @@ public class PersonalManager : MonoBehaviour
         string name = GetCachedUserName();
         if (string.IsNullOrEmpty(name)) return -1;
 
+
+        // 매 프레임마다 DB 접속
         var filter = Builders<Personal>.Filter.Eq(p => p.Name, name);
         var user = _personalCollection.Find(filter).FirstOrDefault();
         return user?.Coins ?? -1;

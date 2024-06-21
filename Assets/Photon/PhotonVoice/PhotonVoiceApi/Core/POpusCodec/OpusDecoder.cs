@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using POpusCodec.Enums;
 using System.Runtime.InteropServices;
 using Photon.Voice;

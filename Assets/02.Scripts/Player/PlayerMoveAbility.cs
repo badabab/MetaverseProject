@@ -11,14 +11,14 @@ public class PlayerMoveAbility : PlayerAbility
     private float Movespeed = 3f;
     private float RunSpeed = 5f;
 
-    
-    private float NormalJumpPower= 2;
-    private float RunningJumpPower= 4;
+
+    private float NormalJumpPower = 2;
+    private float RunningJumpPower = 4;
 
     public int JumpCount;
     private int MaxJumpCount = 1;
 
-    private float JumpPower;
+    private float _JumpPower;
 
     public bool isGrounded;		// 땅에 서있는지 체크하기 위한 bool값
     public LayerMask LayerMask;	// 레이어마스크 설정
@@ -39,7 +39,7 @@ public class PlayerMoveAbility : PlayerAbility
 
     private CinemachineFreeLook cinemachineCamera;
 
-   //public ParticleSystem WalkVFX;
+    //public ParticleSystem WalkVFX;
     //public ParticleSystem JumpVFX;
     private ParticleSystem[] walkVFX; // Walk VFX 배열
     private int currentVFXIndex = 0; // 현재 재생 중인 Walk VFX 인덱스
@@ -164,50 +164,50 @@ public class PlayerMoveAbility : PlayerAbility
         direction.y = 0f;
 
         // 달리기 여부에 따라 이동 속도 및 애니메이션 설정
-        if (_isFallGuysScene ||Input.GetKey(KeyCode.LeftShift))
+        if (_isFallGuysScene || Input.GetKey(KeyCode.LeftShift))
         {
-          
-            Speed = RunSpeed;
+
+            Speed = RunSpeed * 2;
 
             //Debug.Log(rb.position + direction * Speed * Time.fixedDeltaTime);
 
             rb.MovePosition(rb.position + direction * Speed * Time.fixedDeltaTime);
             _isRunning = true;
-            
+
             _animator.SetBool("Run", true);
             //PlayWalkVFX();
         }
         else
         {
-            Speed = Movespeed;
+            Speed = Movespeed * 2;
 
             //Debug.Log(rb.position + direction * Speed * Time.fixedDeltaTime);
             rb.MovePosition(rb.position + direction * Speed * Time.fixedDeltaTime);
             _isRunning = false;
-            
+
             _animator.SetBool("Run", false);
         }
 
         if (_isTowerClimbScene)
         {
-            JumpPower = 6;
-            if (Input.GetKey(KeyCode.Space) && isGrounded)
+            _JumpPower = 6;
+            if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.V)) && isGrounded)
             {
                 JumpCode();
             }
 
         }
-        if (Input.GetKey(KeyCode.Space) && isGrounded && !_isTowerClimbScene) 	// IsGrounded가 true일 때만 점프할 수 있도록
+        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.V)) && isGrounded && !_isTowerClimbScene) 	// IsGrounded가 true일 때만 점프할 수 있도록
         {
             if (_isBattleTileScene)
             { return; }
             if (_isRunning)
             {
-                JumpPower = RunningJumpPower;
+                _JumpPower = RunningJumpPower;
             }
             else
             {
-                JumpPower = NormalJumpPower;
+                _JumpPower = NormalJumpPower;
             }
             JumpCount -= 1;
             JumpCode();
@@ -215,9 +215,24 @@ public class PlayerMoveAbility : PlayerAbility
 
 
     }
-    void JumpCode()
+    
+
+    public void Jump(float jumpPower)
     {
-        rb.AddForce((Vector3.up * JumpPower) / 2f, ForceMode.Impulse);
+        rb.AddForce((Vector3.up * jumpPower) / 2f, ForceMode.Impulse);
+        _animator.SetBool("Jump", true);
+        //Instantiate(JumpVFX, transform.position, Quaternion.identity);
+
+        if (photonView.IsMine)
+        {
+            PlayWalkVFX();
+        }
+        vfxTimer -= Time.deltaTime;
+    }
+
+    private void JumpCode()
+    {
+        rb.AddForce((Vector3.up * _JumpPower) / 2f, ForceMode.Impulse);
         _animator.SetBool("Jump", true);
         //Instantiate(JumpVFX, transform.position, Quaternion.identity);
 

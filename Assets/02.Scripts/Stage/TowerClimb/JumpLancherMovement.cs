@@ -4,20 +4,25 @@ using UnityEngine;
 
 public class JumpLancherMovement : MonoBehaviour
 {
-    public float bounceForce = 50f;
-    public float bounceDuration = 5f;
+    public float BounceForce = 50f;
+    public float BounceDuration = 5f;
+    
+
 
     private bool isBouncing = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && !isBouncing)
+        if (other.CompareTag("Player"))
         {
-            Rigidbody rb = other.GetComponent<Rigidbody>();
+            other.GetComponent<Rigidbody>().velocity = Vector3.zero; 
+            other.GetComponent<PlayerMoveAbility>().Jump(BounceForce);
+
+            /*Rigidbody rb = other.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 StartCoroutine(BouncePlayer(rb));
-            }
+            }*/
         }
     }
 
@@ -26,9 +31,9 @@ public class JumpLancherMovement : MonoBehaviour
         isBouncing = true;
         float elapsedTime = 0f;
         Vector3 originalVelocity = rb.velocity;
-        rb.velocity = new Vector3(rb.velocity.x, bounceForce, rb.velocity.z); // 위쪽으로 힘을 가함
+        rb.velocity = new Vector3(rb.velocity.x, BounceForce, rb.velocity.z); // 위쪽으로 힘을 가함
 
-        while (elapsedTime < bounceDuration)
+        while (elapsedTime < BounceDuration)
         {
             elapsedTime += Time.deltaTime;
             yield return null;

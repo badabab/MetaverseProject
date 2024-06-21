@@ -13,7 +13,6 @@ public class GameOverBall : MonoBehaviourPunCallbacks
     public Image Victory;
 
     private bool playerCollided = false;
-
     private string _firstPlayer;
 
     private void Start()
@@ -25,25 +24,34 @@ public class GameOverBall : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider other)
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", _firstPlayer } };
-            PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
-        }
         if (other.CompareTag("Player"))
         {
             if (!playerCollided)
             {
                 playerCollided = true;
-                Time.timeScale = 0f;
-                StartCoroutine(GameOverSequence(other.gameObject));
                 _firstPlayer = other.name;
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", _firstPlayer } };
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
+                }
+
+                PhotonView photonView = other.GetComponent<PhotonView>();
+                if (photonView.IsMine)
+                {
+                    Time.timeScale = 0f;
+                    StartCoroutine(GameOverSequence(other.gameObject));
+                }
             }
             else
             {
-                other.GetComponent<Animator>().SetBool("Sad", true);
-                PhotonNetwork.LoadLevel("VillageLoadScene");
-                PhotonNetwork.LeaveRoom();
+                PhotonView photonView = other.GetComponent<PhotonView>();
+                if (photonView.IsMine)
+                {
+                    other.GetComponent<Animator>().SetBool("Sad", true);
+                    PhotonNetwork.LoadLevel("VillageLoadScene");
+                    PhotonNetwork.LeaveRoom();
+                }
             }
         }
     }

@@ -47,7 +47,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
         {
             animator.SetBool("Attack", true); // 공격 애니메이션 실행
         }
-        
+
         photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete); // 동기화 설정
         isAttacking = true; // 공격 중 상태로 설정
 
@@ -56,7 +56,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
             punchCollider.enabled = true; // 공격 시 주먹 콜라이더 활성화
         }
 
-        StartCoroutine(DisablePunchColliderAfterDelay(0.7f)); // 0.7초 후에 콜라이더 비활성화
+        StartCoroutine(DisablePunchColliderAfterDelay(0.6f)); // 0.7초 후에 콜라이더 비활성화
     }
 
     IEnumerator DisablePunchColliderAfterDelay(float delay)
@@ -70,7 +70,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
         animator.SetBool("Attack", false); // 공격 애니메이션 해제
         animator.SetBool("FlyingAttack", false);
         isAttacking = false; // 공격 중 상태 해제
-       
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -98,6 +98,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
 
                 Debug.Log("Collision detected with " + other.gameObject.name); // 디버그 로그 추가
                 Vector3 pushDirection = (other.transform.position - transform.position).normalized; // 밀리는 방향 계산
+                pushDirection.y = Mathf.Max(pushDirection.y, 0f); // Y값이 0보다 작지 않도록 설정
                 otherPhotonView.RPC("ApplyPushForce", RpcTarget.AllBuffered, pushDirection, pushForce); // 상대 플레이어를 밀리게 하는 RPC 호출
                 Debug.Log("때림");
             }

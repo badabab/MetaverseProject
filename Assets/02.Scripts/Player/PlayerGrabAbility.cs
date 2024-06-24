@@ -1,7 +1,7 @@
-using Photon.Pun; // Photon.Pun 네임스페이스 사용
-using UnityEngine; // UnityEngine 네임스페이스 사용
+using Photon.Pun;
+using UnityEngine;
 
-public class PlayerGrabAbility : MonoBehaviourPunCallbacks // Photon.Pun의 MonoBehaviourPunCallbacks를 상속받은 클래스 선언
+public class PlayerGrabAbility : MonoBehaviourPunCallbacks
 {
     public Transform hand; // 캐릭터 손 위치
     private GameObject grabbedObject; // 잡힌 객체를 참조하기 위한 변수
@@ -83,10 +83,25 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mono
             springJoint.damper = 5f; // 감쇠
             springJoint.tolerance = 0.1f; // 관용도
             springJoint.minDistance = 0.5f; // 최소 거리
-            springJoint.maxDistance = 2.0f; // 최대 거리
+            springJoint.maxDistance = 1.5f; // 최대 거리
 
             Rigidbody grabbedRb = grabbedObject.GetComponentInParent<Rigidbody>(); // 잡힌 객체의 Rigidbody 가져오기
             grabbedRb.useGravity = false; // 중력 해제
+
+            photonView.RPC("RPC_UpdateSpringJoint", RpcTarget.OthersBuffered, springJoint.spring, springJoint.damper, springJoint.tolerance, springJoint.minDistance, springJoint.maxDistance);
+        }
+    }
+
+    [PunRPC]
+    void RPC_UpdateSpringJoint(float spring, float damper, float tolerance, float minDistance, float maxDistance)
+    {
+        if (springJoint != null)
+        {
+            springJoint.spring = spring;
+            springJoint.damper = damper;
+            springJoint.tolerance = tolerance;
+            springJoint.minDistance = minDistance;
+            springJoint.maxDistance = maxDistance;
         }
     }
 

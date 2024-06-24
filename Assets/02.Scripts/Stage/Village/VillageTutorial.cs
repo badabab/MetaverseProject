@@ -12,9 +12,12 @@ public class VillageTutorial : MonoBehaviourPunCallbacks
     private string RoomID = "Village";
     private bool isLeavingRoom = false;
 
+    public GameObject HelloPlayer;
+
     private void Start()
     {
         SkipButton.SetActive(false);
+        StartCoroutine(WalkandHello());
         TimelineMaker.Play();
         StartCoroutine(Show_Coroutine());
         TimelineMaker.stopped += OnPlayableDirectorStopped;
@@ -28,11 +31,15 @@ public class VillageTutorial : MonoBehaviourPunCallbacks
             {
                 return;
             }
-
             LoadVillageScene();
         }
     }
 
+    IEnumerator WalkandHello()
+    {
+        yield return new WaitForSeconds(3);
+        HelloPlayer.GetComponent<Animator>().SetBool("Hello", true);
+    }
     IEnumerator Show_Coroutine()
     {
         yield return new WaitForSeconds(5);

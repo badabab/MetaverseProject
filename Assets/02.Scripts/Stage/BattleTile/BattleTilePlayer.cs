@@ -16,13 +16,13 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
             this.enabled = false;
             return;
         }
-        if (!photonView.IsMine) return;      
+        if (!photonView.IsMine) return;
     }
 
     private void Start()
-    {       
+    {
         _characterController = GetComponent<CharacterController>();
-        MyNum = GetUniqueRandomNumber();        
+        MyNum = GetUniqueRandomNumber();
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "PlayerNumber", MyNum }, { "PlayerTileNumber", MyNum } });
         GameObject startpoint = GameObject.Find($"Start{MyNum}");
         this.transform.position = startpoint.transform.position;
@@ -38,7 +38,7 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
 
     private int GetUniqueRandomNumber()
     {
-        int randomNum;
+        /*int randomNum;
         bool isUnique;
         do
         {
@@ -53,7 +53,10 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
                 }
             }
         } while (!isUnique);
-        return randomNum;
+        return randomNum;*/
+        int num = PhotonNetwork.CurrentRoom.PlayerCount;
+        Debug.Log($"playernum = {num}");
+        return num;
     }
 
     private void SetReadyStateOnInput()
@@ -92,10 +95,10 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
                             UI_GameOver.Instance.CheckLast();
                             animator.SetBool("Sad", true);
                         }
-                    }                    
+                    }
                     _isFinished = true;
                 }
-            }          
+            }
         }
         else
         {

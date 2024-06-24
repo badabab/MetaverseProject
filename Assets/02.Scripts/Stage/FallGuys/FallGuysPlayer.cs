@@ -55,17 +55,20 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
             if (!_isFinished)
             {
                 Animator animator = GetComponent<Animator>();
-                if (firstPlayerName == photonView.Owner.NickName)
+                if (photonView.IsMine)
                 {
-                    UI_GameOver.Instance.CheckFirst();
-                    animator.SetBool("Win", true);
-                }
-                else
-                {
-                    UI_GameOver.Instance.CheckLast();
-                    animator.SetBool("Sad", true);
-                }
-                _isFinished = true;
+                    if (firstPlayerName == photonView.Owner.NickName)
+                    {
+                        UI_GameOver.Instance.CheckFirst();
+                        animator.SetBool("Win", true);
+                    }
+                    else
+                    {
+                        UI_GameOver.Instance.CheckLast();
+                        animator.SetBool("Sad", true);
+                    }
+                    _isFinished = true;
+                }            
             }
         }
         else

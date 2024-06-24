@@ -50,7 +50,7 @@ public class WinningPlayerScene : MonoBehaviour
         else
         {
             // 첫 번째 플레이어가 아닌 경우 카메라 설정
-            FindAndSetupCameraForFirstPlayer();
+            //FindAndSetupCameraForFirstPlayer();
         }
 
         StartCoroutine(AllPlayerOut_Coroutine());

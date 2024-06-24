@@ -49,10 +49,13 @@ public class PlayerMoveAbility : PlayerAbility
     private bool _isFallGuysScene = false; // 폴가이즈 씬인지 확인
     private bool _isTowerClimbScene = false;
     private bool _isBattleTileScene = false;
+
+    private string _sceneName;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
+        _sceneName = SceneManager.GetActiveScene().name;
 
         _isFallGuysScene = SceneManager.GetActiveScene().name == "FallGuysScene";
         _isTowerClimbScene = SceneManager.GetActiveScene().name == "TowerClimbScene";
@@ -112,6 +115,19 @@ public class PlayerMoveAbility : PlayerAbility
         {
             return;
         }
+        if (_sceneName == "BattleTileWinScene")
+        {
+            this.transform.position = new Vector3(0, 10.9f, -63);
+            this.transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        if (_sceneName == "FallGuysWinScene")
+        {
+            this.transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        if (_sceneName.EndsWith("WinScene"))
+        {
+            return;
+        }     
         if (_isFallGuysScene)
         {
             if (FallGuysManager.Instance._currentGameState == GameState.Loading)

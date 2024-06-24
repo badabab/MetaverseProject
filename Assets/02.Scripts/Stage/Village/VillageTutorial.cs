@@ -37,7 +37,7 @@ public class VillageTutorial : MonoBehaviourPunCallbacks
 
     IEnumerator WalkandHello()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         HelloPlayer.GetComponent<Animator>().SetBool("Hello", true);
     }
     IEnumerator Show_Coroutine()

@@ -14,6 +14,19 @@ public class PlayerGrabAbility : MonoBehaviourPunCallbacks
     public float GrabbingTimer = 4f; // 잡는 동작의 최대 시간
     private float sphereRadius = 2f; // SphereCast의 반경
 
+    void Start()
+    {
+        // Animator 컴포넌트를 초기화
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+            if (animator == null)
+            {
+                Debug.LogError("Animator component is missing from this GameObject.");
+            }
+        }
+    }
+
     void Update()
     {
         if (!photonView.IsMine) // 로컬 플레이어인지 확인

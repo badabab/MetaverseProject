@@ -6,26 +6,52 @@ using UnityEngine.UI;
 public class PortKeyMovement : MonoBehaviour
 {
     [SerializeField]
-    public GameObject PortKey1;
-    public GameObject PortKey2;
-    public InputField InputField;
+    private GameObject PortKey1;
+    [SerializeField]
+    private GameObject PortKey2;
+    [SerializeField]
+    private InputField InputField;
 
-    void Start()
+    private bool isPlayerInside = false;
+
+    private void Start()
     {
-
-    }
-
-    void Update()
-    {
-
+        InputField.gameObject.SetActive(false);
+        InputField.onEndEdit.AddListener(OnInputFieldEndEdit);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            Vector3 newPosition = PortKey2.transform.position; 
-            other.transform.position = newPosition; 
+            InputField.gameObject.SetActive(true);
+            InputField.ActivateInputField();
+            isPlayerInside = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            InputField.gameObject.SetActive(false);
+            InputField.text = string.Empty;
+            isPlayerInside = false;
+        }
+    }
+
+    private void OnInputFieldEndEdit(string input)
+    {
+        if (isPlayerInside && input == "ABCD")
+        {
+            GameObject player = GameObject.FindWithTag("Player");
+            if (player != null)
+            {
+                Vector3 newPosition = PortKey2.transform.position;
+                player.transform.position = newPosition;
+            }
+            InputField.gameObject.SetActive(false);
+            InputField.text = string.Empty;
         }
     }
 }

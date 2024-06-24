@@ -1,8 +1,8 @@
-using Photon.Pun;
-using System.Collections;
-using UnityEngine;
+using Photon.Pun; // Photon.Pun 네임스페이스 사용
+using System.Collections; // System.Collections 네임스페이스 사용
+using UnityEngine; // UnityEngine 네임스페이스 사용
 
-public class PlayerAttackAbility : MonoBehaviourPunCallbacks
+public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 MonoBehaviourPunCallbacks를 상속받은 클래스 선언
 {
     public float pushForce = 5f; // 밀리는 힘의 크기
     public LayerMask playerLayer; // 플레이어 레이어
@@ -39,13 +39,13 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
 
     void Attack()
     {
-        if (playerMoveAbility._isRunning)
+        if (playerMoveAbility._isRunning) // 플레이어가 달리는 중인지 확인
         {
-            animator.SetBool("FlyingAttack", true);
+            animator.SetBool("FlyingAttack", true); // 달리는 중 공격 애니메이션 설정
         }
         else
         {
-            animator.SetBool("Attack", true); // 공격 애니메이션 실행
+            animator.SetBool("Attack", true); // 기본 공격 애니메이션 설정
         }
 
         photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete); // 동기화 설정
@@ -56,7 +56,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
             punchCollider.enabled = true; // 공격 시 주먹 콜라이더 활성화
         }
 
-        StartCoroutine(DisablePunchColliderAfterDelay(0.6f)); // 0.7초 후에 콜라이더 비활성화
+        StartCoroutine(DisablePunchColliderAfterDelay(0.7f)); // 0.7초 후에 콜라이더 비활성화
     }
 
     IEnumerator DisablePunchColliderAfterDelay(float delay)
@@ -67,40 +67,35 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
         {
             punchCollider.enabled = false; // 주먹 콜라이더 비활성화
         }
-        animator.SetBool("Attack", false); // 공격 애니메이션 해제
-        animator.SetBool("FlyingAttack", false);
+        animator.SetBool("Attack", false); // 기본 공격 애니메이션 해제
+        animator.SetBool("FlyingAttack", false); // 달리는 중 공격 애니메이션 해제
         isAttacking = false; // 공격 중 상태 해제
-
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isAttacking)
+        if (isAttacking) // 공격 중인지 확인
         {
-            PhotonView otherPhotonView = other.GetComponentInParent<PhotonView>();
+            PhotonView otherPhotonView = other.GetComponentInParent<PhotonView>(); // 충돌한 객체의 PhotonView를 가져옴
 
-            if (otherPhotonView == null)
+            if (otherPhotonView == null) // PhotonView가 존재하지 않으면
             {
-                //Debug.LogWarning("PhotonView not found on " + other.gameObject.name); // 디버그 경고 로그 추가
-                return;
+                return; // 함수 종료
             }
 
-            if (other.gameObject.layer == LayerMask.NameToLayer("Player") && !otherPhotonView.IsMine)
+            if (other.gameObject.layer == LayerMask.NameToLayer("Player") && !otherPhotonView.IsMine) // 충돌한 객체가 플레이어 레이어에 속하고 로컬 플레이어가 아니면
             {
-                if (playerMoveAbility._isRunning)
+                if (playerMoveAbility._isRunning) // 플레이어가 달리는 중인지 확인
                 {
-                    pushForce = 6f;
+                    pushForce = 6f; // 달리는 중일 때의 밀어내는 힘 설정
                 }
                 else
                 {
-                    pushForce = 2f;
+                    pushForce = 2f; // 기본 밀어내는 힘 설정
                 }
 
-                Debug.Log("Collision detected with " + other.gameObject.name); // 디버그 로그 추가
                 Vector3 pushDirection = (other.transform.position - transform.position).normalized; // 밀리는 방향 계산
-                pushDirection.y = Mathf.Max(pushDirection.y, 0f); // Y값이 0보다 작지 않도록 설정
                 otherPhotonView.RPC("ApplyPushForce", RpcTarget.AllBuffered, pushDirection, pushForce); // 상대 플레이어를 밀리게 하는 RPC 호출
-                Debug.Log("때림");
             }
         }
     }
@@ -108,26 +103,26 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
     [PunRPC]
     public void ApplyPushForce(Vector3 pushDirection, float force)
     {
-        StartCoroutine(ApplyPushForceCoroutine(pushDirection, force));
+        StartCoroutine(ApplyPushForceCoroutine(pushDirection, force)); // 힘 적용 코루틴 시작
     }
 
     private IEnumerator ApplyPushForceCoroutine(Vector3 pushDirection, float force)
     {
-        Rigidbody targetRigidbody = GetComponentInParent<Rigidbody>();
+        Rigidbody targetRigidbody = GetComponentInParent<Rigidbody>(); // Rigidbody 컴포넌트 가져오기
 
-        if (targetRigidbody != null)
+        if (targetRigidbody != null) // Rigidbody가 존재하는지 확인
         {
-            float duration = 0.5f;
-            float elapsedTime = 0f;
-            Vector3 initialPosition = transform.position;
-            Vector3 targetPosition = initialPosition + pushDirection * force;
+            float duration = 0.5f; // 밀리는 지속 시간
+            float elapsedTime = 0f; // 경과 시간 초기화
+            Vector3 initialPosition = transform.position; // 초기 위치 저장
+            Vector3 targetPosition = initialPosition + pushDirection * force; // 목표 위치 계산
 
-            while (elapsedTime < duration)
+            while (elapsedTime < duration) // 경과 시간이 지속 시간보다 적을 동안
             {
-                elapsedTime += Time.deltaTime;
-                float t = elapsedTime / duration;
+                elapsedTime += Time.deltaTime; // 경과 시간 증가
+                float t = elapsedTime / duration; // 진행 비율 계산
                 targetRigidbody.MovePosition(Vector3.Lerp(initialPosition, targetPosition, t)); // 부드럽게 이동
-                yield return null;
+                yield return null; // 다음 프레임까지 대기
             }
         }
     }

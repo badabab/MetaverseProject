@@ -124,6 +124,10 @@ public class PlayerMoveAbility : PlayerAbility
         {
             this.transform.rotation = Quaternion.Euler(0, 180, 0);
         }
+        if (_sceneName == "TowerClimbWinScene")
+        {
+            this.transform.rotation = Quaternion.Euler(0, 90, 0);
+        }
         if (_sceneName.EndsWith("WinScene"))
         {
             return;

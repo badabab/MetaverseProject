@@ -9,7 +9,7 @@ public class JumpLancherMovement : MonoBehaviour
     
 
 
-    private bool isBouncing = false;
+    //private bool isBouncing = false;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -28,7 +28,7 @@ public class JumpLancherMovement : MonoBehaviour
 
     private IEnumerator BouncePlayer(Rigidbody rb)
     {
-        isBouncing = true;
+        //isBouncing = true;
         float elapsedTime = 0f;
         Vector3 originalVelocity = rb.velocity;
         rb.velocity = new Vector3(rb.velocity.x, BounceForce, rb.velocity.z); // 위쪽으로 힘을 가함
@@ -40,6 +40,6 @@ public class JumpLancherMovement : MonoBehaviour
         }
 
         rb.velocity = originalVelocity; // 원래 속도로 되돌림
-        isBouncing = false;
+        //isBouncing = false;
     }
 }

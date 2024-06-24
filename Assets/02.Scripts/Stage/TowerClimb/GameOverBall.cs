@@ -12,7 +12,7 @@ public class GameOverBall : MonoBehaviourPunCallbacks
     public Image GameOver;
     public Image Victory;
 
-    private bool playerCollided = false;
+    //private bool playerCollided = false;
     private string _firstPlayer;
 
     private void Start()
@@ -24,7 +24,24 @@ public class GameOverBall : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        PhotonView playerPhotonView = other.GetComponentInParent<PhotonView>();
+        if (other.CompareTag("Player") && playerPhotonView.IsMine)
+        {
+            _firstPlayer = playerPhotonView.Owner.NickName;
+            Debug.Log($"{_firstPlayer} reached the end first!");
+            PersonalManager.Instance.CoinUpdate(playerPhotonView.Owner.NickName, 100);
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", _firstPlayer } };
+                PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
+                Debug.Log($"{firstPlayerName} 저장");
+            }
+            //Time.timeScale = 0f;
+            StartCoroutine(GameOverSequence(other.gameObject));
+        }
+
+        /*if (other.CompareTag("Player"))
         {
             if (!playerCollided)
             {
@@ -53,7 +70,7 @@ public class GameOverBall : MonoBehaviourPunCallbacks
                     PhotonNetwork.LeaveRoom();
                 }
             }
-        }
+        }*/
     }
 
     private IEnumerator GameOverSequence(GameObject Player)
@@ -72,10 +89,16 @@ public class GameOverBall : MonoBehaviourPunCallbacks
         if (photonView != null)
         {
             animator.SetBool("Win", true);
-            PersonalManager.Instance.CoinUpdate(photonView.Owner.NickName, 100);
-            PhotonNetwork.LoadLevel("TowerClimbWinScene");
+            //PersonalManager.Instance.CoinUpdate(photonView.Owner.NickName, 100);
+            //PhotonNetwork.LoadLevel("TowerClimbWinScene");
             //PhotonNetwork.LeaveRoom();
+            StartCoroutine(ShowVictoryAndLoadScene());
         }
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
+    }
+    private System.Collections.IEnumerator ShowVictoryAndLoadScene()
+    {
+        yield return new WaitForSeconds(1);
+        PhotonNetwork.LoadLevel("TowerClimbWinScene");
     }
 }

@@ -21,6 +21,7 @@ public class Player : MonoBehaviourPunCallbacks, IPunObservable
         {
             UI_Minimap.Instance.MyPlayer = this;
         }
+        
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

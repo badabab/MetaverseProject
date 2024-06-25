@@ -115,19 +115,13 @@ public class GameManager : MonoBehaviourPunCallbacks
             // Photon Network에서 방 나가기
             PhotonNetwork.LeaveRoom();
         }
-    }
 
-/*    public override void OnLeftRoom()
-    {
-        // 방을 나간 후에 애플리케이션 종료
-        if (_localPlayerController != null)
-        {
-            // 빌드 후 실행했을 경우 종료하는 방법
-            Application.Quit();
+        // 빌드 후 실행됐을 경우 종료하는 방법
+        Application.Quit();
+
 #if UNITY_EDITOR
-            // 유니티 에디터에서 실행했을 경우 종료하는
-            UnityEditor.EditorApplication.isPlaying = false;
+        // 유니티 에디터에서 실행했을 경우 종료하는 방법
+        UnityEditor.EditorApplication.isPlaying = false;
 #endif
-        }
-    }*/
+    }
 }

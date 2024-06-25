@@ -33,30 +33,32 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
 
         if (Input.GetMouseButtonDown(1)) // 마우스 오른쪽 버튼 클릭으로 공격
         {
-            Attack(); // 공격 함수 호출
-        }
-    }
+            if (animator.GetCurrentAnimatorStateInfo(4).IsName("Attack"))
+            {
+                animator.SetBool("Attack", false);
+                animator.SetBool("Attack2", true);
+                photonAnimatorView.SetParameterSynchronized("Attack2", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+            }
+            else if (animator.GetCurrentAnimatorStateInfo(4).IsName("Attack2"))
+            {
+                animator.SetBool("Attack2", false);
+                animator.SetBool("Attack", true);
+                photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+            }
+            else
+            {
+                animator.SetBool("Attack", true);
+                photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+            }
+            isAttacking = true; // 공격 중 상태로 설정
 
-    void Attack()
-    {
-        if (playerMoveAbility._isRunning) // 플레이어가 달리는 중인지 확인
-        {
-            animator.SetBool("FlyingAttack", true); // 달리는 중 공격 애니메이션 설정
-        }
-        else
-        {
-            animator.SetBool("Attack", true); // 기본 공격 애니메이션 설정
-        }
+            if (punchCollider != null && punchCollider.CompareTag("Hand")) // 주먹 콜라이더가 존재하며 Hand 태그가 있는지 확인
+            {
+                punchCollider.enabled = true; // 공격 시 주먹 콜라이더 활성화
+            }
 
-        photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete); // 동기화 설정
-        isAttacking = true; // 공격 중 상태로 설정
-
-        if (punchCollider != null && punchCollider.CompareTag("Hand")) // 주먹 콜라이더가 존재하며 Hand 태그가 있는지 확인
-        {
-            punchCollider.enabled = true; // 공격 시 주먹 콜라이더 활성화
+            StartCoroutine(DisablePunchColliderAfterDelay(0.7f)); // 0.7초 후에 콜라이더 비활성화
         }
-
-        StartCoroutine(DisablePunchColliderAfterDelay(0.7f)); // 0.7초 후에 콜라이더 비활성화
     }
 
     IEnumerator DisablePunchColliderAfterDelay(float delay)
@@ -68,7 +70,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
             punchCollider.enabled = false; // 주먹 콜라이더 비활성화
         }
         animator.SetBool("Attack", false); // 기본 공격 애니메이션 해제
-        animator.SetBool("FlyingAttack", false); // 달리는 중 공격 애니메이션 해제
+        animator.SetBool("Attack2", false); // 달리는 중 공격 애니메이션 해제
         isAttacking = false; // 공격 중 상태 해제
     }
 
@@ -87,7 +89,11 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
             {
                 if (playerMoveAbility._isRunning) // 플레이어가 달리는 중인지 확인
                 {
-                    pushForce = 6f; // 달리는 중일 때의 밀어내는 힘 설정
+                    pushForce = 4f; // 달리는 중일 때의 밀어내는 힘 설정
+                }
+                else if (animator.GetCurrentAnimatorStateInfo(4).IsName("Attack2")) // Attack2 애니메이션이 실행 중인지 확인
+                {
+                    pushForce = 3f; // Attack2의 밀어내는 힘 설정
                 }
                 else
                 {

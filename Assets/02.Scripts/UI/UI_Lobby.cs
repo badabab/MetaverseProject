@@ -102,7 +102,7 @@ public class UI_Lobby : MonoBehaviour
         {
             PhotonNetwork.NickName = nickname;
             PlayerSelection.Instance.SelectedCharacterIndex = user.CharacterIndex;
-            OnClickStartButton();
+            SelectCharacterBrowser();
         }
         else
         {

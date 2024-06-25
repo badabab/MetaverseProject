@@ -73,6 +73,7 @@ public class UI_Lobby : MonoBehaviour
 
     public void OnClickNextButton()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
         string nickname = TMP_InputField.text;
         string password = TMP_InputFieldPw.text;
         if (string.IsNullOrEmpty(nickname) || string.IsNullOrEmpty(password))
@@ -143,6 +144,7 @@ public class UI_Lobby : MonoBehaviour
 
     private void OnClickPlayerTypeButton(PlayerType Ptype)
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
         SelectedType = Ptype;
         PlayerSelection.Instance.CharacterSelection(Ptype);
     }

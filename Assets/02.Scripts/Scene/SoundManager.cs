@@ -50,31 +50,32 @@ public class SoundManager : MonoBehaviour
         VillageInteractiveObjectWarningChicken7, // 10
         VillageInteractiveObjectJump,        // 11
         VillageInteractiveObjectBall,        // 12
+        VillageInteractiveObjectPowerJump,        // 13
         // 2. 마을 상점/ 빌보드 판
-        VillageCharacterChangeBillboard,     // 13
+        VillageCharacterChangeBillboard,     // 14
         // 3. 마을 포탈
-        VillagePortal,                       // 14
+        VillagePortal,                       // 15
         // 4. 1, 2번 UI / M지도 UI / 상점 코인 사운드
-        UI_Village12MButton,                 // 15
-        UI_VillageCharacterCoinSound,        // 16
+        UI_Village12MButton,                 // 16
+        UI_VillageCharacterCoinSound,        // 17
         // 5. 모든 게임 / 게임오버UI / 승리UI / 패배UI / 카운트다운
-        UI_WinVictory,                       // 17
-        UI_Lose,                             // 18
-        UI_GameOver,                         // 19
-        UI_Count,                            // 20
+        UI_WinVictory,                       // 18
+        UI_Lose,                             // 19
+        UI_GameOver,                         // 20
+        UI_Count,                            // 21
         // 6. 스테이지 이동UI / 코인 획득
-        UI_FallGuysStageMove,                // 21
-        UI_FallGuysCoinSound,                // 22
+        UI_FallGuysStageMove,                // 22
+        UI_FallGuysCoinSound,                // 23
         // 7. R버튼음
-        UI_RButton,                          // 23
+        UI_RButton,                          // 24
         // 8. 플레이어 사운드
-        PlayerWalking,                       // 24
-        PlayerRun,                           // 25
-        PlayerJump,                          // 26
-        PlayerDamages,                       // 27
-        PlayerRunningJump,                   // 28
-        PlayerPunch,                         // 29
-        PlayerFlyingKick,                    // 30
+        PlayerWalking,                       // 25
+        PlayerRun,                           // 26
+        PlayerJump,                          // 27
+        PlayerDamages,                       // 28
+        PlayerRunningJump,                   // 29
+        PlayerPunch,                         // 30
+        PlayerFlyingKick,                    // 31
     }
 
     public static SoundManager instance;

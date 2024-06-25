@@ -86,7 +86,6 @@ public class UI_Lobby : MonoBehaviour
     {
         string nickname = TMP_InputField.text;
         string password = TMP_InputFieldPw.text;
-
         if (string.IsNullOrEmpty(nickname) || string.IsNullOrEmpty(password))
         {
             Debug.Log("아이디, 비밀번호 둘 다 입력해주세요");

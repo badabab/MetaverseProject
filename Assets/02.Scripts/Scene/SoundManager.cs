@@ -12,94 +12,69 @@ public class SoundManager : MonoBehaviour
     AudioSource[] SfxPlayer;
     int channelIndex;
 
-    public enum Bgm 
-    { 
-        LobbyScene,//0
-        LoadingScene,//1
-        //마을
-        VillageSceneTutorials, //2
-        VillageScene, //3
-        VillageLoadScene,//4
-        //폴가이즈
-        FallGuysScene,//5
-        FallGuysWinScene,//6
-        FallGuysDescriptionScene,//7
-        //배틀타일
-        BattleTileScene,//8
-        BattleTileWinScene,//9
-        BattleTileDescriptionScene,//10
-        //타워클라임
-        TowerClimbScene,//11
-        TowerClimbWinScene,//12
-        TowerClimbDescriptionScene,//13
-        // 마을 테마용 사운드
-        VillageFallGuys,//14
-        VillageBattleTile,//15
-        VillageTowerClimb,//16
-        VillageHorrorGameClosed,//17
-        VillageWarnigChicken,//18
+    public enum Bgm
+    {
+        // 로비
+        LobbyScene,                // 0
+        // 마을 튜토리얼
+        VillageSceneTutorials,     // 1
+        // 마을
+        VillageScene,              // 2
+        // 폴가이즈
+        FallGuysScene,             // 3
+        // 배틀타일
+        BattleTileScene,           // 4
+        // 타워클라임
+        TowerClimbScene,           // 5
+        // 마을 내 공포사운드
+        HorrorGameClosed,//6
+        //승리
+        Win,//7
+        // 이동씬
+        SceneMove,// 8
     }
     public enum Sfx
     {
-        // 0. 로비 버튼음 / 로비 타자음
-        UI_LobbyButton,            // 0
-        UI_LobbyWordButton,        // 1
-        // 1. 마을 튜토리얼 Q 사운드
-        UI_VillageTutorials,       // 2
-        // 2. 마을 인터렉티브 오브젝트 사운드
-        VillageInteractiveObjectRocket,      // 3
-        VillageInteractiveObjectShip,        // 4
-        VillageInteractiveObjectCannon,      // 5
-        VillageInteractiveObjectWarnigChicken,// 6
-        VillageInteractiveObjectJump,        // 7
-        VillageInteractiveObjectFire,        // 8
-        VillageInteractiveObjectExplosionFire,// 9
-        // 3. 마을 상점/ 빌보드 판
-        VillageCharacterChange,    // 10
-        VillageBillboard,          // 11
-        // 4. 마을 포탈 
-        VillagePortal,             // 12
-        // 5. 마을 상점 / 빌보드 판 UI / 1, 2번 UI / M지도 UI
-        UI_VillageInformationButton,// 13
-        UI_VillageMapButton,       // 14
-        UI_Village1Button,         // 15
-        UI_Village2Button,         // 16
-        UI_VillageMButton,         // 17
-        // 6. 타워클라임 포트키 /  타자음
-        UI_TowerClimbPortKey,      // 18
-        UI_TowerClimbPortKeyWrod,  // 19
-        // 7. 타워클라임 게임오버UI / 승리UI
-        UI_TowerClimbGameOver,     // 20
-        UI_TowerClimbVictory,      // 21
-        // 8. 폴가이즈 R버튼음
-        UI_FallGuysRButton,        // 22
-        // 9. 폴가이즈 카운트다운UI / 스테이지 이동UI 
-        UI_FallGuysCount,          // 23
-        UI_FallGuysStageMove,      // 24
-        // 10. 폴가이즈 게임오버UI / 승리UI / 패배UI
-        UI_FallGuysGameOver,       // 25
-        UI_FallGuysWin,            // 26
-        UI_FallGuysLose,           // 27
-        // 11. 배틀타일 R버튼음
-        UI_BattleTileRButton,      // 28
-        // 12. 배틀타일 카운트다운UI
-        UI_BattleTileCount,        // 29
-        UI_BattleTileCount54321,   // 30
-        // 13. 배틀타일 게임오버UI / 승리UI / 패배UI
-        UI_BattleTileGameOver,     // 31
-        UI_BattleTileWin,          // 32
-        UI_BattleTileLose,         // 33
-        // 14. 게임설명 UI타자음
-        UI_GameexPlanationWord,    // 34
-        // 15. 플레이어 사운드
-        PlayerWalking,             // 35
-        PlayerRun,                 // 36
-        PlayerJump,                // 37
-        PLayerDamages,             // 38
-        PlayerNormalJump,          // 39
-        PlayerRunningJump,         // 40
-        PlayerPunch,               // 41
-        PlayerFlyingKick,          // 42
+        // 0. 로비 버튼음
+        UI_LobbyButtonQTutorialsButton,      // 0
+        // 1. 마을 인터렉티브 오브젝트 사운드
+        VillageInteractiveObjectRocket,      // 1
+        VillageInteractiveObjectShip,        // 2
+        VillageInteractiveObjectCannon,      // 3
+        VillageInteractiveObjectWarningChicken1, // 4
+        VillageInteractiveObjectWarningChicken2, // 5
+        VillageInteractiveObjectWarningChicken3, // 6
+        VillageInteractiveObjectWarningChicken4, // 7
+        VillageInteractiveObjectWarningChicken5, // 8
+        VillageInteractiveObjectWarningChicken6, // 9
+        VillageInteractiveObjectWarningChicken7, // 10
+        VillageInteractiveObjectJump,        // 11
+        VillageInteractiveObjectBall,        // 12
+        // 2. 마을 상점/ 빌보드 판
+        VillageCharacterChangeBillboard,     // 13
+        // 3. 마을 포탈
+        VillagePortal,                       // 14
+        // 4. 1, 2번 UI / M지도 UI / 상점 코인 사운드
+        UI_Village12MButton,                 // 15
+        UI_VillageCharacterCoinSound,        // 16
+        // 5. 모든 게임 / 게임오버UI / 승리UI / 패배UI / 카운트다운
+        UI_WinVictory,                       // 17
+        UI_Lose,                             // 18
+        UI_GameOver,                         // 19
+        UI_Count,                            // 20
+        // 6. 스테이지 이동UI / 코인 획득
+        UI_FallGuysStageMove,                // 21
+        UI_FallGuysCoinSound,                // 22
+        // 7. R버튼음
+        UI_RButton,                          // 23
+        // 8. 플레이어 사운드
+        PlayerWalking,                       // 24
+        PlayerRun,                           // 25
+        PlayerJump,                          // 26
+        PlayerDamages,                       // 27
+        PlayerRunningJump,                   // 28
+        PlayerPunch,                         // 29
+        PlayerFlyingKick,                    // 30
     }
 
     public static SoundManager instance;

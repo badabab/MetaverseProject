@@ -12,6 +12,7 @@ public enum PlayerType
 }
 public class UI_Lobby : MonoBehaviour
 {
+
     public Image WhiteBack;
     public Image Logo;
     public TMP_InputField TMP_InputFieldId;
@@ -31,6 +32,7 @@ public class UI_Lobby : MonoBehaviour
 
     private void Start()
     {
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.LobbyScene);
         Metaverse1.SetActive(false);
         StartCoroutine(FadeOutWhiteBackAndExecute());
     }

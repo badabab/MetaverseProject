@@ -12,6 +12,8 @@ public enum PlayerType
 }
 public class UI_Lobby : MonoBehaviour
 {
+    public GameObject WhiteBack;
+    public GameObject Logo;
     public TMP_InputField TMP_InputFieldId;
     public TMP_InputField TMP_InputFieldPw;
     public Toggle RememberToggle;
@@ -33,7 +35,7 @@ public class UI_Lobby : MonoBehaviour
         LoadLoginInfo();
         AutoLogin();
     }
-
+    
     private void LoadLoginInfo()
     {
         string loggedInUser = PlayerPrefs.GetString("LoggedInId", string.Empty);

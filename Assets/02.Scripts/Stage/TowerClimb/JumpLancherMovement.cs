@@ -15,6 +15,7 @@ public class JumpLancherMovement : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.VillageInteractiveObjectPowerJump);
             other.GetComponent<Rigidbody>().velocity = Vector3.zero; 
             other.GetComponent<PlayerMoveAbility>().Jump(BounceForce);
 

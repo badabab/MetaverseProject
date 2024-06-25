@@ -33,6 +33,13 @@ public class UI_GameOverEnd : MonoBehaviour
     private Vector3 blueTargetPosition;
     private Vector3 blue1TargetPosition;
 
+    private bool redReached;
+    private bool red1Reached;
+    private bool yellowReached;
+    private bool yellow1Reached;
+    private bool blueReached;
+    private bool blue1Reached;
+
     void Start()
     {
         redRectTransform = Red.GetComponent<RectTransform>();
@@ -48,20 +55,44 @@ public class UI_GameOverEnd : MonoBehaviour
         yellow1TargetPosition = new Vector3(Yellow1Stop, yellow1RectTransform.localPosition.y, yellow1RectTransform.localPosition.z);
         blueTargetPosition = new Vector3(BlueStop, blueRectTransform.localPosition.y, blueRectTransform.localPosition.z);
         blue1TargetPosition = new Vector3(Blue1Stop, blue1RectTransform.localPosition.y, blue1RectTransform.localPosition.z);
+
+        redReached = false;
+        red1Reached = false;
+        yellowReached = false;
+        yellow1Reached = false;
+        blueReached = false;
+        blue1Reached = false;
     }
 
     void Update()
     {
-        MoveToTarget(redRectTransform, redTargetPosition);
-        MoveToTarget(red1RectTransform, red1TargetPosition);
-        MoveToTarget(yellowRectTransform, yellowTargetPosition);
-        MoveToTarget(yellow1RectTransform, yellow1TargetPosition);
-        MoveToTarget(blueRectTransform, blueTargetPosition);
-        MoveToTarget(blue1RectTransform, blue1TargetPosition);
+        if (!redReached)
+            redReached = MoveToTarget(redRectTransform, redTargetPosition);
+
+        if (!red1Reached)
+            red1Reached = MoveToTarget(red1RectTransform, red1TargetPosition);
+
+        if (!yellowReached)
+            yellowReached = MoveToTarget(yellowRectTransform, yellowTargetPosition);
+
+        if (!yellow1Reached)
+            yellow1Reached = MoveToTarget(yellow1RectTransform, yellow1TargetPosition);
+
+        if (!blueReached)
+            blueReached = MoveToTarget(blueRectTransform, blueTargetPosition);
+
+        if (!blue1Reached)
+            blue1Reached = MoveToTarget(blue1RectTransform, blue1TargetPosition);
     }
 
-    private void MoveToTarget(RectTransform rectTransform, Vector3 targetPosition)
+    private bool MoveToTarget(RectTransform rectTransform, Vector3 targetPosition)
     {
         rectTransform.localPosition = Vector3.Lerp(rectTransform.localPosition, targetPosition, speed * Time.deltaTime);
+        if (Vector3.Distance(rectTransform.localPosition, targetPosition) < 0.1f)
+        {
+            rectTransform.localPosition = targetPosition;
+            return true;
+        }
+        return false;
     }
 }

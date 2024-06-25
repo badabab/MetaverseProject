@@ -137,6 +137,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public void LeaveAndLoadRoom(string nextRoom)
     {
         NextRoomName = nextRoom;
+        PhotonNetwork.LeaveRoom();
         StartCoroutine(LeaveRoomAndLoadDescriptionScene());
     }
 
@@ -166,8 +167,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             }
             AsyncOperation loadingScene = SceneManager.LoadSceneAsync(descriptionSceneName, LoadSceneMode.Additive);
             yield return loadingScene;
-        }
-        PhotonNetwork.LeaveRoom();
+        }       
     }
 
     public override void OnLeftRoom()

@@ -21,12 +21,14 @@ public class VillageTutorial : MonoBehaviourPunCallbacks
         TimelineMaker.Play();
         StartCoroutine(Show_Coroutine());
         TimelineMaker.stopped += OnPlayableDirectorStopped;
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.VillageSceneTutorials);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
             if (isLeavingRoom)
             {
                 return;
@@ -37,7 +39,7 @@ public class VillageTutorial : MonoBehaviourPunCallbacks
 
     IEnumerator WalkandHello()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         HelloPlayer.GetComponent<Animator>().SetBool("Hello", true);
     }
     IEnumerator Show_Coroutine()

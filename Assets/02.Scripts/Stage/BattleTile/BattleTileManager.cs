@@ -28,11 +28,6 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (CurrentGameState == GameState.Go)
-        {
-            UpdateGameTimer();
-        }
-
         switch (CurrentGameState)
         {
             case GameState.Ready:
@@ -51,7 +46,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
                 break;
 
             case GameState.Go:
-               
+                UpdateGameTimer();
                 break;
 
             case GameState.Over:

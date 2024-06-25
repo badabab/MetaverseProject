@@ -29,10 +29,16 @@ public class UI_GameManager : MonoBehaviour
     }
 
     private void Update()
-    {
+    {      
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ToggleUI();
+            if (SceneManager.GetActiveScene().name == "VillageScene"
+            || SceneManager.GetActiveScene().name == "BattleTileScene"
+            || SceneManager.GetActiveScene().name == "FallGuysScene"
+            || SceneManager.GetActiveScene().name == "TowerClimbScene")
+            {
+                ToggleUI();
+            }                
         }
     }
 
@@ -75,7 +81,11 @@ public class UI_GameManager : MonoBehaviour
         UnityEngine.Cursor.visible = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         //GameManager.Instance.BackToVillage();
-        if (SceneManager.GetActiveScene().name != "Village")
+        if (SceneManager.GetActiveScene().name == "VillageScene")
+        {
+            OnClickReplay();
+        }
+        else
         {
             PhotonManager.Instance.LeaveAndLoadRoom("Village");
             PhotonNetwork.LeaveRoom();

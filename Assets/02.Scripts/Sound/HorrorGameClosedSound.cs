@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class HorrorGameClosedSound : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private bool isPlayerInside = false;
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            isPlayerInside = true;
+            SoundManager.instance.PlayBgm(SoundManager.Bgm.HorrorGameClosed);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            isPlayerInside = false;
+            SoundManager.instance.StopBgm(SoundManager.Bgm.HorrorGameClosed);
+        }
     }
 }

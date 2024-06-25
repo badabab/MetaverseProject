@@ -23,6 +23,7 @@ public class VillageScene : MonoBehaviourPunCallbacks
     }
     private void Start()
     {
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.VillageScene);
         if (PhotonNetwork.InRoom && !localPlayerInitialized)
         {
             InitializePlayer(PhotonNetwork.LocalPlayer);

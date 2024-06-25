@@ -128,7 +128,7 @@ public class SoundManager : MonoBehaviour
             break;
         }
     }
-    public void StopBgm()
+    public void StopBgm(Bgm horrorGameClosed)
     {
         if (BgmPlayer.isPlaying)
         {

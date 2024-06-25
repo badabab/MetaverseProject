@@ -34,6 +34,7 @@ public class Fire : MonoBehaviour
 
     IEnumerator ActivateFuseFireForSeconds(float seconds)
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.VillageInteractiveObjectCannon);
         isFireActive = true;
         if (fuseFire != null)
         {

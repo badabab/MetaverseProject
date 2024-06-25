@@ -38,7 +38,7 @@ public class AerialBomb : MonoBehaviourPunCallbacks
     void Explode(int explosionIndex)
     {
         GameObject explosion = Instantiate(explosionEffectPrefab, transform.position, transform.rotation);
-
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.VillageInteractiveObjectRocket);
         Destroy(explosion, BombTime);
 
         hasExploded = true;

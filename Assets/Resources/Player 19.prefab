@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5114037905572019570}
+  - component: {fileID: 5405861681814000838}
   m_Layer: 9
   m_Name: DEF-foot.L
-  m_TagString: Untagged
+  m_TagString: Stage5
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32,6 +33,27 @@ Transform:
   - {fileID: 7158738657481832661}
   m_Father: {fileID: 1113817053407560904}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &5405861681814000838
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2532752435961929}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.0035009508
+  m_Center: {x: -0.0000093804365, y: 0.0006099773, z: 0.00037938243}
 --- !u!1 &122132428554375045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1097,9 +1119,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2629311961373765209}
+  - component: {fileID: 4164216209404100142}
   m_Layer: 9
   m_Name: DEF-hand.L
-  m_TagString: Untagged
+  m_TagString: Hand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1128,6 +1151,27 @@ Transform:
   - {fileID: 8018484192798183781}
   m_Father: {fileID: 2099544884381581822}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &4164216209404100142
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2986417183166905820}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.00229698
+  m_Center: {x: -0.000009402909, y: 0.0007, z: 0.00016619111}
 --- !u!1 &3015799211261824288
 GameObject:
   m_ObjectHideFlags: 0
@@ -2903,6 +2947,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: FlyingAttack
+  - Type: 4
+    SynchronizeType: 0
+    Name: Attack2
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0

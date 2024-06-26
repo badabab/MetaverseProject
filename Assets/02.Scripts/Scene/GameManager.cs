@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             if (_localPlayerController != null && _localPlayerController.photonView.IsMine)
             {
-                PhotonNetwork.LeaveRoom();
+                //PhotonNetwork.LeaveRoom();
                 PhotonManager.Instance.LeaveAndLoadRoom("Village");
             }
             else

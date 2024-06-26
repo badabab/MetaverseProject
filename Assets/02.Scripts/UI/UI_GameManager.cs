@@ -88,7 +88,6 @@ public class UI_GameManager : MonoBehaviour
         else
         {
             PhotonManager.Instance.LeaveAndLoadRoom("Village");
-            PhotonNetwork.LeaveRoom();
         }
     }
 

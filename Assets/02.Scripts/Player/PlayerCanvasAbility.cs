@@ -69,7 +69,7 @@ public class PlayerCanvasAbility : PlayerAbility
         }
         else
         {
-            Debug.LogWarning("changedProps does not contain 'Nickname'");
+            //Debug.LogWarning("changedProps does not contain 'Nickname'");
         }
     }
 }

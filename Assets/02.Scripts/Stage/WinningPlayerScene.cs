@@ -98,6 +98,6 @@ public class WinningPlayerScene : MonoBehaviour
         //PhotonNetwork.LoadLevel("VillageScene");
         //PhotonNetwork.LeaveRoom();
         PhotonManager.Instance.LeaveAndLoadRoom("Village");
-        PhotonNetwork.LeaveRoom();
+        //PhotonNetwork.LeaveRoom();
     }
 }

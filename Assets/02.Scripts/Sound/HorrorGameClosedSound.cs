@@ -19,8 +19,11 @@ public class HorrorGameClosedSound : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            isPlayerInside = false;
-            SoundManager.instance.StopBgm(SoundManager.Bgm.HorrorGameClosed);
+            if (isPlayerInside)
+            {
+                isPlayerInside = false;
+                SoundManager.instance.StopBgm(SoundManager.Bgm.HorrorGameClosed);
+            }
         }
     }
 }

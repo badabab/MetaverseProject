@@ -2734,7 +2734,6 @@ GameObject:
   - component: {fileID: 8479699301252598850}
   - component: {fileID: 2506077322682412178}
   - component: {fileID: 3372640195544263364}
-  - component: {fileID: -8457798565598787208}
   m_Layer: 9
   m_Name: Player 8
   m_TagString: Player
@@ -2841,8 +2840,8 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 7784590748883821406}
-  - {fileID: 5239447867643841674}
   - {fileID: -1634637962399818110}
+  - {fileID: 5239447867643841674}
   - {fileID: 8043215563652428379}
   - {fileID: 3372640195544263364}
   sceneViewId: 0
@@ -2863,9 +2862,6 @@ MonoBehaviour:
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
   m_SynchronizeParameters:
-  - Type: 9
-    SynchronizeType: 1
-    Name: Grab
   - Type: 1
     SynchronizeType: 1
     Name: Move
@@ -2887,9 +2883,6 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: Sad
-  - Type: 4
-    SynchronizeType: 1
-    Name: isGrabbing
   - Type: 9
     SynchronizeType: 1
     Name: Attack
@@ -3213,22 +3206,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f77bbbba85baa498377d4a2522e832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-8457798565598787208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9029329124467589125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29f4ac00201e2ad4ebef13d0406a027e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hand: {fileID: 0}
-  animator: {fileID: 0}
-  grabDistance: 2
-  GrabbingTimer: 4
 --- !u!1 &9074448728345242793
 GameObject:
   m_ObjectHideFlags: 0

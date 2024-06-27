@@ -36,12 +36,12 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
             }
             else
             {
-                if (animator.GetCurrentAnimatorStateInfo(4).IsName("Attack"))
+                if (animator.GetCurrentAnimatorStateInfo(3).IsName("Attack"))
                 {
                     animator.SetBool("Attack", false);
                     animator.SetBool("Attack2", true);
                 }
-                else if (animator.GetCurrentAnimatorStateInfo(4).IsName("Attack2"))
+                else if (animator.GetCurrentAnimatorStateInfo(3).IsName("Attack2"))
                 {
                     animator.SetBool("Attack2", false);
                     animator.SetBool("Attack", true);

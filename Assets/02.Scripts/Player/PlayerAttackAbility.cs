@@ -66,7 +66,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
                 punchCollider.enabled = true; // 공격 시 주먹 콜라이더 활성화
             }
 
-            StartCoroutine(DisablePunchColliderAfterDelay(0.7f)); // 0.7초 후에 콜라이더 비활성화
+            StartCoroutine(DisablePunchColliderAfterDelay(0.5f)); // 0.5초 후에 콜라이더 비활성화
         }
     }
 
@@ -111,7 +111,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
                 }
 
                 Vector3 pushDirection = (other.transform.position - transform.position).normalized; // 밀리는 방향 계산
-                pushDirection.y = 0;
+                //pushDirection.y = 0;
                 otherPhotonView.RPC("ApplyPushForce", RpcTarget.AllBuffered, pushDirection, pushForce); // 상대 플레이어를 밀리게 하는 RPC 호출
             }
         }

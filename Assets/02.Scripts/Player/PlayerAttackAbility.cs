@@ -2,7 +2,7 @@ using Photon.Pun; // Photon.Pun 네임스페이스 사용
 using System.Collections; // System.Collections 네임스페이스 사용
 using UnityEngine; // UnityEngine 네임스페이스 사용
 
-public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 MonoBehaviourPunCallbacks를 상속받은 클래스 선언
+public class PlayerAttackAbility : PlayerAbility // Photon.Pun의 MonoBehaviourPunCallbacks를 상속받은 클래스 선언
 {
     private float pushForce; // 밀리는 힘의 크기
     public LayerMask playerLayer; // 플레이어 레이어

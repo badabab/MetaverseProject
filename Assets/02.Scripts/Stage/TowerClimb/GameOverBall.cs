@@ -20,6 +20,8 @@ public class GameOverBall : MonoBehaviourPunCallbacks
         GameEndUI.SetActive(false);
         GameOver.gameObject.SetActive(false);
         Victory.gameObject.SetActive(false);
+
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.TowerClimbScene);
     }
 
     private void OnTriggerEnter(Collider other)

@@ -28,10 +28,7 @@ public class SoundManager : MonoBehaviour
         TowerClimbScene,           // 5
         // 마을 내 공포사운드
         HorrorGameClosed,//6
-        //승리
-        Win,//7
-        // 이동씬
-        SceneMove,// 8
+
     }
     public enum Sfx
     {
@@ -76,6 +73,10 @@ public class SoundManager : MonoBehaviour
         PlayerRunningJump,                   // 29
         PlayerPunch,                         // 30
         PlayerFlyingKick,                    // 31
+        //승리
+        Win,                                //32
+        // 이동씬
+        SceneMove,                          // 33
     }
 
     public static SoundManager instance;
@@ -128,7 +129,7 @@ public class SoundManager : MonoBehaviour
             break;
         }
     }
-    public void StopBgm(Bgm horrorGameClosed)
+    public void StopBgm()
     {
         if (BgmPlayer.isPlaying)
         {

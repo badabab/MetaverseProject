@@ -54,6 +54,8 @@ public class WinningPlayerScene : MonoBehaviour
         }
 
         StartCoroutine(AllPlayerOut_Coroutine());
+        SoundManager.instance.StopBgm();
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.Win);
     }
 
     private void SetupCameraForPlayer(GameObject player)

@@ -26,6 +26,11 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
         TimeRemaining = (int)_gameDuration; // 게임 시작 시 타이머 초기화
     }
 
+    private void Start()
+    {
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.BattleTileScene);
+    }
+
     private void Update()
     {
         switch (CurrentGameState)

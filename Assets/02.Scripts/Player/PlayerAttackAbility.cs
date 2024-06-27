@@ -4,7 +4,7 @@ using UnityEngine; // UnityEngine 네임스페이스 사용
 
 public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 MonoBehaviourPunCallbacks를 상속받은 클래스 선언
 {
-    public float pushForce = 5f; // 밀리는 힘의 크기
+    private float pushForce; // 밀리는 힘의 크기
     public LayerMask playerLayer; // 플레이어 레이어
     public Animator animator; // 애니메이터 컴포넌트
     private PhotonAnimatorView photonAnimatorView; // PhotonAnimatorView 컴포넌트 참조 추가
@@ -99,18 +99,19 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
             {
                 if (playerMoveAbility._isRunning) // 플레이어가 달리는 중인지 확인
                 {
-                    pushForce = 4f; // 달리는 중일 때의 밀어내는 힘 설정
+                    pushForce = 3f; // 달리는 중일 때의 밀어내는 힘 설정
                 }
                 else if (animator.GetCurrentAnimatorStateInfo(4).IsName("Attack2")) // Attack2 애니메이션이 실행 중인지 확인
                 {
-                    pushForce = 3f; // Attack2의 밀어내는 힘 설정
+                    pushForce = 2f; // Attack2의 밀어내는 힘 설정
                 }
                 else
                 {
-                    pushForce = 2f; // 기본 밀어내는 힘 설정
+                    pushForce = 1f; // 기본 밀어내는 힘 설정
                 }
 
                 Vector3 pushDirection = (other.transform.position - transform.position).normalized; // 밀리는 방향 계산
+                pushDirection.y = other.transform.position.y;
                 otherPhotonView.RPC("ApplyPushForce", RpcTarget.AllBuffered, pushDirection, pushForce); // 상대 플레이어를 밀리게 하는 RPC 호출
             }
         }

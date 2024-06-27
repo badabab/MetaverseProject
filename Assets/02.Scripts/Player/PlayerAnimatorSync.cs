@@ -13,8 +13,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     private bool jump;
     private bool win;
     private bool sad;
-    private bool isGrabbing;
-    private bool grab;
     private bool attack;
     private bool flyingAttack;
 

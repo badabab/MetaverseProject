@@ -5,7 +5,6 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class BattleTilePlayer : MonoBehaviourPunCallbacks
 {
     public bool isReady = false;
-    private CharacterController _characterController;
     public int MyNum;
     private TileScore _tileScore;
     private bool _isFinished = false;
@@ -21,7 +20,6 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        _characterController = GetComponent<CharacterController>();
         MyNum = GetUniqueRandomNumber();
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "PlayerNumber", MyNum }, { "PlayerTileNumber", MyNum } });
         GameObject startpoint = GameObject.Find($"Start{MyNum}");

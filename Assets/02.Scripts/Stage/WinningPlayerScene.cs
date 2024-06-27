@@ -14,10 +14,11 @@ public class WinningPlayerScene : MonoBehaviour
     public Transform PlayerSpawn;
     public TextMeshProUGUI WinningName;
     public GameObject winningPlayer;
-
+    
     // Start is called before the first frame update
     void Start()
     {
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.Win);
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("FirstPlayerName"))
         {
             _firstPlayerName = (string)PhotonNetwork.CurrentRoom.CustomProperties["FirstPlayerName"];
@@ -45,6 +46,8 @@ public class WinningPlayerScene : MonoBehaviour
 
                 // 카메라 설정
                 //SetupCameraForPlayer(winningPlayer);
+
+                SoundManager.instance.PlayBgm(SoundManager.Bgm.Win);
             }
         }
         else
@@ -60,6 +63,7 @@ public class WinningPlayerScene : MonoBehaviour
 
     private void SetupCameraForPlayer(GameObject player)
     {
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.Win);
         Transform cameraRoot = player.transform.Find("CameraRoot");
         if (cameraRoot != null)
         {

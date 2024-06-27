@@ -61,6 +61,7 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_RButton);
             isReady = !isReady;
             UpdateReadyState(isReady);
         }

@@ -38,6 +38,7 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
     {
         if (photonView.IsMine && Input.GetKeyDown(KeyCode.R))
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_RButton);
             _isReady = !_isReady; // 레디 상태 토글
             Hashtable props = new Hashtable { { "IsReady_FallGuys", _isReady } };
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);

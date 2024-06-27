@@ -33,6 +33,7 @@ public class UI_ReadyPeople : MonoBehaviour
     }
     public void SetPlayerReady()
     {
+
         Photon.Realtime.Player localPlayer = PhotonNetwork.LocalPlayer;
         localPlayer.SetCustomProperties(new Hashtable { { "IsReady", true } });
     }

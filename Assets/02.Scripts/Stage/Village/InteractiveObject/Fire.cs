@@ -67,6 +67,7 @@ public class Fire : MonoBehaviour
     IEnumerator RestartShipFireRoutine(int collisionCount)
     {
         isShipFireRoutineRunning = true;
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.VillageInteractiveObjectShip);
         yield return new WaitForSeconds(shipFireInterval);
 
         int firesToActivate = Mathf.Min(collisionCount, shipFire.Count);

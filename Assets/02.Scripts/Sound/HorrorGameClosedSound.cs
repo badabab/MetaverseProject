@@ -21,8 +21,8 @@ public class HorrorGameClosedSound : MonoBehaviour
         {
             if (isPlayerInside)
             {
+                SoundManager.instance.PlayBgm(SoundManager.Bgm.VillageScene);
                 isPlayerInside = false;
-                SoundManager.instance.StopBgm();
             }
         }
     }

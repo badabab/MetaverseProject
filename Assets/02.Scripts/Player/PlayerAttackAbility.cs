@@ -24,11 +24,7 @@ public class PlayerAttackAbility : PlayerAbility
             punchCollider.isTrigger = true; // 콜라이더를 트리거로 설정하여 충돌 감지
             punchCollider.enabled = false; // 초기에는 비활성화
         }
-
-        // 파라미터 동기화 설정
-        photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
-        photonAnimatorView.SetParameterSynchronized("Attack2", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
-        photonAnimatorView.SetParameterSynchronized("FlyingAttack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+        
     }
 
     void Update()

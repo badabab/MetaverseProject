@@ -24,7 +24,11 @@ public class PlayerAttackAbility : PlayerAbility
             punchCollider.isTrigger = true; // 콜라이더를 트리거로 설정하여 충돌 감지
             punchCollider.enabled = false; // 초기에는 비활성화
         }
-        
+
+        // 파라미터 동기화 설정
+        photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+        photonAnimatorView.SetParameterSynchronized("Attack2", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+        photonAnimatorView.SetParameterSynchronized("FlyingAttack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
     }
 
     void Update()
@@ -38,14 +42,16 @@ public class PlayerAttackAbility : PlayerAbility
             {
                 animator.SetBool("FlyingAttack", true);
             }
-            else if(playerMoveAbility._isRunning == false)
+            else
             {
-                if (animator.GetCurrentAnimatorStateInfo(3).IsName("Attack"))
+                int attackLayerIndex = 3; // 공격 애니메이션이 있는 올바른 레이어 인덱스로 설정
+
+                if (animator.GetCurrentAnimatorStateInfo(attackLayerIndex).IsName("Attack"))
                 {
                     animator.SetBool("Attack", false);
                     animator.SetBool("Attack2", true);
                 }
-                else if (animator.GetCurrentAnimatorStateInfo(3).IsName("Attack2"))
+                else if (animator.GetCurrentAnimatorStateInfo(attackLayerIndex).IsName("Attack2"))
                 {
                     animator.SetBool("Attack2", false);
                     animator.SetBool("Attack", true);
@@ -98,7 +104,7 @@ public class PlayerAttackAbility : PlayerAbility
                 {
                     pushForce = 4f; // 달리는 중일 때의 밀어내는 힘 설정
                 }
-                else if (animator.GetCurrentAnimatorStateInfo(3).IsName("Attack2")) // Attack2 애니메이션이 실행 중인지 확인
+                else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack2")) // Attack2 애니메이션이 실행 중인지 확인
                 {
                     pushForce = 2.5f; // Attack2의 밀어내는 힘 설정
                 }
@@ -108,7 +114,6 @@ public class PlayerAttackAbility : PlayerAbility
                 }
 
                 Vector3 pushDirection = (other.transform.position - transform.position).normalized; // 밀리는 방향 계산
-                //pushDirection.y = 0;
                 otherPhotonView.RPC("ApplyPushForce", RpcTarget.AllBuffered, pushDirection, pushForce); // 상대 플레이어를 밀리게 하는 RPC 호출
             }
         }

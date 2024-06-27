@@ -28,6 +28,10 @@ public class SoundManager : MonoBehaviour
         TowerClimbScene,           // 5
         // 마을 내 공포사운드
         HorrorGameClosed,//6
+        // 승리 
+        Win,//7
+        // 씬이동
+        SceneMove,//8
 
     }
     public enum Sfx
@@ -77,6 +81,8 @@ public class SoundManager : MonoBehaviour
         Win,                                //32
         // 이동씬
         SceneMove,                          // 33
+        // 준비, 출발
+
     }
 
     public static SoundManager instance;

@@ -41,6 +41,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
         SoundManager.instance.PlayBgm(SoundManager.Bgm.FallGuysScene);
     }
 
+
     void Update()
     {
         switch (_currentGameState)

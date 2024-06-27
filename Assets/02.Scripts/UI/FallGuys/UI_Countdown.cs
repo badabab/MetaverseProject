@@ -75,6 +75,8 @@ public class UI_Countdown : MonoBehaviour
             RoadingImages[i].gameObject.SetActive(false);
         }
         _isGo = true;
+
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.FallGuysScene);
         isCountDownCoroutineRunning = false;
         yield break;
     }

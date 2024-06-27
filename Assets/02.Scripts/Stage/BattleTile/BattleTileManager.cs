@@ -18,7 +18,6 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
     private bool _isStartCoroutine = false;
 
     public GameState CurrentGameState = GameState.Ready;
-    
 
     private void Awake()
     {
@@ -119,7 +118,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
 
     void UpdateGameTimer()
     {
-        SoundManager.instance.PlayBgm(SoundManager.Bgm.BattleTileScene);
+
         if (TimeRemaining > 0)
         {
             TimeRemaining -= Time.deltaTime;

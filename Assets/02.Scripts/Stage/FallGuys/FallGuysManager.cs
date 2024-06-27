@@ -36,12 +36,6 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
         Instance = this;
     }
 
-    private void Start()
-    {
-        SoundManager.instance.PlayBgm(SoundManager.Bgm.FallGuysScene);
-    }
-
-
     void Update()
     {
         switch (_currentGameState)
@@ -62,7 +56,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
                 break;
 
             case GameState.Go:
-                // 게임이 진행 중일 때의 로직을 추가하세요.
+                SoundManager.instance.PlayBgm(SoundManager.Bgm.FallGuysScene);
                 break;
 
             case GameState.Over:
@@ -117,6 +111,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
             }
         }
         Debug.Log("플레이어 모두 레디");
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.Ready);
         return true; // 모든 플레이어가 준비됨
     }
 
@@ -138,11 +133,13 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
                 yield return new WaitForSeconds(1);
                 Debug.Log($"CountDown: {i}");
             }
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.Go);
             SetGameState(GameState.Go);
         }      
     }
     private System.Collections.IEnumerator ShowVictoryAndLoadScene()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_GameOver);
         while (_countEnd > 0)
         {
             Debug.Log($"CountDown: {_countEnd}");

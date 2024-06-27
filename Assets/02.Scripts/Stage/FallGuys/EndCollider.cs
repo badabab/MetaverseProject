@@ -20,6 +20,7 @@ public class EndCollider : MonoBehaviourPunCallbacks
         PhotonView playerPhotonView = other.GetComponentInParent<PhotonView>();
         if (other.CompareTag("Player") && playerPhotonView.IsMine)
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_FallGuysStageMove);
             _rb = other.GetComponent<Rigidbody>();
             if (gameObject.name == "End1")
             {

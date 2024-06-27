@@ -86,6 +86,8 @@ public class SoundManager : MonoBehaviour
         Go,//35
         // ESC 사운드
         ESC,//36
+        // 마을 코인 부족 사운드
+        NoCoin//37
     }
 
     public static SoundManager instance;

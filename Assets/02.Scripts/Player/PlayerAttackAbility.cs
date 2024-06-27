@@ -44,12 +44,12 @@ public class PlayerAttackAbility : PlayerAbility
             }
             else if(playerMoveAbility._isRunning == false)
             {
-                if (animator.GetCurrentAnimatorStateInfo(4).IsName("Attack"))
+                if (animator.GetCurrentAnimatorStateInfo(3).IsName("Attack"))
                 {
                     animator.SetBool("Attack", false);
                     animator.SetBool("Attack2", true);
                 }
-                else if (animator.GetCurrentAnimatorStateInfo(4).IsName("Attack2"))
+                else if (animator.GetCurrentAnimatorStateInfo(3).IsName("Attack2"))
                 {
                     animator.SetBool("Attack2", false);
                     animator.SetBool("Attack", true);
@@ -102,7 +102,7 @@ public class PlayerAttackAbility : PlayerAbility
                 {
                     pushForce = 4f; // 달리는 중일 때의 밀어내는 힘 설정
                 }
-                else if (animator.GetCurrentAnimatorStateInfo(4).IsName("Attack2")) // Attack2 애니메이션이 실행 중인지 확인
+                else if (animator.GetCurrentAnimatorStateInfo(3).IsName("Attack2")) // Attack2 애니메이션이 실행 중인지 확인
                 {
                     pushForce = 2.5f; // Attack2의 밀어내는 힘 설정
                 }

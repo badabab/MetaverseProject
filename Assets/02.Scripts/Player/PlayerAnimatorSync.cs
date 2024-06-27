@@ -52,8 +52,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             animator.SetBool("Jump", jump);
             animator.SetBool("Win", win);
             animator.SetBool("Sad", sad);
-            animator.SetBool("isGrabbing", isGrabbing);
-            animator.SetBool("Grab", grab);
             animator.SetBool("Attack", attack);
             animator.SetBool("Attack2", attack);
             animator.SetBool("FlyingAttack", flyingAttack);
@@ -79,16 +77,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
 
         animator.SetBool("Attack", attack);
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            isGrabbing = true;
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            isGrabbing = false;
-        }
-
-        animator.SetBool("isGrabbing", isGrabbing);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -124,8 +112,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             stream.SendNext(animator.GetBool("Jump"));
             stream.SendNext(animator.GetBool("Win"));
             stream.SendNext(animator.GetBool("Sad"));
-            stream.SendNext(animator.GetBool("isGrabbing"));
-            stream.SendNext(animator.GetBool("Grab"));
             stream.SendNext(animator.GetBool("Attack"));
             stream.SendNext(animator.GetBool("Attack2"));
             stream.SendNext(animator.GetBool("FlyingAttack"));
@@ -139,8 +125,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             jump = (bool)stream.ReceiveNext();
             win = (bool)stream.ReceiveNext();
             sad = (bool)stream.ReceiveNext();
-            isGrabbing = (bool)stream.ReceiveNext();
-            grab = (bool)stream.ReceiveNext();
             attack = (bool)stream.ReceiveNext();
             flyingAttack = (bool)stream.ReceiveNext();
         }

@@ -99,15 +99,15 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
             {
                 if (playerMoveAbility._isRunning) // 플레이어가 달리는 중인지 확인
                 {
-                    pushForce = 3f; // 달리는 중일 때의 밀어내는 힘 설정
+                    pushForce = 4f; // 달리는 중일 때의 밀어내는 힘 설정
                 }
                 else if (animator.GetCurrentAnimatorStateInfo(4).IsName("Attack2")) // Attack2 애니메이션이 실행 중인지 확인
                 {
-                    pushForce = 2f; // Attack2의 밀어내는 힘 설정
+                    pushForce = 2.5f; // Attack2의 밀어내는 힘 설정
                 }
                 else
                 {
-                    pushForce = 1f; // 기본 밀어내는 힘 설정
+                    pushForce = 1.5f; // 기본 밀어내는 힘 설정
                 }
 
                 Vector3 pushDirection = (other.transform.position - transform.position).normalized; // 밀리는 방향 계산

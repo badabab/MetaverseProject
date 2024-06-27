@@ -33,23 +33,32 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
 
         if (Input.GetMouseButtonDown(1)) // 마우스 오른쪽 버튼 클릭으로 공격
         {
-            if (animator.GetCurrentAnimatorStateInfo(4).IsName("Attack"))
+            if(playerMoveAbility._isRunning == true)
             {
-                animator.SetBool("Attack", false);
-                animator.SetBool("Attack2", true);
-                photonAnimatorView.SetParameterSynchronized("Attack2", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+                animator.SetBool("FlyingAttack", true);
             }
-            else if (animator.GetCurrentAnimatorStateInfo(4).IsName("Attack2"))
+
+            else if(playerMoveAbility._isRunning == false )
             {
-                animator.SetBool("Attack2", false);
-                animator.SetBool("Attack", true);
-                photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+                if (animator.GetCurrentAnimatorStateInfo(4).IsName("Attack"))
+                {
+                    animator.SetBool("Attack", false);
+                    animator.SetBool("Attack2", true);
+                    photonAnimatorView.SetParameterSynchronized("Attack2", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+                }
+                else if (animator.GetCurrentAnimatorStateInfo(4).IsName("Attack2"))
+                {
+                    animator.SetBool("Attack2", false);
+                    animator.SetBool("Attack", true);
+                    photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+                }
+                else
+                {
+                    animator.SetBool("Attack", true);
+                    photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+                }
             }
-            else
-            {
-                animator.SetBool("Attack", true);
-                photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
-            }
+           
             isAttacking = true; // 공격 중 상태로 설정
 
             if (punchCollider != null && punchCollider.CompareTag("Hand")) // 주먹 콜라이더가 존재하며 Hand 태그가 있는지 확인
@@ -70,7 +79,8 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
             punchCollider.enabled = false; // 주먹 콜라이더 비활성화
         }
         animator.SetBool("Attack", false); // 기본 공격 애니메이션 해제
-        animator.SetBool("Attack2", false); // 달리는 중 공격 애니메이션 해제
+        animator.SetBool("Attack2", false);
+        animator.SetBool("FlyingAttack", false);
         isAttacking = false; // 공격 중 상태 해제
     }
 

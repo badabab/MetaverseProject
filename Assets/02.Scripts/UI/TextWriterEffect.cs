@@ -13,6 +13,7 @@ public class TextWriterEffect : MonoBehaviour
 
     private void Start()
     {
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.SceneMove);
         StartCoroutine(ShowText());
     }
 

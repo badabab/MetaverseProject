@@ -35,12 +35,15 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
     {
         Instance = this;
     }
+<<<<<<< HEAD
 
     private void Start()
     {
         SoundManager.instance.PlayBgm(SoundManager.Bgm.FallGuysScene);
     }
 
+=======
+>>>>>>> 6a59cbe4 ([이윤석] 사운드 조정 중)
     void Update()
     {
         switch (_currentGameState)

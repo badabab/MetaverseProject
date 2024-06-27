@@ -2718,7 +2718,6 @@ GameObject:
   - component: {fileID: 8171539650239019205}
   - component: {fileID: 7784590748883821406}
   - component: {fileID: 7302397401797023919}
-  - component: {fileID: 2720985974631033899}
   - component: {fileID: 6703264293214351524}
   - component: {fileID: 5239447867643841674}
   - component: {fileID: -1634637962399818110}
@@ -2728,7 +2727,6 @@ GameObject:
   - component: {fileID: -7248213756397912536}
   - component: {fileID: -8428627611693842540}
   - component: {fileID: 6500802242183298824}
-  - component: {fileID: 1294575646536910961}
   - component: {fileID: 8043215563652428379}
   - component: {fileID: 3579315693791322834}
   - component: {fileID: 4095897865085939581}
@@ -2822,22 +2820,6 @@ MonoBehaviour:
   _isRunning: 0
   LayerPoint: {fileID: 924808451874250110}
   CameraRoot: {fileID: 6725541871435156712}
---- !u!114 &2720985974631033899
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9029329124467589125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29f4ac00201e2ad4ebef13d0406a027e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hand: {fileID: 3048790080952294702}
-  animator: {fileID: 0}
-  grabDistance: 2
-  GrabbingTimer: 4
 --- !u!114 &6703264293214351524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3124,28 +3106,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!64 &1294575646536910961
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9029329124467589125}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -4384709491593097276, guid: 6d9890dad0aacbf4d81a350d1a89827e, type: 3}
 --- !u!114 &8043215563652428379
 MonoBehaviour:
   m_ObjectHideFlags: 0

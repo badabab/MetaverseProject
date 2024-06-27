@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerMoveAbility))]
 [RequireComponent(typeof(PlayerRotateAbility))]
-[RequireComponent(typeof(PlayerGrabAbility))]
 [RequireComponent(typeof(PlayerAttackAbility))]
 [RequireComponent(typeof(PlayerHealth))]
 

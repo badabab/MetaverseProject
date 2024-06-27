@@ -33,6 +33,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         photonAnimatorView.SetParameterSynchronized("isGrabbing", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("Grab", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+        photonAnimatorView.SetParameterSynchronized("Attack2", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("FlyingAttack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
     }
 
@@ -54,6 +55,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             animator.SetBool("isGrabbing", isGrabbing);
             animator.SetBool("Grab", grab);
             animator.SetBool("Attack", attack);
+            animator.SetBool("Attack2", attack);
             animator.SetBool("FlyingAttack", flyingAttack);
         }
     }
@@ -125,6 +127,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             stream.SendNext(animator.GetBool("isGrabbing"));
             stream.SendNext(animator.GetBool("Grab"));
             stream.SendNext(animator.GetBool("Attack"));
+            stream.SendNext(animator.GetBool("Attack2"));
             stream.SendNext(animator.GetBool("FlyingAttack"));
         }
         else

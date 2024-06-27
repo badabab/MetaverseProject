@@ -22,6 +22,10 @@ public class UI_GameOver : MonoBehaviourPunCallbacks
         Win.SetActive(false);
         Lose.SetActive(false);
     }
+    private void Start()
+    {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_GameOver);
+    }
     /*private void Update()
     {
         if (FallGuysManager.Instance._currentGameState == GameState.Over)
@@ -38,6 +42,7 @@ public class UI_GameOver : MonoBehaviourPunCallbacks
         ResultUI.SetActive(true);
         if (!_isOnce) 
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_WinVictory);
             Debug.Log("이겼다!");
             Lose.SetActive(false);
             StartCoroutine(ShowPopUp(Win));
@@ -49,6 +54,7 @@ public class UI_GameOver : MonoBehaviourPunCallbacks
         ResultUI.SetActive(true);
         if (!_isOnce)
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_Lose);
             Debug.Log("졌다~");
             Win.SetActive(false);
             StartCoroutine(ShowPopUp(Lose));

@@ -9,6 +9,7 @@ public class GamePortal : MonoBehaviour
         PhotonView photonView = other.GetComponent<PhotonView>();
         if (other.CompareTag("Player") && photonView.IsMine)
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.VillagePortal);
             if (gameObject.name == "BattleTilePortal")
             {
                 PhotonManager.Instance.LeaveAndLoadRoom("MiniGame1");

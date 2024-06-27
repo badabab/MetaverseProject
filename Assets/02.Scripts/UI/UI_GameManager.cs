@@ -32,6 +32,7 @@ public class UI_GameManager : MonoBehaviour
     {      
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.ESC);
             if (SceneManager.GetActiveScene().name == "VillageScene"
             || SceneManager.GetActiveScene().name == "BattleTileScene"
             || SceneManager.GetActiveScene().name == "FallGuysScene"
@@ -61,6 +62,7 @@ public class UI_GameManager : MonoBehaviour
 
     public void OnClickQuit()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
         GM_UI.SetActive(false);
         UnityEngine.Cursor.visible = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
@@ -69,6 +71,7 @@ public class UI_GameManager : MonoBehaviour
 
     public void OnClickReplay()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
         GM_UI.SetActive(false);
         UnityEngine.Cursor.visible = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
@@ -77,6 +80,7 @@ public class UI_GameManager : MonoBehaviour
 
     public void OnClickVillige()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
         GM_UI.SetActive(false);
         UnityEngine.Cursor.visible = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
@@ -93,6 +97,7 @@ public class UI_GameManager : MonoBehaviour
 
     public void OnClickGameQuitButton()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
         GM_UI.SetActive(false);
         UnityEngine.Cursor.visible = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;

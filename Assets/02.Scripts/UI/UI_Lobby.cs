@@ -128,6 +128,7 @@ public class UI_Lobby : MonoBehaviour
 
     public void OnClickStartButton()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
         if (PhotonNetwork.IsConnectedAndReady)
         {
             //SceneManager.LoadScene("LoadingScene");

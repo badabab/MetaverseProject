@@ -12,6 +12,7 @@ public class UI_Map : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.M))
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_Village12MButton);
             Map.gameObject.SetActive(!Map.gameObject.activeSelf);
         }
     }

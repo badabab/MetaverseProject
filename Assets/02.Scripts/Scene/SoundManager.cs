@@ -82,7 +82,10 @@ public class SoundManager : MonoBehaviour
         // 이동씬
         SceneMove,                          // 33
         // 준비, 출발
-
+        Ready,//34
+        Go,//35
+        // ESC 사운드
+        ESC,//36
     }
 
     public static SoundManager instance;

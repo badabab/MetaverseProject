@@ -45,6 +45,7 @@ public class Ball : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.VillageInteractiveObjectBall);
             Vector3 currentVelocity = rb.velocity;
             Vector3 normal = collision.contacts[0].normal;
 

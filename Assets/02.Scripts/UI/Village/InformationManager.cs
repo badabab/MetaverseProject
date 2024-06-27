@@ -44,6 +44,7 @@ public class InformationManager : MonoBehaviour
 
     IEnumerator MoveUI(RectTransform rectTransform, Vector3 targetPosition, System.Action onComplete)
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_Village12MButton);
         float elapsedTime = 0;
         float duration = 0.5f;
         Vector3 startingPosition = rectTransform.localPosition;

@@ -46,42 +46,36 @@ public class WarnigChickenFire : MonoBehaviour
             case 1:
                 if (isConnected)
                 photonView.RPC("SyncWarnigText", RpcTarget.AllBuffered, "I warned you");
-                else
                 SoundManager.instance.PlaySfx(SoundManager.Sfx.VillageInteractiveObjectWarningChicken1);
                 Warnig.text = "I warned you"; // 연결되어 있지 않은 경우 로컬에서만 설정
                 break;
             case 2:
                 if (isConnected)
-                    photonView.RPC("SyncWarnigText", RpcTarget.AllBuffered, "You");
-                else
+                photonView.RPC("SyncWarnigText", RpcTarget.AllBuffered, "You");
                 SoundManager.instance.PlaySfx(SoundManager.Sfx.VillageInteractiveObjectWarningChicken2);
                 Warnig.text = "You";
                 break;
             case 3:
                 if (isConnected)
-                    photonView.RPC("SyncWarnigText", RpcTarget.AllBuffered, "Regret");
-                else
+                photonView.RPC("SyncWarnigText", RpcTarget.AllBuffered, "Regret");
                 SoundManager.instance.PlaySfx(SoundManager.Sfx.VillageInteractiveObjectWarningChicken3);
                 Warnig.text = "Regret";
                 break;
             case 4:
                 if (isConnected)
-                    photonView.RPC("SyncWarnigText", RpcTarget.AllBuffered, "3");
-                else
+                photonView.RPC("SyncWarnigText", RpcTarget.AllBuffered, "3");
                 SoundManager.instance.PlaySfx(SoundManager.Sfx.VillageInteractiveObjectWarningChicken4);
                 Warnig.text = "3";
                 break;
             case 5:
                 if (isConnected)
-                    photonView.RPC("SyncWarnigText", RpcTarget.AllBuffered, "2");
-                else
+                photonView.RPC("SyncWarnigText", RpcTarget.AllBuffered, "2");
                 SoundManager.instance.PlaySfx(SoundManager.Sfx.VillageInteractiveObjectWarningChicken5);
                 Warnig.text = "2";
                 break;
             case 6:
                 if (isConnected)
-                    photonView.RPC("SyncWarnigText", RpcTarget.AllBuffered, "1");
-                else
+                photonView.RPC("SyncWarnigText", RpcTarget.AllBuffered, "1");
                 SoundManager.instance.PlaySfx(SoundManager.Sfx.VillageInteractiveObjectWarningChicken6);
                 Warnig.text = "1";
                 break;

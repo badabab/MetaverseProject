@@ -157,7 +157,6 @@ public class PlayerMoveAbility : PlayerAbility
         // 이동 애니메이션 설정
         _animator.SetFloat("Move", Mathf.Clamp01(movementMagnitude));
         //Instantiate(WalkVFX, dir, Quaternion.identity);
-
         // 기존 y축 속도를 유지하면서 새로운 방향으로 속도 설정
         rb.velocity = new Vector3(direction.x, rb.velocity.y, direction.z);
 
@@ -176,10 +175,12 @@ public class PlayerMoveAbility : PlayerAbility
 
             // 걷기 애니메이션 설정
             _animator.SetBool("Walk", true);
+            SoundManager.instance.StopSfx(SoundManager.Sfx.PlayerWalking);
         }
         else // 키 입력이 없는 경우
         {
             _animator.SetBool("Walk", false);
+            SoundManager.instance.StopSfx(SoundManager.Sfx.PlayerWalking);
         }
 
         direction.y = 0f;
@@ -235,10 +236,12 @@ public class PlayerMoveAbility : PlayerAbility
             if (_isRunning)
             {
                 _JumpPower = RunningJumpPower;
+                SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerRunningJump);
             }
             else
             {
                 _JumpPower = NormalJumpPower;
+                SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerJump);
             }
             JumpCount -= 1;
             JumpCode();
@@ -266,6 +269,7 @@ public class PlayerMoveAbility : PlayerAbility
 
     private void JumpCode()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerJump);
         rb.AddForce((Vector3.up * _JumpPower) / 2f, ForceMode.Impulse);
         _animator.SetBool("Jump", true);
         //Instantiate(JumpVFX, transform.position, Quaternion.identity);

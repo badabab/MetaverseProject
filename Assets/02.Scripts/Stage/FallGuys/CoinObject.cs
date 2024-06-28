@@ -9,6 +9,7 @@ public class CoinObject : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            SoundManager.instance.StopSfx(SoundManager.Sfx.UI_FallGuysCoinSound);
             StartCoroutine(CoinAfter(5));
             PhotonView playerPhotonView = other.GetComponentInParent<PhotonView>();
             if (playerPhotonView != null) 

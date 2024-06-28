@@ -13,9 +13,8 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     private bool jump;
     private bool win;
     private bool sad;
-    private bool isGrabbing;
-    private bool grab;
     private bool attack;
+    private bool attack2; // 추가
     private bool flyingAttack;
 
     private void Awake()
@@ -30,8 +29,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         photonAnimatorView.SetParameterSynchronized("Jump", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("Win", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("Sad", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
-        photonAnimatorView.SetParameterSynchronized("isGrabbing", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
-        photonAnimatorView.SetParameterSynchronized("Grab", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("Attack2", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("FlyingAttack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
@@ -53,7 +50,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             animator.SetBool("Win", win);
             animator.SetBool("Sad", sad);
             animator.SetBool("Attack", attack);
-            animator.SetBool("Attack2", attack);
+            animator.SetBool("Attack2", attack2); // 추가
             animator.SetBool("FlyingAttack", flyingAttack);
         }
     }
@@ -76,7 +73,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         }
 
         animator.SetBool("Attack", attack);
-
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -113,7 +109,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             stream.SendNext(animator.GetBool("Win"));
             stream.SendNext(animator.GetBool("Sad"));
             stream.SendNext(animator.GetBool("Attack"));
-            stream.SendNext(animator.GetBool("Attack2"));
+            stream.SendNext(animator.GetBool("Attack2")); // 추가
             stream.SendNext(animator.GetBool("FlyingAttack"));
         }
         else
@@ -126,6 +122,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             win = (bool)stream.ReceiveNext();
             sad = (bool)stream.ReceiveNext();
             attack = (bool)stream.ReceiveNext();
+            attack2 = (bool)stream.ReceiveNext(); // 추가
             flyingAttack = (bool)stream.ReceiveNext();
         }
     }

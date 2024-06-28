@@ -13,17 +13,18 @@ public class TextWriterEffect : MonoBehaviour
 
     private void Start()
     {
-        SoundManager.instance.PlayBgm(SoundManager.Bgm.SceneMove);
         StartCoroutine(ShowText());
     }
 
     private IEnumerator ShowText()
     {
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.SceneMove);
         for (int i = 0; i < FullText.Length; i++)
         {
             currentText = FullText.Substring(0, i+1);
             DescriptionUI.text = currentText;
             yield return new WaitForSeconds(delay);
         }
+        SoundManager.instance.StopBgm();
     }
 }

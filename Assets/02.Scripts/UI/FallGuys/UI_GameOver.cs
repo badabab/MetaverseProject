@@ -14,17 +14,13 @@ public class UI_GameOver : MonoBehaviourPunCallbacks
     private bool _isOnce;
     public static UI_GameOver Instance { get; private set; }
 
-    private void Awake()
+    private void Start()
     {
         Instance = this;
         GameoverUI.SetActive(false);
         ResultUI.SetActive(false);
         Win.SetActive(false);
         Lose.SetActive(false);
-    }
-    private void Start()
-    {
-        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_GameOver);
     }
     /*private void Update()
     {
@@ -40,24 +36,29 @@ public class UI_GameOver : MonoBehaviourPunCallbacks
     {
         GameoverUI.SetActive(true);
         ResultUI.SetActive(true);
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_GameOver);
         if (!_isOnce) 
-        {
-            SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_WinVictory);
+        {           
             Debug.Log("이겼다!");
             Lose.SetActive(false);
             StartCoroutine(ShowPopUp(Win));
+            SoundManager.instance.StopSfx(SoundManager.Sfx.UI_GameOver);
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_WinVictory);
         }
     }
     public void CheckLast()
     {
         GameoverUI.SetActive(true);
         ResultUI.SetActive(true);
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_GameOver);
         if (!_isOnce)
         {
-            SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_Lose);
+
             Debug.Log("졌다~");
             Win.SetActive(false);
             StartCoroutine(ShowPopUp(Lose));
+            SoundManager.instance.StopSfx(SoundManager.Sfx.UI_GameOver);
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_Lose);
         }      
     }
     

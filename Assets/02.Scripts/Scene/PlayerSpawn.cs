@@ -9,7 +9,6 @@ public class PlayerSpawn : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        SoundManager.instance.PlayBgm(SoundManager.Bgm.FallGuysScene);
         if (!_init)
         {
             Init(PhotonNetwork.LocalPlayer);

@@ -19,10 +19,11 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
 
     public GameState CurrentGameState = GameState.Ready;
 
-    private void Awake()
+    private void Start()
     {
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.TimerWaiting);
         Instance = this;
-        TimeRemaining = (int)_gameDuration; // 게임 시작 시 타이머 초기화
+        TimeRemaining = _gameDuration; // 게임 시작 시 타이머 초기화
     }
 
     private void Update()
@@ -37,11 +38,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
                 break;
 
             case GameState.Loading:
-                if (!_isStartCoroutine)
-                {
-                    StartCoroutine(StartCountDown());
-                    _isStartCoroutine = true;
-                }
+                // 코루틴을 시작하기 위한 조건을 StartCoroutine에서 처리하기 때문에 여기서는 비워둡니다.
                 break;
 
             case GameState.Go:
@@ -62,6 +59,30 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
     {
         CurrentGameState = newState;
         Debug.Log($"Game state changed to: {CurrentGameState}");
+        HandleGameStateChange(newState);
+    }
+
+    private void HandleGameStateChange(GameState newState)
+    {
+        switch (newState)
+        {
+            case GameState.Loading:
+                SoundManager.instance.StopBgm();
+                if (!_isStartCoroutine)
+                {
+                    StartCoroutine(StartCountDown());
+                    _isStartCoroutine = true;
+                }
+                break;
+
+            case GameState.Go:
+                SoundManager.instance.PlayBgm(SoundManager.Bgm.BattleTileScene);
+                break;
+
+            case GameState.Over:
+                SoundManager.instance.StopSfx(SoundManager.Sfx.UI_Count);
+                break;
+        }
     }
 
     public bool AreAllPlayersReady()
@@ -70,8 +91,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
         Debug.Log("Player count: " + players.Length);
         foreach (Photon.Realtime.Player player in players)
         {
-            object isReadyObj;
-            if (player.CustomProperties.TryGetValue("IsReady_BattleTile", out isReadyObj))
+            if (player.CustomProperties.TryGetValue("IsReady_BattleTile", out object isReadyObj))
             {
                 if (!(bool)isReadyObj)
                 {
@@ -93,15 +113,18 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < _countDown + 1; i++)
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.CountDown);
             yield return new WaitForSeconds(1);
             Debug.Log($"CountDown: {i}");
         }
+        SoundManager.instance.StopSfx(SoundManager.Sfx.CountDown);
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.Go);
         SetGameState(GameState.Go);
     }
 
     private IEnumerator ShowVictoryAndLoadScene()
     {
-        TileScore.Instance.DetermineWinner();  
+        TileScore.Instance.DetermineWinner();
 
         // 몇 초 동안 대기합니다 (카운트다운).
         while (_countEnd > 0)
@@ -112,21 +135,22 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
         }
 
         // VillageScene 씬으로 전환합니다.
-        //SceneManager.LoadScene("VillageScene");
         PhotonNetwork.LoadLevel("BattleTileWinScene");
     }
 
     void UpdateGameTimer()
     {
-
         if (TimeRemaining > 0)
         {
             TimeRemaining -= Time.deltaTime;
-
-            if (TimeRemaining <= 0)
+            if (TimeRemaining <= 5 && TimeRemaining > 0)
+            {
+                SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_Count);
+            }
+            else if (TimeRemaining <= 0)
             {
                 TimeRemaining = 0;
-                CurrentGameState = GameState.Over;
+                SetGameState(GameState.Over);
             }
         }
     }

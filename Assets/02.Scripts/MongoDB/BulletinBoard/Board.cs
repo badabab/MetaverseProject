@@ -14,6 +14,7 @@ public class Board : MonoBehaviour
     {
         if (other.CompareTag("Player") && other.GetComponentInParent<PhotonView>().IsMine)
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.VillageCharacterChangeBillboard);
             Canvas.gameObject.SetActive(true);
             UnityEngine.Cursor.visible = true;
             UnityEngine.Cursor.lockState = CursorLockMode.None;

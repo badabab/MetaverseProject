@@ -32,11 +32,13 @@ public class UI_ArticleModify : MonoBehaviour
     }
     public void OnClickModifyX()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
         UI_ArticeList.Instance.Show();
         this.gameObject.SetActive(false);
     }
     public void OnClickModifyFinish()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
         _article.Content = InputFieldArticle.text;
         ArticleManager.Instance.Replace(_article);
         ArticleManager.Instance.FindAll();

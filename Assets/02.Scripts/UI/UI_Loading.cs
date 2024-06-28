@@ -51,6 +51,7 @@ public class UI_Loading : MonoBehaviour
             // _character = Instantiate(SelectedCharacter[PlayerSelection.Instance.SelectedCharacterIndex - 1], newPosition, Quaternion.identity);
 
             int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
+            Debug.Log($"{characterIndex}");
             if (characterIndex != 0)
             {
                 _character = SelectedCharacter[characterIndex - 1];

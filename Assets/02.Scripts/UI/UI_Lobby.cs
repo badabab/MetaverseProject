@@ -60,7 +60,7 @@ public class UI_Lobby : MonoBehaviour
         WhiteBack.gameObject.SetActive(false);
         Metaverse1.SetActive(true);
         LoadLoginInfo();
-        //AutoLogin();
+        AutoLogin();
     }
 
     private void LoadLoginInfo()

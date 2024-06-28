@@ -17,6 +17,10 @@ public class TileScore : MonoBehaviourPunCallbacks
     public int Player3score;
     public int Player4score;
 
+    private int _previousPlayer1score;
+    private int _previousPlayer2score;
+    private int _previousPlayer3score;
+    private int _previousPlayer4score;
     private void Awake()
     {
         Instance = this;
@@ -25,6 +29,7 @@ public class TileScore : MonoBehaviourPunCallbacks
     void Update()
     {
         CountTileObjectsUsingMaterials();
+        PlayScoreIncreaseSound();
     }
 
     void CountTileObjectsUsingMaterials()
@@ -33,6 +38,7 @@ public class TileScore : MonoBehaviourPunCallbacks
         Player2score = 0;
         Player3score = 0;
         Player4score = 0;
+
 
         GameObject[] allObjects = FindObjectsOfType<GameObject>();
 
@@ -69,6 +75,20 @@ public class TileScore : MonoBehaviourPunCallbacks
                 }
             }
         }
+    }
+
+    void PlayScoreIncreaseSound()
+    {
+        if (Player1score > _previousPlayer1score || Player2score > _previousPlayer2score ||
+            Player3score > _previousPlayer3score || Player4score > _previousPlayer4score)
+        {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.Tile);
+        }
+
+        _previousPlayer1score = Player1score;
+        _previousPlayer2score = Player2score;
+        _previousPlayer3score = Player3score;
+        _previousPlayer4score = Player4score;
     }
 
     public void DetermineWinner()

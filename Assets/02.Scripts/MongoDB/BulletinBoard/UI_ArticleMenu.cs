@@ -21,11 +21,13 @@ public class UI_ArticleMenu : MonoBehaviour
     }
     public void OnClickModifyButton()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
         UI_ArticleModify.Instance.Show(_article);
         gameObject.SetActive(false);
     }
     public void OnClickDeleteButton()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
         ArticleManager.Instance.Delete(_article.Id);
         ArticleManager.Instance.FindAll();
         this.gameObject.SetActive(false);
@@ -33,6 +35,7 @@ public class UI_ArticleMenu : MonoBehaviour
     }
     public void OnClickBackground()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
         gameObject.SetActive(false);
     }
 }

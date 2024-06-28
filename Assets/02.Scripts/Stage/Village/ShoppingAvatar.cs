@@ -35,6 +35,7 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
     {
         if (other.CompareTag("Player") && other.GetComponentInParent<PhotonView>().IsMine)
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.VillageCharacterChangeBillboard);
             player = other.gameObject;
             ChangeAvatarButton.SetActive(true);
             ChoicePopup.SetActive(true);
@@ -47,6 +48,7 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
     {
         if (other.CompareTag("Player") && other.GetComponentInParent<PhotonView>().IsMine)
         {
+            SoundManager.instance.StopSfx(SoundManager.Sfx.VillageCharacterChangeBillboard);
             ChangeAvatarButton.SetActive(false);
             ChoicePopup.SetActive(false);
             UnityEngine.Cursor.visible = false;
@@ -91,6 +93,7 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
 
         if (player != null & coins > Coin300)
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_FallGuysCoinSound);
             bool isActive = ChangingName.activeSelf;
 
             // 새로운 활성 상태 설정
@@ -99,12 +102,14 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
         }
         else
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.NoCoin);
             NoCoinAtAll.SetActive(true);
             Debug.Log("돈 없음");
         }
     }
     public void OnClickGetNewNickName()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
         // InputFieldNameUI가 null이 아닌지 확인하고 값 설정
         if (InputFieldNameUI == null)
         {

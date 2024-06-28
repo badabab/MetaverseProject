@@ -52,6 +52,7 @@ public class PlayerSelection : MonoBehaviour
 
         SelectedType = type;
         currentCharacter.gameObject.SetActive(true);
+
     }
     public void ReloadCharacter()
     {

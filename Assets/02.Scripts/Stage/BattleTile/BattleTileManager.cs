@@ -16,6 +16,7 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
     private int _countEnd = 5;
     private bool _isGameOver = false;
     private bool _isStartCoroutine = false;
+    private bool _countdownSoundPlayed = false;
 
     public GameState CurrentGameState = GameState.Ready;
 
@@ -143,12 +144,15 @@ public class BattleTileManager : MonoBehaviourPunCallbacks
         if (TimeRemaining > 0)
         {
             TimeRemaining -= Time.deltaTime;
-            if (TimeRemaining <= 5 && TimeRemaining > 0)
+            if (TimeRemaining <= 6 && !_countdownSoundPlayed) 
             {
-                SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_Count);
+                SoundManager.instance.PlaySfx(SoundManager.Sfx.VillageInteractiveObjectWarningChicken7);
+                _countdownSoundPlayed = true; // Set the flag to true
             }
             else if (TimeRemaining <= 0)
             {
+                SoundManager.instance.StopBgm();
+                SoundManager.instance.StopSfx(SoundManager.Sfx.VillageInteractiveObjectWarningChicken7);
                 TimeRemaining = 0;
                 SetGameState(GameState.Over);
             }

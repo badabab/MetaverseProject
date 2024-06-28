@@ -86,8 +86,8 @@ public class GameOverBall : MonoBehaviourPunCallbacks
 
         GameOver.gameObject.SetActive(false);
         Victory.gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(3f);
         SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_WinVictory);
+        yield return new WaitForSecondsRealtime(3f);
         GameEndUI.SetActive(false);
 
         PhotonView photonView = Player.GetComponent<PhotonView>();

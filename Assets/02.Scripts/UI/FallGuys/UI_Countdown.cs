@@ -76,7 +76,6 @@ public class UI_Countdown : MonoBehaviour
         }
         _isGo = true;
 
-        SoundManager.instance.PlayBgm(SoundManager.Bgm.FallGuysScene);
         isCountDownCoroutineRunning = false;
         yield break;
     }
@@ -86,6 +85,7 @@ public class UI_Countdown : MonoBehaviour
         isGoCoroutineRunning = true;
         if (_isGo == true)
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.Go);
             Go.SetActive(true);
         }
         yield return new WaitForSeconds(2);

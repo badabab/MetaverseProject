@@ -27,7 +27,6 @@ public class UI_Ready : MonoBehaviourPunCallbacks
 
     void CheakReadyButton()
     {
-        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_RButton);
         if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("IsReady", out object isReady))
         {
             bool isReadyValue = (bool)isReady;

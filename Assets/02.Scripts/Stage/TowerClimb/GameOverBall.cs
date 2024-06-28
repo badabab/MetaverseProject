@@ -79,10 +79,14 @@ public class GameOverBall : MonoBehaviourPunCallbacks
     {
         GameEndUI.SetActive(true);
         GameOver.gameObject.SetActive(true);
+        SoundManager.instance.StopBgm();
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_GameOver);
         yield return new WaitForSecondsRealtime(2f);
+        SoundManager.instance.StopSfx(SoundManager.Sfx.UI_GameOver);
 
         GameOver.gameObject.SetActive(false);
         Victory.gameObject.SetActive(true);
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_WinVictory);
         yield return new WaitForSecondsRealtime(3f);
         GameEndUI.SetActive(false);
 

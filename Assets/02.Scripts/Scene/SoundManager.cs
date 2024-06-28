@@ -32,7 +32,8 @@ public class SoundManager : MonoBehaviour
         Win,//7
         // 씬이동
         SceneMove,//8
-
+        //타이머 대기 사운드
+        TimerWaiting,// 9
     }
     public enum Sfx
     {
@@ -87,7 +88,11 @@ public class SoundManager : MonoBehaviour
         // ESC 사운드
         ESC,//36
         // 마을 코인 부족 사운드
-        NoCoin//37
+        NoCoin,//37
+        // 배틀타일 타일 사운드
+        Tile,//38
+        // 카운트 다운
+        CountDown,//39
     }
 
     public static SoundManager instance;

@@ -29,6 +29,7 @@ public class GamePortal : MonoBehaviour
                 //PhotonManager.Instance.NextRoomName = "MiniGame3";
                 //PhotonNetwork.JoinOrCreateRoom("MiniGame3", roomOptions, TypedLobby.Default);
             }
+            SoundManager.instance.StopSfx(SoundManager.Sfx.VillagePortal);
             //PhotonNetwork.LeaveRoom();
         }
     }

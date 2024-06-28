@@ -30,7 +30,6 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
 
         if (Input.GetMouseButtonDown(1))
         {
-            SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerPunch);
             if (playerMoveAbility._isRunning)
             {
                 animator.SetBool("FlyingAttack", true);
@@ -40,15 +39,15 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
             {
                 if (animator.GetCurrentAnimatorStateInfo(3).IsName("Attack"))
                 {
-                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerFlyingKick);
                     animator.SetBool("Attack", false);
                     animator.SetBool("Attack2", true);
+                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerPunch);
                 }
                 else if (animator.GetCurrentAnimatorStateInfo(3).IsName("Attack2"))
                 {
-                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerFlyingKick);
                     animator.SetBool("Attack2", false);
                     animator.SetBool("Attack", true);
+                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerPunch);
                 }
                 else
                 {
@@ -98,18 +97,18 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
                 float pushForce;
                 if (playerMoveAbility._isRunning)
                 {
-                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages);
                     pushForce = 4f;
+                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages);
                 }
                 else if (animator.GetCurrentAnimatorStateInfo(3).IsName("Attack2"))
                 {
-                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages);
                     pushForce = 2.5f;
+                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages);
                 }
                 else
                 {
-                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages);
                     pushForce = 1.5f;
+                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages);
                 }
 
                 Vector3 pushDirection = (other.transform.position - transform.position).normalized;

@@ -92,6 +92,7 @@ public class UI_Lobby : MonoBehaviour
         {
             PhotonNetwork.NickName = nickname;
             PlayerPrefs.SetString("LoggedInId", nickname);
+            PlayerPrefs.SetString("LoggedInPassword", password);
             SelectCharacterBrowser();
             PlayerSelection.Instance.SelectedCharacterIndex = user.CharacterIndex;
         }

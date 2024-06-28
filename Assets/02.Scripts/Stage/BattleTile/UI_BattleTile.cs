@@ -45,7 +45,8 @@ public class UI_BattleTile : MonoBehaviourPunCallbacks
 
     private void Update()
     {     
-        if (BattleTileManager.Instance.CurrentGameState == GameState.Ready)
+        if (BattleTileManager.Instance.CurrentGameState == GameState.Ready
+            || BattleTileManager.Instance.CurrentGameState == GameState.Loading)
         {
             RefreshUI();
         }

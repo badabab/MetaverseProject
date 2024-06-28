@@ -288,6 +288,14 @@ public class PlayerMoveAbility : PlayerAbility
         }
     }
 
+    void Dance()
+    {
+        int randomValue = UnityEngine.Random.Range(1, 3);
+        _animator.SetBool("Dance", true);
+        _animator.SetBool("Dance", true);
+        _animator.SetBool("Dance", true);
+    }
+
     // 땅에 있는지 검사하는 함수
     void GroundCheck()
     {

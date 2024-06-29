@@ -9,40 +9,40 @@ public class Particles : MonoBehaviour
 
     private void Start()
     {
+        // Particle GameObject들을 초기화하고 비활성화 상태로 설정
         Particle1.SetActive(false);
         Particle2.SetActive(false);
         Particle3.SetActive(false);
         Particle4.SetActive(false);
     }
-    private void Update()
+
+    // 각 파티클 위치 설정 메서드
+    public void SetParticlePosition(int particleNum, Vector3 position)
     {
-        BattleTilePlayer[] players = FindObjectsOfType<BattleTilePlayer>();
-        foreach (BattleTilePlayer player in players)
+        GameObject particle = GetParticleObject(particleNum);
+        if (particle != null)
         {
-            switch (player.MyNum)
-            {
-                case 1:
-                    FollowPlayer(Particle1, player.transform);
-                    break;
-                case 2:
-                    FollowPlayer(Particle2, player.transform);
-                    break;
-                case 3:
-                    FollowPlayer(Particle3, player.transform);
-                    break;
-                case 4:
-                    FollowPlayer(Particle4, player.transform);
-                    break;
-            }
+            particle.transform.position = position;
+            particle.SetActive(true);
         }
     }
 
-    private void FollowPlayer(GameObject particle, Transform playerTransform)
+    // 플레이어 번호에 따라 해당하는 파티클 GameObject 반환
+    private GameObject GetParticleObject(int particleNum)
     {
-        if (particle != null)
+        switch (particleNum)
         {
-            particle.transform.position = playerTransform.position;
-            particle.SetActive(true);
+            case 1:
+                return Particle1;
+            case 2:
+                return Particle2;
+            case 3:
+                return Particle3;
+            case 4:
+                return Particle4;
+            default:
+                Debug.LogError("Invalid particle number: " + particleNum);
+                return null;
         }
     }
 }

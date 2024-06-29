@@ -8,6 +8,9 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
     public int MyNum;
     private TileScore _tileScore;
     private bool _isFinished = false;
+    private Particles _particlesController;
+    private GameObject _startpoint;
+
     private void Awake()
     {
         if (SceneManager.GetActiveScene().name != "BattleTileScene")
@@ -22,8 +25,14 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
     {
         MyNum = GetUniqueRandomNumber();
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "PlayerNumber", MyNum }, { "PlayerTileNumber", MyNum } });
-        GameObject startpoint = GameObject.Find($"Start{MyNum}");
-        this.transform.position = startpoint.transform.position;
+        _startpoint = GameObject.Find($"Start{MyNum}");
+        MoveStartPosition();
+        _particlesController = FindObjectOfType<Particles>();
+    }
+
+    public void MoveStartPosition()
+    {     
+        this.transform.position = _startpoint.transform.position;
     }
 
     private void Update()
@@ -31,6 +40,29 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             SetReadyStateOnInput();
+        }
+        if (BattleTileManager.Instance.CurrentGameState == GameState.Loading)
+        {
+            MoveStartPosition();
+        }
+        if (BattleTileManager.Instance.CurrentGameState == GameState.Go
+            || BattleTileManager.Instance.CurrentGameState == GameState.Over)
+        {
+            switch (MyNum)
+            {
+                case 1:
+                    _particlesController.SetParticlePosition(1, transform.position);
+                    break;
+                case 2:
+                    _particlesController.SetParticlePosition(2, transform.position);
+                    break;
+                case 3:
+                    _particlesController.SetParticlePosition(3, transform.position);
+                    break;
+                case 4:
+                    _particlesController.SetParticlePosition(4, transform.position);
+                    break;
+            }
         }
     }
 

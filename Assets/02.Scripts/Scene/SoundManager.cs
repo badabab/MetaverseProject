@@ -145,13 +145,6 @@ public class SoundManager : MonoBehaviour
         for (int i = 0; i < SfxPlayer.Length; i++)
         {
             int loopIndex = (i + channelIndex) % SfxPlayer.Length;
-
-            if (SfxPlayer[loopIndex].isPlaying)
-            {
-                continue;
-            }
-            channelIndex = loopIndex;
-            SfxPlayer[loopIndex].clip = SfxClips[(int)sfx];
             if ((int)sfx == 1 || (int)sfx == 3 || (int)sfx == 38 || (int)sfx == 39)
             {
                 for (int j = 0; j < SfxPlayer.Length; j++)
@@ -166,6 +159,12 @@ public class SoundManager : MonoBehaviour
                     SfxPlayer[j].volume = SfxVolume;
                 }
             }
+            if (SfxPlayer[loopIndex].isPlaying)
+            {
+                continue;
+            }
+            channelIndex = loopIndex;
+            SfxPlayer[loopIndex].clip = SfxClips[(int)sfx];
             SfxPlayer[loopIndex].Play();
             break;
         }

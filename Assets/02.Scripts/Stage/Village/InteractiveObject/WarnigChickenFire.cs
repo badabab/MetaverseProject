@@ -100,16 +100,13 @@ public class WarnigChickenFire : MonoBehaviour
         if (isConnected)
             photonView.RPC("SyncWarnigText", RpcTarget.AllBuffered, "");
 
-        for (int launchCount = 0; launchCount < 2; launchCount++)
-        {
-            float randomDelay = Random.Range(0f, 5f);
-            yield return new WaitForSeconds(randomDelay);
+        float randomDelay = Random.Range(0f, 5f);
+        yield return new WaitForSeconds(randomDelay);
 
-            foreach (GameObject firePosition in MissileFire)
-            {
-                int randomMissileIndex = Random.Range(0, Missiles.Count);
-                Instantiate(Missiles[randomMissileIndex], firePosition.transform.position, Quaternion.Euler(0, 0, MissilesAngle));
-            }
+        foreach (GameObject firePosition in MissileFire)
+        {
+            int randomMissileIndex = Random.Range(0, Missiles.Count);
+            Instantiate(Missiles[randomMissileIndex], firePosition.transform.position, Quaternion.Euler(0, 0, MissilesAngle));
         }
 
         collisionCount = 0;

@@ -117,7 +117,7 @@ public class PlayerMoveAbility : PlayerAbility
         }
         if (_sceneName == "BattleTileWinScene")
         {
-            this.transform.position = new Vector3(0, 10.9f, -63);
+            this.transform.position = new Vector3(0, 10.5f, -63);
             this.transform.rotation = Quaternion.Euler(0, 180, 0);
         }
         if (_sceneName == "FallGuysWinScene")

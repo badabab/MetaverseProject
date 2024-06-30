@@ -14,8 +14,11 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     private bool win;
     private bool sad;
     private bool attack;
-    private bool attack2; // 추가
+    private bool attack2;
     private bool flyingAttack;
+    private bool dance1;
+    private bool dance2;
+    private bool dance3;
 
     private void Awake()
     {
@@ -32,6 +35,9 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("Attack2", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("FlyingAttack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+        photonAnimatorView.SetParameterSynchronized("Dance1", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+        photonAnimatorView.SetParameterSynchronized("Dance2", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+        photonAnimatorView.SetParameterSynchronized("Dance3", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
     }
 
     private void Update()
@@ -50,8 +56,11 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             animator.SetBool("Win", win);
             animator.SetBool("Sad", sad);
             animator.SetBool("Attack", attack);
-            animator.SetBool("Attack2", attack2); // 추가
+            animator.SetBool("Attack2", attack2);
             animator.SetBool("FlyingAttack", flyingAttack);
+            animator.SetBool("Dance1", dance1);
+            animator.SetBool("Dance2", dance2);
+            animator.SetBool("Dance3", dance3);
         }
     }
 
@@ -66,6 +75,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         if (Input.GetMouseButtonDown(1))
         {
             attack = true;
+            ResetDanceAnimations();
         }
         else if (Input.GetMouseButtonUp(1))
         {
@@ -77,6 +87,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         if (Input.GetKeyDown(KeyCode.Space))
         {
             jump = true;
+            ResetDanceAnimations();
         }
         else if (Input.GetKeyUp(KeyCode.Space))
         {
@@ -88,6 +99,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         if (Input.GetKey(KeyCode.LeftShift))
         {
             run = true;
+            ResetDanceAnimations();
         }
         else
         {
@@ -95,6 +107,25 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         }
 
         animator.SetBool("Run", run);
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            int randomValue = UnityEngine.Random.Range(1, 4);
+            ResetDanceAnimations();
+            animator.SetBool($"Dance{randomValue}", true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.D))
+        {
+            ResetDanceAnimations();
+        }
+    }
+
+    private void ResetDanceAnimations()
+    {
+        animator.SetBool("Dance1", false);
+        animator.SetBool("Dance2", false);
+        animator.SetBool("Dance3", false);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -109,8 +140,11 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             stream.SendNext(animator.GetBool("Win"));
             stream.SendNext(animator.GetBool("Sad"));
             stream.SendNext(animator.GetBool("Attack"));
-            stream.SendNext(animator.GetBool("Attack2")); // 추가
+            stream.SendNext(animator.GetBool("Attack2"));
             stream.SendNext(animator.GetBool("FlyingAttack"));
+            stream.SendNext(animator.GetBool("Dance1"));
+            stream.SendNext(animator.GetBool("Dance2"));
+            stream.SendNext(animator.GetBool("Dance3"));
         }
         else
         {
@@ -122,8 +156,11 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             win = (bool)stream.ReceiveNext();
             sad = (bool)stream.ReceiveNext();
             attack = (bool)stream.ReceiveNext();
-            attack2 = (bool)stream.ReceiveNext(); // 추가
+            attack2 = (bool)stream.ReceiveNext();
             flyingAttack = (bool)stream.ReceiveNext();
+            dance1 = (bool)stream.ReceiveNext();
+            dance2 = (bool)stream.ReceiveNext();
+            dance3 = (bool)stream.ReceiveNext();
         }
     }
 }

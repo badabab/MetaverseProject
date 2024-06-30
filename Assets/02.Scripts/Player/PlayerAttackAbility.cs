@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerAttackAbility : MonoBehaviourPunCallbacks
 {
     public LayerMask playerLayer;
-    public Animator animator;
+    public Animator _animator;
     private Collider punchCollider;
     private bool isAttacking = false;
     private PlayerMoveAbility playerMoveAbility;
@@ -13,7 +13,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
     void Start()
     {
         playerMoveAbility = GetComponent<PlayerMoveAbility>();
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         punchCollider = GetComponentInChildren<Collider>();
 
         if (punchCollider != null && punchCollider.CompareTag("Hand"))
@@ -30,28 +30,29 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
 
         if (Input.GetMouseButtonDown(1))
         {
+
             if (playerMoveAbility._isRunning)
             {
-                animator.SetBool("FlyingAttack", true);
+                _animator.SetBool("FlyingAttack", true);
                 SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerFlyingKick);
             }
             else
             {
-                if (animator.GetCurrentAnimatorStateInfo(3).IsName("Attack"))
+                if (_animator.GetCurrentAnimatorStateInfo(3).IsName("Attack"))
                 {
-                    animator.SetBool("Attack", false);
-                    animator.SetBool("Attack2", true);
+                    _animator.SetBool("Attack", false);
+                    _animator.SetBool("Attack2", true);
                     SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerPunch);
                 }
-                else if (animator.GetCurrentAnimatorStateInfo(3).IsName("Attack2"))
+                else if (_animator.GetCurrentAnimatorStateInfo(3).IsName("Attack2"))
                 {
-                    animator.SetBool("Attack2", false);
-                    animator.SetBool("Attack", true);
+                    _animator.SetBool("Attack2", false);
+                    _animator.SetBool("Attack", true);
                     SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerPunch);
                 }
                 else
                 {
-                    animator.SetBool("Attack", true);
+                    _animator.SetBool("Attack", true);
                     SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerPunch);
                 }
             }
@@ -75,9 +76,9 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
         {
             punchCollider.enabled = false;
         }
-        animator.SetBool("Attack", false);
-        animator.SetBool("Attack2", false);
-        animator.SetBool("FlyingAttack", false);
+        _animator.SetBool("Attack", false);
+        _animator.SetBool("Attack2", false);
+        _animator.SetBool("FlyingAttack", false);
         isAttacking = false;
     }
 
@@ -100,7 +101,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
                     pushForce = 4f;
                     SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages);
                 }
-                else if (animator.GetCurrentAnimatorStateInfo(3).IsName("Attack2"))
+                else if (_animator.GetCurrentAnimatorStateInfo(3).IsName("Attack2"))
                 {
                     pushForce = 2.5f;
                     SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages);

@@ -93,10 +93,7 @@ public class PlayerMoveAbility : PlayerAbility
         GroundCheck();
         JumpCounter();
 
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            _animator.SetTrigger("Punching");
-        }
+
 
         if (JumpCount >= MaxJumpCount)
         {
@@ -107,6 +104,7 @@ public class PlayerMoveAbility : PlayerAbility
         {
             vfxTimer = 0;
         }
+
     }
 
     private void FixedUpdate()
@@ -143,6 +141,7 @@ public class PlayerMoveAbility : PlayerAbility
             { return; }
         }
         InputAndDir();
+        
     }
 
     // 키 입력과 그에 따른 이동방향을 계산하는 함수
@@ -175,6 +174,7 @@ public class PlayerMoveAbility : PlayerAbility
 
             // 걷기 애니메이션 설정
             _animator.SetBool("Walk", true);
+
             SoundManager.instance.StopSfx(SoundManager.Sfx.PlayerWalking);
         }
         else // 키 입력이 없는 경우
@@ -244,6 +244,7 @@ public class PlayerMoveAbility : PlayerAbility
                 SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerJump);
             }
             JumpCount -= 1;
+
             JumpCode();
         }
 
@@ -272,6 +273,7 @@ public class PlayerMoveAbility : PlayerAbility
         SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerJump);
         rb.AddForce((Vector3.up * _JumpPower) / 2f, ForceMode.Impulse);
         _animator.SetBool("Jump", true);
+
         //Instantiate(JumpVFX, transform.position, Quaternion.identity);
 
         if (photonView.IsMine)
@@ -292,11 +294,7 @@ public class PlayerMoveAbility : PlayerAbility
         }
     }
 
-    void Dance()
-    {
-        int randomValue = UnityEngine.Random.Range(1, 3);
-        _animator.SetBool($"Dance{randomValue}", true);
-    }
+
 
     // 땅에 있는지 검사하는 함수
     void GroundCheck()

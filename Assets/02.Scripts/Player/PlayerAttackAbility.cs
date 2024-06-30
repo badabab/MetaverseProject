@@ -33,6 +33,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
             if (playerMoveAbility._isRunning)
             {
                 animator.SetBool("FlyingAttack", true);
+                SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerFlyingKick);
             }
             else
             {
@@ -40,15 +41,18 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
                 {
                     animator.SetBool("Attack", false);
                     animator.SetBool("Attack2", true);
+                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerPunch);
                 }
                 else if (animator.GetCurrentAnimatorStateInfo(3).IsName("Attack2"))
                 {
                     animator.SetBool("Attack2", false);
                     animator.SetBool("Attack", true);
+                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerPunch);
                 }
                 else
                 {
                     animator.SetBool("Attack", true);
+                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerPunch);
                 }
             }
 
@@ -94,14 +98,17 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
                 if (playerMoveAbility._isRunning)
                 {
                     pushForce = 4f;
+                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages);
                 }
                 else if (animator.GetCurrentAnimatorStateInfo(3).IsName("Attack2"))
                 {
                     pushForce = 2.5f;
+                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages);
                 }
                 else
                 {
                     pushForce = 1.5f;
+                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages);
                 }
 
                 Vector3 pushDirection = (other.transform.position - transform.position).normalized;

@@ -806,6 +806,7 @@ GameObject:
   m_Component:
   - component: {fileID: 271333127}
   - component: {fileID: 271333126}
+  - component: {fileID: 271333128}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -872,13 +873,21 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 271333124}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.030843573, y: -0.7064338, z: 0.030843573, w: 0.7064338}
-  m_LocalPosition: {x: 1.59, y: 93.5, z: -0.29}
+  m_LocalRotation: {x: -0.030843573, y: -0.7064338, z: -0.030843573, w: 0.7064338}
+  m_LocalPosition: {x: 0.77, y: 92.45, z: -0.29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 5, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: -5, y: -90, z: 0}
+--- !u!81 &271333128
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271333124}
+  m_Enabled: 1
 --- !u!1 &280690861
 GameObject:
   m_ObjectHideFlags: 0
@@ -1830,7 +1839,7 @@ GameObject:
   - component: {fileID: 787252859}
   - component: {fileID: 787252858}
   - component: {fileID: 787252857}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlayerSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1917,7 +1926,7 @@ Transform:
   m_GameObject: {fileID: 787252856}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.268104, y: 90.48334, z: -0.25205958}
+  m_LocalPosition: {x: -4.268104, y: 89.99, z: -0.25205958}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2110,7 +2119,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uAE40\uBAA8\uC528"
+  m_text: "1\uB4F1"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9800a389b392f374f92b94938155fd2d, type: 2}
   m_sharedMaterial: {fileID: 5943111397219902323, guid: 9800a389b392f374f92b94938155fd2d, type: 2}

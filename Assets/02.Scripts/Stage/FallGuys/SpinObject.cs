@@ -9,11 +9,11 @@ public class SpinObject : MonoBehaviourPun
     public Transform Spin;
     public float speed = 90.0f;  // 초당 90도 회전
 
-    private ParticleSystem _sweat;
+    //private ParticleSystem _sweat;
 
     private void Start()
     {
-        _sweat = GameObject.Find("Sweat").GetComponent<ParticleSystem>();
+        //_sweat = GameObject.Find("Sweat").GetComponent<ParticleSystem>();
     }
 
     private void Update()
@@ -27,7 +27,7 @@ public class SpinObject : MonoBehaviourPun
         if (other.gameObject.CompareTag("Player"))
         {
             other.transform.SetParent(Spin);
-            Instantiate(_sweat, other.transform.position + Vector3.up, Quaternion.identity);
+            //Instantiate(_sweat, other.transform.position + Vector3.up, Quaternion.identity);
         }
     }
 
@@ -36,7 +36,7 @@ public class SpinObject : MonoBehaviourPun
         if (other.gameObject.CompareTag("Player"))
         {
             other.transform.SetParent(null);
-            _sweat.gameObject.SetActive(false);
+            //_sweat.gameObject.SetActive(false);
         }
     }
 }

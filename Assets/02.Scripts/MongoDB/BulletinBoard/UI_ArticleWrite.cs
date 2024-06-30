@@ -49,6 +49,7 @@ public class UI_ArticleWrite : MonoBehaviour
     }
     public void OnClickNoButton()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
         UI_ArticeList.Instance.Show();
         gameObject.SetActive(false);
     }

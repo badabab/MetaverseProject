@@ -25,17 +25,18 @@ public class AerialBomb : MonoBehaviourPunCallbacks
 
         if (!hasExploded)
         {
-            int explosionIndex = GetUniqueExplosionIndex();
-            bombPhotonView.RPC("Explode", RpcTarget.AllViaServer, explosionIndex);
-            Explode(explosionIndex); 
+            Explode();
         }
 
         Destroy(this.gameObject);
-        PhotonNetwork.Destroy(this.gameObject);
+        if (bombPhotonView.IsMine)
+        {
+            PhotonNetwork.Destroy(this.gameObject);
+        }
     }
 
     [PunRPC]
-    void Explode(int explosionIndex)
+    void Explode()
     {
         GameObject explosion = Instantiate(explosionEffectPrefab, transform.position, transform.rotation);
         SoundManager.instance.PlaySfx(SoundManager.Sfx.VillageInteractiveObjectRocket);
@@ -48,10 +49,5 @@ public class AerialBomb : MonoBehaviourPunCallbacks
             Destroy(this.gameObject);
             PhotonNetwork.Destroy(this.gameObject);
         }
-    }
-
-    int GetUniqueExplosionIndex()
-    {
-        return Random.Range(1000, 9999);
     }
 }

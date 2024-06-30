@@ -141,7 +141,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
             SoundManager.instance.StopSfx(SoundManager.Sfx.CountDown);
             SetGameState(GameState.Go);
             SoundManager.instance.PlaySfx(SoundManager.Sfx.Go);
-            SoundManager.instance.StopSfx(SoundManager.Sfx.Go);
+            SoundManager.instance.PlayBgm(SoundManager.Bgm.FallGuysScene);
         }      
     }
     private System.Collections.IEnumerator ShowVictoryAndLoadScene()

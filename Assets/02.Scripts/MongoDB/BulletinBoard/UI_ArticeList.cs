@@ -58,12 +58,14 @@ public class UI_ArticeList : MonoBehaviour
 
     public void OnClickOutButton()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
         // UI_ArticleMenu.Instanse.gameObject.SetActive(true);
         gameObject.SetActive(false);
     }
 
     public void OnClickWritingButton()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
         Write_UI.SetActive(true);
         gameObject.SetActive(false);
     }

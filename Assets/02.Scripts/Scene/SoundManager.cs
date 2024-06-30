@@ -1,13 +1,16 @@
+using System.Xml.Linq;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
     public AudioClip[] BgmClips;
     public float BgmVolume = 1;
+    public float BgmSmallVolume = 0.5f;
     AudioSource BgmPlayer;
 
     public AudioClip[] SfxClips;
-    public float SfxVolume;
+    public float SfxVolume = 1;
+    public float SfxSmallVolume = 0.5f;
     public int Channels;
     AudioSource[] SfxPlayer;
     int channelIndex;
@@ -126,6 +129,14 @@ public class SoundManager : MonoBehaviour
     public void PlayBgm(Bgm bgm)
     {
         BgmPlayer.clip = BgmClips[(int)bgm];
+        if ((int)bgm == 3)
+        {
+            BgmPlayer.volume = BgmSmallVolume;
+        }
+        else
+        {
+            BgmPlayer.volume = BgmVolume;
+        }
         BgmPlayer.Play();
     }
 
@@ -134,7 +145,20 @@ public class SoundManager : MonoBehaviour
         for (int i = 0; i < SfxPlayer.Length; i++)
         {
             int loopIndex = (i + channelIndex) % SfxPlayer.Length;
-
+            if ((int)sfx == 1 || (int)sfx == 3 || (int)sfx == 38 || (int)sfx == 39)
+            {
+                for (int j = 0; j < SfxPlayer.Length; j++)
+                {
+                    SfxPlayer[j].volume = SfxSmallVolume;
+                }
+            }
+            else
+            {
+                for (int j = 0; j < SfxPlayer.Length; j++)
+                {
+                    SfxPlayer[j].volume = SfxVolume;
+                }
+            }
             if (SfxPlayer[loopIndex].isPlaying)
             {
                 continue;

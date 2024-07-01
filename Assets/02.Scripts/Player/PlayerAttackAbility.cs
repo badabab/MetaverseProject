@@ -99,7 +99,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
                 if (playerMoveAbility._isRunning)
                 {
                     pushForce = 4f;
-                    
+
                 }
                 else if (_animator.GetCurrentAnimatorStateInfo(3).IsName("Attack2"))
                 {
@@ -133,11 +133,15 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
             Vector3 initialPosition = transform.position;
             Vector3 targetPosition = initialPosition + pushDirection * force;
 
+            // y축을 유지하도록 설정
+            targetPosition.y = initialPosition.y;
+
             while (elapsedTime < duration)
             {
                 elapsedTime += Time.deltaTime;
                 float t = elapsedTime / duration;
-                targetRigidbody.MovePosition(Vector3.Lerp(initialPosition, targetPosition, t));
+                Vector3 newPosition = Vector3.Lerp(initialPosition, targetPosition, t);
+                targetRigidbody.MovePosition(newPosition);
                 yield return null;
             }
         }

@@ -16,9 +16,10 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
     public Transform target; // 카메라가 따라다닐 대상 캐릭터의 Transform
 
+    private bool isPaused = false; // 카메라 입력 제어 플래그
+
     private void Start()
     {
-        
         offset = new Vector3(0, height, -distance); // 초기 위치 설정
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -34,9 +35,9 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (target == null) return; // 타겟이 없으면 리턴
+        if (isPaused || target == null) return; // 타겟이 없거나 일시정지 상태이면 리턴
 
-        rotationX += Input.GetAxis("Mouse X") *  sensitivity;
+        rotationX += Input.GetAxis("Mouse X") * sensitivity;
         rotationY -= Input.GetAxis("Mouse Y") * sensitivity;
     }
 
@@ -49,14 +50,9 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         Quaternion targetRotation = Quaternion.Euler(rotationY, rotationX, 0); // 카메라 회전값 계산
         Vector3 targetPosition = target.position + targetRotation * offset; // 타겟 주위의 위치 계산
 
-        
-        
         transform.position = Vector3.Lerp(transform.position, targetPosition, smoothSpeed); // 부드러운 이동 계산
         transform.LookAt(target.position); // 캐릭터를 바라보도록 설정
-        
-
     }
-
 
     private void FindLocalPlayer()
     {
@@ -83,5 +79,15 @@ public class TPSCamera : MonoBehaviourPunCallbacks
                 break;
             }
         }
+    }
+
+    public void Pause()
+    {
+        isPaused = true;
+    }
+
+    public void Continue()
+    {
+        isPaused = false;
     }
 }

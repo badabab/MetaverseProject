@@ -19,7 +19,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private Dictionary<string, Personal> playerData = new Dictionary<string, Personal>();
     private PlayerOptionAbility _localPlayerController;
-
+    private TPSCamera tpsCamera;
+    private GameObject _cameraRoot;
     void Awake()
     {
         if (Instance == null)
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         // 로컬 플레이어 찾기
         FindLocalPlayer();
+        tpsCamera = FindObjectOfType<TPSCamera>();
     }
 
     void FindLocalPlayer()
@@ -49,6 +51,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (_localPlayerController != null)
             {
                 Debug.Log($"로컬 플레이어 찾음: {_localPlayerController.name}");
+                _cameraRoot = FindCameraRoot(_localPlayerController.transform);
             }
             else
             {
@@ -62,12 +65,34 @@ public class GameManager : MonoBehaviourPunCallbacks
         Debug.Log($"{newPlayer.NickName}님이 입장하였습니다.");
         FindLocalPlayer();
     }
+    GameObject FindCameraRoot(Transform playerTransform)
+    {
+        Transform cameraRootTransform = playerTransform.Find("CameraRoot");
 
+        if (cameraRootTransform != null)
+        {
+            Debug.Log($"CameraRoot 오브젝트 찾음: {cameraRootTransform.name}");
+            return cameraRootTransform.gameObject;
+        }
+        else
+        {
+            Debug.LogError("CameraRoot 오브젝트를 찾지 못했습니다.");
+            return null;
+        }
+    }
     public void Pause()
     {
         if (_localPlayerController != null)
         {
             _localPlayerController.Pause();
+            if (tpsCamera != null)
+            {
+                tpsCamera.Pause();
+            }
+            if (_cameraRoot != null)
+            {
+                _cameraRoot.SetActive(false);
+            }
         }
     }
 
@@ -76,6 +101,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (_localPlayerController != null)
         {
             _localPlayerController.Continue();
+            if (tpsCamera != null)
+            {
+                tpsCamera.Continue();
+            }
+            if (_cameraRoot != null)
+            {
+                _cameraRoot.SetActive(true);
+            }
         }
     }
 

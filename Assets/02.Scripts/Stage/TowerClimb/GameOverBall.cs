@@ -33,46 +33,13 @@ public class GameOverBall : MonoBehaviourPunCallbacks
             Debug.Log($"{_firstPlayer} reached the end first!");
             PersonalManager.Instance.CoinUpdate(playerPhotonView.Owner.NickName, 100);
 
-            if (PhotonNetwork.IsMasterClient)
-            {
-                Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", _firstPlayer } };
-                PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
-                Debug.Log($"{firstPlayerName} 저장");
-            }
+            Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", _firstPlayer } };
+            PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
+            Debug.Log($"{firstPlayerName} 저장");
+            
             //Time.timeScale = 0f;
             StartCoroutine(GameOverSequence(other.gameObject));
         }
-
-        /*if (other.CompareTag("Player"))
-        {
-            if (!playerCollided)
-            {
-                playerCollided = true;
-                _firstPlayer = other.name;
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", _firstPlayer } };
-                    PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
-                }
-
-                PhotonView photonView = other.GetComponent<PhotonView>();
-                if (photonView.IsMine)
-                {
-                    Time.timeScale = 0f;
-                    StartCoroutine(GameOverSequence(other.gameObject));
-                }
-            }
-            else
-            {
-                PhotonView photonView = other.GetComponent<PhotonView>();
-                if (photonView.IsMine)
-                {
-                    other.GetComponent<Animator>().SetBool("Sad", true);
-                    PhotonNetwork.LoadLevel("VillageLoadScene");
-                    PhotonNetwork.LeaveRoom();
-                }
-            }
-        }*/
     }
 
     private IEnumerator GameOverSequence(GameObject Player)

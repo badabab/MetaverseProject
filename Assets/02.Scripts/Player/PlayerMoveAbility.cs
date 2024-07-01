@@ -64,7 +64,7 @@ public class PlayerMoveAbility : PlayerAbility
         _isTowerClimbScene = SceneManager.GetActiveScene().name == "TowerClimbScene";
         _isBattleTileScene = SceneManager.GetActiveScene().name == "BattleTileScene";
 
-        //SpawnPoint();
+        SpawnPoint();
         if (_owner.PhotonView.IsMine && !_isTowerClimbScene && !_isBattleTileScene)
         {
             GameObject mainCamera = GameObject.FindWithTag("MainCamera");
@@ -133,7 +133,7 @@ public class PlayerMoveAbility : PlayerAbility
         if (_sceneName.EndsWith("WinScene"))
         {
             return;
-        }     
+        }
         if (_isFallGuysScene)
         {
             if (FallGuysManager.Instance._currentGameState == GameState.Loading)
@@ -145,7 +145,7 @@ public class PlayerMoveAbility : PlayerAbility
             { return; }
         }
         InputAndDir();
-        
+
     }
 
     // 키 입력과 그에 따른 이동방향을 계산하는 함수
@@ -252,12 +252,12 @@ public class PlayerMoveAbility : PlayerAbility
             JumpCode();
         }
 
-       
 
-        
+
+
 
     }
-    
+
     public void SpawnPoint()
     {
         spawnPoints = new GameObject[spawnPointNames.Length];
@@ -302,7 +302,7 @@ public class PlayerMoveAbility : PlayerAbility
     void JumpCounter()
     {
 
-        if (isGrounded && JumpCount<1)
+        if (isGrounded && JumpCount < 1)
         {
             JumpCount += 1;
             // 추가 동작 구현
@@ -410,6 +410,7 @@ public class PlayerMoveAbility : PlayerAbility
             // 플레이어를 선택된 스폰 포인트 위치로 이동
             if (photonView.IsMine)
             {
+                transform.position = selectedSpawnPoint.transform.position;
                 transform.rotation = selectedSpawnPoint.transform.rotation;
             }
         }

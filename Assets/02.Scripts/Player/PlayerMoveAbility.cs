@@ -51,6 +51,9 @@ public class PlayerMoveAbility : PlayerAbility
     private bool _isBattleTileScene = false;
 
     private string _sceneName;
+
+    public string[] spawnPointNames;
+    public GameObject[] spawnPoints;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -61,6 +64,7 @@ public class PlayerMoveAbility : PlayerAbility
         _isTowerClimbScene = SceneManager.GetActiveScene().name == "TowerClimbScene";
         _isBattleTileScene = SceneManager.GetActiveScene().name == "BattleTileScene";
 
+        SpawnPoint();
         if (_owner.PhotonView.IsMine && !_isTowerClimbScene && !_isBattleTileScene)
         {
             GameObject mainCamera = GameObject.FindWithTag("MainCamera");
@@ -251,7 +255,18 @@ public class PlayerMoveAbility : PlayerAbility
 
     }
     
-
+    public void SpawnPoint()
+    {
+        spawnPoints = new GameObject[spawnPointNames.Length];
+        for (int i = 0; i < spawnPointNames.Length; i++)
+        {
+            spawnPoints[i] = GameObject.Find(spawnPointNames[i]);
+            if (spawnPoints[i] == null)
+            {
+                Debug.LogError("Spawn point not found: " + spawnPointNames[i]);
+            }
+        }
+    }
     public void Jump(float jumpPower)
     {
         rb.AddForce((Vector3.up * jumpPower) / 2f, ForceMode.Impulse);
@@ -374,4 +389,32 @@ public class PlayerMoveAbility : PlayerAbility
             currentVFXIndex = (int)stream.ReceiveNext();
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Water") && other.GetComponent<MeshCollider>() != null)
+        {
+            Respawn();
+        }
+    }
+
+    private void Respawn()
+    {
+        if (spawnPoints.Length > 0)
+        {
+            int randomIndex = Random.Range(0, spawnPoints.Length); // 0부터 스폰 포인트 배열 길이 사이의 무작위 인덱스 선택
+            GameObject selectedSpawnPoint = spawnPoints[randomIndex]; // 무작위 인덱스에 해당하는 스폰 포인트 선택
+
+            // 플레이어를 선택된 스폰 포인트 위치로 이동
+            if (photonView.IsMine)
+            {
+                transform.position = selectedSpawnPoint.transform.position;
+                transform.rotation = selectedSpawnPoint.transform.rotation;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No spawn points assigned.");
+        }
+    }
+
 }

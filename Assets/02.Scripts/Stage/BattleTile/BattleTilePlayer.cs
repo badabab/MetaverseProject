@@ -24,7 +24,8 @@ public class BattleTilePlayer : MonoBehaviourPunCallbacks
     private void Start()
     {
         MyNum = GetUniqueRandomNumber();
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "PlayerNumber", MyNum }, { "PlayerTileNumber", MyNum } });
+        PhotonNetwork.LocalPlayer.SetCustomProperties
+            (new Hashtable { { "PlayerNumber", MyNum }, { "PlayerTileNumber", MyNum } });
         _startpoint = GameObject.Find($"Start{MyNum}");
         MoveStartPosition();
         _particlesController = FindObjectOfType<Particles>();

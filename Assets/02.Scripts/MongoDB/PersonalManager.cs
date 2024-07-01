@@ -49,7 +49,19 @@ public class PersonalManager : MonoBehaviour
     public Personal Login(string name, string password) 
     {
         var filter = Builders<Personal>.Filter.Eq("Name", name) & Builders<Personal>.Filter.Eq("Password", password);
-        return _personalCollection.Find(filter).FirstOrDefault();
+        var user = _personalCollection.Find(filter).FirstOrDefault();
+
+        // 디버깅용 로그 추가
+        if (user != null)
+        {
+            Debug.Log($"Login successful: Name = {user.Name}, CharacterIndex = {user.CharacterIndex}");
+        }
+        else
+        {
+            Debug.LogWarning($"Login failed for user: {name}");
+        }
+
+        return user;
     }
 
     public bool CheckUser(string name, string password)

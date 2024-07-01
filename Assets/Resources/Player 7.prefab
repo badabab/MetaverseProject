@@ -2820,6 +2820,14 @@ MonoBehaviour:
   _isRunning: 0
   LayerPoint: {fileID: 568299764411963551}
   CameraRoot: {fileID: 6725541871435156712}
+  spawnPointNames:
+  - SpawnPoint1
+  - SpawnPoint2
+  - SpawnPoint3
+  spawnPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &6703264293214351524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2892,6 +2900,15 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: Attack2
+  - Type: 4
+    SynchronizeType: 0
+    Name: Dance1
+  - Type: 4
+    SynchronizeType: 0
+    Name: Dance2
+  - Type: 4
+    SynchronizeType: 0
+    Name: Dance3
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -3180,7 +3197,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
-  animator: {fileID: 0}
+  _animator: {fileID: 0}
 --- !u!114 &2506077322682412178
 MonoBehaviour:
   m_ObjectHideFlags: 0

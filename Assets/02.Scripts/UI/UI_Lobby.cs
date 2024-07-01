@@ -1,3 +1,4 @@
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using System.Collections;
 using TMPro;
@@ -148,13 +149,11 @@ public class UI_Lobby : MonoBehaviour
     private void OnClickPlayerTypeButton(PlayerType Ptype)
     {
         SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
-        SelectedType = Ptype;
         PlayerSelection.Instance.CharacterSelection(Ptype);
     }
 
     private void AutoLogin()
     {
-
         string loggedInUser = PlayerPrefs.GetString("LoggedInId", string.Empty);
         string loggedInPassword = PlayerPrefs.GetString("LoggedInPassword", string.Empty);
 
@@ -166,8 +165,12 @@ public class UI_Lobby : MonoBehaviour
                 PhotonNetwork.NickName = loggedInUser;
                 PlayerSelection.Instance.SelectedCharacterIndex = user.CharacterIndex;
 
+                Debug.Log($"User logged in: {loggedInUser}, CharacterIndex: {user.CharacterIndex}");
+
                 if (user.CharacterIndex != 0)
                 {
+                    //Debug.Log($"{user.CharacterIndex}");
+                    Debug.Log("A");
                     PlayerSelection.Instance.ReloadCharacter();
                     SelectCharacterBrowser();
                     FemaleButtonUI.gameObject.SetActive(false);
@@ -176,6 +179,7 @@ public class UI_Lobby : MonoBehaviour
                 else
                 {
                     SelectCharacterBrowser();
+                    Debug.Log("B");
                 }
             }
             else

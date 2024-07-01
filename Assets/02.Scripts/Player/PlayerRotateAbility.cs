@@ -8,7 +8,7 @@ public class PlayerRotateAbility : PlayerAbility
     public PhotonView PhotonView { get; private set; }
 
     public Transform CameraRoot;
-    public float RotationSpeed = 2;
+    public float RotationSpeed = 2f;
 
     private bool _isTowerClimbScene = false;
 

@@ -158,7 +158,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             ResetDanceAnimations();
         }
     }
-
     private void ResetDanceAnimations()
     {
         animator.SetBool("Dance1", false);

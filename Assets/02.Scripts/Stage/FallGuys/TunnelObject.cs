@@ -45,10 +45,12 @@ public class TunnelObject : MonoBehaviourPun
         }
 
         // 플레이어의 최종 위치를 다른 클라이언트에 동기화
-        photonView.RPC("UpdatePlayerPosition", RpcTarget.All, playerTransform.position);
+        //photonView.RPC("UpdatePlayerPosition", RpcTarget.All, playerTransform.position);
+
+        UpdatePlayerPosition(playerTransform.position);
     }
 
-    [PunRPC]
+    //[PunRPC]
     void UpdatePlayerPosition(Vector3 newPosition)
     {
         Transform playerTransform = PhotonView.Find(photonView.ViewID).transform;

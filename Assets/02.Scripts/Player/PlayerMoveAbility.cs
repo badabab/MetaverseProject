@@ -260,15 +260,18 @@ public class PlayerMoveAbility : PlayerAbility
 
     public void SpawnPoint()
     {
-        spawnPoints = new GameObject[spawnPointNames.Length];
-        for (int i = 0; i < spawnPointNames.Length; i++)
+        if (SceneManager.GetActiveScene().name == "VillageScene")
         {
-            spawnPoints[i] = GameObject.Find(spawnPointNames[i]);
-            if (spawnPoints[i] == null)
+            spawnPoints = new GameObject[spawnPointNames.Length];
+            for (int i = 0; i < spawnPointNames.Length; i++)
             {
-                Debug.LogError("Spawn point not found: " + spawnPointNames[i]);
+                spawnPoints[i] = GameObject.Find(spawnPointNames[i]);
+                if (spawnPoints[i] == null)
+                {
+                    Debug.LogError("Spawn point not found: " + spawnPointNames[i]);
+                }
             }
-        }
+        }     
     }
     public void Jump(float jumpPower)
     {

@@ -20,6 +20,8 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     private bool dance2;
     private bool dance3;
 
+    private bool isDancing;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -38,6 +40,17 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         photonAnimatorView.SetParameterSynchronized("Dance1", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("Dance2", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("Dance3", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+    }
+
+    private void Start()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            SoundManager.instance.PlayBgm(SoundManager.Bgm.Dance);
+            ResetDanceAnimations();
+            SoundManager.instance.StopBgm();
+            SoundManager.instance.PlayBgm(SoundManager.Bgm.VillageScene);
+        }
     }
 
     private void Update()
@@ -110,13 +123,21 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
 
         if (Input.GetKeyDown(KeyCode.F))
         {
+            SoundManager.instance.PlayBgm(SoundManager.Bgm.Dance);
             int randomValue = UnityEngine.Random.Range(1, 4);
             ResetDanceAnimations();
             animator.SetBool($"Dance{randomValue}", true);
+            isDancing = true;
         }
 
-        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D) || Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Space))
         {
+            if (isDancing)
+            {
+                SoundManager.instance.StopBgm();
+                SoundManager.instance.PlayBgm(SoundManager.Bgm.VillageScene);
+                isDancing = false;
+            }
             ResetDanceAnimations();
         }
     }

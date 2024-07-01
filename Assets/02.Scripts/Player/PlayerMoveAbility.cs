@@ -175,12 +175,10 @@ public class PlayerMoveAbility : PlayerAbility
             // 걷기 애니메이션 설정
             _animator.SetBool("Walk", true);
 
-            SoundManager.instance.StopSfx(SoundManager.Sfx.PlayerWalking);
         }
         else // 키 입력이 없는 경우
         {
             _animator.SetBool("Walk", false);
-            SoundManager.instance.StopSfx(SoundManager.Sfx.PlayerWalking);
         }
 
         direction.y = 0f;
@@ -197,7 +195,6 @@ public class PlayerMoveAbility : PlayerAbility
             _isRunning = true;
 
             _animator.SetBool("Run", true);
-            //PlayWalkVFX();
         }
         else
         {

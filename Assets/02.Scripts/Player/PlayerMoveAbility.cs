@@ -64,7 +64,7 @@ public class PlayerMoveAbility : PlayerAbility
         _isTowerClimbScene = SceneManager.GetActiveScene().name == "TowerClimbScene";
         _isBattleTileScene = SceneManager.GetActiveScene().name == "BattleTileScene";
 
-        SpawnPoint();
+        //SpawnPoint();
         if (_owner.PhotonView.IsMine && !_isTowerClimbScene && !_isBattleTileScene)
         {
             GameObject mainCamera = GameObject.FindWithTag("MainCamera");
@@ -407,7 +407,6 @@ public class PlayerMoveAbility : PlayerAbility
             // 플레이어를 선택된 스폰 포인트 위치로 이동
             if (photonView.IsMine)
             {
-                transform.position = selectedSpawnPoint.transform.position;
                 transform.rotation = selectedSpawnPoint.transform.rotation;
             }
         }

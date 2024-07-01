@@ -8,6 +8,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
     public Animator _animator; // 애니메이터 컴포넌트
     private Collider punchCollider; // 주먹 콜라이더
     private bool isAttacking = false; // 공격 중인지 여부
+    private bool hasCollided = false; // 충돌 여부
     private PlayerMoveAbility playerMoveAbility; // 플레이어 이동 능력
 
     void Start()
@@ -57,6 +58,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
             }
 
             isAttacking = true; // 공격 중 상태로 설정
+            hasCollided = false; // 충돌 여부 초기화
 
             if (punchCollider != null && punchCollider.CompareTag("Hand")) // 주먹 콜라이더가 존재하며 Hand 태그가 있는지 확인
             {
@@ -83,7 +85,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isAttacking) // 공격 중인지 확인
+        if (isAttacking && !hasCollided) // 공격 중이고 아직 충돌하지 않았는지 확인
         {
             PhotonView otherPhotonView = other.GetComponentInParent<PhotonView>(); // 충돌한 객체의 PhotonView를 가져옴
 
@@ -110,6 +112,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
                 Vector3 pushDirection = (other.transform.position - transform.position).normalized; // 밀리는 방향 계산
                 otherPhotonView.RPC("ApplyPushForce", RpcTarget.AllBuffered, pushDirection, pushForce); // 상대 플레이어를 밀리게 하는 RPC 호출
                 SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages); // 공격 사운드 재생
+                hasCollided = true; // 충돌 여부 설정
             }
         }
     }

@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
 {
@@ -135,7 +136,23 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             if (isDancing)
             {
                 SoundManager.instance.StopBgm();
-                SoundManager.instance.PlayBgm(SoundManager.Bgm.VillageScene);
+                string currentSceneName = SceneManager.GetActiveScene().name;
+                if (currentSceneName == "VillageScene")
+                {
+                    SoundManager.instance.PlayBgm(SoundManager.Bgm.VillageScene);
+                }
+                if (currentSceneName == "TowerClimbScene")
+                {
+                    SoundManager.instance.PlayBgm(SoundManager.Bgm.TowerClimbScene);
+                }
+                if (currentSceneName == "FallGuysScene")
+                {
+                    SoundManager.instance.PlayBgm(SoundManager.Bgm.FallGuysScene);
+                }
+                if (currentSceneName == "BattleTileScene")
+                {
+                    SoundManager.instance.PlayBgm(SoundManager.Bgm.BattleTileScene);
+                }
                 isDancing = false;
             }
             ResetDanceAnimations();

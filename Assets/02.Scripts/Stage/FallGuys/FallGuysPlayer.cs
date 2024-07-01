@@ -100,6 +100,7 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
         }
         else if (other.gameObject.name == "Respawn")
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.VillagePortal);
             this.transform.position = _currentCheckpoint;
             ParticleSystem particle = FallGuysManager.Instance.WaterParticle;
             particle.transform.localScale *= 0.5f;

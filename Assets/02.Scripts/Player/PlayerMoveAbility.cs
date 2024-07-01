@@ -216,12 +216,10 @@ public class PlayerMoveAbility : PlayerAbility
             if (_isRunning)
             {
                 _JumpPower = RunningJumpPower;
-                SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerRunningJump);
             }
             else
             {
                 _JumpPower = NormalJumpPower;
-                SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerJump);
             }
             JumpCount -= 1;
 
@@ -233,6 +231,7 @@ public class PlayerMoveAbility : PlayerAbility
     {
         rb.AddForce((Vector3.up * jumpPower) / 2f, ForceMode.Impulse);
         _animator.SetBool("Jump", true);
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerJump);
         if (photonView.IsMine)
         {
             PlayWalkVFX();
@@ -242,9 +241,9 @@ public class PlayerMoveAbility : PlayerAbility
 
     private void JumpCode()
     {
-        SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerJump);
         rb.AddForce((Vector3.up * _JumpPower) / 2f, ForceMode.Impulse);
         _animator.SetBool("Jump", true);
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerJump); // 점프 사운드 재생
 
         if (photonView.IsMine)
         {

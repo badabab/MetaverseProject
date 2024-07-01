@@ -1,6 +1,5 @@
 using Photon.Pun;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BackForceObject : MonoBehaviour
@@ -14,6 +13,7 @@ public class BackForceObject : MonoBehaviour
         _trans = GetComponentInChildren<Transform>();
         _bomb = GameObject.Find("Bomb").GetComponent<ParticleSystem>();
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
@@ -23,13 +23,31 @@ public class BackForceObject : MonoBehaviour
             if (playerPhotonView != null && rigidbody != null && playerPhotonView.IsMine)
             {
                 Vector3 forceDirection = _trans.forward; // 게임 오브젝트의 forward 방향
-                rigidbody.AddForce(forceDirection * _backForce);
                 Debug.Log("밀려남");
                 Instantiate(_bomb, collision.transform.position, Quaternion.identity);
-                // y값을 유지하면서 이동
-                Vector3 newPosition = collision.transform.position + forceDirection * (_backForce / rigidbody.mass);
-                newPosition.y = collision.transform.position.y; // y값 유지
-                rigidbody.MovePosition(newPosition);
+
+                StartCoroutine(ApplyPushForceCoroutine(rigidbody, forceDirection, _backForce));
+            }
+        }
+    }
+
+    private IEnumerator ApplyPushForceCoroutine(Rigidbody targetRigidbody, Vector3 pushDirection, float force)
+    {
+        if (targetRigidbody != null)
+        {
+            float duration = 0.5f;
+            float elapsedTime = 0f;
+            Vector3 initialPosition = targetRigidbody.position;
+            Vector3 targetPosition = initialPosition + pushDirection * force;
+
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+                float t = elapsedTime / duration;
+                Vector3 newPosition = Vector3.Lerp(initialPosition, targetPosition, t);
+                newPosition.y = initialPosition.y; // y값 유지
+                targetRigidbody.MovePosition(newPosition);
+                yield return null;
             }
         }
     }

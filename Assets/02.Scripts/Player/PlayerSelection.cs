@@ -32,32 +32,41 @@ public class PlayerSelection : MonoBehaviour
         {
             Destroy(currentCharacter);
         }
-        int index;
-        if (type == PlayerType.Male)
-        {
-            index = Random.Range(13, 26);
-        }
-        else
-        {
-            index = Random.Range(1, 13);
-        }
-        currentCharacter = SelectedCharacter[index - 1];
-        SelectedCharacterIndex = index;
 
-        Debug.Log($"{SelectedCharacterIndex}");
+        int index = GetRandomCharacterIndex(type);
+        if (index < 1 || index > SelectedCharacter.Length)
+        {
+            Debug.LogError($"Invalid character index: {index}");
+            return;
+        }
+
+        SelectedCharacterIndex = index;
+        currentCharacter = Instantiate(SelectedCharacter[index - 1]);
+        currentCharacter.SetActive(true);
+
+        Debug.Log($"SelectedCharacterIndex: {SelectedCharacterIndex}");
         PersonalManager.Instance.UpdateCharacterIndex(SelectedCharacterIndex);
 
         Hashtable characterindex = new Hashtable { { "CharacterIndex", SelectedCharacterIndex } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(characterindex);
 
         SelectedType = type;
-        currentCharacter.gameObject.SetActive(true);
-
+    }
+    private int GetRandomCharacterIndex(PlayerType type)
+    {
+        if (type == PlayerType.Male)
+        {
+            return Random.Range(13, 26);
+        }
+        else
+        {
+            return Random.Range(1, 13);
+        }
     }
     public void ReloadCharacter()
     {
         int characterIndex = PersonalManager.Instance.CheckCharacterIndex();
-
+        Debug.Log($"{characterIndex}");
         Hashtable characterindex = new Hashtable { { "CharacterIndex", characterIndex } };
         PhotonNetwork.LocalPlayer.SetCustomProperties(characterindex);
 

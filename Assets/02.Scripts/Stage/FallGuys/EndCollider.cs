@@ -40,7 +40,7 @@ public class EndCollider : MonoBehaviourPunCallbacks
             }
             else if (gameObject.name == "End3")
             {
-                SoundManager.instance.StopSfx(SoundManager.Sfx.UI_FallGuysStageMove);
+                SoundManager.instance.StopBgm();
                 if (!isFirstPlayerDetected)
                 {
                     FallGuysManager.Instance.SetGameState(GameState.Over);

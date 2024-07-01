@@ -83,6 +83,7 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
         }
         else
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.NoCoin);
             NoCoinAtAll.SetActive(true);
         }
     }
@@ -141,6 +142,7 @@ public class ShoppingAvatar : MonoBehaviourPunCallbacks
     }
     public void OnClickXButton()
     {
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_LobbyButtonQTutorialsButton);
         ChangeAvatarButton.SetActive(false);
     }
 }

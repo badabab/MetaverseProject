@@ -42,7 +42,7 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
                 {
                     _animator.SetBool("Attack", false);
                     _animator.SetBool("Attack2", true);
-                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerPunch);
+                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerPunch2);
                 }
                 else if (_animator.GetCurrentAnimatorStateInfo(3).IsName("Attack2"))
                 {
@@ -99,19 +99,17 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks
                 if (playerMoveAbility._isRunning)
                 {
                     pushForce = 4f;
-                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages);
+                    
                 }
                 else if (_animator.GetCurrentAnimatorStateInfo(3).IsName("Attack2"))
                 {
                     pushForce = 2.5f;
-                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages);
                 }
                 else
                 {
                     pushForce = 1.5f;
-                    SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages);
                 }
-
+                SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages);
                 Vector3 pushDirection = (other.transform.position - transform.position).normalized;
                 otherPhotonView.RPC("ApplyPushForce", RpcTarget.AllBuffered, pushDirection, pushForce);
             }

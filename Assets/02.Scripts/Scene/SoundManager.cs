@@ -37,6 +37,8 @@ public class SoundManager : MonoBehaviour
         SceneMove,//8
         //타이머 대기 사운드
         TimerWaiting,// 9
+        // 댄스 사운드
+        Dance,//10
     }
     public enum Sfx
     {
@@ -96,9 +98,14 @@ public class SoundManager : MonoBehaviour
         Tile,//38
         // 카운트 다운
         CountDown,//39
+        // 플레이어 펀치2
+        PlayerPunch2,
+
     }
 
     public static SoundManager instance;
+
+    public Bgm CurrentBgm { get; internal set; }
 
     private void Awake()
     {

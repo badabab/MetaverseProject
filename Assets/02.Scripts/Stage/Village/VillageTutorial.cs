@@ -14,9 +14,15 @@ public class VillageTutorial : MonoBehaviourPunCallbacks
 
     public GameObject HelloPlayer;
 
+    public GameObject TutorialBackground;
+    public GameObject TutorialA;
+    public GameObject TutorialB;
+
     private void Start()
     {
         SkipButton.SetActive(false);
+        TutorialBackground.SetActive(false);
+        StartCoroutine(tutorial_coroutine());
         StartCoroutine(WalkandHello());
         TimelineMaker.Play();
         StartCoroutine(Show_Coroutine());
@@ -36,7 +42,16 @@ public class VillageTutorial : MonoBehaviourPunCallbacks
             LoadVillageScene();
         }
     }
-
+    IEnumerator tutorial_coroutine()
+    {
+        yield return new WaitForSeconds(1);
+        TutorialBackground.SetActive(true);
+        TutorialB.SetActive(false);
+        TutorialA.SetActive(true);
+        yield return new WaitForSeconds(5);
+        TutorialA.SetActive(false);
+        TutorialB.SetActive(true);
+    }
     IEnumerator WalkandHello()
     {
         yield return new WaitForSeconds(2);

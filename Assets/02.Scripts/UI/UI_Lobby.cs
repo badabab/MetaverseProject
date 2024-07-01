@@ -96,6 +96,10 @@ public class UI_Lobby : MonoBehaviour
             PlayerPrefs.SetString("LoggedInPassword", password);
             SelectCharacterBrowser();
             PlayerSelection.Instance.SelectedCharacterIndex = user.CharacterIndex;
+            if (user.CharacterIndex != 0)
+            {
+                PlayerSelection.Instance.ReloadCharacter();
+            }
         }
         else
         {

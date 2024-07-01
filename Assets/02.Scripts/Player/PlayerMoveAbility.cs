@@ -133,7 +133,7 @@ public class PlayerMoveAbility : PlayerAbility
         if (_sceneName.EndsWith("WinScene"))
         {
             return;
-        }     
+        }
         if (_isFallGuysScene)
         {
             if (FallGuysManager.Instance._currentGameState == GameState.Loading)
@@ -145,7 +145,7 @@ public class PlayerMoveAbility : PlayerAbility
             { return; }
         }
         InputAndDir();
-        
+
     }
 
     // 키 입력과 그에 따른 이동방향을 계산하는 함수
@@ -252,12 +252,12 @@ public class PlayerMoveAbility : PlayerAbility
             JumpCode();
         }
 
-       
 
-        
+
+
 
     }
-    
+
     public void SpawnPoint()
     {
         spawnPoints = new GameObject[spawnPointNames.Length];
@@ -302,7 +302,7 @@ public class PlayerMoveAbility : PlayerAbility
     void JumpCounter()
     {
 
-        if (isGrounded && JumpCount<1)
+        if (isGrounded && JumpCount < 1)
         {
             JumpCount += 1;
             // 추가 동작 구현

@@ -107,9 +107,9 @@ public class PlayerAttackAbility : MonoBehaviourPunCallbacks // Photon.Pun의 Mo
                 {
                     pushForce = 1.5f; // 기본 밀어내는 힘 설정
                 }
-                SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages); // 공격 사운드 재생
                 Vector3 pushDirection = (other.transform.position - transform.position).normalized; // 밀리는 방향 계산
                 otherPhotonView.RPC("ApplyPushForce", RpcTarget.AllBuffered, pushDirection, pushForce); // 상대 플레이어를 밀리게 하는 RPC 호출
+                SoundManager.instance.PlaySfx(SoundManager.Sfx.PlayerDamages); // 공격 사운드 재생
             }
         }
     }

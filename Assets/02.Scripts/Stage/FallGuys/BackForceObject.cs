@@ -25,6 +25,7 @@ public class BackForceObject : MonoBehaviour
                 Vector3 forceDirection = _trans.forward; // 게임 오브젝트의 forward 방향
                 Debug.Log("밀려남");
                 Instantiate(_bomb, collision.transform.position, Quaternion.identity);
+                SoundManager.instance.PlaySfx(SoundManager.Sfx.Hammer);
 
                 StartCoroutine(ApplyPushForceCoroutine(rigidbody, forceDirection, _backForce));
             }

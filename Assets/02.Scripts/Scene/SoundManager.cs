@@ -99,7 +99,9 @@ public class SoundManager : MonoBehaviour
         // 카운트 다운
         CountDown,//39
         // 플레이어 펀치2
-        PlayerPunch2,
+        PlayerPunch2,//40
+        // 폴가이즈 날리기
+        Hammer,//41
 
     }
 

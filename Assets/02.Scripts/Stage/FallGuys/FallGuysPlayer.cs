@@ -49,10 +49,8 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
         string firstPlayerName = (string)PhotonNetwork.CurrentRoom.CustomProperties["FirstPlayerName"];
-        if (firstPlayerName != null)
+        if (firstPlayerName != null && FallGuysManager.Instance._currentGameState == GameState.Over)
         {
-            FallGuysManager.Instance.SetGameState(GameState.Over);
-
             if (!_isFinished)
             {
                 Animator animator = GetComponent<Animator>();
@@ -100,6 +98,7 @@ public class FallGuysPlayer : MonoBehaviourPunCallbacks
         }
         else if (other.gameObject.name == "Respawn")
         {
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.VillagePortal);
             this.transform.position = _currentCheckpoint;
             ParticleSystem particle = FallGuysManager.Instance.WaterParticle;
             particle.transform.localScale *= 0.5f;

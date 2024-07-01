@@ -53,7 +53,6 @@ public class UI_GameOver : MonoBehaviourPunCallbacks
         SoundManager.instance.PlaySfx(SoundManager.Sfx.UI_GameOver);
         if (!_isOnce)
         {
-
             Debug.Log("졌다~");
             Win.SetActive(false);
             StartCoroutine(ShowPopUp(Lose));

@@ -61,6 +61,7 @@ public class FallGuysManager : MonoBehaviourPunCallbacks
                 break;
 
             case GameState.Go:
+                ReadyParticle.gameObject.SetActive(false);
                 break;
 
             case GameState.Over:

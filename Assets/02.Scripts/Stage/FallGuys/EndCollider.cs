@@ -40,10 +40,9 @@ public class EndCollider : MonoBehaviourPunCallbacks
             }
             else if (gameObject.name == "End3")
             {
-                SoundManager.instance.StopSfx(SoundManager.Sfx.UI_FallGuysStageMove);
+                SoundManager.instance.StopBgm();
                 if (!isFirstPlayerDetected)
                 {
-                    // 자기 자신만 바꾸죠
                     FallGuysManager.Instance.SetGameState(GameState.Over);
                     isFirstPlayerDetected = true;
                     firstPlayerNickName = playerPhotonView.Owner.NickName;

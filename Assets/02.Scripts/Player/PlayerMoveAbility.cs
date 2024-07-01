@@ -9,30 +9,28 @@ using UnityEngine.UIElements;
 public class PlayerMoveAbility : PlayerAbility
 {
     public float Speed;
-    private float Movespeed = 3f;
-    private float RunSpeed = 5f;
+    private float Movespeed = 3f; // 걷기 속도
+    private float RunSpeed = 5f; // 달리기 속도
 
+    private float NormalJumpPower = 2; // 일반 점프 힘
+    private float RunningJumpPower = 4; // 달리기 점프 힘
 
-    private float NormalJumpPower = 2;
-    private float RunningJumpPower = 4;
-
-    public int JumpCount;
-    private int MaxJumpCount = 1;
+    public int JumpCount; // 현재 점프 횟수
+    private int MaxJumpCount = 1; // 최대 점프 횟수
 
     private float _JumpPower;
 
-    public bool isGrounded;		// 땅에 서있는지 체크하기 위한 bool값
-    public LayerMask LayerMask;	// 레이어마스크 설정
-    public float groundDistance = 0.4f;		// Ray를 쏴서 검사하는 거리
+    public bool isGrounded;        // 땅에 있는지 확인하기 위한 변수
+    public LayerMask LayerMask;    // 레이어 마스크 설정
+    public float groundDistance = 0.4f;    // 땅을 확인할 거리
 
-    public bool _isRunning;
+    public bool _isRunning; // 달리고 있는지 확인하기 위한 변수
 
-    private bool _isJumping;
-    private bool _isRunningJumping;
+    private bool _isJumping; // 점프 중인지 확인하기 위한 변수
 
-    public Transform LayerPoint;
+    public Transform LayerPoint; // 레이어 포인트 (땅을 확인할 위치)
     private Animator _animator;
-    private bool _animationEnded;
+    private bool _animationEnded; // 애니메이션이 끝났는지 확인하기 위한 변수
 
     Rigidbody rb;
     public Transform CameraRoot;
@@ -40,31 +38,26 @@ public class PlayerMoveAbility : PlayerAbility
 
     private CinemachineFreeLook cinemachineCamera;
 
-    //public ParticleSystem WalkVFX;
-    //public ParticleSystem JumpVFX;
-    private ParticleSystem[] walkVFX; // Walk VFX 배열
-    private int currentVFXIndex = 0; // 현재 재생 중인 Walk VFX 인덱스
-    private float vfxTimer = 0;
+    private ParticleSystem[] walkVFX; // 걷기 VFX 배열
+    private int currentVFXIndex = 0; // 현재 걷기 VFX 인덱스
+    private float vfxTimer = 0; // VFX 타이머
 
-    private bool _isFallGuysScene = false; // 폴가이즈 씬인지 확인
-    private bool _isTowerClimbScene = false;
-    private bool _isBattleTileScene = false;
+    private bool _isFallGuysScene = false; // FallGuysScene인지 확인
+    private bool _isTowerClimbScene = false; // TowerClimbScene인지 확인
+    private bool _isBattleTileScene = false; // BattleTileScene인지 확인
 
-    private string _sceneName;
+    private string _sceneName; // 현재 씬 이름
 
-    public string[] spawnPointNames;
-    public GameObject[] spawnPoints;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
         _sceneName = SceneManager.GetActiveScene().name;
 
-        _isFallGuysScene = SceneManager.GetActiveScene().name == "FallGuysScene";
-        _isTowerClimbScene = SceneManager.GetActiveScene().name == "TowerClimbScene";
-        _isBattleTileScene = SceneManager.GetActiveScene().name == "BattleTileScene";
+        _isFallGuysScene = _sceneName == "FallGuysScene";
+        _isTowerClimbScene = _sceneName == "TowerClimbScene";
+        _isBattleTileScene = _sceneName == "BattleTileScene";
 
-        SpawnPoint();
         if (_owner.PhotonView.IsMine && !_isTowerClimbScene && !_isBattleTileScene)
         {
             GameObject mainCamera = GameObject.FindWithTag("MainCamera");
@@ -86,7 +79,7 @@ public class PlayerMoveAbility : PlayerAbility
         }
     }
 
-    // 키 입력과 이동방향 계산
+    // 키 입력과 이동 방향 계산
     void Update()
     {
         if (!_owner.PhotonView.IsMine)
@@ -97,18 +90,15 @@ public class PlayerMoveAbility : PlayerAbility
         GroundCheck();
         JumpCounter();
 
-
-
         if (JumpCount >= MaxJumpCount)
         {
             JumpCount = MaxJumpCount;
         }
 
-        if (this.isGrounded)
+        if (isGrounded)
         {
             vfxTimer = 0;
         }
-
     }
 
     private void FixedUpdate()
@@ -117,18 +107,19 @@ public class PlayerMoveAbility : PlayerAbility
         {
             return;
         }
+
         if (_sceneName == "BattleTileWinScene")
         {
-            this.transform.position = new Vector3(0, 10.5f, -63);
-            this.transform.rotation = Quaternion.Euler(0, 180, 0);
+            transform.position = new Vector3(0, 10.5f, -63);
+            transform.rotation = Quaternion.Euler(0, 180, 0);
         }
         if (_sceneName == "FallGuysWinScene")
         {
-            this.transform.rotation = Quaternion.Euler(0, 180, 0);
+            transform.rotation = Quaternion.Euler(0, 180, 0);
         }
         if (_sceneName == "TowerClimbWinScene")
         {
-            this.transform.rotation = Quaternion.Euler(0, 90, 0);
+            transform.rotation = Quaternion.Euler(0, 90, 0);
         }
         if (_sceneName.EndsWith("WinScene"))
         {
@@ -137,48 +128,43 @@ public class PlayerMoveAbility : PlayerAbility
         if (_isFallGuysScene)
         {
             if (FallGuysManager.Instance._currentGameState == GameState.Loading)
-            { return; }
+            {
+                return;
+            }
         }
         else if (_isBattleTileScene)
         {
             if (BattleTileManager.Instance.CurrentGameState == GameState.Loading)
-            { return; }
+            {
+                return;
+            }
         }
         InputAndDir();
-
     }
 
-    // 키 입력과 그에 따른 이동방향을 계산하는 함수
+    // 키 입력과 그에 따른 이동 방향을 계산하는 함수
     void InputAndDir()
     {
-        // 키 입력에 따라 방향 벡터 설정
-        dir.x = Input.GetAxis("Horizontal");   // x축 방향 키 입력
-        dir.z = Input.GetAxis("Vertical");     // z축 방향 키 입력
+        dir.x = Input.GetAxis("Horizontal");   // x축 방향 입력
+        dir.z = Input.GetAxis("Vertical");     // z축 방향 입력
         Vector3 direction = new Vector3(dir.x, 0f, dir.z);
         float movementMagnitude = direction.magnitude;
 
-        // 이동 애니메이션 설정
         _animator.SetFloat("Move", Mathf.Clamp01(movementMagnitude));
-        //Instantiate(WalkVFX, dir, Quaternion.identity);
-        // 기존 y축 속도를 유지하면서 새로운 방향으로 속도 설정
         rb.velocity = new Vector3(direction.x, rb.velocity.y, direction.z);
 
         if (dir != Vector3.zero)   // 키 입력이 있는 경우
         {
-            // 카메라의 앞 방향을 기준으로 이동 방향 설정
             Vector3 forward = Camera.main.transform.forward;
             forward.y = 0;
             direction = (forward.normalized * dir.z + Camera.main.transform.right * dir.x).normalized;
 
             var a = direction;
             a.y = 0f;
-            // 이동 방향으로 캐릭터 회전
             Quaternion targetRotation = Quaternion.LookRotation(a);
             rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f));
 
-            // 걷기 애니메이션 설정
             _animator.SetBool("Walk", true);
-
             SoundManager.instance.StopSfx(SoundManager.Sfx.PlayerWalking);
         }
         else // 키 입력이 없는 경우
@@ -189,36 +175,25 @@ public class PlayerMoveAbility : PlayerAbility
 
         direction.y = 0f;
 
-        // 달리기 여부에 따라 이동 속도 및 애니메이션 설정
+        // 달리는지 여부에 따라 이동 속도 및 애니메이션 설정
         if (_isFallGuysScene || Input.GetKey(KeyCode.LeftShift))
         {
-
             Speed = RunSpeed * 2;
-
-            //Debug.Log(rb.position + direction * Speed * Time.fixedDeltaTime);
-
             rb.MovePosition(rb.position + direction * Speed * Time.fixedDeltaTime);
             _isRunning = true;
-
             _animator.SetBool("Run", true);
-            //PlayWalkVFX();
         }
         else
         {
             Speed = Movespeed * 2;
-
-            //Debug.Log(rb.position + direction * Speed * Time.fixedDeltaTime);
             rb.MovePosition(rb.position + direction * Speed * Time.fixedDeltaTime);
             _isRunning = false;
-
             _animator.SetBool("Run", false);
         }
 
         if (PhotonNetwork.CurrentRoom.Name == "MiniGame1")
         {
             Vector3 newPosition = transform.position;
-            //newPosition.x = Mathf.Max(-7.7f, Mathf.Min(7.6f, newPosition.x));
-            //newPosition.z = Mathf.Max(0f, Mathf.Min(13.6f, newPosition.z));
             newPosition.x = Mathf.Max(-8f, Mathf.Min(8f, newPosition.x));
             newPosition.z = Mathf.Max(-0.6f, Mathf.Min(14f, newPosition.z));
             transform.position = newPosition;
@@ -231,12 +206,13 @@ public class PlayerMoveAbility : PlayerAbility
             {
                 JumpCode();
             }
-
         }
-        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.V)) && isGrounded && !_isTowerClimbScene) 	// IsGrounded가 true일 때만 점프할 수 있도록
+        else if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.V)) && isGrounded)   // 땅에 있을 때만 점프
         {
             if (_isBattleTileScene)
-            { return; }
+            {
+                return;
+            }
             if (_isRunning)
             {
                 _JumpPower = RunningJumpPower;
@@ -251,34 +227,12 @@ public class PlayerMoveAbility : PlayerAbility
 
             JumpCode();
         }
-
-
-
-
-
     }
 
-    public void SpawnPoint()
-    {
-        if (SceneManager.GetActiveScene().name == "VillageScene")
-        {
-            spawnPoints = new GameObject[spawnPointNames.Length];
-            for (int i = 0; i < spawnPointNames.Length; i++)
-            {
-                spawnPoints[i] = GameObject.Find(spawnPointNames[i]);
-                if (spawnPoints[i] == null)
-                {
-                    Debug.LogError("Spawn point not found: " + spawnPointNames[i]);
-                }
-            }
-        }     
-    }
     public void Jump(float jumpPower)
     {
         rb.AddForce((Vector3.up * jumpPower) / 2f, ForceMode.Impulse);
         _animator.SetBool("Jump", true);
-        //Instantiate(JumpVFX, transform.position, Quaternion.identity);
-
         if (photonView.IsMine)
         {
             PlayWalkVFX();
@@ -292,8 +246,6 @@ public class PlayerMoveAbility : PlayerAbility
         rb.AddForce((Vector3.up * _JumpPower) / 2f, ForceMode.Impulse);
         _animator.SetBool("Jump", true);
 
-        //Instantiate(JumpVFX, transform.position, Quaternion.identity);
-
         if (photonView.IsMine)
         {
             PlayWalkVFX();
@@ -304,36 +256,27 @@ public class PlayerMoveAbility : PlayerAbility
     // 점프 동작 구현
     void JumpCounter()
     {
-
         if (isGrounded && JumpCount < 1)
         {
             JumpCount += 1;
-            // 추가 동작 구현
         }
     }
-
-
 
     // 땅에 있는지 검사하는 함수
     void GroundCheck()
     {
         RaycastHit hit;
-        // Default 레이어만 포함된 레이어 마스크 생성
         int defaultLayerMask = LayerMask.GetMask("Default");
 
-        // 플레이어의 위치에서, 아래방향으로, groundDistance 만큼 ray를 쏴서, Default 레이어가 있는지 검사
         if (Physics.Raycast(LayerPoint.position, Vector3.down, out hit, groundDistance, defaultLayerMask))
         {
             isGrounded = true;
-
             Physics.gravity = new Vector3(0, -9.81f, 0);
-
         }
         else
         {
             isGrounded = false;
             _animator.SetBool("Jump", false);
-
         }
     }
 
@@ -343,17 +286,14 @@ public class PlayerMoveAbility : PlayerAbility
 
         if (vfxTimer <= 0)
         {
-            // 현재 활성화된 VFX 오브젝트를 비활성화
             if (currentVFXIndex >= 0 && currentVFXIndex < walkVFX.Length)
             {
                 walkVFX[currentVFXIndex].gameObject.SetActive(false);
             }
 
-            // 다음 VFX 오브젝트를 활성화
             currentVFXIndex = (currentVFXIndex + 1) % walkVFX.Length;
             walkVFX[currentVFXIndex].gameObject.SetActive(true);
 
-            // VFX 활성화 이벤트 전송
             photonView.RPC("ActivateVFX", RpcTarget.Others, currentVFXIndex);
 
             vfxTimer = 1; // 타이머 재설정
@@ -369,13 +309,11 @@ public class PlayerMoveAbility : PlayerAbility
     {
         if (vfxIndex >= 0 && vfxIndex < walkVFX.Length)
         {
-            // 모든 VFX 비활성화
             foreach (var vfx in walkVFX)
             {
                 vfx.gameObject.SetActive(false);
             }
 
-            // 지정된 VFX 활성화
             walkVFX[vfxIndex].gameObject.SetActive(true);
         }
     }
@@ -384,43 +322,13 @@ public class PlayerMoveAbility : PlayerAbility
     {
         if (stream.IsWriting)
         {
-            // 타이머와 인덱스를 전송
             stream.SendNext(vfxTimer);
             stream.SendNext(currentVFXIndex);
         }
         else
         {
-            // 타이머와 인덱스를 수신
             vfxTimer = (float)stream.ReceiveNext();
             currentVFXIndex = (int)stream.ReceiveNext();
         }
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Water") && other.GetComponent<MeshCollider>() != null)
-        {
-            Respawn();
-        }
-    }
-
-    private void Respawn()
-    {
-        if (spawnPoints.Length > 0)
-        {
-            int randomIndex = Random.Range(0, spawnPoints.Length); // 0부터 스폰 포인트 배열 길이 사이의 무작위 인덱스 선택
-            GameObject selectedSpawnPoint = spawnPoints[randomIndex]; // 무작위 인덱스에 해당하는 스폰 포인트 선택
-
-            // 플레이어를 선택된 스폰 포인트 위치로 이동
-            if (photonView.IsMine)
-            {
-                transform.position = selectedSpawnPoint.transform.position;
-                transform.rotation = selectedSpawnPoint.transform.rotation;
-            }
-        }
-        else
-        {
-            Debug.LogWarning("No spawn points assigned.");
-        }
-    }
-
 }

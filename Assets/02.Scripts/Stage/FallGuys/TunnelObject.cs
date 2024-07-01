@@ -21,12 +21,12 @@ public class TunnelObject : MonoBehaviourPun
             if (photonView != null && photonView.IsMine)
             {
                 Instantiate(_bomb2, other.transform.position, Quaternion.identity);
-                StartCoroutine(TeleportPlayer(other.transform, photonView));
+                StartCoroutine(TeleportPlayer(other.transform));
             }
         }
     }
 
-    private IEnumerator TeleportPlayer(Transform playerTransform, PhotonView photonView)
+    private IEnumerator TeleportPlayer(Transform playerTransform )
     {
         for (int i = 0; i < points.Length - 1; i++)
         {

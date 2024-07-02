@@ -99,6 +99,8 @@ public class UI_Lobby : MonoBehaviour
             if (user.CharacterIndex != 0)
             {
                 PlayerSelection.Instance.ReloadCharacter();
+                FemaleButtonUI.gameObject.SetActive(false);
+                MaleButtonUI.gameObject.SetActive(false);
             }
         }
         else
